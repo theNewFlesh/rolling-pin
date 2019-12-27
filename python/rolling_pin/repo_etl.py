@@ -10,6 +10,11 @@ import networkx
 import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
 
+'''
+Contains the RepoETL class, which is used for converted python repository module
+dependencies into a directed graph.
+'''
+
 
 def get_imports(fullpath):
     '''

@@ -6,16 +6,14 @@ import os
 import re
 
 import utils
-# ------------------------------------------------------------------------------
-
 
 # set's REPO to whatever the repository is named
 REPO = utils.relative_path(__file__, '../../').name
-
+# ------------------------------------------------------------------------------
 
 '''
 A CLI for developing and deploying a service deeply integrated with this
-repository's structure.
+repository's structure. Written to be python version agnostic.
 '''
 
 

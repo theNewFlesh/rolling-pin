@@ -6,6 +6,14 @@ from pathlib import Path
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'WARNING').upper()
 logging.basicConfig(level=LOG_LEVEL)
 LOGGER = logging.getLogger(__name__)
+
+
+'''
+Imports only python builtins and contains only function for use within or
+outside of Docker environment (ie no dependencies or specific python versions.)
+'''
+
+
 # ------------------------------------------------------------------------------
 
 

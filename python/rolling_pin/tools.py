@@ -9,7 +9,11 @@ from IPython.display import HTML
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'WARNING').upper()
 logging.basicConfig(level=LOG_LEVEL)
 LOGGER = logging.getLogger(__name__)
+# ------------------------------------------------------------------------------
 
+'''
+Contains basic functions for more complex ETL functions and classes.
+'''
 
 # COLOR-SCHEME------------------------------------------------------------------
 COLOR_SCHEME = dict(
