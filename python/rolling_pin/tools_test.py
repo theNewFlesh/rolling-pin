@@ -7,6 +7,52 @@ import rolling_pin.tools as tools
 
 
 class ToolsTests(unittest.TestCase):
+    def get_simple_blob(self):
+        data = {
+            'a0': {
+                'b0': {
+                    'c0': '/a0/b0/c0/value',
+                    'c1': '/a0/b0/c1/value',
+                },
+                'b1': {
+                    'c0': '/a0/b1/c0/value',
+                }
+            }
+        }
+        return data
+
+    def get_complex_blob(self):
+        data = {
+            'a0': {
+                'b0': {
+                    'c0': '/a0/b0/c0/value',
+                    'c1': '/a0/b0/c1/value',
+                },
+                'b1': [
+                    {
+                        'c0': '/a0/b1/c0/value',
+                        'c1': '/a0/b1/c1/value',
+                    },
+                    {
+                        'c2': '/a0/b1/c2/value',
+                        'c3': {
+                            'd0': [
+                                set([
+                                    '/a0/b1/c3/d0/value'
+                                ]),
+                                tuple([
+                                    '/a0/b1/c3/d0/value0',
+                                    '/a0/b1/c3/d0/value1',
+                                ]),
+                            ]
+                        }
+                    },
+                ]
+            }
+        }
+        return data
+
+    # GENERAL-------------------------------------------------------------------
     def test_try_(self):
         result = tools.try_(lambda x: int(x), 1.0, exception_value='bar')
         self.assertEqual(result, 1)
@@ -39,6 +85,7 @@ class ToolsTests(unittest.TestCase):
         ))
         self.assertFalse(tools.is_iterable('foo'))
 
+    # PREDICATE-FUNCTIONS-------------------------------------------------------
     def test_is_dictlike(self):
         self.assertTrue(tools.is_dictlike({}))
         self.assertTrue(tools.is_dictlike(OrderedDict({})))
@@ -70,3 +117,105 @@ class ToolsTests(unittest.TestCase):
             json.dumps({'a': 'b'})
         ))
         self.assertFalse(tools.is_listlike('foo'))
+
+    # FLATTEN-------------------------------------------------------------------
+    def test_flatten_simple(self):
+        data = self.get_simple_blob()
+        expected = {
+            '/a0/b0/c0': '/a0/b0/c0/value',
+            '/a0/b0/c1': '/a0/b0/c1/value',
+            '/a0/b1/c0': '/a0/b1/c0/value',
+        }
+        result = tools.flatten(data)
+        self.assertEqual(result, expected)
+
+    def test_flatten_simple_separator(self):
+        blob = self.get_simple_blob()
+        expected = {
+            '_a0_b0_c0': '/a0/b0/c0/value',
+            '_a0_b0_c1': '/a0/b0/c1/value',
+            '_a0_b1_c0': '/a0/b1/c0/value',
+        }
+        result = tools.flatten(blob, separator='_')
+        self.assertEqual(result, expected)
+
+    def test_flatten_complex(self):
+        blob = self.get_complex_blob()
+        expected = {
+            '/a0/b0/c0': '/a0/b0/c0/value',
+            '/a0/b0/c1': '/a0/b0/c1/value',
+            '/a0/b1/<list_0>/c0': '/a0/b1/c0/value',
+            '/a0/b1/<list_0>/c1': '/a0/b1/c1/value',
+            '/a0/b1/<list_1>/c2': '/a0/b1/c2/value',
+            '/a0/b1/<list_1>/c3/d0/<list_0>/<set_0>': '/a0/b1/c3/d0/value',
+            '/a0/b1/<list_1>/c3/d0/<list_1>/<tuple_0>': '/a0/b1/c3/d0/value0',
+            '/a0/b1/<list_1>/c3/d0/<list_1>/<tuple_1>': '/a0/b1/c3/d0/value1',
+        }
+        result = tools.flatten(blob, embed_types=True)
+        self.assertEqual(result, expected)
+
+    def test_flatten_complex_separator(self):
+        blob = self.get_complex_blob()
+        expected = {
+            '=>a0=>b0=>c0': '/a0/b0/c0/value',
+            '=>a0=>b0=>c1': '/a0/b0/c1/value',
+            '=>a0=>b1=><list_0>=>c0': '/a0/b1/c0/value',
+            '=>a0=>b1=><list_0>=>c1': '/a0/b1/c1/value',
+            '=>a0=>b1=><list_1>=>c2': '/a0/b1/c2/value',
+            '=>a0=>b1=><list_1>=>c3=>d0=><list_0>=><set_0>': '/a0/b1/c3/d0/value',
+            '=>a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_0>': '/a0/b1/c3/d0/value0',
+            '=>a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_1>': '/a0/b1/c3/d0/value1',
+        }
+        result = tools.flatten(blob, separator='=>')
+        self.assertEqual(result, expected)
+
+    def test_flatten_complex_no_embed(self):
+        blob = self.get_complex_blob()
+        expected = {
+            '/a0/b0/c0': '/a0/b0/c0/value',
+            '/a0/b0/c1': '/a0/b0/c1/value',
+            '/a0/b1/0/c0': '/a0/b1/c0/value',
+            '/a0/b1/0/c1': '/a0/b1/c1/value',
+            '/a0/b1/1/c2': '/a0/b1/c2/value',
+            '/a0/b1/1/c3/d0/0/0': '/a0/b1/c3/d0/value',
+            '/a0/b1/1/c3/d0/1/0': '/a0/b1/c3/d0/value0',
+            '/a0/b1/1/c3/d0/1/1': '/a0/b1/c3/d0/value1',
+        }
+        result = tools.flatten(blob, embed_types=False)
+        self.assertEqual(result, expected)
+
+    def test_flatten_complex_separator_no_embed(self):
+        blob = self.get_complex_blob()
+        expected = {
+            '=>a0=>b0=>c0': '/a0/b0/c0/value',
+            '=>a0=>b0=>c1': '/a0/b0/c1/value',
+            '=>a0=>b1=>0=>c0': '/a0/b1/c0/value',
+            '=>a0=>b1=>0=>c1': '/a0/b1/c1/value',
+            '=>a0=>b1=>1=>c2': '/a0/b1/c2/value',
+            '=>a0=>b1=>1=>c3=>d0=>0=>0': '/a0/b1/c3/d0/value',
+            '=>a0=>b1=>1=>c3=>d0=>1=>0': '/a0/b1/c3/d0/value0',
+            '=>a0=>b1=>1=>c3=>d0=>1=>1': '/a0/b1/c3/d0/value1',
+        }
+        result = tools.flatten(blob, separator='=>', embed_types=False)
+        self.assertEqual(result, expected)
+
+    # NEST----------------------------------------------------------------------
+    def test_nest(self):
+        pass
+
+    def test_unembed(self):
+        pass
+
+    # FILE-FUNCTIONS------------------------------------------------------------
+    def test_list_all_files(self):
+        pass
+
+    def test_get_parent_fields(self):
+        pass
+
+    # EXPORT-FUNCTIONS----------------------------------------------------------
+    def test_dot_to_html(self):
+        pass
+
+    def test_write_dot_graph(self):
+        pass
