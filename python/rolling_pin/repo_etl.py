@@ -94,7 +94,7 @@ class RepoETL():
         self._data = self._get_data(root, include_regex, exclude_regex)
 
     def _get_data(self, root, include_regex, exclude_regex):
-        '''
+        r'''
         Recursively aggregates and filters all the files found with a given
         directory into a DataFrame. Data is used to create directed graphs.
 
