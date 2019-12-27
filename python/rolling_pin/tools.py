@@ -90,12 +90,30 @@ def get_ordered_unique(items):
 
 # PREDICATE-FUNCTIONS-----------------------------------------------------------
 def is_iterable(item):
+    '''
+    Determines if given item is iterable.
+
+    Args:
+        item (object): Object to be tested.
+
+    Returns:
+        bool: Whether given item is iterable.
+    '''
     if is_listlike(item) or is_dictlike(item):
         return True
     return False
 
 
 def is_dictlike(item):
+    '''
+    Determines if given item is dict-like.
+
+    Args:
+        item (object): Object to be tested.
+
+    Returns:
+        bool: Whether given item is dict-like.
+    '''
     for type_ in [dict, OrderedDict]:
         if isinstance(item, type_):
             return True
@@ -103,6 +121,15 @@ def is_dictlike(item):
 
 
 def is_listlike(item):
+    '''
+    Determines if given item is list-like.
+
+    Args:
+        item (object): Object to be tested.
+
+    Returns:
+        bool: Whether given item is list-like.
+    '''
     for type_ in [list, tuple, set]:
         if isinstance(item, type_):
             return True
@@ -111,8 +138,17 @@ def is_listlike(item):
 
 # CORE-FUNCTIONS----------------------------------------------------------------
 def flatten(item, separator='/', embed_types=True):
-    output = {}
+    '''
+    Flattens a iterable object into a flat dictionary.
 
+    Args:
+        item (object): Iterable object.
+        separator (str, optional): Field separator in keys. Default: '/'.
+
+    Returns:
+        dict: Dictionary representation of given object.
+    '''
+    output = {}
     def recurse(item, cursor):
         if is_listlike(item):
             if embed_types:
@@ -133,9 +169,21 @@ def flatten(item, separator='/', embed_types=True):
     return output
 
 
-def nest(dict_, separator='/'):
+def nest(flat_dict, separator='/'):
+    '''
+    Converts a flat dictionary into a nested dictionary by splitting keys by a
+    given separator.
+
+    Args:
+        flat_dict (dict): Flat dictionary.
+        separator (str, optional): Field separator within given dictionary's
+            keys. Default: '/'.
+
+    Returns:
+        dict: Nested dictionary.
+    '''
     output = {}
-    for keys, val in dict_.items():
+    for keys, val in flat_dict.items():
         split_keys = list(filter(
             lambda x: x != '', keys.split(separator)
         ))
@@ -150,6 +198,15 @@ def nest(dict_, separator='/'):
 
 
 def unembed(item):
+    '''
+    Convert embeded types in dictionary keys into python types.
+
+    Args:
+        item (object): Dictionary with embedded types.
+
+    Returns:
+        object: Converted object.
+    '''
     lut = {'list': list, 'tuple': tuple, 'set': set}
     embed_re = re.compile(r'^<([a-z]+)_(\d+)>$')
 
@@ -179,23 +236,17 @@ def unembed(item):
     return output
 
 
-def edit(dict_, regex, key_func=None, val_func=None):
-    if key_func is None:
-        key_func = lambda k: k
-    if val_func is None:
-        val_func = lambda v: v
-
-    output = {}
-    for key, val in dict_.items():
-        if re.search(regex, key):
-            output[key_func(key)] = val_func(val)
-        else:
-            output[key] = val
-    return output
-
-
 # FILE-FUNCTIONS----------------------------------------------------------------
 def list_all_files(directory):
+    '''
+    Recursively lists all files within a give directory.
+
+    Args:
+        directory (str or Path): Directory to be recursed.
+
+    Returns:
+        list[Path]: List of filepaths.
+    '''
     output = []
     for root, dirs, files in os.walk(directory):
         for file_ in files:
@@ -204,63 +255,43 @@ def list_all_files(directory):
     return output
 
 
-def get_parents(item, separator='.'):
-    items = item.split(separator)
+def get_parent_fields(key, separator='/'):
+    '''
+    Get all the parent fields of a given key, split by given separator.
+
+    Args:
+        key (str): Key.
+        separator (str, optional): String that splits key into fields.
+            Default: '/'.
+
+    Returns:
+        list(str): List of absolute parent fields.
+    '''
+    fields = key.split(separator)
     output = []
-    for i in range(len(items) - 1):
-        output.append(separator.join(items[:i + 1]))
+    for i in range(len(fields) - 1):
+        output.append(separator.join(fields[:i + 1]))
     return output
-
-
-def drop_duplicates(items):
-    temp = set()
-    output = []
-    for item in items:
-        if item not in temp:
-            output.append(item)
-            temp.add(item)
-    return output
-
-
-def get_imports(fullpath):
-    with open(fullpath) as f:
-        data = f.readlines()
-    data = map(lambda x: x.strip('\n'), data)
-    data = filter(lambda x: re.search('^import|^from', x), data)
-    data = map(lambda x: re.sub('from (.*?) .*', '\\1', x), data)
-    data = map(lambda x: re.sub(' as .*', '', x), data)
-    data = map(lambda x: re.sub(' *#.*', '', x), data)
-    data = map(lambda x: re.sub('import ', '', x), data)
-    data = filter(lambda x: not is_builtin(x), data)
-    return list(data)
-
-
-def is_builtin(item):
-    builtins = [
-        'copy',
-        'datetime',
-        'enum',
-        'functools',
-        'inspect',
-        'itertools',
-        'json',
-        'logging',
-        'math',
-        'os',
-        'pathlib',
-        're',
-        'uuid'
-    ]
-    suffix = r'(\..*)?'
-    builtins_re = f'{suffix}|'.join(builtins) + suffix
-    if re.search(builtins_re, item):
-        return True
-    return False
 
 
 # EXPORT-FUNCTIONS--------------------------------------------------------------
 def dot_to_html(dot, layout='dot'):
-    layouts = ['dot', 'twopi', 'circo', 'neato', 'fdp', 'sfdp']
+    '''
+    Converts a given pydot graph into a IPython.display.HTML object.
+    Used in jupyter lab inline display of graph data.
+
+    Args:
+        dot (pydot.Graph): Pydot Graph instance.
+        layout (str, optional): Graph layout style.
+            Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
+
+    Raises:
+        ValueError: If invalid layout given.
+
+    Returns:
+        IPython.display.HTML: HTML instance.
+    '''
+    layouts = ['circo', 'dot', 'fdp', 'neato', 'sfdp', 'twopi']
     if layout not in layouts:
         msg = f'Invalid layout value. {layout} not in {layouts}.'
         raise ValueError(msg)
@@ -275,6 +306,19 @@ def write_dot_graph(
     fullpath,
     layout='dot',
 ):
+    '''
+    Writes a pydot.Graph object to a given filepath.
+    Formats supported: svg, dot, png.
+
+    Args:
+        graph (pydot.Graph): Pydot Graph instance.
+        fulllpath (str or Path): File tobe written to.
+        layout (str, optional): Graph layout style.
+            Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
+
+    Raises:
+        ValueError: If invalid file extension given.
+    '''
     if isinstance(fullpath, Path):
         fullpath = Path(fullpath).absolute().as_posix()
 

@@ -9,6 +9,60 @@ import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
 
 
+def get_imports(fullpath):
+    '''
+    Get's import statements from a given python module.
+
+    Args:
+        fullpath (str or Path): Path to python module.
+
+    Returns:
+        list(str): List of imported modules.
+    '''
+    with open(fullpath) as f:
+        data = f.readlines()
+    data = map(lambda x: x.strip('\n'), data)
+    data = filter(lambda x: re.search('^import|^from', x), data)
+    data = map(lambda x: re.sub('from (.*?) .*', '\\1', x), data)
+    data = map(lambda x: re.sub(' as .*', '', x), data)
+    data = map(lambda x: re.sub(' *#.*', '', x), data)
+    data = map(lambda x: re.sub('import ', '', x), data)
+    data = filter(lambda x: not is_builtin(x), data)
+    return list(data)
+
+
+def is_builtin(module):
+    '''
+    Determines if given module is a python builtin.
+
+    Args:
+        module (str): Python module name.
+
+    Returns:
+        bool: Whether string names a python module.
+    '''
+    builtins = [
+        'copy',
+        'datetime',
+        'enum',
+        'functools',
+        'inspect',
+        'itertools',
+        'json',
+        'logging',
+        'math',
+        'os',
+        'pathlib',
+        're',
+        'uuid'
+    ]
+    suffix = r'(\..*)?'
+    builtins_re = f'{suffix}|'.join(builtins) + suffix
+    if re.search(builtins_re, module):
+        return True
+    return False
+
+
 class RepoETL():
     def __init__(
         self,
@@ -17,10 +71,9 @@ class RepoETL():
         exclude_regex=r'(__init__|_test)\.py$',
     ):
         self._source = source
-        self._data = RepoETL._get_data(source, include_regex, exclude_regex)
+        self._data = self._get_data(source, include_regex, exclude_regex)
 
-    @staticmethod
-    def _get_data(source, include_regex, exclude_regex):
+    def _get_data(self, source, include_regex, exclude_regex):
         files = tools.list_all_files(source)
         if include_regex != '':
             if not include_regex.endswith(r'\.py$'):
@@ -49,12 +102,12 @@ class RepoETL():
             .apply(lambda x: re.sub('/', '.', x))
 
         data['subpackages'] = data.node_name\
-            .apply(tools.get_parents).apply(tools.drop_duplicates)
+            .apply(lambda x: tools.get_parent_fields(x, '.')).apply(tools.get_ordered_unique)
         data.subpackages = data.subpackages\
             .apply(lambda x: list(filter(lambda y: y != '', x)))
 
         data['dependencies'] = data.fullpath\
-            .apply(tools.get_imports).apply(tools.drop_duplicates)
+            .apply(get_imports).apply(tools.get_ordered_unique)
         data.dependencies += data.node_name\
             .apply(lambda x: ['.'.join(x.split('.')[:-1])])
         data.dependencies = data.dependencies\
@@ -71,8 +124,8 @@ class RepoETL():
                 lambda x: dict(
                     node_name=x,
                     node_type='subpackage',
-                    dependencies=tools.get_parents(x),
-                    subpackages=tools.get_parents(x),
+                    dependencies=tools.get_parent_fields(x, '.'),
+                    subpackages=tools.get_parent_fields(x, '.'),
                 )).tolist()
         pkgs = DataFrame(pkgs)
         data = data.append(pkgs, ignore_index=True, sort=True)
@@ -98,9 +151,9 @@ class RepoETL():
         # define node coordinates
         data['x'] = 0
         data['y'] = 0
-        data = RepoETL._calculate_coordinates(data)
-        data = RepoETL._anneal_coordinates(data)
-        data = RepoETL._center_x_coordinates(data)
+        data = self._calculate_coordinates(data)
+        data = self._anneal_coordinates(data)
+        data = self._center_x_coordinates(data)
 
         cols = [
             'node_name',
@@ -114,8 +167,7 @@ class RepoETL():
         data = data[cols]
         return data
 
-    @staticmethod
-    def _calculate_coordinates(data, epochs=10):
+    def _calculate_coordinates(self, data, epochs=10):
         for item in ['module', 'subpackage', 'library']:
             mask = data.node_type == item
             n = data[mask].shape[0]
@@ -138,10 +190,9 @@ class RepoETL():
 
         return data
 
-    @staticmethod
-    def _anneal_coordinates(data, epochs=10):
+    def _anneal_coordinates(self, data, epochs=10):
         for epoch in range(epochs):
-            graph = RepoETL._to_networkx_graph(data)
+            graph = self._to_networkx_graph(data)
             if epoch % 2 == 0:
                 graph = graph.reverse()
 
@@ -164,8 +215,7 @@ class RepoETL():
 
         return data
 
-    @staticmethod
-    def _center_x_coordinates(data):
+    def _center_x_coordinates(self, data):
         max_ = data.x.max()
         for y in data.y.unique():
             mask = data[data.y == y].index
@@ -174,8 +224,7 @@ class RepoETL():
             data.loc[mask, 'x'] += (delta / 2)
         return data
 
-    @staticmethod
-    def _to_networkx_graph(data):
+    def _to_networkx_graph(self, data):
         graph = networkx.DiGraph()
         data.apply(
             lambda x: graph.add_node(
@@ -192,13 +241,12 @@ class RepoETL():
         return graph
 
     def to_networkx_graph(self):
-        return RepoETL._to_networkx_graph(self._data)
+        return self._to_networkx_graph(self._data)
 
-    def to_dot_graph(
-        self,
-        orthogonal_edges=False,
-        color_scheme=tools.COLOR_SCHEME,
-    ):
+    def to_dot_graph(self, orthogonal_edges=False, color_scheme=None):
+        if color_scheme is None:
+            color_scheme = tools.COLOR_SCHEME
+
         graph = self.to_networkx_graph()
         dot = networkx.drawing.nx_pydot.to_pydot(graph)
         if orthogonal_edges:
@@ -246,12 +294,10 @@ class RepoETL():
     def to_dataframe(self):
         return self._data
 
-    def to_html(
-        self,
-        layout='dot',
-        orthogonal_edges=False,
-        color_scheme=tools.COLOR_SCHEME
-    ):
+    def to_html(self, layout='dot', orthogonal_edges=False, color_scheme=None):
+        if color_scheme is None:
+            color_scheme = tools.COLOR_SCHEME
+
         dot = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
             color_scheme=color_scheme,
@@ -263,8 +309,11 @@ class RepoETL():
         fullpath,
         layout='dot',
         orthogonal_edges=False,
-        color_scheme=tools.COLOR_SCHEME
+        color_scheme=None
     ):
+        if color_scheme is None:
+            color_scheme = tools.COLOR_SCHEME
+
         graph = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
             color_scheme=color_scheme,

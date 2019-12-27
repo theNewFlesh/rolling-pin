@@ -132,9 +132,10 @@ class BlobETL():
         graph.remove_node('root')
         return graph
 
-    def to_dot_graph(
-        self, orthogonal_edges=False, color_scheme=tools.COLOR_SCHEME
-    ):
+    def to_dot_graph(self, orthogonal_edges=False, color_scheme=None):
+        if color_scheme is None:
+            color_scheme = tools.COLOR_SCHEME
+
         graph = self.to_networkx_graph()
         dot = networkx.drawing.nx_pydot.to_pydot(graph)
 
@@ -168,12 +169,10 @@ class BlobETL():
 
         return dot
 
-    def to_html(
-        self,
-        layout='dot',
-        orthogonal_edges=False,
-        color_scheme=tools.COLOR_SCHEME
-    ):
+    def to_html(self, layout='dot', orthogonal_edges=False, color_scheme=None):
+        if color_scheme is None:
+            color_scheme = tools.COLOR_SCHEME
+
         dot = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
             color_scheme=color_scheme,
@@ -185,8 +184,11 @@ class BlobETL():
         fullpath,
         layout='dot',
         orthogonal_edges=False,
-        color_scheme=tools.COLOR_SCHEME
+        color_scheme=None
     ):
+        if color_scheme is None:
+            color_scheme = tools.COLOR_SCHEME
+
         tools.write_dot_graph(
             fullpath,
             layout=layout,
