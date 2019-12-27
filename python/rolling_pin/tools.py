@@ -149,6 +149,7 @@ def flatten(item, separator='/', embed_types=True):
         dict: Dictionary representation of given object.
     '''
     output = {}
+
     def recurse(item, cursor):
         if is_listlike(item):
             if embed_types:
