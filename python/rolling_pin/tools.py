@@ -18,7 +18,7 @@ COLOR_SCHEME = dict(
     node_fontcolor='#B6ECF3',
     node_value='#343434',
     node_value_fontcolor='#DE958E',
-    edge_color='#B6ECF3',
+    edge='#B6ECF3',
     edge_value_color='#DE958E',
     node_library_font='#DE958E',
     node_subpackage_font='#A0D17B',
@@ -271,26 +271,21 @@ def dot_to_html(dot, layout='dot'):
 
 
 def write_dot_graph(
-    self,
     graph,
     fullpath,
     layout='dot',
-    orthogonal_edges=False,
-    color_scheme=COLOR_SCHEME
 ):
     if isinstance(fullpath, Path):
         fullpath = Path(fullpath).absolute().as_posix()
 
     _, ext = os.path.splitext(fullpath)
-    if re.search('\.svg$', ext, re.I):
-        graph.write_svg(fullpath)
-    elif re.search('\.dot$', ext, re.I):
-        graph.write_dot(fullpath)
-    elif re.search('\.png$', ext, re.I):
-        graph.write_png(fullpath)
+    if re.search(r'\.svg$', ext, re.I):
+        graph.write_svg(fullpath, prog=layout)
+    elif re.search(r'\.dot$', ext, re.I):
+        graph.write_dot(fullpath, prog=layout)
+    elif re.search(r'\.png$', ext, re.I):
+        graph.write_png(fullpath, prog=layout)
     else:
         msg = f'Invalid extension found: {ext}. '
         msg += 'Valid extensions include: svg, dot, png.'
         raise ValueError(msg)
-
-    return self
