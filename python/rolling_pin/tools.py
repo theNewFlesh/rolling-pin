@@ -284,7 +284,8 @@ def dot_to_html(dot, layout='dot'):
     Args:
         dot (pydot.Graph): Pydot Graph instance.
         layout (str, optional): Graph layout style.
-            Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
+            Options include: circo, dot, fdp, neato, sfdp, twopi.
+            Default: dot.
 
     Raises:
         ValueError: If invalid layout given.

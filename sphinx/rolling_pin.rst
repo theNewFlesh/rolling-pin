@@ -23,7 +23,7 @@ utils
    :show-inheritance:
 
 repo_etl
------
+--------
 .. automodule:: rolling_pin.repo_etl
    :members:
    :private-members:
@@ -31,7 +31,7 @@ repo_etl
    :show-inheritance:
 
 blob_etl
------
+--------
 .. automodule:: rolling_pin.blob_etl
    :members:
    :private-members:

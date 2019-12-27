@@ -1,10 +1,12 @@
-from itertools import chain
+import os
 import re
+from itertools import chain
+from pathlib import Path
 
-import networkx
 import numpy as np
 from pandas import DataFrame, Series
 
+import networkx
 import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
 
@@ -64,20 +66,65 @@ def is_builtin(module):
 
 
 class RepoETL():
+    '''
+    RepoETL is a class for extracting 1st order dependencies of modules within a
+    given repository. This information is stored internally as a DataFrame and
+    can be rendered as networkx, pydot or SVG graphs.
+    '''
     def __init__(
         self,
-        source,
+        root,
         include_regex=r'.*\.py$',
         exclude_regex=r'(__init__|_test)\.py$',
     ):
-        self._source = source
-        self._data = self._get_data(source, include_regex, exclude_regex)
+        r'''
+        Construct RepoETL instance.
 
-    def _get_data(self, source, include_regex, exclude_regex):
-        files = tools.list_all_files(source)
+        Args:
+            root (str or Path): Full path to repository root directory.
+            include_regex (str, optional): Files to be included in recursive
+                directy search. Default: '.*\.py$'.
+            exclude_regex (str, optional): Files to be excluded in recursive
+                directy search. Default: '(__init__|_test)\.py$'.
+
+        Raises:
+            ValueError: If include or exclude regex does not end in '\.py$'.
+        '''
+        self._root = root
+        self._data = self._get_data(root, include_regex, exclude_regex)
+
+    def _get_data(self, root, include_regex, exclude_regex):
+        '''
+        Recursively aggregates and filters all the files found with a given
+        directory into a DataFrame. Data is used to create directed graphs.
+
+        DataFrame has these columns:
+
+            * node_name    - name of node
+            * node_type    - type of node, can be [module, subpackage, library]
+            * x            - node's x coordinate
+            * y            - node's y coordinate
+            * dependencies - parent nodes
+            * subpackages  - parent nodes of type subpackage
+            * fullpath     - fullpath to the module a node represents
+
+        Args:
+            root (str or Path): Root directory to be searched.
+            include_regex (str): Files to be included in recursive
+                directy search.
+            exclude_regex (str): Files to be excluded in recursive
+                directy search.
+
+        Raises:
+            ValueError: If include or exclude regex does not end in '\.py$'.
+
+        Returns:
+            pandas.DataFrame: DataFrame of file information.
+        '''
+        files = tools.list_all_files(root)
         if include_regex != '':
             if not include_regex.endswith(r'\.py$'):
-                msg = r'include_regex does not end in "\.py$".'
+                msg = r"include_regex does not end in '\.py$'."
                 raise ValueError(msg)
 
             files = filter(
@@ -96,7 +143,7 @@ class RepoETL():
         data['fullpath'] = files
         data['node_name'] = data.fullpath\
             .apply(lambda x: x.absolute().as_posix())\
-            .apply(lambda x: re.sub(source, '', x))\
+            .apply(lambda x: re.sub(root, '', x))\
             .apply(lambda x: re.sub(r'\.py$', '', x))\
             .apply(lambda x: re.sub('^/', '', x))\
             .apply(lambda x: re.sub('/', '.', x))
@@ -152,8 +199,8 @@ class RepoETL():
         data['x'] = 0
         data['y'] = 0
         data = self._calculate_coordinates(data)
-        data = self._anneal_coordinates(data)
-        data = self._center_x_coordinates(data)
+        data = self._anneal_coordinate(data, 'x', 'y')
+        data = self._center_coordinate(data, 'x', 'y')
 
         cols = [
             'node_name',
@@ -167,7 +214,18 @@ class RepoETL():
         data = data[cols]
         return data
 
-    def _calculate_coordinates(self, data, epochs=10):
+    def _calculate_coordinates(self, data):
+        '''
+        Calculate inital x, y coordinates for each node in given DataFrame.
+        Node are startified by type along the y axis.
+
+        Args:
+            pandas.DataFrame: DataFrame of nodes.
+
+        Returns:
+            pandas.DataFrame: DataFrame with x and y coordinate columns.
+        '''
+        # set initial node coordinates
         for item in ['module', 'subpackage', 'library']:
             mask = data.node_type == item
             n = data[mask].shape[0]
@@ -175,56 +233,113 @@ class RepoETL():
             index = data[mask].index
             data.loc[index, 'x'] = list(range(n))
 
+            # move non-library nodes down the y axis according to how nested
+            # they are
             if item != 'library':
                 data.loc[index, 'y'] = data.loc[index, 'node_name']\
                     .apply(lambda x: len(x.split('.')))
 
+        # move all module nodes beneath supackage nodes on the y axis
         max_ = data[data.node_type == 'subpackage'].y.max()
         index = data[data.node_type == 'module'].index
         data.loc[index, 'y'] += max_
         data.loc[index, 'y'] += data.loc[index, 'subpackages'].apply(len)
 
-        # reverse y
+        # reverse y axis
         max_ = data.y.max()
         data.y = -1 * data.y + max_
 
         return data
 
-    def _anneal_coordinates(self, data, epochs=10):
-        for epoch in range(epochs):
+    def _anneal_coordinates(
+        self, data, anneal_axis='x', pin_axis='y', iterations=10
+    ):
+        '''
+        Iteratively align nodes in the anneal axis according to the mean
+        position of their connected nodes. Node anneal coordinates are rectified
+        at the end of each iteration according to a pin axis, so that they do
+        not overlap. This mean that they are sorted at each level of the pin
+        axis.
+
+        Args:
+            data (pandas.DataFrame): DataFrame with x column.
+            anneal_axis (str, optional): Coordinate column to be annealed.
+                Default: 'x'.
+            pin_axis (str, optional): Coordinate column to be held constant.
+                Default: 'y'.
+            iterations (int, optional): Number of times to update x coordinates.
+                Default: 10.
+
+        Returns:
+            pandas.DataFrame: DataFrame with annealed anneal axis coordinates.
+        '''
+        x = anneal_axis
+        y = pin_axis
+        for iteration in range(iterations):
+            # create directed graph from data
             graph = self._to_networkx_graph(data)
-            if epoch % 2 == 0:
+
+            # reverse connectivity every other iteration
+            if iteration % 2 == 0:
                 graph = graph.reverse()
 
+            # get mean coordinate of each node in directed graph
             for name in graph.nodes:
                 tree = networkx.bfs_tree(graph, name)
-                mu_x = np.mean([graph.nodes[n]['x'] for n in tree])
-                graph.nodes[name]['x'] = mu_x
+                mu = np.mean([graph.nodes[n][x] for n in tree])
+                graph.nodes[name][x] = mu
 
+            # update data coordinate column
             for node in graph.nodes:
                 mask = data[data.node_name == node].index
-                data.loc[mask, 'x'] = graph.nodes[node]['x']
+                data.loc[mask, x] = graph.nodes[node][x]
 
-            # rectify node x coordinates
-            data.sort_values('x', inplace=True)
-            for y in data.y.unique():
-                mask = data[data.y == y].index
-                values = data.loc[mask, 'x'].tolist()
+            # rectify data coordinate column, so that no two nodes overlap
+            data.sort_values(x, inplace=True)
+            for yi in data[y].unique():
+                mask = data[data[y] == yi].index
+                values = data.loc[mask, x].tolist()
                 values = list(range(len(values)))
-                data.loc[mask, 'x'] = values
+                data.loc[mask, x] = values
 
         return data
 
-    def _center_x_coordinates(self, data):
-        max_ = data.x.max()
-        for y in data.y.unique():
-            mask = data[data.y == y].index
-            l_max = data.loc[mask, 'x'].max()
+    def _center_coordinate(self, data, center_axis='x', pin_axis='y'):
+        '''
+        Sorted center_axis coordinates at each level of the pin axis.
+
+        Args:
+            data (pandas.DataFrame): DataFrame with x column.
+            anneal_column (str, optional): Coordinate column to be annealed.
+                Default: 'x'.
+            pin_axis (str, optional): Coordinate column to be held constant.
+                Default: 'y'.
+            iterations (int, optional): Number of times to update x coordinates.
+                Default: 10.
+
+        Returns:
+            pandas.DataFrame: DataFrame with centered center axis coordinates.
+        '''
+        x = center_axis
+        y = pin_axis
+        max_ = data[x].max()
+        for yi in data[y].unique():
+            mask = data[data[y] == yi].index
+            l_max = data.loc[mask, x].max()
             delta = max_ - l_max
-            data.loc[mask, 'x'] += (delta / 2)
+            data.loc[mask, x] += (delta / 2)
         return data
 
     def _to_networkx_graph(self, data):
+        '''
+        Converts given DataFrame into networkx directed graph.
+
+        Args:
+            pandas.DataFrame: DataFrame of nodes.
+
+        Returns:
+            networkx.DiGraph: Graph of nodes.
+        '''
         graph = networkx.DiGraph()
         data.apply(
             lambda x: graph.add_node(
@@ -241,50 +356,87 @@ class RepoETL():
         return graph
 
     def to_networkx_graph(self):
+        '''
+        Converts internal data into networkx directed graph.
+
+        Returns:
+            networkx.DiGraph: Graph of nodes.
+        '''
         return self._to_networkx_graph(self._data)
 
     def to_dot_graph(self, orthogonal_edges=False, color_scheme=None):
+        '''
+        Converts internal data into pydot graph.
+
+        Args:
+            orthogonal_edges (bool, optional): Whether graph edges should have
+                non-right angles. Default: False.
+            color_scheme: (dict, optional): Color scheme to be applied to graph.
+                Default: rolling_pin.tools.COLOR_SCHEME
+
+        Returns:
+            pydot.Graph: Dot graph of nodes.
+        '''
+        # set color scheme of graph
         if color_scheme is None:
             color_scheme = tools.COLOR_SCHEME
 
+        # create dot graph
         graph = self.to_networkx_graph()
         dot = networkx.drawing.nx_pydot.to_pydot(graph)
-        if orthogonal_edges:
-            dot.set_splines('ortho')
+
+        # set graph background color
         dot.set_bgcolor(color_scheme['background'])
 
+        # set edge draw type
+        if orthogonal_edges:
+            dot.set_splines('ortho')
+
+        # set draw paramters for each node in graph
         for node in dot.get_nodes():
-            gnode = re.sub('"', '', node.get_name())
-            gnode = graph.nodes[gnode]
-            if gnode == {}:
+            nx_node = re.sub('"', '', node.get_name())
+            nx_node = graph.nodes[nx_node]
+
+            # if networkx node has no attributes skip it
+            # this should not ever occur but might
+            if nx_node == {}:
                 continue
 
-            node.set_pos(f"{gnode['x']},{gnode['y']}!")
+            # set node x, y coordinates
+            node.set_pos(f"{nx_node['x']},{nx_node['y']}!")
 
+            # set node shape, color and font attributes
             node.set_shape('rect')
             node.set_style('filled')
             node.set_color(color_scheme['node'])
             node.set_fillcolor(color_scheme['node'])
             node.set_fontname('Courier')
 
-            if gnode['node_type'] == 'library':
+            # vary node font color by noe type
+            if nx_node['node_type'] == 'library':
                 node.set_fontcolor(color_scheme['node_library_font'])
-            elif gnode['node_type'] == 'subpackage':
+            elif nx_node['node_type'] == 'subpackage':
                 node.set_fontcolor(color_scheme['node_subpackage_font'])
             else:
                 node.set_fontcolor(color_scheme['node_module_font'])
 
+        # set draw paramters for each edge in graph
         for edge in dot.get_edges():
-            gnode = dot.get_node(edge.get_source())
-            gnode = gnode[0].get_name()
-            gnode = re.sub('"', '', gnode)
-            gnode = graph.nodes[gnode]
-            if gnode == {}:
+            # get networkx source node of edge
+            nx_node = dot.get_node(edge.get_source())
+            nx_node = nx_node[0].get_name()
+            nx_node = re.sub('"', '', nx_node)
+            nx_node = graph.nodes[nx_node]
+
+            # if networkx source node has no attributes skip it
+            # this should not ever occur but might
+            if nx_node == {}:
                 continue
 
-            if gnode['node_type'] == 'library':
+            # vary edge color by its source node type
+            if nx_node['node_type'] == 'library':
                 edge.set_color(color_scheme['edge_library'])
-            elif gnode['node_type'] == 'subpackage':
+            elif nx_node['node_type'] == 'subpackage':
                 edge.set_color(color_scheme['edge_subpackage'])
             else:
                 edge.set_color(color_scheme['edge_module'])
@@ -292,9 +444,28 @@ class RepoETL():
         return dot
 
     def to_dataframe(self):
+        '''
+        Retruns:
+            pandas.DataFrame: DataFrame of nodes representing repo modules.
+        '''
         return self._data
 
     def to_html(self, layout='dot', orthogonal_edges=False, color_scheme=None):
+        '''
+        For use in inline rendering of graph data in Jupyter Lab.
+
+        Args:
+            layout (str, optional): Graph layout style.
+                Options include: circo, dot, fdp, neato, sfdp, twopi.
+                Default: dot.
+            orthogonal_edges (bool, optional): Whether graph edges should have
+                non-right angles. Default: False.
+            color_scheme: (dict, optional): Color scheme to be applied to graph.
+                Default: rolling_pin.tools.COLOR_SCHEME
+
+        Returns:
+            IPython.display.HTML: HTML object for inline display.
+        '''
         if color_scheme is None:
             color_scheme = tools.COLOR_SCHEME
 
@@ -311,6 +482,26 @@ class RepoETL():
         orthogonal_edges=False,
         color_scheme=None
     ):
+        '''
+        Writes internal data to a given filepath.
+        Formats supported: svg, dot, png, json.
+
+        Args:
+            fulllpath (str or Path): File tobe written to.
+            layout (str, optional): Graph layout style.
+                Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
+
+        Raises:
+            ValueError: If invalid file extension given.
+        '''
+        if isinstance(fullpath, Path):
+            fullpath = fullpath.absolute().as_posix()
+
+        _, ext = os.path.split(fullpath)
+        if re.search(r'\.json$', ext, re.I):
+            self._data.to_json(fullpath, orient='records')
+            return self
+
         if color_scheme is None:
             color_scheme = tools.COLOR_SCHEME
 
@@ -318,5 +509,10 @@ class RepoETL():
             orthogonal_edges=orthogonal_edges,
             color_scheme=color_scheme,
         )
-        tools.write_dot_graph(graph, fullpath, layout=layout,)
+        try:
+            tools.write_dot_graph(graph, fullpath, layout=layout,)
+        except ValueError:
+            msg = f'Invalid extension found: {ext}. '
+            msg += 'Valid extensions include: svg, dot, png, json.'
+            raise ValueError(msg)
         return self
