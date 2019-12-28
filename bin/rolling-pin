@@ -6,12 +6,12 @@ help=`python -c "import sys; print('--help' in sys.argv or '-h' in sys.argv[1:])
 args=`python -c "import sys, re; x = filter(lambda x: not re.search('--?a(rgs)?|--dryrun', x), sys.argv[2:]); print(' '.join(x))" $@`
 
 if [ $help == "True" ]; then
-    python3 ./python/rolling_pin/cli.py --help
+    python3 ./python/cli.py --help
     echo '  --dryrun              Simulate command run.'
 else
-    echo COMMAND: `python3 ./python/rolling_pin/cli.py $1 --args "$args"`
+    echo COMMAND: `python3 ./python/cli.py $1 --args "$args"`
     if [ $dryrun == "False" ]; then
         echo
-        eval `python3 ./python/rolling_pin/cli.py $1 --args "$args"`
+        eval `python3 ./python/cli.py $1 --args "$args"`
     fi
 fi

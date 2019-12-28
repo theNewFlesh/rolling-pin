@@ -5,10 +5,11 @@ import argparse
 import os
 import re
 
-import utils
+import rolling_pin.utils as utils
 
 # set's REPO to whatever the repository is named
-REPO = utils.relative_path(__file__, '../../').name
+REPO = utils.relative_path(__file__, '../').name
+REPO_PATH = utils.relative_path(__file__, '../').absolute().as_posix()
 # ------------------------------------------------------------------------------
 
 '''
@@ -68,8 +69,7 @@ def get_info():
     if temp.args is not None:
         args = re.split(' +', temp.args[0])
 
-    repo_path = Path(__file__).parents[2].absolute().as_posix()
-    compose_path = Path(repo_path, 'docker/docker-compose.yml')
+    compose_path = Path(REPO_PATH, 'docker/docker-compose.yml')
     compose_path = compose_path.as_posix()
 
     user = '{}:{}'.format(os.geteuid(), os.getegid())
@@ -77,7 +77,6 @@ def get_info():
     info = dict(
         args=args,
         mode=mode,
-        repo_path=repo_path,
         compose_path=compose_path,
         user=user
     )
@@ -315,7 +314,7 @@ def get_docker_command(info):
     args = ' '.join(info['args'])
     cmd = cmd.format(
         repo=REPO,
-        repo_path=info['repo_path'],
+        repo_path=REPO_PATH,
         user=info['user'],
         mode=info['mode'],
         args=args
@@ -360,7 +359,7 @@ def get_docker_compose_command(info):
     cmd += 'docker-compose -p {repo} -f {compose_path} '
     cmd = cmd.format(
         repo=REPO,
-        repo_path=info['repo_path'],
+        repo_path=REPO_PATH,
         user=info['user'],
         compose_path=info['compose_path'],
     )
