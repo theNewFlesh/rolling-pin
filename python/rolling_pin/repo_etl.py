@@ -386,6 +386,13 @@ class RepoETL():
 
         # set draw parameters for each node in graph
         for node in dot.get_nodes():
+            # set node shape, color and font attributes
+            node.set_shape('rect')
+            node.set_style('filled')
+            node.set_color(color_scheme['node'])
+            node.set_fillcolor(color_scheme['node'])
+            node.set_fontname('Courier')
+
             nx_node = re.sub('"', '', node.get_name())
             nx_node = graph.nodes[nx_node]
 
@@ -396,13 +403,6 @@ class RepoETL():
 
             # set node x, y coordinates
             node.set_pos(f"{nx_node['x']},{nx_node['y']}!")
-
-            # set node shape, color and font attributes
-            node.set_shape('rect')
-            node.set_style('filled')
-            node.set_color(color_scheme['node'])
-            node.set_fillcolor(color_scheme['node'])
-            node.set_fontname('Courier')
 
             # vary node font color by noe type
             if nx_node['node_type'] == 'library':
