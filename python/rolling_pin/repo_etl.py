@@ -380,7 +380,7 @@ class RepoETL():
                 Default: rolling_pin.tools.COLOR_SCHEME
 
         Returns:
-            pydot.Graph: Dot graph of nodes.
+            pydot.Dot: Dot graph of nodes.
         '''
         # set color scheme of graph
         if color_scheme is None:
@@ -503,7 +503,8 @@ class RepoETL():
             fullpath = fullpath.absolute().as_posix()
 
         _, ext = os.path.split(fullpath)
-        if re.search(r'\.json$', ext, re.I):
+        ext = re.sub(r'^\.', '', ext)
+        if re.search('^json$', ext, re.I):
             self._data.to_json(fullpath, orient='records')
             return self
 

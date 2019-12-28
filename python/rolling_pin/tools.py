@@ -272,7 +272,7 @@ def dot_to_html(dot, layout='dot'):
     Used in jupyter lab inline display of graph data.
 
     Args:
-        dot (pydot.Graph): Pydot Graph instance.
+        dot (pydot.Dot): Pydot Graph instance.
         layout (str, optional): Graph layout style.
             Options include: circo, dot, fdp, neato, sfdp, twopi.
             Default: dot.
@@ -294,17 +294,17 @@ def dot_to_html(dot, layout='dot'):
 
 
 def write_dot_graph(
-    graph,
+    dot,
     fullpath,
     layout='dot',
 ):
     '''
-    Writes a pydot.Graph object to a given filepath.
+    Writes a pydot.Dot object to a given filepath.
     Formats supported: svg, dot, png.
 
     Args:
-        graph (pydot.Graph): Pydot Graph instance.
-        fulllpath (str or Path): File tobe written to.
+        dot (pydot.Dot): Pydot Dot instance.
+        fulllpath (str or Path): File to be written to.
         layout (str, optional): Graph layout style.
             Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
 
@@ -315,12 +315,13 @@ def write_dot_graph(
         fullpath = Path(fullpath).absolute().as_posix()
 
     _, ext = os.path.splitext(fullpath)
-    if re.search(r'\.svg$', ext, re.I):
-        graph.write_svg(fullpath, prog=layout)
-    elif re.search(r'\.dot$', ext, re.I):
-        graph.write_dot(fullpath, prog=layout)
-    elif re.search(r'\.png$', ext, re.I):
-        graph.write_png(fullpath, prog=layout)
+    ext = re.sub(r'^\.', '', ext)
+    if re.search('^svg$', ext, re.I):
+        dot.write_svg(fullpath, prog=layout)
+    elif re.search('^dot$', ext, re.I):
+        dot.write_dot(fullpath, prog=layout)
+    elif re.search('^png$', ext, re.I):
+        dot.write_png(fullpath, prog=layout)
     else:
         msg = f'Invalid extension found: {ext}. '
         msg += 'Valid extensions include: svg, dot, png.'

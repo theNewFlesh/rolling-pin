@@ -5,6 +5,9 @@ from collections import OrderedDict
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import pydot
+import pytest
+
 import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
 
@@ -349,7 +352,24 @@ class ToolsTests(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_dot_to_html(self):
-        pass
+        dot = pydot.Dot()
+        with pytest.raises(ValueError) as e:
+            tools.dot_to_html(dot, layout='foo')
+        expected = 'Invalid layout value. foo not in '
+        expected += "['circo', 'dot', 'fdp', 'neato', 'sfdp', 'twopi']."
+        self.assertEqual(str(e.value), expected)
+
+        tools.dot_to_html(dot)
 
     def test_write_dot_graph(self):
-        pass
+        expected = 'Invalid extension found: bar. '
+        expected += 'Valid extensions include: svg, dot, png.'
+        with pytest.raises(ValueError) as e:
+            tools.write_dot_graph(pydot.Dot(), '/tmp/foo.bar')
+        self.assertEqual(str(e.value), expected)
+
+        with TemporaryDirectory() as root:
+            for ext in ['SVG', 'dot', 'pNg']:
+                result = Path(root, 'foo.' + ext)
+                tools.write_dot_graph(pydot.Dot(), result)
+                self.assertTrue(os.path.exists(result))

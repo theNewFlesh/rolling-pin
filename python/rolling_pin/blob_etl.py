@@ -244,7 +244,7 @@ class BlobETL():
                 Default: rolling_pin.tools.COLOR_SCHEME
 
         Returns:
-            pydot.Graph: Dot graph representation of dictionary.
+            pydot.Dot: Dot graph representation of dictionary.
         '''
         # set default colort scheme
         if color_scheme is None:
@@ -341,7 +341,8 @@ class BlobETL():
             fullpath = fullpath.absolute().as_posix()
 
         _, ext = os.path.split(fullpath)
-        if re.search(r'\.json$', ext, re.I):
+        ext = re.sub(r'^\.', '', ext)
+        if re.search('^json$', ext, re.I):
             with open(fullpath, 'w') as f:
                 json.dump(self.to_dict(), f)
             return self
