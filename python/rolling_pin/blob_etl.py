@@ -225,7 +225,9 @@ class BlobETL():
                     graph.nodes[k]['value'] = [val]
                     name = f'"{str(val)}"'
                     v = f'"{k}{self._separator}{str(val)}"'
-                    graph.add_node(v, short_name=name, node_type='value')
+                    graph.add_node(
+                        v, short_name=name, node_type='value', value=[val]
+                    )
                     graph.add_edge(k, v)
 
         recurse(tools.nest(self._data), 'root')
@@ -340,7 +342,7 @@ class BlobETL():
         if isinstance(fullpath, Path):
             fullpath = fullpath.absolute().as_posix()
 
-        _, ext = os.path.split(fullpath)
+        _, ext = os.path.splitext(fullpath)
         ext = re.sub(r'^\.', '', ext)
         if re.search('^json$', ext, re.I):
             with open(fullpath, 'w') as f:
