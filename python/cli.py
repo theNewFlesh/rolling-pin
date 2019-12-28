@@ -5,11 +5,9 @@ import argparse
 import os
 import re
 
-import rolling_pin.utils as utils
-
 # set's REPO to whatever the repository is named
-REPO = utils.relative_path(__file__, '../').name
-REPO_PATH = utils.relative_path(__file__, '../').absolute().as_posix()
+REPO = Path(__file__).parents[1].absolute().name
+REPO_PATH = Path(__file__).parents[1].absolute().as_posix()
 # ------------------------------------------------------------------------------
 
 '''
