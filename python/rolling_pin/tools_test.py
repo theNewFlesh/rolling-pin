@@ -1,6 +1,9 @@
 import json
+import os
 import unittest
 from collections import OrderedDict
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
@@ -288,7 +291,53 @@ class ToolsTests(unittest.TestCase):
 
     # FILE-FUNCTIONS------------------------------------------------------------
     def test_list_all_files(self):
-        pass
+        # repo structure
+        #       root
+        #   ______|______
+        #   |           |
+        #   a0          a1
+        #   |        ___|___
+        #   |        |     |
+        # m0.py    m1.py   b1
+        #               ___|___
+        #               |     |
+        #             m2.p  m3.py
+        with TemporaryDirectory() as root:
+            os.makedirs(Path(root, 'a0'))
+            os.makedirs(Path(root, 'a1'))
+            os.makedirs(Path(root, 'a1/b1'))
+
+            with open(Path(root, 'a0/m0.py'), 'w') as f:
+                f.writelines([
+                    'from root.a1.m1 import foo',
+                    'import root.a1.b1.m3',
+                ])
+
+            with open(Path(root, 'a1/m1.py'), 'w') as f:
+                f.writelines([
+                    'import m0',
+                    'import m2',
+                    'import m3',
+                ])
+
+            with open(Path(root, 'a1/b1/m2.py'), 'w') as f:
+                f.writelines([
+                    'import m3',
+                    'from root.a0.m0 import baz',
+                ])
+
+            with open(Path(root, 'a1/b1/m3.py'), 'w') as f:
+                f.writelines(['some python code'])
+
+            result = tools.list_all_files(root)
+            expected = [
+                Path(root, 'a0/m0.py'),
+                Path(root, 'a1/m1.py'),
+                Path(root, 'a1/b1/m2.py'),
+                Path(root, 'a1/b1/m3.py'),
+            ]
+            for item in expected:
+                self.assertIn(item, result)
 
     def test_get_parent_fields(self):
         pass
