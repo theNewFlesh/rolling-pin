@@ -1,5 +1,7 @@
 import os
+import re
 import unittest
+from copy import deepcopy
 from itertools import chain
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -86,10 +88,63 @@ class BlobEtlTests(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_filter(self):
-        pass
+        blob = self.get_simple_blob()
+        etl = BlobETL(blob)
+
+        expected = r'Invalid by argument: foo\. Needs to be one of: '
+        expected + r'key, value, key\+value\.'
+        with self.assertRaisesRegex(ValueError, expected):
+            etl.filter(lambda x: x, by='foo')
+
+        result = etl.filter(lambda x: re.search('c1', x), by='key')._data
+        expected = {'a0/b0/c1': 'v1'}
+        self.assertEqual(result, expected)
+
+        result = etl.filter(lambda x: re.search('v1', x), by='value')._data
+        self.assertEqual(result, expected)
+
+        result = etl.filter(
+            lambda x, y: re.search('c1|v1', x + y), by='key+value'
+        )._data
+        self.assertEqual(result, expected)
+
+        result = etl\
+            .filter(lambda x: re.search('b0', x), by='key')\
+            .filter(lambda x: x == 'v0', by='value')\
+            ._data
+        expected = {'a0/b0/c0': 'v0'}
+        self.assertEqual(result, expected)
 
     def test_delete(self):
-        pass
+        blob = self.get_simple_blob()
+        etl = BlobETL(blob)
+
+        expected = r'Invalid by argument: foo\. Needs to be one of: '
+        expected + r'key, value, key\+value\.'
+        with self.assertRaisesRegex(ValueError, expected):
+            etl.delete(lambda x: x, by='foo')
+
+        result = etl.delete(lambda x: re.search('c1', x), by='key')._data
+        expected = tools.flatten(deepcopy(blob))
+        del expected['a0/b0/c1']
+        self.assertEqual(result, expected)
+
+        result = etl.delete(lambda x: re.search('v1', x), by='value')._data
+        self.assertEqual(result, expected)
+
+        result = etl.delete(
+            lambda x, y: re.search('c1|v1', x + y), by='key+value'
+        )._data
+        self.assertEqual(result, expected)
+
+        result = etl\
+            .delete(lambda x: re.search('b0', x), by='key')\
+            .delete(lambda x: x == 'v1', by='value')\
+            ._data
+        expected = tools.flatten(deepcopy(blob))
+        del expected['a0/b0/c0']
+        del expected['a0/b0/c1']
+        self.assertEqual(result, expected)
 
     def test_set(self):
         pass

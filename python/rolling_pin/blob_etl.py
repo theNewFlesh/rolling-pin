@@ -38,14 +38,14 @@ class BlobETL():
         Returns:
             dict: Nested representation of internal data.
         '''
-        return tools.unembed(tools.nest(self._data))
+        return tools.unembed(tools.nest(deepcopy(self._data)))
 
     def to_flat_dict(self):
         '''
         Returns:
             dict: Flat dictionary with embedded types.
         '''
-        return self._data
+        return deepcopy(self._data)
 
     def filter(self, predicate, by='key'):
         '''
@@ -61,7 +61,7 @@ class BlobETL():
             ValueError: If by keyword is not key, value, or key+value.
 
         Returns:
-            BlobETL: self.
+            BlobETL: New BlobETL instance.
         '''
         data = {}
         if by not in ['key', 'value', 'key+value']:
@@ -72,17 +72,16 @@ class BlobETL():
         for key, val in self._data.items():
             item = None
             if by == 'key':
-                item = key
+                item = [key]
             elif by == 'value':
-                item = val
+                item = [val]
             else:
                 item = [key, val]
 
-            if predicate(item):
+            if predicate(*item):
                 data[key] = val
 
-        self._data = data
-        return self
+        return BlobETL(data, self._separator)
 
     def delete(self, predicate, by='key'):
         '''
@@ -98,7 +97,7 @@ class BlobETL():
             ValueError: If by keyword is not key, value, or key+value.
 
         Returns:
-            BlobETL: self.
+            BlobETL: New BlobETL instance.
         '''
         data = deepcopy(self._data)
         if by not in ['key', 'value', 'key+value']:
@@ -109,17 +108,16 @@ class BlobETL():
         for key, val in self._data.items():
             item = None
             if by == 'key':
-                item = key
+                item = [key]
             elif by == 'value':
-                item = val
+                item = [val]
             else:
                 item = [key, val]
 
-            if predicate(item):
+            if predicate(*item):
                 del data[key]
 
-        self._data = data
-        return self
+        return BlobETL(data, self._separator)
 
     def set(
         self,
@@ -148,7 +146,7 @@ class BlobETL():
             ValueError: If by keyword is not key, value, or key+value.
 
         Returns:
-            BlobETL: self.
+            BlobETL: New BlobETL instance.
         '''
         if by not in ['key', 'value', 'key+value']:
             msg = f'Invalid by argument: {by}. Needs to be one of: '
@@ -171,20 +169,19 @@ class BlobETL():
         for key, val in self._data.items():
             item = None
             if by == 'key':
-                item = key
+                item = [key]
             elif by == 'value':
-                item = val
+                item = [val]
             else:
                 item = [key, val]
 
-            if predicate(item):
+            if predicate(*item):
                 k = key_setter(key)
                 v = value_setter(val)
                 del data[key]
                 data[k] = v
 
-        self._data = data
-        return self
+        return BlobETL(data, self._separator)
 
     def update(self, dict_):
         '''
@@ -195,11 +192,12 @@ class BlobETL():
             dict_ (dict): Dictionary to be used for update.
 
         Returns:
-            BlobETL: self.
+            BlobETL: New BlobETL instance.
         '''
-        data = tools.flatten(dict_, separator=self._separator, embed_types=True)
-        self._data.update(data)
-        return self
+        temp = tools.flatten(dict_, separator=self._separator, embed_types=True)
+        data = deepcopy(self._data)
+        data.update(temp)
+        return BlobETL(data, self._separator)
 
     def to_networkx_graph(self):
         '''
