@@ -8,66 +8,13 @@ from pandas import DataFrame, Series
 
 import networkx
 import rolling_pin.tools as tools
+import rolling_pin.utils as utils
 # ------------------------------------------------------------------------------
 
 '''
 Contains the RepoETL class, which is used for converted python repository module
 dependencies into a directed graph.
 '''
-
-
-def get_imports(fullpath):
-    '''
-    Get's import statements from a given python module.
-
-    Args:
-        fullpath (str or Path): Path to python module.
-
-    Returns:
-        list(str): List of imported modules.
-    '''
-    with open(fullpath) as f:
-        data = f.readlines()
-    data = map(lambda x: x.strip('\n'), data)
-    data = filter(lambda x: re.search('^import|^from', x), data)
-    data = map(lambda x: re.sub('from (.*?) .*', '\\1', x), data)
-    data = map(lambda x: re.sub(' as .*', '', x), data)
-    data = map(lambda x: re.sub(' *#.*', '', x), data)
-    data = map(lambda x: re.sub('import ', '', x), data)
-    data = filter(lambda x: not is_builtin(x), data)
-    return list(data)
-
-
-def is_builtin(module):
-    '''
-    Determines if given module is a python builtin.
-
-    Args:
-        module (str): Python module name.
-
-    Returns:
-        bool: Whether string names a python module.
-    '''
-    builtins = [
-        'copy',
-        'datetime',
-        'enum',
-        'functools',
-        'inspect',
-        'itertools',
-        'json',
-        'logging',
-        'math',
-        'os',
-        'pathlib',
-        're',
-        'uuid'
-    ]
-    suffix = r'(\..*)?'
-    builtins_re = f'{suffix}|'.join(builtins) + suffix
-    if re.search(builtins_re, module):
-        return True
-    return False
 
 
 class RepoETL():
@@ -97,6 +44,27 @@ class RepoETL():
         '''
         self._root = root
         self._data = self._get_data(root, include_regex, exclude_regex)
+
+    def _get_imports(self, fullpath):
+        '''
+        Get's import statements from a given python module.
+
+        Args:
+            fullpath (str or Path): Path to python module.
+
+        Returns:
+            list(str): List of imported modules.
+        '''
+        with open(fullpath) as f:
+            data = f.readlines()
+        data = map(lambda x: x.strip('\n'), data)
+        data = filter(lambda x: re.search('^import|^from', x), data)
+        data = map(lambda x: re.sub('from (.*?) .*', '\\1', x), data)
+        data = map(lambda x: re.sub(' as .*', '', x), data)
+        data = map(lambda x: re.sub(' *#.*', '', x), data)
+        data = map(lambda x: re.sub('import ', '', x), data)
+        data = filter(lambda x: not utils.is_standard_module(x), data)
+        return list(data)
 
     def _get_data(self, root, include_regex, exclude_regex):
         r'''
@@ -159,7 +127,7 @@ class RepoETL():
             .apply(lambda x: list(filter(lambda y: y != '', x)))
 
         data['dependencies'] = data.fullpath\
-            .apply(get_imports).apply(tools.get_ordered_unique)
+            .apply(self._get_imports).apply(tools.get_ordered_unique)
         data.dependencies += data.node_name\
             .apply(lambda x: ['.'.join(x.split('.')[:-1])])
         data.dependencies = data.dependencies\
