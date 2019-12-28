@@ -3,6 +3,8 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import numpy as np
+from pandas import DataFrame
 import pytest
 
 from rolling_pin.repo_etl import RepoETL
@@ -29,6 +31,7 @@ class RepoEtlTests(unittest.TestCase):
 
         with open(Path(root, 'a0/m0.py'), 'w') as f:
             f.write('\n'.join([
+                'import re',
                 'from root.a1.m1 import foo',
                 'import root.a1.b1.m3',
             ]))
@@ -42,6 +45,7 @@ class RepoEtlTests(unittest.TestCase):
 
         with open(Path(root, 'a1/b1/m2.py'), 'w') as f:
             f.write('\n'.join([
+                'import OpenExr',
                 'import m3',
                 'from root.a0.m0 import baz',
             ]))
@@ -72,13 +76,31 @@ class RepoEtlTests(unittest.TestCase):
     def test_get_imports(self):
         with TemporaryDirectory() as root:
             self.create_repo(root)
-            repo = RepoETL(root)
+
             module = Path(root, 'a1/b1/m2_test.py')
-            result = repo._get_imports(module)
+            result = RepoETL._get_imports(module)
             self.assertEqual(result, ['root.a1.b1.m2', 'pytest'])
 
+            module = Path(root, 'a1/m1.py')
+            result = RepoETL._get_imports(module)
+            self.assertEqual(result, ['m0', 'm2', 'm3'])
+
     def test_get_data(self):
-        pass
+        with TemporaryDirectory() as root:
+            self.create_repo(root)
+            with pytest.raises(ValueError) as e:
+                RepoETL._get_data(root, include_regex='foo')
+            expected = "Invalid include_regex: 'foo'. Does not end in '.py$'."
+            self.assertEqual(str(e.value), expected)
+
+            result = RepoETL._get_data(root)
+            expected = self.get_repo_data(root)
+            cols = expected.columns.tolist()
+            for i, row in expected.iterrows():
+                self.assertEqual(
+                    result.loc[i, cols].tolist(),
+                    row.tolist()
+                )
 
     def test_calculate_coordinates(self):
         pass
@@ -103,3 +125,38 @@ class RepoEtlTests(unittest.TestCase):
 
     def test_write(self):
         pass
+
+    def get_repo_data(self, root):
+        cols = [
+            'node_name',
+            'node_type',
+            'dependencies',
+            'subpackages',
+            'fullpath',
+        ]
+        data = [
+            ['a1.b1.m3', 'module', ['a1.b1'], ['a1', 'a1.b1'], Path(root, 'a1/b1/m3.py')],
+            ['a1.m1', 'module', ['m0', 'm2', 'm3', 'a1'], ['a1'], Path(root, 'a1/m1.py')],
+            ['a1', 'subpackage', [], [], np.nan],
+            ['a1.b1', 'subpackage', ['a1'], ['a1'], np.nan],
+            ['OpenExr', 'library', [], [], np.nan],
+            ['m0', 'library', [], [], np.nan],
+            ['a0', 'subpackage', [], [], np.nan],
+            [
+                'a1.b1.m2', 'module', ['OpenExr', 'm3', 'root.a0.m0', 'a1.b1'], ['a1', 'a1.b1'],
+                Path(root, 'a1/b1/m2.py')
+            ],
+            ['m2', 'library', [], [], np.nan],
+            [
+                'a0.m0', 'module', ['root.a1.m1', 'root.a1.b1.m3', 'a0'], ['a0'],
+                Path(root, 'a0/m0.py')
+            ],
+            ['m3', 'library', [], [], np.nan],
+            ['root.a0.m0', 'library', [], [], np.nan],
+            ['root.a1.b1.m3', 'library', [], [], np.nan],
+            ['root.a1.m1', 'library', [], [], np.nan],
+        ]
+        data = DataFrame(data, columns=cols)
+        data.sort_values('fullpath', inplace=True)
+        data.reset_index(drop=True, inplace=True)
+        return data

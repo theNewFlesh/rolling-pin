@@ -45,7 +45,8 @@ class RepoETL():
         self._root = root
         self._data = self._get_data(root, include_regex, exclude_regex)
 
-    def _get_imports(self, fullpath):
+    @staticmethod
+    def _get_imports(fullpath):
         '''
         Get's import statements from a given python module.
 
@@ -66,7 +67,12 @@ class RepoETL():
         data = filter(lambda x: not utils.is_standard_module(x), data)
         return list(data)
 
-    def _get_data(self, root, include_regex, exclude_regex):
+    @staticmethod
+    def _get_data(
+        root,
+        include_regex=r'.*\.py$',
+        exclude_regex=r'(__init__|_test)\.py$',
+    ):
         r'''
         Recursively aggregates and filters all the files found with a given
         directory into a DataFrame. Data is used to create directed graphs.
@@ -83,10 +89,10 @@ class RepoETL():
 
         Args:
             root (str or Path): Root directory to be searched.
-            include_regex (str): Files to be included in recursive
-                directy search.
-            exclude_regex (str): Files to be excluded in recursive
-                directy search.
+            include_regex (str, optional): Files to be included in recursive
+                directy search. Default: '.*\.py$'.
+            exclude_regex (str, optional): Files to be excluded in recursive
+                directy search. Default: '(__init__|_test)\.py$'.
 
         Raises:
             ValueError: If include or exclude regex does not end in '\.py$'.
@@ -97,7 +103,8 @@ class RepoETL():
         files = tools.list_all_files(root)
         if include_regex != '':
             if not include_regex.endswith(r'\.py$'):
-                msg = r"include_regex does not end in '\.py$'."
+                msg = f"Invalid include_regex: '{include_regex}'. "
+                msg += r"Does not end in '.py$'."
                 raise ValueError(msg)
 
             files = filter(
@@ -127,7 +134,7 @@ class RepoETL():
             .apply(lambda x: list(filter(lambda y: y != '', x)))
 
         data['dependencies'] = data.fullpath\
-            .apply(self._get_imports).apply(tools.get_ordered_unique)
+            .apply(RepoETL._get_imports).apply(tools.get_ordered_unique)
         data.dependencies += data.node_name\
             .apply(lambda x: ['.'.join(x.split('.')[:-1])])
         data.dependencies = data.dependencies\
@@ -171,9 +178,12 @@ class RepoETL():
         # define node coordinates
         data['x'] = 0
         data['y'] = 0
-        data = self._calculate_coordinates(data)
-        data = self._anneal_coordinate(data, 'x', 'y')
-        data = self._center_coordinate(data, 'x', 'y')
+        data = RepoETL._calculate_coordinates(data)
+        data = RepoETL._anneal_coordinate(data, 'x', 'y')
+        data = RepoETL._center_coordinate(data, 'x', 'y')
+
+        data.sort_values('fullpath', inplace=True)
+        data.reset_index(drop=True, inplace=True)
 
         cols = [
             'node_name',
@@ -187,7 +197,8 @@ class RepoETL():
         data = data[cols]
         return data
 
-    def _calculate_coordinates(self, data):
+    @staticmethod
+    def _calculate_coordinates(data):
         '''
         Calculate inital x, y coordinates for each node in given DataFrame.
         Node are startified by type along the y axis.
@@ -224,9 +235,8 @@ class RepoETL():
 
         return data
 
-    def _anneal_coordinate(
-        self, data, anneal_axis='x', pin_axis='y', iterations=10
-    ):
+    @staticmethod
+    def _anneal_coordinate(data, anneal_axis='x', pin_axis='y', iterations=10):
         '''
         Iteratively align nodes in the anneal axis according to the mean
         position of their connected nodes. Node anneal coordinates are rectified
@@ -250,7 +260,7 @@ class RepoETL():
         y = pin_axis
         for iteration in range(iterations):
             # create directed graph from data
-            graph = self._to_networkx_graph(data)
+            graph = RepoETL._to_networkx_graph(data)
 
             # reverse connectivity every other iteration
             if iteration % 2 == 0:
@@ -277,7 +287,8 @@ class RepoETL():
 
         return data
 
-    def _center_coordinate(self, data, center_axis='x', pin_axis='y'):
+    @staticmethod
+    def _center_coordinate(data, center_axis='x', pin_axis='y'):
         '''
         Sorted center_axis coordinates at each level of the pin axis.
 
@@ -303,7 +314,8 @@ class RepoETL():
             data.loc[mask, x] += (delta / 2)
         return data
 
-    def _to_networkx_graph(self, data):
+    @staticmethod
+    def _to_networkx_graph(data):
         '''
         Converts given DataFrame into networkx directed graph.
 
@@ -335,7 +347,7 @@ class RepoETL():
         Returns:
             networkx.DiGraph: Graph of nodes.
         '''
-        return self._to_networkx_graph(self._data)
+        return RepoETL._to_networkx_graph(self._data)
 
     def to_dot_graph(self, orthogonal_edges=False, color_scheme=None):
         '''
