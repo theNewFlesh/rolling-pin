@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import IPython
 import numpy as np
 from pandas import DataFrame
 import pytest
@@ -258,13 +259,45 @@ class RepoEtlTests(unittest.TestCase):
                     )
 
     def test_to_dataframe(self):
-        pass
+        with TemporaryDirectory() as root:
+            self.create_repo(root)
+            repo = RepoETL(root)
+            result = repo.to_dataframe()
+            self.assertIsNot(result, repo._data)
 
     def test_to_html(self):
-        pass
+        with TemporaryDirectory() as root:
+            self.create_repo(root)
+            repo = RepoETL(root)
+            result = repo.to_html()
+            self.assertIsInstance(result, IPython.display.HTML)
 
     def test_write(self):
-        pass
+        with TemporaryDirectory() as root:
+            self.create_repo(root)
+            repo = RepoETL(root)
+
+            result = Path(root, 'foo.svg')
+            repo.write(result)
+            self.assertTrue(os.path.exists(result))
+
+            result = Path(root, 'foo.dot')
+            repo.write(result)
+            self.assertTrue(os.path.exists(result))
+
+            result = Path(root, 'foo.png')
+            repo.write(result)
+            self.assertTrue(os.path.exists(result))
+
+            result = Path(root, 'foo.json').absolute().as_posix()
+            repo.write(result)
+            self.assertTrue(os.path.exists(result))
+
+            with pytest.raises(ValueError) as e:
+                repo.write(Path(root, 'foo.bar'))
+            expected = 'Invalid extension found: bar. Valid extensions '
+            expected += 'include: svg, dot, png, json.'
+            self.assertEqual(str(e.value), expected)
 
     def get_repo_data(self, root):
         cols = [
@@ -275,8 +308,14 @@ class RepoEtlTests(unittest.TestCase):
             'fullpath',
         ]
         data = [
-            ['a1.b1.m3', 'module', ['a1.b1'], ['a1', 'a1.b1'], Path(root, 'a1/b1/m3.py')],
-            ['a1.m1', 'module', ['m0', 'm2', 'm3', 'a1'], ['a1'], Path(root, 'a1/m1.py')],
+            [
+                'a1.b1.m3', 'module', ['a1.b1'], ['a1', 'a1.b1'],
+                Path(root, 'a1/b1/m3.py').absolute().as_posix()
+            ],
+            [
+                'a1.m1', 'module', ['m0', 'm2', 'm3', 'a1'], ['a1'],
+                Path(root, 'a1/m1.py').absolute().as_posix()
+            ],
             ['a1', 'subpackage', [], [], np.nan],
             ['a1.b1', 'subpackage', ['a1'], ['a1'], np.nan],
             ['OpenExr', 'library', [], [], np.nan],
@@ -284,12 +323,12 @@ class RepoEtlTests(unittest.TestCase):
             ['a0', 'subpackage', [], [], np.nan],
             [
                 'a1.b1.m2', 'module', ['OpenExr', 'm3', 'root.a0.m0', 'a1.b1'], ['a1', 'a1.b1'],
-                Path(root, 'a1/b1/m2.py')
+                Path(root, 'a1/b1/m2.py').absolute().as_posix()
             ],
             ['m2', 'library', [], [], np.nan],
             [
                 'a0.m0', 'module', ['root.a1.m1', 'root.a1.b1.m3', 'a0'], ['a0'],
-                Path(root, 'a0/m0.py')
+                Path(root, 'a0/m0.py').absolute().as_posix()
             ],
             ['m3', 'library', [], [], np.nan],
             ['root.a0.m0', 'library', [], [], np.nan],

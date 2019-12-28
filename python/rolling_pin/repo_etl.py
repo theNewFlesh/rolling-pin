@@ -126,8 +126,9 @@ class RepoETL():
         # buid DataFrame of nodes and imported dependencies
         data = DataFrame()
         data['fullpath'] = files
+        data.fullpath = data.fullpath.apply(lambda x: x.absolute().as_posix())
+
         data['node_name'] = data.fullpath\
-            .apply(lambda x: x.absolute().as_posix())\
             .apply(lambda x: re.sub(root, '', x))\
             .apply(lambda x: re.sub(r'\.py$', '', x))\
             .apply(lambda x: re.sub('^/', '', x))\
@@ -439,7 +440,7 @@ class RepoETL():
         Retruns:
             pandas.DataFrame: DataFrame of nodes representing repo modules.
         '''
-        return self._data
+        return self._data.copy()
 
     def to_html(self, layout='dot', orthogonal_edges=False, color_scheme=None):
         '''
@@ -488,7 +489,7 @@ class RepoETL():
         if isinstance(fullpath, Path):
             fullpath = fullpath.absolute().as_posix()
 
-        _, ext = os.path.split(fullpath)
+        _, ext = os.path.splitext(fullpath)
         ext = re.sub(r'^\.', '', ext)
         if re.search('^json$', ext, re.I):
             self._data.to_json(fullpath, orient='records')
