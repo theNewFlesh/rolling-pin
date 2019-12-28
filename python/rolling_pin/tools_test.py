@@ -289,7 +289,7 @@ class ToolsTests(unittest.TestCase):
         self.assertEqual(result, expected)
         self.assertFalse(result is expected)
 
-    # FILE-FUNCTIONS------------------------------------------------------------
+    # MISC----------------------------------------------------------------------
     def test_list_all_files(self):
         # repo structure
         #       root
@@ -340,9 +340,14 @@ class ToolsTests(unittest.TestCase):
                 self.assertIn(item, result)
 
     def test_get_parent_fields(self):
-        pass
+        result = tools.get_parent_fields('a/b/c/d')
+        expected = ['a', 'a/b', 'a/b/c']
+        self.assertEqual(result, expected)
 
-    # EXPORT-FUNCTIONS----------------------------------------------------------
+        result = tools.get_parent_fields('a-b-c-d', separator='-')
+        expected = ['a', 'a-b', 'a-b-c']
+        self.assertEqual(result, expected)
+
     def test_dot_to_html(self):
         pass
 
