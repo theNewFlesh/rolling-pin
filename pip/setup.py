@@ -1,8 +1,8 @@
 from distutils.core import setup
 setup(
     name='rolling-pin',
-    packages=['python/rolling_pin'],
-    version='0.1.0',
+    packages=['rolling_pin'],
+    version='0.1.1',
     license='MIT',
     description='A library of generic tools for ETL work and visualization of JSON blobs and python repositories.',  # noqa E501
     author='Alex Braun',

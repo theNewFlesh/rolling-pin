@@ -26,3 +26,4 @@ requests==2.22.0
 sphinx
 sphinx-rtd-theme
 sphinxcontrib-napoleon
+twine

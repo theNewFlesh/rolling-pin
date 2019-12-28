@@ -43,6 +43,7 @@ def get_info():
     image     - Display the Docker image id for {repo} service
     lab       - Start a Jupyter lab server
     lint      - Run linting on {repo} service code
+    publish   - Publish repository to python package index.
     python    - Run python interpreter session inside {repo} container
     remove    - Remove {repo} service Docker image
     restart   - Restart {repo} service
@@ -214,6 +215,35 @@ def get_lint_command(info):
     return cmd
 
 
+def get_publish_command(info):
+    '''
+    Publish repository to python package index.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} bash -c "'
+    cmd += 'rm -rf /tmp{repo}; '
+    cmd += 'cp -r /root/{repo}/python /tmp/{repo}; '
+    cmd += 'cp /root/{repo}/README.md /tmp/{repo}/README; '
+    cmd += 'cp /root/{repo}/LICENSE /tmp/{repo}/LICENSE; '
+    cmd += 'cp /root/{repo}/pip/setup.cfg /tmp/{repo}/; '
+    cmd += 'cp /root/{repo}/pip/setup.py /tmp/{repo}/; '
+    cmd += r"find /tmp/{repo} | grep -E '_test\.py$' | parallel rm -rf; "
+    cmd += '"; '
+    cmd += '{exec2} python setup.py sdist; '
+    cmd += '{exec2} twine upload dist/*; '
+    cmd = cmd.format(
+        repo=REPO,
+        exec=get_docker_exec_command(info),
+        exec2=get_docker_exec_command(info, '/tmp/' + REPO),
+    )
+    return cmd
+
+
 def get_python_command(info):
     '''
     Opens a python interpreter inside a running container.
@@ -320,12 +350,13 @@ def get_docker_command(info):
     return cmd
 
 
-def get_docker_exec_command(info):
+def get_docker_exec_command(info, working_directory=None):
     '''
     Gets docker exec command.
 
     Args:
         info (dict): Info dictionary.
+        working_directory (str, optional): Working directory.
 
     Returns:
         str: Command.
@@ -333,6 +364,8 @@ def get_docker_exec_command(info):
     cmd = '{up_command}; '
     cmd += 'CONTAINER_ID=$({container_command}); '
     cmd += 'docker exec --interactive --tty --user \"root:root\" -e {env} '
+    if working_directory is not None:
+        cmd += '-w {} '.format(working_directory)
     cmd += '$CONTAINER_ID '
     cmd = cmd.format(
         env='PYTHONPATH="${PYTHONPATH}:' + '/root/{}/python" '.format(REPO),
@@ -402,6 +435,9 @@ def main():
 
     elif mode == 'lint':
         cmd = get_lint_command(info)
+
+    elif mode == 'publish':
+        cmd = get_publish_command(info)
 
     elif mode == 'python':
         cmd = get_python_command(info)
