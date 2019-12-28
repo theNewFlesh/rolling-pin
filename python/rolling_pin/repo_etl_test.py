@@ -115,47 +115,82 @@ class RepoEtlTests(unittest.TestCase):
                 )
 
     def test_calculate_coordinates(self):
-        with TemporaryDirectory() as root:
-            data = self.get_repo_data(root)
-            result = RepoETL._calculate_coordinates(data)
+        data = self.get_repo_data('/tmp/foo')
+        result = RepoETL._calculate_coordinates(data)
 
-            # ensure y axis is stratified according to node type
-            mod = result[result.node_type == 'module']
-            pkg = result[result.node_type == 'subpackage']
-            lib = result[result.node_type == 'library']
-            self.assertLess(mod.y.max(), pkg.y.min())
-            self.assertLess(pkg.y.max(), lib.y.min())
+        # ensure y axis is stratified according to node type
+        mod = result[result.node_type == 'module']
+        pkg = result[result.node_type == 'subpackage']
+        lib = result[result.node_type == 'library']
+        self.assertLess(mod.y.max(), pkg.y.min())
+        self.assertLess(pkg.y.max(), lib.y.min())
 
-            # ensure all x ccordinates are unique
-            for y in data.y.unique().tolist():
-                result = data[data.y == y].x.tolist()
-                self.assertCountEqual(result, set(result))
+        # ensure all x ccordinates are unique
+        for y in data.y.unique().tolist():
+            result = data[data.y == y].x.tolist()
+            self.assertCountEqual(result, set(result))
 
     def test_anneal_coordinate(self):
-        with TemporaryDirectory() as root:
-            data = self.get_repo_data(root)
-            data = RepoETL._calculate_coordinates(data)
-            data.sort_values('node_name', inplace=True)
-            expected = data.y.tolist()
-            result = RepoETL._anneal_coordinate(
-                data,
-                anneal_axis='x',
-                pin_axis='y',
-                iterations=5,
-            )
-            result.sort_values('node_name', inplace=True)
-            self.assertEqual(result.y.tolist(), expected)
+        data = self.get_repo_data('/tmp/foo')
+        data = RepoETL._calculate_coordinates(data)
+        data.sort_values('node_name', inplace=True)
+        expected = data.y.tolist()
+        result = RepoETL._anneal_coordinate(
+            data,
+            anneal_axis='x',
+            pin_axis='y',
+            iterations=5,
+        )
+        result.sort_values('node_name', inplace=True)
+        self.assertEqual(result.y.tolist(), expected)
 
-            # ensure all x ccordinates are unique
-            for y in data.y.unique().tolist():
-                result = data[data.y == y].x.tolist()
-                self.assertCountEqual(result, set(result))
+        # ensure all x ccordinates are unique
+        for y in data.y.unique().tolist():
+            result = data[data.y == y].x.tolist()
+            self.assertCountEqual(result, set(result))
 
     def test_center_coordinate(self):
-        pass
+        data = [
+            [0, 0], [1, 0], [2, 0],
+            [0, 1], [1, 1], [2, 1], [3, 1], [4, 1],
+            [0, 2], [1, 2], [2, 2],
+        ]
+        data = DataFrame(data, columns=list('xy'))
+        expected = [
+                    [1, 0], [2, 0], [3, 0],         # noqa E126
+            [0, 1], [1, 1], [2, 1], [3, 1], [4, 1], # noqa E126
+                    [1, 2], [2, 2], [3, 2],         # noqa E126
+        ]
+        expected = DataFrame(expected, columns=list('xy'))
+        result = RepoETL._center_coordinate(data, center_axis='x', pin_axis='y')
+        self.assertEqual(result.x.tolist(), expected.x.tolist())
+        self.assertEqual(result.y.tolist(), expected.y.tolist())
 
     def test_to_networkx_graph(self):
-        pass
+        with TemporaryDirectory() as root:
+            self.create_repo(root)
+            repo = RepoETL(root)
+            data = repo._data
+            graph = repo.to_networkx_graph()
+
+            for i, row in data.iterrows():
+                name = row['node_name']
+                node = graph.nodes[name]
+
+                for col in data.columns:
+                    if node[col] is np.nan and row[col] is np.nan:
+                        continue
+                    self.assertEqual(node[col], row[col])
+
+                for dep in row.dependencies:
+                    self.assertTrue(graph.has_edge(dep, name))
+
+            node_count = data.node_name.nunique()
+            self.assertEqual(node_count, graph.number_of_nodes())
+
+            edge_count = data.dependencies.apply(len).sum()
+            self.assertEqual(edge_count, graph.number_of_edges())
+
 
     def test_to_dot_graph(self):
         pass
