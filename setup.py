@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
     name='rolling-pin',
-    packages=['rolling-pin'],
+    packages=['python/rolling_pin'],
     version='0.1.0',
     license='MIT',
     description='A library of generic tools for ETL work and visualization of JSON blobs and python repositories.',  # noqa E501
@@ -21,7 +21,6 @@ setup(
     classifiers=[
       'Development Status :: 4 - Beta',
       'Intended Audience :: Developers',
-      'Topic :: Software Development :: ETL Tools',
       'License :: OSI Approved :: MIT License',
       'Programming Language :: Python :: 3',
       'Programming Language :: Python :: 3.7',
