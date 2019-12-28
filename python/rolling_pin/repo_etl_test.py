@@ -191,9 +191,71 @@ class RepoEtlTests(unittest.TestCase):
             edge_count = data.dependencies.apply(len).sum()
             self.assertEqual(edge_count, graph.number_of_edges())
 
-
     def test_to_dot_graph(self):
-        pass
+        color_scheme = dict(
+            background='#F00000',
+            node='#FF0000',
+            node_font='#FFF000',
+            edge='#FFFF00',
+            node_library_font='#FFFFF0',
+            node_subpackage_font='#FFFFFF',
+            node_module_font='#AAAAAA',
+            edge_library='#BBBBBB',
+            edge_subpackage='#CCCCCC',
+            edge_module='#DDDDDD',
+        )
+        with TemporaryDirectory() as root:
+            self.create_repo(root)
+            repo = RepoETL(root)
+
+            result = repo.to_dot_graph(orthogonal_edges=True)
+            self.assertEqual(result.get_splines(), 'ortho')
+
+            result = repo.to_dot_graph(color_scheme=color_scheme)
+            self.assertEqual(result.get_bgcolor(), color_scheme['background'])
+
+            for node in result.get_nodes():
+                self.assertEqual(node.get_color(), color_scheme['node'])
+                self.assertEqual(node.get_fillcolor(), color_scheme['node'])
+
+                # vary node font color by noe type
+                attrs = node.get_attributes()
+                if attrs['node_type'] == 'library':
+                    self.assertEqual(
+                        node.get_fontcolor(),
+                        color_scheme['node_library_font']
+                    )
+                elif attrs['node_type'] == 'subpackage':
+                    self.assertEqual(
+                        node.get_fontcolor(),
+                        color_scheme['node_subpackage_font']
+                    )
+                else:
+                    self.assertEqual(
+                        node.get_fontcolor(),
+                        color_scheme['node_module_font']
+                    )
+
+            for edge in result.get_edges():
+                node = result.get_node(edge.get_source())[0]
+                node = result.get_node(node.get_name())[0]
+                attrs = node.get_attributes()
+
+                if attrs['node_type'] == 'library':
+                    self.assertEqual(
+                        edge.get_color(),
+                        color_scheme['edge_library']
+                    )
+                elif attrs['node_type'] == 'subpackage':
+                    self.assertEqual(
+                        edge.get_color(),
+                        color_scheme['edge_subpackage']
+                    )
+                else:
+                    self.assertEqual(
+                        edge.get_color(),
+                        color_scheme['edge_module']
+                    )
 
     def test_to_dataframe(self):
         pass

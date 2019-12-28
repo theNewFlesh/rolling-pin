@@ -267,7 +267,7 @@ class BlobETL():
             node.set_style('filled')
             node.set_color(color_scheme['node'])
             node.set_fillcolor(color_scheme['node'])
-            node.set_fontcolor(color_scheme['node_fontcolor'])
+            node.set_fontcolor(color_scheme['node_font'])
             node.set_fontname('Courier')
 
             # if node has short name, set its displayed name to that
@@ -279,7 +279,7 @@ class BlobETL():
             if 'node_type' in attrs and attrs['node_type'] == 'value':
                 node.set_color(color_scheme['node_value'])
                 node.set_fillcolor(color_scheme['node_value'])
-                node.set_fontcolor(color_scheme['node_value_fontcolor'])
+                node.set_fontcolor(color_scheme['node_value_font'])
 
         # set draw parameters for each edge in graph
         for edge in dot.get_edges():
@@ -289,7 +289,7 @@ class BlobETL():
             node = dot.get_node(edge.get_destination())[0]
             attrs = node.get_attributes()
             if 'node_type' in attrs and attrs['node_type'] == 'value':
-                edge.set_color(color_scheme['edge_value_color'])
+                edge.set_color(color_scheme['edge_value'])
 
         return dot
 
