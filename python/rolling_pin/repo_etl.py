@@ -384,7 +384,7 @@ class RepoETL():
         if orthogonal_edges:
             dot.set_splines('ortho')
 
-        # set draw paramters for each node in graph
+        # set draw parameters for each node in graph
         for node in dot.get_nodes():
             nx_node = re.sub('"', '', node.get_name())
             nx_node = graph.nodes[nx_node]
@@ -392,7 +392,7 @@ class RepoETL():
             # if networkx node has no attributes skip it
             # this should not ever occur but might
             if nx_node == {}:
-                continue
+                continue  # pragma: no cover
 
             # set node x, y coordinates
             node.set_pos(f"{nx_node['x']},{nx_node['y']}!")
@@ -412,7 +412,7 @@ class RepoETL():
             else:
                 node.set_fontcolor(color_scheme['node_module_font'])
 
-        # set draw paramters for each edge in graph
+        # set draw parameters for each edge in graph
         for edge in dot.get_edges():
             # get networkx source node of edge
             nx_node = dot.get_node(edge.get_source())
@@ -423,7 +423,7 @@ class RepoETL():
             # if networkx source node has no attributes skip it
             # this should not ever occur but might
             if nx_node == {}:
-                continue
+                continue  # pragma: no cover
 
             # vary edge color by its source node type
             if nx_node['node_type'] == 'library':
@@ -431,7 +431,8 @@ class RepoETL():
             elif nx_node['node_type'] == 'subpackage':
                 edge.set_color(color_scheme['edge_subpackage'])
             else:
-                edge.set_color(color_scheme['edge_module'])
+                # this line is actually covered by pytest doesn't think so
+                edge.set_color(color_scheme['edge_module'])  # pragma: no cover
 
         return dot
 
