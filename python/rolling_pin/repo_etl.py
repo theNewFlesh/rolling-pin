@@ -96,6 +96,7 @@ class RepoETL():
 
         Raises:
             ValueError: If include or exclude regex does not end in '\.py$'.
+            FileNotFoundError: If no files are found after filtering.
 
         Returns:
             pandas.DataFrame: DataFrame of file information.
@@ -116,7 +117,11 @@ class RepoETL():
                 lambda x: not re.search(exclude_regex, x.absolute().as_posix()),
                 files
             )
+
         files = list(files)
+        if len(files) == 0:
+            msg = f'No files found after filters in directory: {root}.'
+            raise FileNotFoundError(msg)
 
         # buid DataFrame of nodes and imported dependencies
         data = DataFrame()
@@ -210,6 +215,7 @@ class RepoETL():
             pandas.DataFrame: DataFrame with x and y coordinate columns.
         '''
         # set initial node coordinates
+        data['y'] = 0
         for item in ['module', 'subpackage', 'library']:
             mask = data.node_type == item
             n = data[mask].shape[0]

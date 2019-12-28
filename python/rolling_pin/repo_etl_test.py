@@ -70,6 +70,18 @@ class RepoEtlTests(unittest.TestCase):
 
     def test_init(self):
         with TemporaryDirectory() as root:
+            expected = f'No files found after filters in directory: {root}.'
+            with self.assertRaisesRegex(FileNotFoundError, expected):
+                RepoETL(root)
+
+            expected = f'No files found after filters in directory: {root}.'
+            with self.assertRaisesRegex(FileNotFoundError, expected):
+                RepoETL(root, include_regex=r'foobar\.py$')
+
+            expected = f'No files found after filters in directory: {root}.'
+            with self.assertRaisesRegex(FileNotFoundError, expected):
+                RepoETL(root, exclude_regex='.*')
+
             self.create_repo(root)
             RepoETL(root)
 
@@ -103,10 +115,41 @@ class RepoEtlTests(unittest.TestCase):
                 )
 
     def test_calculate_coordinates(self):
-        pass
+        with TemporaryDirectory() as root:
+            data = self.get_repo_data(root)
+            result = RepoETL._calculate_coordinates(data)
+
+            # ensure y axis is stratified according to node type
+            mod = result[result.node_type == 'module']
+            pkg = result[result.node_type == 'subpackage']
+            lib = result[result.node_type == 'library']
+            self.assertLess(mod.y.max(), pkg.y.min())
+            self.assertLess(pkg.y.max(), lib.y.min())
+
+            # ensure all x ccordinates are unique
+            for y in data.y.unique().tolist():
+                result = data[data.y == y].x.tolist()
+                self.assertCountEqual(result, set(result))
 
     def test_anneal_coordinate(self):
-        pass
+        with TemporaryDirectory() as root:
+            data = self.get_repo_data(root)
+            data = RepoETL._calculate_coordinates(data)
+            data.sort_values('node_name', inplace=True)
+            expected = data.y.tolist()
+            result = RepoETL._anneal_coordinate(
+                data,
+                anneal_axis='x',
+                pin_axis='y',
+                iterations=5,
+            )
+            result.sort_values('node_name', inplace=True)
+            self.assertEqual(result.y.tolist(), expected)
+
+            # ensure all x ccordinates are unique
+            for y in data.y.unique().tolist():
+                result = data[data.y == y].x.tolist()
+                self.assertCountEqual(result, set(result))
 
     def test_center_coordinate(self):
         pass
