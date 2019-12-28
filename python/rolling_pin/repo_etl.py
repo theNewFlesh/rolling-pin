@@ -256,7 +256,7 @@ class RepoETL():
 
         return data
 
-    def _anneal_coordinates(
+    def _anneal_coordinate(
         self, data, anneal_axis='x', pin_axis='y', iterations=10
     ):
         '''

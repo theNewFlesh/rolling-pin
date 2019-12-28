@@ -11,11 +11,11 @@ class ToolsTests(unittest.TestCase):
         data = {
             'a0': {
                 'b0': {
-                    'c0': '/a0/b0/c0/value',
-                    'c1': '/a0/b0/c1/value',
+                    'c0': 'a0/b0/c0/value',
+                    'c1': 'a0/b0/c1/value',
                 },
                 'b1': {
-                    'c0': '/a0/b1/c0/value',
+                    'c0': 'a0/b1/c0/value',
                 }
             }
         }
@@ -25,24 +25,24 @@ class ToolsTests(unittest.TestCase):
         data = {
             'a0': {
                 'b0': {
-                    'c0': '/a0/b0/c0/value',
-                    'c1': '/a0/b0/c1/value',
+                    'c0': 'a0/b0/c0/value',
+                    'c1': 'a0/b0/c1/value',
                 },
                 'b1': [
                     {
-                        'c0': '/a0/b1/c0/value',
-                        'c1': '/a0/b1/c1/value',
+                        'c0': 'a0/b1/c0/value',
+                        'c1': 'a0/b1/c1/value',
                     },
                     {
-                        'c2': '/a0/b1/c2/value',
+                        'c2': 'a0/b1/c2/value',
                         'c3': {
                             'd0': [
                                 set([
-                                    '/a0/b1/c3/d0/value'
+                                    'a0/b1/c3/d0/value'
                                 ]),
                                 tuple([
-                                    '/a0/b1/c3/d0/value0',
-                                    '/a0/b1/c3/d0/value1',
+                                    'a0/b1/c3/d0/value0',
+                                    'a0/b1/c3/d0/value1',
                                 ]),
                             ]
                         }
@@ -136,9 +136,9 @@ class ToolsTests(unittest.TestCase):
     def test_flatten_simple(self):
         data = self.get_simple_blob()
         expected = {
-            '/a0/b0/c0': '/a0/b0/c0/value',
-            '/a0/b0/c1': '/a0/b0/c1/value',
-            '/a0/b1/c0': '/a0/b1/c0/value',
+            'a0/b0/c0': 'a0/b0/c0/value',
+            'a0/b0/c1': 'a0/b0/c1/value',
+            'a0/b1/c0': 'a0/b1/c0/value',
         }
         result = tools.flatten(data)
         self.assertEqual(result, expected)
@@ -146,9 +146,9 @@ class ToolsTests(unittest.TestCase):
     def test_flatten_simple_separator(self):
         blob = self.get_simple_blob()
         expected = {
-            '_a0_b0_c0': '/a0/b0/c0/value',
-            '_a0_b0_c1': '/a0/b0/c1/value',
-            '_a0_b1_c0': '/a0/b1/c0/value',
+            'a0_b0_c0': 'a0/b0/c0/value',
+            'a0_b0_c1': 'a0/b0/c1/value',
+            'a0_b1_c0': 'a0/b1/c0/value',
         }
         result = tools.flatten(blob, separator='_')
         self.assertEqual(result, expected)
@@ -156,14 +156,14 @@ class ToolsTests(unittest.TestCase):
     def test_flatten_complex(self):
         blob = self.get_complex_blob()
         expected = {
-            '/a0/b0/c0': '/a0/b0/c0/value',
-            '/a0/b0/c1': '/a0/b0/c1/value',
-            '/a0/b1/<list_0>/c0': '/a0/b1/c0/value',
-            '/a0/b1/<list_0>/c1': '/a0/b1/c1/value',
-            '/a0/b1/<list_1>/c2': '/a0/b1/c2/value',
-            '/a0/b1/<list_1>/c3/d0/<list_0>/<set_0>': '/a0/b1/c3/d0/value',
-            '/a0/b1/<list_1>/c3/d0/<list_1>/<tuple_0>': '/a0/b1/c3/d0/value0',
-            '/a0/b1/<list_1>/c3/d0/<list_1>/<tuple_1>': '/a0/b1/c3/d0/value1',
+            'a0/b0/c0': 'a0/b0/c0/value',
+            'a0/b0/c1': 'a0/b0/c1/value',
+            'a0/b1/<list_0>/c0': 'a0/b1/c0/value',
+            'a0/b1/<list_0>/c1': 'a0/b1/c1/value',
+            'a0/b1/<list_1>/c2': 'a0/b1/c2/value',
+            'a0/b1/<list_1>/c3/d0/<list_0>/<set_0>': 'a0/b1/c3/d0/value',
+            'a0/b1/<list_1>/c3/d0/<list_1>/<tuple_0>': 'a0/b1/c3/d0/value0',
+            'a0/b1/<list_1>/c3/d0/<list_1>/<tuple_1>': 'a0/b1/c3/d0/value1',
         }
         result = tools.flatten(blob, embed_types=True)
         self.assertEqual(result, expected)
@@ -171,14 +171,14 @@ class ToolsTests(unittest.TestCase):
     def test_flatten_complex_separator(self):
         blob = self.get_complex_blob()
         expected = {
-            '=>a0=>b0=>c0': '/a0/b0/c0/value',
-            '=>a0=>b0=>c1': '/a0/b0/c1/value',
-            '=>a0=>b1=><list_0>=>c0': '/a0/b1/c0/value',
-            '=>a0=>b1=><list_0>=>c1': '/a0/b1/c1/value',
-            '=>a0=>b1=><list_1>=>c2': '/a0/b1/c2/value',
-            '=>a0=>b1=><list_1>=>c3=>d0=><list_0>=><set_0>': '/a0/b1/c3/d0/value',
-            '=>a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_0>': '/a0/b1/c3/d0/value0',
-            '=>a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_1>': '/a0/b1/c3/d0/value1',
+            'a0=>b0=>c0': 'a0/b0/c0/value',
+            'a0=>b0=>c1': 'a0/b0/c1/value',
+            'a0=>b1=><list_0>=>c0': 'a0/b1/c0/value',
+            'a0=>b1=><list_0>=>c1': 'a0/b1/c1/value',
+            'a0=>b1=><list_1>=>c2': 'a0/b1/c2/value',
+            'a0=>b1=><list_1>=>c3=>d0=><list_0>=><set_0>': 'a0/b1/c3/d0/value',
+            'a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_0>': 'a0/b1/c3/d0/value0',
+            'a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_1>': 'a0/b1/c3/d0/value1',
         }
         result = tools.flatten(blob, separator='=>')
         self.assertEqual(result, expected)
@@ -186,14 +186,14 @@ class ToolsTests(unittest.TestCase):
     def test_flatten_complex_no_embed(self):
         blob = self.get_complex_blob()
         expected = {
-            '/a0/b0/c0': '/a0/b0/c0/value',
-            '/a0/b0/c1': '/a0/b0/c1/value',
-            '/a0/b1/0/c0': '/a0/b1/c0/value',
-            '/a0/b1/0/c1': '/a0/b1/c1/value',
-            '/a0/b1/1/c2': '/a0/b1/c2/value',
-            '/a0/b1/1/c3/d0/0/0': '/a0/b1/c3/d0/value',
-            '/a0/b1/1/c3/d0/1/0': '/a0/b1/c3/d0/value0',
-            '/a0/b1/1/c3/d0/1/1': '/a0/b1/c3/d0/value1',
+            'a0/b0/c0': 'a0/b0/c0/value',
+            'a0/b0/c1': 'a0/b0/c1/value',
+            'a0/b1/0/c0': 'a0/b1/c0/value',
+            'a0/b1/0/c1': 'a0/b1/c1/value',
+            'a0/b1/1/c2': 'a0/b1/c2/value',
+            'a0/b1/1/c3/d0/0/0': 'a0/b1/c3/d0/value',
+            'a0/b1/1/c3/d0/1/0': 'a0/b1/c3/d0/value0',
+            'a0/b1/1/c3/d0/1/1': 'a0/b1/c3/d0/value1',
         }
         result = tools.flatten(blob, embed_types=False)
         self.assertEqual(result, expected)
@@ -201,23 +201,23 @@ class ToolsTests(unittest.TestCase):
     def test_flatten_complex_separator_no_embed(self):
         blob = self.get_complex_blob()
         expected = {
-            '=>a0=>b0=>c0': '/a0/b0/c0/value',
-            '=>a0=>b0=>c1': '/a0/b0/c1/value',
-            '=>a0=>b1=>0=>c0': '/a0/b1/c0/value',
-            '=>a0=>b1=>0=>c1': '/a0/b1/c1/value',
-            '=>a0=>b1=>1=>c2': '/a0/b1/c2/value',
-            '=>a0=>b1=>1=>c3=>d0=>0=>0': '/a0/b1/c3/d0/value',
-            '=>a0=>b1=>1=>c3=>d0=>1=>0': '/a0/b1/c3/d0/value0',
-            '=>a0=>b1=>1=>c3=>d0=>1=>1': '/a0/b1/c3/d0/value1',
+            'a0=>b0=>c0': 'a0/b0/c0/value',
+            'a0=>b0=>c1': 'a0/b0/c1/value',
+            'a0=>b1=>0=>c0': 'a0/b1/c0/value',
+            'a0=>b1=>0=>c1': 'a0/b1/c1/value',
+            'a0=>b1=>1=>c2': 'a0/b1/c2/value',
+            'a0=>b1=>1=>c3=>d0=>0=>0': 'a0/b1/c3/d0/value',
+            'a0=>b1=>1=>c3=>d0=>1=>0': 'a0/b1/c3/d0/value0',
+            'a0=>b1=>1=>c3=>d0=>1=>1': 'a0/b1/c3/d0/value1',
         }
         result = tools.flatten(blob, separator='=>', embed_types=False)
         self.assertEqual(result, expected)
 
-    def xtest_flatten_double(self):
+    def test_flatten_double(self):
         expected = {
-            '/a0/b0/c0': '/a0/b0/c0/value',
-            '/a0/b0/c1': '/a0/b0/c1/value',
-            '/a0/b1/c0': '/a0/b1/c0/value',
+            'a0/b0/c0': 'a0/b0/c0/value',
+            'a0/b0/c1': 'a0/b0/c1/value',
+            'a0/b1/c0': 'a0/b1/c0/value',
         }
         result = tools.flatten(expected)
         result = tools.flatten(result)
@@ -226,9 +226,9 @@ class ToolsTests(unittest.TestCase):
     # NEST----------------------------------------------------------------------
     def test_nest(self):
         blob = {
-            '/a0/b0/c0': 0,
-            '/a0/b1/c0': 1,
-            '/a0/b1/c1': 2,
+            'a0/b0/c0': 0,
+            'a0/b1/c0': 1,
+            'a0/b1/c1': 2,
         }
         expected = self.get_nested_dict()
         result = tools.nest(blob)
@@ -236,9 +236,9 @@ class ToolsTests(unittest.TestCase):
 
     def test_nest_separator(self):
         blob = {
-            '-a0-b0-c0': 0,
-            '-a0-b1-c0': 1,
-            '-a0-b1-c1': 2,
+            'a0-b0-c0': 0,
+            'a0-b1-c0': 1,
+            'a0-b1-c1': 2,
         }
         expected = self.get_nested_dict()
         result = tools.nest(blob, separator='-')

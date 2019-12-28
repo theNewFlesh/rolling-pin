@@ -153,7 +153,8 @@ def flatten(item, separator='/', embed_types=True):
                 if is_iterable(val) and len(val) > 0:
                     recurse(val, new_key)
                 else:
-                    output[new_key] = val
+                    final_key = re.sub('^' + separator, '', new_key)
+                    output[final_key] = val
 
     recurse(item, '')
     return output
