@@ -160,6 +160,13 @@ class BlobEtlTests(unittest.TestCase):
         expected = ['a0/b0/c0', 'a0/b1/c0', 'foo']
 
         result = etl.set(
+            key_setter=k_set,
+            value_setter=v_set,
+            by='key'
+        )._data
+        self.assertEqual(result, {'foo': 'bar'})
+
+        result = etl.set(
             lambda x: re.search('c1', x),
             k_set,
             v_set,
