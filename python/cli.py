@@ -226,7 +226,7 @@ def get_publish_command(info):
         str: Command.
     '''
     cmd = '{exec} bash -c "'
-    cmd += 'rm -rf /tmp{repo}; '
+    cmd += 'rm -rf /tmp/{repo}; '
     cmd += 'cp -r /root/{repo}/python /tmp/{repo}; '
     cmd += 'cp /root/{repo}/README.md /tmp/{repo}/README; '
     cmd += 'cp /root/{repo}/LICENSE /tmp/{repo}/LICENSE; '
@@ -236,6 +236,7 @@ def get_publish_command(info):
     cmd += '"; '
     cmd += '{exec2} python setup.py sdist; '
     cmd += '{exec2} twine upload dist/*; '
+    cmd += '{exec} rm -rf /tmp/{repo}; '
     cmd = cmd.format(
         repo=REPO,
         exec=get_docker_exec_command(info),
