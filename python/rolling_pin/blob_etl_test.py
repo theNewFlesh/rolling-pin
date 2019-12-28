@@ -147,10 +147,106 @@ class BlobEtlTests(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_set(self):
-        pass
+        blob = self.get_simple_blob()
+        etl = BlobETL(blob)
+
+        expected = r'Invalid by argument: foo\. Needs to be one of: '
+        expected + r'key, value, key\+value\.'
+        with self.assertRaisesRegex(ValueError, expected):
+            etl.set(by='foo')
+
+        k_set = lambda x: 'foo'
+        v_set = lambda x: 'bar'
+        expected = ['a0/b0/c0', 'a0/b1/c0', 'foo']
+
+        result = etl.set(
+            lambda x: re.search('c1', x),
+            k_set,
+            v_set,
+            by='key'
+        )._data
+
+        self.assertEqual(result['foo'], 'bar')
+        result = sorted(list(result.keys()))
+        self.assertEqual(result, expected)
+
+        result = etl.set(
+            lambda x: re.search('v1', x),
+            k_set,
+            v_set,
+            by='value'
+        )._data
+        self.assertEqual(result['foo'], 'bar')
+        result = sorted(list(result.keys()))
+        self.assertEqual(result, expected)
+
+        result = etl.set(
+            lambda x, y: re.search('c1|v1', x + y),
+            k_set,
+            v_set,
+            by='key+value'
+        )._data
+        self.assertEqual(result['foo'], 'bar')
+        result = sorted(list(result.keys()))
+        self.assertEqual(result, expected)
 
     def test_update(self):
-        pass
+        blob = self.get_simple_blob()
+        etl = BlobETL(blob)
+
+        temp = {
+            'foo': {
+                'bar': 'baz',
+                'bingo': [
+                    {'bango': 'bongo'}
+                ]
+            }
+        }
+        result = etl.update(temp)._data
+        self.assertEqual(result['foo/bar'], 'baz')
+        self.assertEqual(result['foo/bingo/<list_0>/bango'], 'bongo')
+
+    def test_filter_delete_update_set(self):
+        blob = self.get_simple_blob()
+        etl = BlobETL(blob)
+
+        temp = {
+            'a0': {
+                'b1': {
+                    'bar': 'baz',
+                    'bingo': [
+                        {'bango': 'bongo'},
+                        {'taco': 'cat'},
+                        {'kiwi': 'pizza'},
+                    ]
+                }
+            }
+        }
+        a = etl\
+            .update(temp)\
+            .filter(lambda x: x in ['pizza', 'cat'], by='value')
+        b = etl\
+            .filter(lambda x: re.search('b0', x), by='key')
+        result = a\
+            .update(b)\
+            .set(
+                lambda x: re.search('bingo', x),
+                key_setter=lambda x: re.sub('.*bingo', 'food', x)
+            )\
+            .set(
+                lambda x: re.search('taco', x),
+                value_setter=lambda x: 'salad'
+            )\
+            .set(
+                lambda x: 'kiwi' in x,
+                key_setter=lambda x: re.sub('kiwi', 'pepperoni', x)
+            )\
+            .delete(lambda x: x == 'v0', by='value')\
+            .to_dict()
+        print(result)
+        self.assertEqual(result['a0']['b0']['c1'], 'v1')
+        self.assertEqual(result['food'][0]['taco'], 'salad')
+        self.assertEqual(result['food'][1]['pepperoni'], 'pizza')
 
     def test_to_networkx_graph(self):
         blob = self.get_simple_blob()

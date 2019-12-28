@@ -183,18 +183,20 @@ class BlobETL():
 
         return BlobETL(data, self._separator)
 
-    def update(self, dict_):
+    def update(self, item):
         '''
-        Updates internal dictionary with given dictionary.
+        Updates internal dictionary with given dictionary or BlobETL instance.
         Given dictionary is first flattened with embeded types.
 
         Args:
-            dict_ (dict): Dictionary to be used for update.
+            item (dict or BlobETL): Dictionary to be used for update.
 
         Returns:
             BlobETL: New BlobETL instance.
         '''
-        temp = tools.flatten(dict_, separator=self._separator, embed_types=True)
+        if isinstance(item, BlobETL):
+            item = item._data
+        temp = tools.flatten(item, separator=self._separator, embed_types=True)
         data = deepcopy(self._data)
         data.update(temp)
         return BlobETL(data, self._separator)
