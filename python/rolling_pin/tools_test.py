@@ -52,6 +52,20 @@ class ToolsTests(unittest.TestCase):
         }
         return data
 
+    def get_nested_dict(self):
+        output = {
+            'a0': {
+                'b0': {
+                    'c0': 0
+                },
+                'b1': {
+                    'c0': 1,
+                    'c1': 2,
+                }
+            }
+        }
+        return output
+
     # GENERAL-------------------------------------------------------------------
     def test_try_(self):
         result = tools.try_(lambda x: int(x), 1.0, exception_value='bar')
@@ -199,12 +213,78 @@ class ToolsTests(unittest.TestCase):
         result = tools.flatten(blob, separator='=>', embed_types=False)
         self.assertEqual(result, expected)
 
+    def xtest_flatten_double(self):
+        expected = {
+            '/a0/b0/c0': '/a0/b0/c0/value',
+            '/a0/b0/c1': '/a0/b0/c1/value',
+            '/a0/b1/c0': '/a0/b1/c0/value',
+        }
+        result = tools.flatten(expected)
+        result = tools.flatten(result)
+        self.assertEqual(result, expected)
+
     # NEST----------------------------------------------------------------------
     def test_nest(self):
-        pass
+        blob = {
+            '/a0/b0/c0': 0,
+            '/a0/b1/c0': 1,
+            '/a0/b1/c1': 2,
+        }
+        expected = self.get_nested_dict()
+        result = tools.nest(blob)
+        self.assertEqual(result, expected)
 
+    def test_nest_separator(self):
+        blob = {
+            '-a0-b0-c0': 0,
+            '-a0-b1-c0': 1,
+            '-a0-b1-c1': 2,
+        }
+        expected = self.get_nested_dict()
+        result = tools.nest(blob, separator='-')
+        self.assertEqual(result, expected)
+
+    def test_nest_double(self):
+        expected = self.get_nested_dict()
+        result = tools.nest(expected)
+        result = tools.nest(result)
+        self.assertEqual(result, expected)
+
+    # UNEMBED-------------------------------------------------------------------
     def test_unembed(self):
-        pass
+        blob = {
+            'a0': {
+                'b0': {
+                    'c0': 0,
+                    'c1': {
+                        '<set_0>': 0,
+                        '<set_1>': 1,
+                    },
+                },
+                'b1': {
+                    '<list_0>': 2,
+                    '<list_1>': 3,
+                }
+            }
+        }
+        expected = {
+            'a0': {
+                'b0': {
+                    'c0': 0,
+                    'c1': set([0, 1])
+                },
+                'b1': [2, 3],
+            }
+        }
+        result = tools.unembed(blob)
+        self.assertEqual(result, expected)
+
+    def test_unembed_nest_flatten_cycle(self):
+        expected = self.get_complex_blob()
+        result = tools.unembed(tools.nest(tools.flatten(expected)))
+        result = tools.unembed(tools.nest(tools.flatten(result)))
+        self.assertEqual(result, expected)
+        self.assertFalse(result is expected)
 
     # FILE-FUNCTIONS------------------------------------------------------------
     def test_list_all_files(self):
