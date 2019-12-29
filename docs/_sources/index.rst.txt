@@ -17,3 +17,7 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+Extras
+======
+* `Code Coverage Report <htmlcov/index.html>`_

@@ -273,7 +273,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Command.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> mkdir -p /root/</span><span class="si">{repo}</span><span class="s1">/docs; </span><span class="si">{test}</span><span class="s1"> &#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> mkdir -p /root/</span><span class="si">{repo}</span><span class="s1">/docs; </span><span class="si">{test}</span><span class="s1">&#39;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s1">&#39;--cov=/root/</span><span class="si">{repo}</span><span class="s1">/python&#39;</span><span class="p">,</span>
         <span class="s1">&#39;--cov-config=/root/</span><span class="si">{repo}</span><span class="s1">/docker/pytest.ini&#39;</span><span class="p">,</span>
@@ -301,25 +301,8 @@
 <span class="sd">        str: Fully resolved build docs command.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> mkdir -p /root/</span><span class="si">{repo}</span><span class="s1">/docs; &#39;</span>
-    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> sphinx-build /root/</span><span class="si">{repo}</span><span class="s1">/sphinx /root/</span><span class="si">{repo}</span><span class="s1">/docs&#39;</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
-        <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">cmd</span></div>
-
-
-<div class="viewcode-block" id="get_post_process_docs_command"><a class="viewcode-back" href="../cli.html#cli.get_post_process_docs_command">[docs]</a><span class="k">def</span> <span class="nf">get_post_process_docs_command</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Munge docs/index.html to include link to coverage report.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        info (dict): Info dictionary.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        str: Fully resolved post process docs command.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> python3.7 /root/</span><span class="si">{repo}</span><span class="s1">/sphinx/post_process_docs.py&#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> sphinx-build /root/</span><span class="si">{repo}</span><span class="s1">/sphinx /root/</span><span class="si">{repo}</span><span class="s1">/docs; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> touch /root/</span><span class="si">{repo}</span><span class="s1">/docs/.nojekyll&#39;</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
         <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
@@ -580,7 +563,6 @@
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;full-docs&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_docs_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_coverage_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_post_process_docs_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_image_id_command</span><span class="p">()</span>

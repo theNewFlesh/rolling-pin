@@ -119,7 +119,7 @@ def get_coverage_command(info):
     Returns:
         str: Command.
     '''
-    cmd = '{exec} mkdir -p /root/{repo}/docs; {test} '
+    cmd = '{exec} mkdir -p /root/{repo}/docs; {test}'
     args = [
         '--cov=/root/{repo}/python',
         '--cov-config=/root/{repo}/docker/pytest.ini',
@@ -148,25 +148,7 @@ def get_docs_command(info):
     '''
     cmd = '{exec} mkdir -p /root/{repo}/docs; '
     cmd += '{exec} sphinx-build /root/{repo}/sphinx /root/{repo}/docs; '
-    cmd += '{exec} touch /root/{repo}/docs/.nojekyll; '
-    cmd = cmd.format(
-        repo=REPO,
-        exec=get_docker_exec_command(info),
-    )
-    return cmd
-
-
-def get_post_process_docs_command(info):
-    '''
-    Munge docs/index.html to include link to coverage report.
-
-    Args:
-        info (dict): Info dictionary.
-
-    Returns:
-        str: Fully resolved post process docs command.
-    '''
-    cmd = '{exec} python3.7 /root/{repo}/sphinx/post_process_docs.py'
+    cmd += '{exec} touch /root/{repo}/docs/.nojekyll'
     cmd = cmd.format(
         repo=REPO,
         exec=get_docker_exec_command(info),
@@ -427,7 +409,6 @@ def main():
     elif mode == 'full-docs':
         cmd = get_docs_command(info)
         cmd += '; ' + get_coverage_command(info)
-        cmd += '; ' + get_post_process_docs_command(info)
 
     elif mode == 'image':
         cmd = get_image_id_command()
