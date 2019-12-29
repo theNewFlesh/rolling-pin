@@ -39,7 +39,7 @@ def get_info():
     coverage  - Generate coverage report for {repo} service
     destroy   - Shutdown {repo} service and destroy its Docker image
     docs      - Generate documentation for {repo} service
-    full-docs - Generates documentation, coverage report and inserts report link
+    full-docs - Generates documentation and coverage report
     image     - Display the Docker image id for {repo} service
     lab       - Start a Jupyter lab server
     lint      - Run linting on {repo} service code
