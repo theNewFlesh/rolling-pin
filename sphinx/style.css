@@ -4,17 +4,25 @@ a:visited {
 }
 
 a:hover {
-    color: #F4F4F4 !important;
+    color: #DE958E !important;
 }
 
-.btn {
-    background: #B6ECF3 !important;
-    color: #242424 !important;
+.btn,
+.btn-neutral,
+.btn:visited,
+.btn-neutral:visited {
+    background: #444444 !important;
+    color: #B6ECF3 !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
-.btn:hover {
-    background: #B6ECF3 !important;
-    color: #343434 !important;
+.btn:hover,
+.btn-neutral:hover {
+    background: #555555 !important;
+    color: #DE958E !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .viewcode-link {
@@ -27,6 +35,10 @@ a:hover {
 
 .wy-nav-content-wrap {
     background: #242424 !important;
+}
+
+.wy-nav-top {
+    background: #343434 !important;
 }
 
 .wy-side-nav-search {
@@ -49,7 +61,7 @@ a:hover {
 
 .wy-menu-vertical a:hover,
 .wy-side-nav-search a:hover {
-    color: #F4F4F4 !important;
+    color: #DE958E !important;
     background: #444444 !important;
 }
 
@@ -129,6 +141,6 @@ code.literal {
 
 .xref:hover,
 .py-meth:hover {
-    color: #B6ECF3 !important;
+    color: #DE958E !important;
     background: #444444 !important;
 }
