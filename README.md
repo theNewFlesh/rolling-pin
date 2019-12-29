@@ -1,5 +1,5 @@
 # Rolling-Pin
-Rolling-Pin is an ETL library.
+A library of generic tools for ETL work and visualization of JSON blobs and python repositories
 
 # Installation
 `pip install rolling-pin`
