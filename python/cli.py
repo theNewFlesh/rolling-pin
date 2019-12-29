@@ -168,6 +168,7 @@ def get_docs_command(info):
     '''
     cmd = '{exec} mkdir -p /root/{repo}/docs; '
     cmd += '{exec} sphinx-build /root/{repo}/sphinx /root/{repo}/docs; '
+    cmd += '{exec} cp /root/{repo}/sphinx/style.css /root/{repo}/docs/_static/style.css; '
     cmd += '{exec} touch /root/{repo}/docs/.nojekyll'
     cmd = cmd.format(
         repo=REPO,
