@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
     name='rolling-pin',
     packages=['rolling_pin'],
-    version='0.1.2',
+    version='0.1.3',
     license='MIT',
     description='A library of generic tools for ETL work and visualization of JSON blobs and python repositories.',  # noqa E501
     author='Alex Braun',
     author_email='Alexander.G.Braun@gmail.com',
     url='https://github.com/theNewFlesh/rolling-pin',
-    download_url='https://github.com/theNewFlesh/rolling-pin/archive/0.1.2.tar.gz',
+    download_url='https://github.com/theNewFlesh/rolling-pin/archive/0.1.3.tar.gz',
     keywords=['ETL', 'blob', 'dependency', 'graph', 'svg', 'networkx', 'transform'],
     install_requires=[
         'graphviz',
