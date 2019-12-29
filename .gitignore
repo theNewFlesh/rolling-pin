@@ -50,9 +50,6 @@ devops/ansible/**/*.retry
 # sublime sftp config
 sftp-config.json
 
-# docs
-docs/
-
 # jupyter
 .ipynb_checkpoints/
 .ipynb_checkpoints/*

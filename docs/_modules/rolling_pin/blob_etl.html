@@ -1,0 +1,561 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rolling_pin.blob_etl &mdash; rolling-pin  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> rolling-pin
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">rolling-pin</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>rolling_pin.blob_etl</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for rolling_pin.blob_etl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span>
+<span class="kn">import</span> <span class="nn">rolling_pin.tools</span> <span class="k">as</span> <span class="nn">tools</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Contains the BlobETL class, which is used for coverting JSON blobs, and their</span>
+<span class="sd">python equivalents, into flat dictionaries that can easily be modified and</span>
+<span class="sd">converted to directed graphs.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="BlobETL"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL">[docs]</a><span class="k">class</span> <span class="nc">BlobETL</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Converts blob data internally into a flat dictionary that is universally</span>
+<span class="sd">    searchable, editable and convertable back to the data&#39;s original structure,</span>
+<span class="sd">    new blob structures or dircted graphs.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Contructs BlobETL instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            blob (object): Iterable object.</span>
+<span class="sd">            separator (str, optional): String to be used as a field separator in</span>
+<span class="sd">                each key. Default: &#39;/&#39;.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="n">separator</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span>
+
+<div class="viewcode-block" id="BlobETL.to_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Nested representation of internal data.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">tools</span><span class="o">.</span><span class="n">unembed</span><span class="p">(</span><span class="n">tools</span><span class="o">.</span><span class="n">nest</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="BlobETL.to_flat_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_flat_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_flat_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Flat dictionary with embedded types.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.filter"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Filter data items by key, value or key + value, according to a given</span>
+<span class="sd">        predicate.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            predicate: Function that returns a boolean value.</span>
+<span class="sd">            by (str, optional): Value handed to predicate.</span>
+<span class="sd">                Options include: key, value, key+value. Default: key.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If by keyword is not key, value, or key+value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: New BlobETL instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">by</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;key+value&#39;</span><span class="p">]:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid by argument: </span><span class="si">{by}</span><span class="s1">. Needs to be one of: &#39;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;key, value, key+value.&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">):</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.delete"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Delete data items by key, value or key + value, according to a given</span>
+<span class="sd">        predicate.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            predicate: Function that returns a boolean value.</span>
+<span class="sd">            by (str, optional): Value handed to predicate.</span>
+<span class="sd">                Options include: key, value, key+value. Default: key.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If by keyword is not key, value, or key+value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: New BlobETL instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">by</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;key+value&#39;</span><span class="p">]:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid by argument: </span><span class="si">{by}</span><span class="s1">. Needs to be one of: &#39;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;key, value, key+value.&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">):</span>
+                <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.set"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">predicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">key_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">value_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span>
+    <span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Filter data items by key, value or key + value, according to a given</span>
+<span class="sd">        predicate. Then set that items key by a given function and value by a</span>
+<span class="sd">        given function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            predicate (function, optional): Function that returns a boolean</span>
+<span class="sd">                value. Can be of form lambda k: bool or lambda k,v: bool.</span>
+<span class="sd">                Default: None --&gt; lambda k: True.</span>
+<span class="sd">            key_setter (function, optional): Funciton of the form: lambda k: k.</span>
+<span class="sd">                Default: None --&gt; lambda k: k.</span>
+<span class="sd">            value_setter (function, optional): Funciton of the form:</span>
+<span class="sd">                lambda v: v. Default: None --&gt; lambda v: v.</span>
+<span class="sd">            by (str, optional): Value handed to predicate.</span>
+<span class="sd">                Options include: key, value, key+value. Default: key.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If by keyword is not key, value, or key+value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: New BlobETL instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">by</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;key+value&#39;</span><span class="p">]:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid by argument: </span><span class="si">{by}</span><span class="s1">. Needs to be one of: &#39;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;key, value, key+value.&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1"># assign default predicate</span>
+        <span class="k">if</span> <span class="n">predicate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span>
+
+        <span class="c1"># assign default key_setter</span>
+        <span class="k">if</span> <span class="n">key_setter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">key_setter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+
+        <span class="c1"># assign default value_setter</span>
+        <span class="k">if</span> <span class="n">value_setter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value_setter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">):</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">key_setter</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">value_setter</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.update"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Updates internal dictionary with given dictionary or BlobETL instance.</span>
+<span class="sd">        Given dictionary is first flattened with embeded types.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item (dict or BlobETL): Dictionary to be used for update.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: New BlobETL instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">BlobETL</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_data</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_networkx_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts internal dictionar into a networkx directed graph.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            networkx.DiGraph: Graph representation of dictionary.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
+        <span class="n">embed_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;[a-z]+_(\d+)&gt;&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{parent}{self._separator}{key}</span><span class="s1">&#39;</span>
+                <span class="n">short_name</span> <span class="o">=</span> <span class="n">embed_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">1&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">short_name</span><span class="o">=</span><span class="n">short_name</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span>
+                <span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">recurse</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;{str(val)}&quot;&#39;</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{k}{self._separator}</span><span class="s1">{str(val)}&quot;&#39;</span>
+                    <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span>
+                        <span class="n">v</span><span class="p">,</span> <span class="n">short_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">node_type</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="n">recurse</span><span class="p">(</span><span class="n">tools</span><span class="o">.</span><span class="n">nest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span> <span class="s1">&#39;root&#39;</span><span class="p">)</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">graph</span></div>
+
+<div class="viewcode-block" id="BlobETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts internal dictionary into pydot graph.</span>
+<span class="sd">        Key and value nodes and edges are colored differently.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            orthogonal_edges (bool, optional): Whether graph edges should have</span>
+<span class="sd">                non-right angles. Default: False.</span>
+<span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
+<span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pydot.Dot: Dot graph representation of dictionary.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># set default colort scheme</span>
+        <span class="k">if</span> <span class="n">color_scheme</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">color_scheme</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">COLOR_SCHEME</span>
+
+        <span class="c1"># create pydot graph</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_networkx_graph</span><span class="p">()</span>
+        <span class="n">dot</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">to_pydot</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+        <span class="c1"># set graph background color</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">set_bgcolor</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">])</span>
+
+        <span class="c1"># set edge draw type</span>
+        <span class="k">if</span> <span class="n">orthogonal_edges</span><span class="p">:</span>
+            <span class="n">dot</span><span class="o">.</span><span class="n">set_splines</span><span class="p">(</span><span class="s1">&#39;ortho&#39;</span><span class="p">)</span>
+
+        <span class="c1"># set draw parameters for each node of graph</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">dot</span><span class="o">.</span><span class="n">get_nodes</span><span class="p">():</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_shape</span><span class="p">(</span><span class="s1">&#39;rect&#39;</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;filled&#39;</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">])</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_fillcolor</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">])</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_fontcolor</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;node_font&#39;</span><span class="p">])</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_fontname</span><span class="p">(</span><span class="s1">&#39;Courier&#39;</span><span class="p">)</span>
+
+            <span class="c1"># if node has short name, set its displayed name to that</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_attributes</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;short_name&#39;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;short_name&#39;</span><span class="p">])</span>
+
+            <span class="c1"># if node type is value change its colors</span>
+            <span class="k">if</span> <span class="s1">&#39;node_type&#39;</span> <span class="ow">in</span> <span class="n">attrs</span> <span class="ow">and</span> <span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;node_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;node_value&#39;</span><span class="p">])</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">set_fillcolor</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;node_value&#39;</span><span class="p">])</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">set_fontcolor</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;node_value_font&#39;</span><span class="p">])</span>
+
+        <span class="c1"># set draw parameters for each edge in graph</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">dot</span><span class="o">.</span><span class="n">get_edges</span><span class="p">():</span>
+            <span class="n">edge</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">])</span>
+
+            <span class="c1"># if edge destination node type is value change its color</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">get_destination</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">attrs</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_attributes</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;node_type&#39;</span> <span class="ow">in</span> <span class="n">attrs</span> <span class="ow">and</span> <span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;node_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+                <span class="n">edge</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;edge_value&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">dot</span></div>
+
+<div class="viewcode-block" id="BlobETL.to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        For use in inline rendering of graph data in Jupyter Lab.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            layout (str, optional): Graph layout style.</span>
+<span class="sd">                Options include: circo, dot, fdp, neato, sfdp, twopi.</span>
+<span class="sd">                Default: dot.</span>
+<span class="sd">            orthogonal_edges (bool, optional): Whether graph edges should have</span>
+<span class="sd">                non-right angles. Default: False.</span>
+<span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
+<span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            IPython.display.HTML: HTML object for inline display.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">color_scheme</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">color_scheme</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">COLOR_SCHEME</span>
+
+        <span class="n">dot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dot_graph</span><span class="p">(</span>
+            <span class="n">orthogonal_edges</span><span class="o">=</span><span class="n">orthogonal_edges</span><span class="p">,</span>
+            <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">tools</span><span class="o">.</span><span class="n">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.write"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fullpath</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
+        <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Writes internal dictionary to a given filepath.</span>
+<span class="sd">        Formats supported: svg, dot, png, json.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fulllpath (str or Path): File tobe written to.</span>
+<span class="sd">            layout (str, optional): Graph layout style.</span>
+<span class="sd">                Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If invalid file extension given.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+            <span class="n">fullpath</span> <span class="o">=</span> <span class="n">fullpath</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;^json$&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span> <span class="n">f</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">if</span> <span class="n">color_scheme</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">color_scheme</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">COLOR_SCHEME</span>
+
+        <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dot_graph</span><span class="p">(</span>
+            <span class="n">orthogonal_edges</span><span class="o">=</span><span class="n">orthogonal_edges</span><span class="p">,</span>
+            <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">write_dot_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid extension found: </span><span class="si">{ext}</span><span class="s1">. &#39;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;Valid extensions include: svg, dot, png, json.&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

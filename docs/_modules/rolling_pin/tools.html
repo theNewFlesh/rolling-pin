@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rolling_pin.tools &mdash; rolling-pin  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> rolling-pin
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">rolling-pin</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>rolling_pin.tools</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for rolling_pin.tools</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOG_LEVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;WARNING&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">LOG_LEVEL</span><span class="p">)</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Contains basic functions for more complex ETL functions and classes.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1"># COLOR-SCHEME------------------------------------------------------------------</span>
+<span class="n">COLOR_SCHEME</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">background</span><span class="o">=</span><span class="s1">&#39;#242424&#39;</span><span class="p">,</span>
+    <span class="n">node</span><span class="o">=</span><span class="s1">&#39;#343434&#39;</span><span class="p">,</span>
+    <span class="n">node_font</span><span class="o">=</span><span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="n">node_value</span><span class="o">=</span><span class="s1">&#39;#343434&#39;</span><span class="p">,</span>
+    <span class="n">node_value_font</span><span class="o">=</span><span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="n">edge</span><span class="o">=</span><span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="n">edge_value</span><span class="o">=</span><span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="n">node_library_font</span><span class="o">=</span><span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="n">node_subpackage_font</span><span class="o">=</span><span class="s1">&#39;#A0D17B&#39;</span><span class="p">,</span>
+    <span class="n">node_module_font</span><span class="o">=</span><span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="n">edge_library</span><span class="o">=</span><span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="n">edge_subpackage</span><span class="o">=</span><span class="s1">&#39;#A0D17B&#39;</span><span class="p">,</span>
+    <span class="n">edge_module</span><span class="o">=</span><span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># GENERAL-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="try_"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.try_">[docs]</a><span class="k">def</span> <span class="nf">try_</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">exception_value</span><span class="o">=</span><span class="s1">&#39;item&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Try applying a given function to a given item. If that fails return the item</span>
+<span class="sd">    or exception value.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        function (function): Function that expects an item.</span>
+<span class="sd">        item (object): Item to be processed by function.</span>
+<span class="sd">        exception_value (object, optional): If left to &#39;item&#39;, returns item, \</span>
+<span class="sd">            else returns given value. Default: &#39;item&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Ouput of *function(item)* or exception_value.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;try_ function called with: </span><span class="si">{item.__class__.__name__}</span><span class="s1"> object&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;try_ function failed with message: </span><span class="si">{e}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exception_value</span> <span class="o">==</span> <span class="s1">&#39;item&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">item</span>
+        <span class="k">return</span> <span class="n">exception_value</span></div>
+
+
+<div class="viewcode-block" id="get_ordered_unique"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.get_ordered_unique">[docs]</a><span class="k">def</span> <span class="nf">get_ordered_unique</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Generates a unique list of items in same order they were received in.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        items (list): List of items.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Unique ordered list.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<span class="c1"># PREDICATE-FUNCTIONS-----------------------------------------------------------</span>
+<div class="viewcode-block" id="is_iterable"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.is_iterable">[docs]</a><span class="k">def</span> <span class="nf">is_iterable</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Determines if given item is iterable.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        item (object): Object to be tested.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: Whether given item is iterable.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">is_listlike</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_dictlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_dictlike"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.is_dictlike">[docs]</a><span class="k">def</span> <span class="nf">is_dictlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Determines if given item is dict-like.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        item (object): Object to be tested.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: Whether given item is dict-like.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">type_</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_listlike"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.is_listlike">[docs]</a><span class="k">def</span> <span class="nf">is_listlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Determines if given item is list-like.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        item (object): Object to be tested.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: Whether given item is list-like.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">type_</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<span class="c1"># CORE-FUNCTIONS----------------------------------------------------------------</span>
+<div class="viewcode-block" id="flatten"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.flatten">[docs]</a><span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Flattens a iterable object into a flat dictionary.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        item (object): Iterable object.</span>
+<span class="sd">        separator (str, optional): Field separator in keys. Default: &#39;/&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Dictionary representation of given object.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">cursor</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_listlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">embed_types</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[(</span><span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{name}</span><span class="s1">_</span><span class="si">{i}</span><span class="s1">&gt;&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">item</span><span class="p">)]</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">is_dictlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">new_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{cursor}{separator}</span><span class="s1">{str(key)}&#39;</span>
+                <span class="k">if</span> <span class="n">is_iterable</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">recurse</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">new_key</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">final_key</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;^&#39;</span> <span class="o">+</span> <span class="n">separator</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">new_key</span><span class="p">)</span>
+                    <span class="n">output</span><span class="p">[</span><span class="n">final_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="n">recurse</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="nest"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.nest">[docs]</a><span class="k">def</span> <span class="nf">nest</span><span class="p">(</span><span class="n">flat_dict</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Converts a flat dictionary into a nested dictionary by splitting keys by a</span>
+<span class="sd">    given separator.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        flat_dict (dict): Flat dictionary.</span>
+<span class="sd">        separator (str, optional): Field separator within given dictionary&#39;s</span>
+<span class="sd">            keys. Default: &#39;/&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Nested dictionary.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">keys</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">flat_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">split_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+        <span class="p">))</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="n">split_keys</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">split_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cursor</span><span class="p">:</span>
+                <span class="n">cursor</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">cursor</span><span class="p">[</span><span class="n">last</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="unembed"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.unembed">[docs]</a><span class="k">def</span> <span class="nf">unembed</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert embeded types in dictionary keys into python types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        item (object): Dictionary with embedded types.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Converted object.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">lut</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;list&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="s1">&#39;tuple&#39;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">}</span>
+    <span class="n">embed_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^&lt;([a-z]+)_(\d+)&gt;$&#39;</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">is_dictlike</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span> <span class="o">!=</span> <span class="p">{}:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">match</span> <span class="o">=</span> <span class="n">embed_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">embed_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span>
+
+            <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">keys</span><span class="p">)):</span>
+                <span class="n">next_item</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">is_dictlike</span><span class="p">(</span><span class="n">next_item</span><span class="p">):</span>
+                    <span class="n">next_item</span> <span class="o">=</span> <span class="n">unembed</span><span class="p">(</span><span class="n">next_item</span><span class="p">)</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_item</span><span class="p">)</span>
+
+            <span class="n">output</span> <span class="o">=</span> <span class="n">lut</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)](</span><span class="n">output</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">output</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">unembed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">item</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<span class="c1"># FILE-FUNCTIONS----------------------------------------------------------------</span>
+<div class="viewcode-block" id="list_all_files"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.list_all_files">[docs]</a><span class="k">def</span> <span class="nf">list_all_files</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Recursively lists all files within a give directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        directory (str or Path): Directory to be recursed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[Path]: List of filepaths.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">fullpath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file_</span><span class="p">)</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="get_parent_fields"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.get_parent_fields">[docs]</a><span class="k">def</span> <span class="nf">get_parent_fields</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get all the parent fields of a given key, split by given separator.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): Key.</span>
+<span class="sd">        separator (str, optional): String that splits key into fields.</span>
+<span class="sd">            Default: &#39;/&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list(str): List of absolute parent fields.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fields</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<span class="c1"># EXPORT-FUNCTIONS--------------------------------------------------------------</span>
+<div class="viewcode-block" id="dot_to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.dot_to_html">[docs]</a><span class="k">def</span> <span class="nf">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Converts a given pydot graph into a IPython.display.HTML object.</span>
+<span class="sd">    Used in jupyter lab inline display of graph data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dot (pydot.Dot): Pydot Graph instance.</span>
+<span class="sd">        layout (str, optional): Graph layout style.</span>
+<span class="sd">            Options include: circo, dot, fdp, neato, sfdp, twopi.</span>
+<span class="sd">            Default: dot.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If invalid layout given.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        IPython.display.HTML: HTML instance.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">layouts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;circo&#39;</span><span class="p">,</span> <span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="s1">&#39;fdp&#39;</span><span class="p">,</span> <span class="s1">&#39;neato&#39;</span><span class="p">,</span> <span class="s1">&#39;sfdp&#39;</span><span class="p">,</span> <span class="s1">&#39;twopi&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">layout</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">layouts</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid layout value. </span><span class="si">{layout}</span><span class="s1"> not in </span><span class="si">{layouts}</span><span class="s1">.&#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">svg</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_svg</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;img width=&quot;100%&quot; src=&quot;data:image/svg+xml;</span><span class="si">{svg}</span><span class="s1">&quot; &gt;&#39;</span>
+    <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.write_dot_graph">[docs]</a><span class="k">def</span> <span class="nf">write_dot_graph</span><span class="p">(</span>
+    <span class="n">dot</span><span class="p">,</span>
+    <span class="n">fullpath</span><span class="p">,</span>
+    <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Writes a pydot.Dot object to a given filepath.</span>
+<span class="sd">    Formats supported: svg, dot, png.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dot (pydot.Dot): Pydot Dot instance.</span>
+<span class="sd">        fulllpath (str or Path): File to be written to.</span>
+<span class="sd">        layout (str, optional): Graph layout style.</span>
+<span class="sd">            Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If invalid file extension given.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+        <span class="n">fullpath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;^svg$&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">):</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">write_svg</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;^dot$&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">):</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">write_dot</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;^png$&#39;</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">):</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid extension found: </span><span class="si">{ext}</span><span class="s1">. &#39;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;Valid extensions include: svg, dot, png.&#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
