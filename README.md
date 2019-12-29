@@ -1,6 +1,8 @@
 # Rolling-Pin
 A library of generic tools for ETL work and visualization of JSON blobs and python repositories
 
+**[Documentation](https://thenewflesh.github.io/rolling-pin/)**
+
 # Installation
 `pip install rolling-pin`
 
