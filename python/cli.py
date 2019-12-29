@@ -147,7 +147,8 @@ def get_docs_command(info):
         str: Fully resolved build docs command.
     '''
     cmd = '{exec} mkdir -p /root/{repo}/docs; '
-    cmd += '{exec} sphinx-build /root/{repo}/sphinx /root/{repo}/docs'
+    cmd += '{exec} sphinx-build /root/{repo}/sphinx /root/{repo}/docs; '
+    cmd += '{exec} touch /root/{repo}/docs/.nojekyll; '
     cmd = cmd.format(
         repo=REPO,
         exec=get_docker_exec_command(info),
