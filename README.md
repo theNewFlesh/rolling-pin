@@ -2,6 +2,10 @@
 Rolling-Pin is an ETL library.
 
 # Installation
+`pip install rolling-pin`
+
+# For Developers
+## Installation
 1. Install [docker](https://docs.docker.com/v17.09/engine/installation)
 2. Install [docker-machine](https://docs.docker.com/machine/install-machine) (if running on macOS or Windows)
 3. Ensure docker-machine has at least 4 GB of memory allocated to it.
@@ -13,7 +17,7 @@ The service should take a few minutes to start up.
 
 Run `bin/rolling-pin --help` for more help on the command line tool.
 
-# Conda Environment Creation
+## Conda Environment Creation
 Running a conda environment is not recommended.
 
 However, if you would still like to build one, do the following:
