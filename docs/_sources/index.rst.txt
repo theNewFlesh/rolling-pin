@@ -18,6 +18,13 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+Architecture
+============
+.. raw:: html
+
+    <object data="architecture.svg" type="image/svg+xml" width="100%"></object>
+    <p></p>
+
 Extras
 ======
 * `Code Coverage Report <htmlcov/index.html>`_

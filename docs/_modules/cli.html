@@ -193,7 +193,7 @@
 <span class="s1">    coverage  - Generate coverage report for </span><span class="si">{repo}</span><span class="s1"> service</span>
 <span class="s1">    destroy   - Shutdown </span><span class="si">{repo}</span><span class="s1"> service and destroy its Docker image</span>
 <span class="s1">    docs      - Generate documentation for </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    full-docs - Generates documentation, coverage report and inserts report link</span>
+<span class="s1">    full-docs - Generates documentation and coverage report</span>
 <span class="s1">    image     - Display the Docker image id for </span><span class="si">{repo}</span><span class="s1"> service</span>
 <span class="s1">    lab       - Start a Jupyter lab server</span>
 <span class="s1">    lint      - Run linting on </span><span class="si">{repo}</span><span class="s1"> service code</span>
@@ -234,6 +234,26 @@
         <span class="n">user</span><span class="o">=</span><span class="n">user</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">info</span></div>
+
+
+<div class="viewcode-block" id="get_architecture_diagram_command"><a class="viewcode-back" href="../cli.html#cli.get_architecture_diagram_command">[docs]</a><span class="k">def</span> <span class="nf">get_architecture_diagram_command</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Generates a svg file detailing this repository&#39;s module structure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        info (dict): Info dictionary.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Command.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> python3.7 -c &quot;from rolling_pin.repo_etl import RepoETL; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot;RepoETL(&#39;/root/</span><span class="si">{repo}</span><span class="s2">/python&#39;).write(&#39;/root/</span><span class="si">{repo}</span><span class="s2">/docs/architecture.svg&#39;)&quot;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
+        <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmd</span></div>
 
 
 <span class="c1"># COMMANDS----------------------------------------------------------------------</span>
@@ -563,6 +583,7 @@
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;full-docs&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_docs_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_coverage_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_architecture_diagram_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_image_id_command</span><span class="p">()</span>

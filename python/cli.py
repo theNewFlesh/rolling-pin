@@ -82,6 +82,26 @@ def get_info():
     return info
 
 
+def get_architecture_diagram_command(info):
+    '''
+    Generates a svg file detailing this repository's module structure.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} python3.7 -c "from rolling_pin.repo_etl import RepoETL; '
+    cmd += "RepoETL('/root/{repo}/python').write('/root/{repo}/docs/architecture.svg')"
+    cmd += '"'
+    cmd = cmd.format(
+        repo=REPO,
+        exec=get_docker_exec_command(info),
+    )
+    return cmd
+
+
 # COMMANDS----------------------------------------------------------------------
 def get_bash_command(info):
     '''
@@ -409,6 +429,7 @@ def main():
     elif mode == 'full-docs':
         cmd = get_docs_command(info)
         cmd += '; ' + get_coverage_command(info)
+        cmd += '; ' + get_architecture_diagram_command(info)
 
     elif mode == 'image':
         cmd = get_image_id_command()
