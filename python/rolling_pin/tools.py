@@ -289,8 +289,11 @@ def dot_to_html(dot, layout='dot'):
         raise ValueError(msg)
 
     svg = dot.create_svg(prog=layout)
-    html = f'<img width="100%" src="data:image/svg+xml;{svg}" >'
-    return HTML(html)
+    html = f'<object type="image/svg+xml" data="data:image/svg+xml;{svg}"></object>'
+    html = HTML(html)
+    html.data = re.sub(r'\\n|\\', '', html.data)
+    html.data = re.sub('</svg>.*', '</svg>', html.data)
+    return html
 
 
 def write_dot_graph(
