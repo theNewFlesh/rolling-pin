@@ -295,7 +295,13 @@ class BlobETL():
 
         return dot
 
-    def to_html(self, layout='dot', orthogonal_edges=False, color_scheme=None):
+    def to_html(
+        self,
+        layout='dot',
+        orthogonal_edges=False,
+        color_scheme=None,
+        as_png=False,
+    ):
         '''
         For use in inline rendering of graph data in Jupyter Lab.
 
@@ -307,6 +313,8 @@ class BlobETL():
                 non-right angles. Default: False.
             color_scheme: (dict, optional): Color scheme to be applied to graph.
                 Default: rolling_pin.tools.COLOR_SCHEME
+            as_png (bool, optional): Display graph as a PNG image instead of
+                SVG. Useful for display on Github. Default: False.
 
         Returns:
             IPython.display.HTML: HTML object for inline display.
@@ -318,7 +326,7 @@ class BlobETL():
             orthogonal_edges=orthogonal_edges,
             color_scheme=color_scheme,
         )
-        return tools.dot_to_html(dot, layout=layout)
+        return tools.dot_to_html(dot, layout=layout, as_png=as_png)
 
     def write(
         self,

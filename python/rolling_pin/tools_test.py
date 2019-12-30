@@ -360,6 +360,7 @@ class ToolsTests(unittest.TestCase):
         self.assertEqual(str(e.value), expected)
 
         tools.dot_to_html(dot)
+        tools.dot_to_html(dot, as_png=True)
 
     def test_write_dot_graph(self):
         expected = 'Invalid extension found: bar. '

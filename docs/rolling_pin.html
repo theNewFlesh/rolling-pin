@@ -168,7 +168,7 @@
 
 <dl class="function">
 <dt id="rolling_pin.tools.dot_to_html">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">dot_to_html</code><span class="sig-paren">(</span><em class="sig-param">dot</em>, <em class="sig-param">layout='dot'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/tools.html#dot_to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.dot_to_html" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">dot_to_html</code><span class="sig-paren">(</span><em class="sig-param">dot</em>, <em class="sig-param">layout='dot'</em>, <em class="sig-param">as_png=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/tools.html#dot_to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.dot_to_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a given pydot graph into a IPython.display.HTML object.
 Used in jupyter lab inline display of graph data.</p>
 <dl class="field-list simple">
@@ -178,6 +178,8 @@ Used in jupyter lab inline display of graph data.</p>
 <li><p><strong>layout</strong> (<em>str</em><em>, </em><em>optional</em>) – Graph layout style.
 Options include: circo, dot, fdp, neato, sfdp, twopi.
 Default: dot.</p></li>
+<li><p><strong>as_png</strong> (<em>bool</em><em>, </em><em>optional</em>) – Display graph as a PNG image instead of SVG.
+Useful for display on Github. Default: False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -637,7 +639,7 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 
 <dl class="method">
 <dt id="rolling_pin.repo_etl.RepoETL.to_html">
-<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_html" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em>, <em class="sig-param">as_png=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>For use in inline rendering of graph data in Jupyter Lab.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -649,6 +651,8 @@ Default: dot.</p></li>
 non-right angles. Default: False.</p></li>
 <li><p><strong>color_scheme</strong> – (dict, optional): Color scheme to be applied to graph.
 Default: rolling_pin.tools.COLOR_SCHEME</p></li>
+<li><p><strong>as_png</strong> (<em>bool</em><em>, </em><em>optional</em>) – Display graph as a PNG image instead of
+SVG. Useful for display on Github. Default: False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -838,7 +842,7 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 
 <dl class="method">
 <dt id="rolling_pin.blob_etl.BlobETL.to_html">
-<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_html" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em>, <em class="sig-param">as_png=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>For use in inline rendering of graph data in Jupyter Lab.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -850,6 +854,8 @@ Default: dot.</p></li>
 non-right angles. Default: False.</p></li>
 <li><p><strong>color_scheme</strong> – (dict, optional): Color scheme to be applied to graph.
 Default: rolling_pin.tools.COLOR_SCHEME</p></li>
+<li><p><strong>as_png</strong> (<em>bool</em><em>, </em><em>optional</em>) – Display graph as a PNG image instead of
+SVG. Useful for display on Github. Default: False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

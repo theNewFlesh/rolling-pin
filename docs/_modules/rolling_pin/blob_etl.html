@@ -450,7 +450,13 @@
 
         <span class="k">return</span> <span class="n">dot</span></div>
 
-<div class="viewcode-block" id="BlobETL.to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BlobETL.to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
+        <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        For use in inline rendering of graph data in Jupyter Lab.</span>
 
@@ -462,6 +468,8 @@
 <span class="sd">                non-right angles. Default: False.</span>
 <span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
 <span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
+<span class="sd">            as_png (bool, optional): Display graph as a PNG image instead of</span>
+<span class="sd">                SVG. Useful for display on Github. Default: False.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            IPython.display.HTML: HTML object for inline display.</span>
@@ -473,7 +481,7 @@
             <span class="n">orthogonal_edges</span><span class="o">=</span><span class="n">orthogonal_edges</span><span class="p">,</span>
             <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">tools</span><span class="o">.</span><span class="n">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">tools</span><span class="o">.</span><span class="n">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="n">as_png</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.write"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

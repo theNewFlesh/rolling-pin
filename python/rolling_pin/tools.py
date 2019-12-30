@@ -4,7 +4,7 @@ import re
 from collections import OrderedDict
 from pathlib import Path
 
-from IPython.display import HTML
+from IPython.display import HTML, Image
 
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'WARNING').upper()
 logging.basicConfig(level=LOG_LEVEL)
@@ -266,7 +266,7 @@ def get_parent_fields(key, separator='/'):
 
 
 # EXPORT-FUNCTIONS--------------------------------------------------------------
-def dot_to_html(dot, layout='dot'):
+def dot_to_html(dot, layout='dot', as_png=False):
     '''
     Converts a given pydot graph into a IPython.display.HTML object.
     Used in jupyter lab inline display of graph data.
@@ -276,6 +276,8 @@ def dot_to_html(dot, layout='dot'):
         layout (str, optional): Graph layout style.
             Options include: circo, dot, fdp, neato, sfdp, twopi.
             Default: dot.
+        as_png (bool, optional): Display graph as a PNG image instead of SVG.
+            Useful for display on Github. Default: False.
 
     Raises:
         ValueError: If invalid layout given.
@@ -287,6 +289,9 @@ def dot_to_html(dot, layout='dot'):
     if layout not in layouts:
         msg = f'Invalid layout value. {layout} not in {layouts}.'
         raise ValueError(msg)
+
+    if as_png:
+        return Image(data=dot.create_png())
 
     svg = dot.create_svg(prog=layout)
     html = f'<object type="image/svg+xml" data="data:image/svg+xml;{svg}"></object>'

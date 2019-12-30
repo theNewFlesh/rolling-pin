@@ -159,7 +159,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>
 
 <span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOG_LEVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;WARNING&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">LOG_LEVEL</span><span class="p">)</span>
@@ -421,7 +421,7 @@
 
 
 <span class="c1"># EXPORT-FUNCTIONS--------------------------------------------------------------</span>
-<div class="viewcode-block" id="dot_to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.dot_to_html">[docs]</a><span class="k">def</span> <span class="nf">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="dot_to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.dot_to_html">[docs]</a><span class="k">def</span> <span class="nf">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Converts a given pydot graph into a IPython.display.HTML object.</span>
 <span class="sd">    Used in jupyter lab inline display of graph data.</span>
@@ -431,6 +431,8 @@
 <span class="sd">        layout (str, optional): Graph layout style.</span>
 <span class="sd">            Options include: circo, dot, fdp, neato, sfdp, twopi.</span>
 <span class="sd">            Default: dot.</span>
+<span class="sd">        as_png (bool, optional): Display graph as a PNG image instead of SVG.</span>
+<span class="sd">            Useful for display on Github. Default: False.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If invalid layout given.</span>
@@ -443,9 +445,15 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid layout value. </span><span class="si">{layout}</span><span class="s1"> not in </span><span class="si">{layouts}</span><span class="s1">.&#39;</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">as_png</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dot</span><span class="o">.</span><span class="n">create_png</span><span class="p">())</span>
+
     <span class="n">svg</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_svg</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;img width=&quot;100%&quot; src=&quot;data:image/svg+xml;</span><span class="si">{svg}</span><span class="s1">&quot; &gt;&#39;</span>
-    <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">)</span></div>
+    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;object type=&quot;image/svg+xml&quot; data=&quot;data:image/svg+xml;</span><span class="si">{svg}</span><span class="s1">&quot;&gt;&lt;/object&gt;&#39;</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">n|</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&lt;/svg&gt;.*&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;/svg&gt;&#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">html</span></div>
 
 
 <div class="viewcode-block" id="write_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.write_dot_graph">[docs]</a><span class="k">def</span> <span class="nf">write_dot_graph</span><span class="p">(</span>
