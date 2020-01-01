@@ -33,19 +33,22 @@ class BlobETL():
         self._data = tools.flatten(blob, separator=separator, embed_types=True)
         self._separator = separator
 
-    def to_dict(self):
+    # EDIT_METHODS--------------------------------------------------------------
+    def query(self, regex, ignore_case=True):
         '''
-        Returns:
-            dict: Nested representation of internal data.
-        '''
-        return tools.unembed(tools.nest(deepcopy(self._data)))
+        Filter data items by key according to given regular expression.
 
-    def to_flat_dict(self):
-        '''
+        Args:
+            regex (str): Regular expression.
+            ignore_casd (bool, optional): Whether to consider case in the
+                regular expression search. Default: False.
+
         Returns:
-            dict: Flat dictionary with embedded types.
+            BlobETL: New BlobETL instance.
         '''
-        return deepcopy(self._data)
+        if ignore_case:
+            return self.filter(lambda x: re.search(regex, x, re.I), by='key')
+        return self.filter(lambda x: re.search(regex, x), by='key')
 
     def filter(self, predicate, by='key'):
         '''
@@ -81,7 +84,7 @@ class BlobETL():
             if predicate(*item):
                 data[key] = val
 
-        return BlobETL(data, self._separator)
+        return BlobETL(data, separator=self._separator)
 
     def delete(self, predicate, by='key'):
         '''
@@ -117,7 +120,7 @@ class BlobETL():
             if predicate(*item):
                 del data[key]
 
-        return BlobETL(data, self._separator)
+        return BlobETL(data, separator=self._separator)
 
     def set(
         self,
@@ -181,7 +184,7 @@ class BlobETL():
                 del data[key]
                 data[k] = v
 
-        return BlobETL(data, self._separator)
+        return BlobETL(data, separator=self._separator)
 
     def update(self, item):
         '''
@@ -199,7 +202,41 @@ class BlobETL():
         temp = tools.flatten(item, separator=self._separator, embed_types=True)
         data = deepcopy(self._data)
         data.update(temp)
-        return BlobETL(data, self._separator)
+        return BlobETL(data, separator=self._separator)
+
+    def set_field_by_index(self, index, field_setter):
+        '''
+        Set's a field at a given index according to a given function.
+
+        Args:
+            index (int): Field index.
+            field_setter (functon): Function of form lambda str: str.
+
+        Returns:
+            BlobETL: New BlobETL instance.
+        '''
+        output = {}
+        for key, val in self._data.items():
+            fields = key.split(self._separator)
+            fields[index] = field_setter(fields[index])
+            key = self._separator.join(fields)
+            output[key] = val
+        return BlobETL(output, separator=self._separator)
+
+    # EXPORT-METHODS------------------------------------------------------------
+    def to_dict(self):
+        '''
+        Returns:
+            dict: Nested representation of internal data.
+        '''
+        return tools.unembed(tools.nest(deepcopy(self._data), separator=self._separator))
+
+    def to_flat_dict(self):
+        '''
+        Returns:
+            dict: Flat dictionary with embedded types.
+        '''
+        return deepcopy(self._data)
 
     def to_networkx_graph(self):
         '''
@@ -230,7 +267,7 @@ class BlobETL():
                     )
                     graph.add_edge(k, v)
 
-        recurse(tools.nest(self._data), 'root')
+        recurse(tools.nest(self._data, self._separator), 'root')
         graph.remove_node('root')
         return graph
 
