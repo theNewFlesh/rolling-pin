@@ -4,6 +4,7 @@ import re
 from copy import deepcopy
 from pathlib import Path
 
+from pandas import DataFrame
 import networkx
 import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
@@ -237,6 +238,103 @@ class BlobETL():
             dict: Flat dictionary with embedded types.
         '''
         return deepcopy(self._data)
+
+    def to_prototype(self):
+        '''
+        Convert data to prototypical representation.
+        Example:
+
+        >>> data = {
+            'users': [
+                    {
+                        'name': {
+                            'first': 'tom',
+                            'last': 'smith',
+                        }
+                    },{
+                        'name': {
+                            'first': 'dick',
+                            'last': 'smith',
+                        }
+                    },{
+                        'name': {
+                            'first': 'jane',
+                            'last': 'doe',
+                        }
+                    },
+                ]
+            }
+        >>> BlobETL(data).to_prototype().to_dict()
+        {
+            '^users': {
+                '<list_[0-9]+>': {
+                    'name': {
+                        'first$': ['dick', 'jane', 'tom'],
+                        'last$': ['doe', 'smith']
+                    }
+                }
+            }
+        }
+
+        Returns:
+            BlobETL: New BlobETL instance.
+        '''
+        def regex_in_list(regex, items):
+            for item in items:
+                if re.search(regex, item):
+                    return True
+            return False
+
+        def field_combinations(a, b):
+            output = []
+            for fa in a:
+                for fb in b:
+                    output.append(fa + self._separator + fb)
+            return output
+
+        keys = list(self._data.keys())
+        fields = list(map(lambda x: x.split(self._separator), keys))
+
+        fields = DataFrame(fields)\
+            .apply(lambda x: x.unique().tolist())\
+            .apply(lambda x: filter(lambda y: y is not None, x)) \
+            .apply(lambda x: map(
+                lambda y: re.sub(r'<([a-z]+)_\d+>', '<\\1_[0-9]+>', y),
+                x)) \
+            .apply(lambda x: list(set(x))) \
+            .tolist()
+
+        prev = fields[0]
+        regexes = list()
+        for i, level in enumerate(fields[1:]):
+            temp = field_combinations(prev, level)
+            temp = filter(lambda x: regex_in_list('^' + x, keys), temp)
+            prev = list(temp)
+            regexes.extend(prev)
+
+        regexes = tools.get_ordered_unique(regexes)
+
+        p_keys = set()
+        for regex in regexes:
+            other = deepcopy(regexes)
+            other.remove(regex)
+            not_in_other = True
+            for item in other:
+                if regex in item:
+                    not_in_other = False
+            if not_in_other:
+                p_keys.add(f'^{regex}$')
+
+        output = {}
+        for key in p_keys:
+            values = self.query(key).to_flat_dict().values()
+            try:
+                values = sorted(list(set(values)))
+            except TypeError:
+                pass
+            output[key] = list(values)
+
+        return BlobETL(output, separator=self._separator)
 
     def to_networkx_graph(self):
         '''
