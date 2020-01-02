@@ -72,8 +72,21 @@ input {
     box-shadow: none !important;
 }
 
+.rst-content pre.literal-block,
+.rst-content div[class^='highlight'] {
+    border: none !important;
+}
+
 pre {
-    background: #93B6E6 !important;
+    background: #343434 !important;
+}
+
+pre > .gp {
+    color: #B6ECF3 !important;
+}
+
+pre > span {
+    color: #EBB483 !important;
 }
 
 .wy-nav-content {

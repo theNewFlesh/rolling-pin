@@ -242,28 +242,29 @@ class BlobETL():
     def to_prototype(self):
         '''
         Convert data to prototypical representation.
+
         Example:
 
         >>> data = {
-            'users': [
-                    {
-                        'name': {
-                            'first': 'tom',
-                            'last': 'smith',
-                        }
-                    },{
-                        'name': {
-                            'first': 'dick',
-                            'last': 'smith',
-                        }
-                    },{
-                        'name': {
-                            'first': 'jane',
-                            'last': 'doe',
-                        }
-                    },
-                ]
-            }
+        'users': [
+                {
+                    'name': {
+                        'first': 'tom',
+                        'last': 'smith',
+                    }
+                },{
+                    'name': {
+                        'first': 'dick',
+                        'last': 'smith',
+                    }
+                },{
+                    'name': {
+                        'first': 'jane',
+                        'last': 'doe',
+                    }
+                },
+            ]
+        }
         >>> BlobETL(data).to_prototype().to_dict()
         {
             '^users': {
