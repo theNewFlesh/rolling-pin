@@ -230,7 +230,9 @@ class BlobETL():
         Returns:
             dict: Nested representation of internal data.
         '''
-        return tools.unembed(tools.nest(deepcopy(self._data), separator=self._separator))
+        return tools.unembed(
+            tools.nest(deepcopy(self._data), separator=self._separator)
+        )
 
     def to_flat_dict(self):
         '''
@@ -478,7 +480,8 @@ class BlobETL():
         Args:
             fulllpath (str or Path): File tobe written to.
             layout (str, optional): Graph layout style.
-                Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
+                Options include: circo, dot, fdp, neato, sfdp, twopi.
+                Default: dot.
 
         Raises:
             ValueError: If invalid file extension given.
