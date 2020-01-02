@@ -244,6 +244,34 @@ class BlobEtlTests(unittest.TestCase):
         self.assertEqual(result['foo/bar'], 'baz')
         self.assertEqual(result['foo/bingo/<list_0>/bango'], 'bongo')
 
+    def test_set_field_by_index(self):
+        data = {
+            'a/foo/c': 0,
+            'a/b/c/d': 0,
+        }
+        etl = BlobETL(data)
+        with self.assertRaises(IndexError):
+            etl.set_field_by_index(3, lambda x: 'foo')._data
+
+        result = etl.set_field_by_index(
+            1,
+            lambda x: 'bar' if x == 'foo' else x
+        )._data
+        expected = {
+            'a/bar/c': 0,
+            'a/b/c/d': 0,
+        }
+
+        result = etl.set_field_by_index(
+            1,
+            lambda x: 'foo'
+        )._data
+        expected = {
+            'a/foo/c': 0,
+            'a/foo/c/d': 0,
+        }
+        self.assertEqual(result, expected)
+
     def test_filter_delete_update_set(self):
         blob = self.get_simple_blob()
         etl = BlobETL(blob)
@@ -281,7 +309,7 @@ class BlobEtlTests(unittest.TestCase):
             )\
             .delete(lambda x: x == 'v0', by='value')\
             .to_dict()
-        print(result)
+
         self.assertEqual(result['a0']['b0']['c1'], 'v1')
         self.assertEqual(result['food'][0]['taco'], 'salad')
         self.assertEqual(result['food'][1]['pepperoni'], 'pizza')
