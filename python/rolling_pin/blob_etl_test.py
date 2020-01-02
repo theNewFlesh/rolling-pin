@@ -1,3 +1,4 @@
+from collections import deque
 import os
 import re
 import unittest
@@ -112,6 +113,39 @@ class BlobEtlTests(unittest.TestCase):
                         'first$': ['dick', 'jane', 'tom'],
                         'last$': ['doe', 'smith']
                     }
+                }
+            }
+        }
+        result = BlobETL(data).to_prototype().to_dict()
+        self.assertEqual(result, expected)
+
+    def test_to_prototype_no_hashable_values(self):
+        unhashable = deque()
+
+        data = {
+            'users': [
+                {
+                    'name': {'first': 'tom', 'last': 'smith'},
+                    'unhashable': unhashable,
+                },
+                {
+                    'name': {'first': 'dick', 'last': 'smith'},
+                    'unhashable': unhashable,
+                },
+                {
+                    'name': {'first': 'jane', 'last': 'doe'},
+                    'unhashable': unhashable,
+                },
+            ]
+        }
+        expected = {
+            '^users': {
+                '<list_[0-9]+>': {
+                    'name': {
+                        'first$': ['dick', 'jane', 'tom'],
+                        'last$': ['doe', 'smith']
+                    },
+                    'unhashable$': [unhashable, unhashable, unhashable],
                 }
             }
         }

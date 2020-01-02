@@ -286,7 +286,7 @@ class BlobETL():
             for item in items:
                 if re.search(regex, item):
                     return True
-            return False
+            return False  # pragma: no cover
 
         def field_combinations(a, b):
             output = []
@@ -331,6 +331,7 @@ class BlobETL():
         output = {}
         for key in p_keys:
             values = self.query(key).to_flat_dict().values()
+            # set requires hashable values, dicts and lists are not hashable
             try:
                 values = sorted(list(set(values)))
             except TypeError:
