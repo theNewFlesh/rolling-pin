@@ -76,6 +76,16 @@ class BlobEtlTests(unittest.TestCase):
             tools.flatten(blob, separator=sep, embed_types=True)
         )
 
+    def test_query(self):
+        blob = self.get_complex_blob()
+        expected = blob['a0']['b1'][1]['c3']
+        expected = {'a0': {'b1': [{'c3': expected}]}}
+        result = BlobETL(blob).query('.*c3').to_dict()
+        self.assertEqual(result, expected)
+
+        result = BlobETL(blob).query('.*C3', ignore_case=False).to_dict()
+        self.assertEqual(result, {})
+
     def test_to_dict(self):
         expected = self.get_complex_blob()
         result = BlobETL(expected).to_dict()
