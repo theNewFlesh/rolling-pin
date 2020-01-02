@@ -183,6 +183,11 @@ def nest(flat_dict, separator='/'):
         for key in split_keys:
             if key not in cursor:
                 cursor[key] = {}
+
+            if not isinstance(cursor[key], dict):
+                msg = f"Duplicate key conflict. Key: '{key}'."
+                raise KeyError(msg)
+
             cursor = cursor[key]
         cursor[last] = val
     return output
