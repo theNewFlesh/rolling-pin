@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.3
+                0.1.4
               </div>
             
           
@@ -159,6 +159,7 @@
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
 <span class="kn">import</span> <span class="nn">networkx</span>
 <span class="kn">import</span> <span class="nn">rolling_pin.tools</span> <span class="k">as</span> <span class="nn">tools</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -188,19 +189,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="n">separator</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span>
 
-<div class="viewcode-block" id="BlobETL.to_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># EDIT_METHODS--------------------------------------------------------------</span>
+<div class="viewcode-block" id="BlobETL.query"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">ignore_case</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: Nested representation of internal data.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">tools</span><span class="o">.</span><span class="n">unembed</span><span class="p">(</span><span class="n">tools</span><span class="o">.</span><span class="n">nest</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)))</span></div>
+<span class="sd">        Filter data items by key according to given regular expression.</span>
 
-<div class="viewcode-block" id="BlobETL.to_flat_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_flat_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_flat_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            regex (str): Regular expression.</span>
+<span class="sd">            ignore_casd (bool, optional): Whether to consider case in the</span>
+<span class="sd">                regular expression search. Default: False.</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            dict: Flat dictionary with embedded types.</span>
+<span class="sd">            BlobETL: New BlobETL instance.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">ignore_case</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.filter"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -236,7 +240,7 @@
             <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">):</span>
                 <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
-        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.delete"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -272,7 +276,7 @@
             <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">):</span>
                 <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.set"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -336,7 +340,7 @@
                 <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
-        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.update"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -354,7 +358,142 @@
         <span class="n">temp</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
         <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.set_field_by_index"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.set_field_by_index">[docs]</a>    <span class="k">def</span> <span class="nf">set_field_by_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">field_setter</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set&#39;s a field at a given index according to a given function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (int): Field index.</span>
+<span class="sd">            field_setter (functon): Function of form lambda str: str.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: New BlobETL instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span>
+            <span class="n">fields</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">field_setter</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
+
+    <span class="c1"># EXPORT-METHODS------------------------------------------------------------</span>
+<div class="viewcode-block" id="BlobETL.to_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Nested representation of internal data.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">tools</span><span class="o">.</span><span class="n">unembed</span><span class="p">(</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">nest</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.to_flat_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_flat_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_flat_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Flat dictionary with embedded types.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BlobETL.to_prototype"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_prototype">[docs]</a>    <span class="k">def</span> <span class="nf">to_prototype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Convert data to prototypical representation.</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; data = {</span>
+<span class="sd">        &#39;users&#39;: [</span>
+<span class="sd">                {</span>
+<span class="sd">                    &#39;name&#39;: {</span>
+<span class="sd">                        &#39;first&#39;: &#39;tom&#39;,</span>
+<span class="sd">                        &#39;last&#39;: &#39;smith&#39;,</span>
+<span class="sd">                    }</span>
+<span class="sd">                },{</span>
+<span class="sd">                    &#39;name&#39;: {</span>
+<span class="sd">                        &#39;first&#39;: &#39;dick&#39;,</span>
+<span class="sd">                        &#39;last&#39;: &#39;smith&#39;,</span>
+<span class="sd">                    }</span>
+<span class="sd">                },{</span>
+<span class="sd">                    &#39;name&#39;: {</span>
+<span class="sd">                        &#39;first&#39;: &#39;jane&#39;,</span>
+<span class="sd">                        &#39;last&#39;: &#39;doe&#39;,</span>
+<span class="sd">                    }</span>
+<span class="sd">                },</span>
+<span class="sd">            ]</span>
+<span class="sd">        }</span>
+<span class="sd">        &gt;&gt;&gt; BlobETL(data).to_prototype().to_dict()</span>
+<span class="sd">        {</span>
+<span class="sd">            &#39;^users&#39;: {</span>
+<span class="sd">                &#39;&lt;list_[0-9]+&gt;&#39;: {</span>
+<span class="sd">                    &#39;name&#39;: {</span>
+<span class="sd">                        &#39;first$&#39;: [&#39;dick&#39;, &#39;jane&#39;, &#39;tom&#39;],</span>
+<span class="sd">                        &#39;last$&#39;: [&#39;doe&#39;, &#39;smith&#39;]</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">            }</span>
+<span class="sd">        }</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: New BlobETL instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">regex_in_list</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># pragma: no cover</span>
+
+        <span class="k">def</span> <span class="nf">field_combinations</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">fa</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">fb</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
+                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fa</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">+</span> <span class="n">fb</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">output</span>
+
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">),</span> <span class="n">keys</span><span class="p">))</span>
+
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>\
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> \
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;([a-z]+)_\d+&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;</span><span class="se">\\</span><span class="s1">1_[0-9]+&gt;&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                <span class="n">x</span><span class="p">))</span> \
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> \
+            <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">prev</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">regexes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">field_combinations</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">regex_in_list</span><span class="p">(</span><span class="s1">&#39;^&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="n">keys</span><span class="p">),</span> <span class="n">temp</span><span class="p">)</span>
+            <span class="n">prev</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+            <span class="n">regexes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+
+        <span class="n">regexes</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">get_ordered_unique</span><span class="p">(</span><span class="n">regexes</span><span class="p">)</span>
+
+        <span class="n">p_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">regex</span> <span class="ow">in</span> <span class="n">regexes</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">regexes</span><span class="p">)</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+            <span class="n">not_in_other</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">other</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">regex</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                    <span class="n">not_in_other</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">not_in_other</span><span class="p">:</span>
+                <span class="n">p_keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;^</span><span class="si">{regex}</span><span class="s1">$&#39;</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">p_keys</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">to_flat_dict</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="c1"># set requires hashable values, dicts and lists are not hashable</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="p">)))</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_networkx_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -385,7 +524,7 @@
                     <span class="p">)</span>
                     <span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
-        <span class="n">recurse</span><span class="p">(</span><span class="n">tools</span><span class="o">.</span><span class="n">nest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span> <span class="s1">&#39;root&#39;</span><span class="p">)</span>
+        <span class="n">recurse</span><span class="p">(</span><span class="n">tools</span><span class="o">.</span><span class="n">nest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">),</span> <span class="s1">&#39;root&#39;</span><span class="p">)</span>
         <span class="n">graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span></div>
 
@@ -497,7 +636,8 @@
 <span class="sd">        Args:</span>
 <span class="sd">            fulllpath (str or Path): File tobe written to.</span>
 <span class="sd">            layout (str, optional): Graph layout style.</span>
-<span class="sd">                Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</span>
+<span class="sd">                Options include: circo, dot, fdp, neato, sfdp, twopi.</span>
+<span class="sd">                Default: dot.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If invalid file extension given.</span>

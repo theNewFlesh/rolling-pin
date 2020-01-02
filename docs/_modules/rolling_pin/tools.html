@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.3
+                0.1.4
               </div>
             
           
@@ -338,6 +338,11 @@
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">split_keys</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cursor</span><span class="p">:</span>
                 <span class="n">cursor</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Duplicate key conflict. Key: &#39;</span><span class="si">{key}</span><span class="s2">&#39;.&quot;</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
             <span class="n">cursor</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="n">cursor</span><span class="p">[</span><span class="n">last</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
     <span class="k">return</span> <span class="n">output</span></div>
