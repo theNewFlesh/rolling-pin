@@ -240,6 +240,15 @@ class ToolsTests(unittest.TestCase):
         result = tools.nest(blob)
         self.assertEqual(result, expected)
 
+        blob = {
+            'foo': 0,
+            'bar': 0,
+            'foo/bar': 0,
+        }
+        expected = "Duplicate key conflict. Key: 'foo'."
+        with self.assertRaisesRegex(KeyError, expected):
+            tools.nest(blob)
+
     def test_nest_separator(self):
         blob = {
             'a0-b0-c0': 0,
