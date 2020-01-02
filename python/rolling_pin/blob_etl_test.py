@@ -87,6 +87,27 @@ class BlobEtlTests(unittest.TestCase):
         result = BlobETL(blob).to_flat_dict()
         self.assertEqual(result, expected)
 
+    def test_to_prototype(self):
+        data = {
+            'users': [
+                {'name': {'first': 'tom', 'last': 'smith'}},
+                {'name': {'first': 'dick', 'last': 'smith'}},
+                {'name': {'first': 'jane', 'last': 'doe'}},
+            ]
+        }
+        expected = {
+            '^users': {
+                '<list_[0-9]+>': {
+                    'name': {
+                        'first$': ['dick', 'jane', 'tom'],
+                        'last$': ['doe', 'smith']
+                    }
+                }
+            }
+        }
+        result = BlobETL(data).to_prototype().to_dict()
+        self.assertEqual(result, expected)
+
     def test_filter(self):
         blob = self.get_simple_blob()
         etl = BlobETL(blob)
