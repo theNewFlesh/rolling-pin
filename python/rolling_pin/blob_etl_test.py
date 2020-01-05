@@ -1,7 +1,7 @@
-from collections import deque
 import os
 import re
 import unittest
+from collections import deque
 from copy import deepcopy
 from itertools import chain
 from pathlib import Path
@@ -9,6 +9,7 @@ from tempfile import TemporaryDirectory
 
 import IPython
 import pytest
+import numpy as np
 
 import rolling_pin.tools as tools
 from rolling_pin.blob_etl import BlobETL
@@ -97,6 +98,78 @@ class BlobEtlTests(unittest.TestCase):
         expected = tools.flatten(blob, embed_types=True)
         result = BlobETL(blob).to_flat_dict()
         self.assertEqual(result, expected)
+
+    def test_to_records(self):
+        data = [
+            {'a': {'b': 'c'}, 'd': 'e'},
+            {'a': {'b': 'c'}, 'd': 'e'},
+            {'a': {'b': 'c'}, 'd': 'e'},
+        ]
+        expected = [
+            {0: '<list_0>', 1: 'a', 2: 'b', 'value': 'c'},
+            {0: '<list_0>', 1: 'd', 'value': 'e'},
+            {0: '<list_1>', 1: 'a', 2: 'b', 'value': 'c'},
+            {0: '<list_1>', 1: 'd', 'value': 'e'},
+            {0: '<list_2>', 1: 'a', 2: 'b', 'value': 'c'},
+            {0: '<list_2>', 1: 'd', 'value': 'e'}
+        ]
+        result = BlobETL(data).to_records()
+        self.assertEqual(result, expected)
+
+    def test_to_dataframe(self):
+        data = [
+            {'a': {'b': 'c'}, 'd': 'e'},
+            {'a': {'b': 'c'}, 'd': 'e'},
+            {'a': {'b': 'c'}, 'd': 'e'},
+        ]
+        result = BlobETL(data).to_dataframe()
+        expected = [
+            ['<list_0>', 'a', 'b', 'c'],
+            ['<list_0>', 'd', np.nan, 'e'],
+            ['<list_1>', 'a', 'b', 'c'],
+            ['<list_1>', 'd', np.nan, 'e'],
+            ['<list_2>', 'a', 'b', 'c'],
+            ['<list_2>', 'd', np.nan, 'e'],
+        ]
+        for i, row in enumerate(expected):
+            self.assertEqual(result.loc[i].tolist(), row)
+
+    def test_to_dataframe_group_by(self):
+        data = {
+            'l0_a': {
+                'l1_a': {
+                    'l2_a': 'v0',
+                    'l2_b': 'v1',
+                },
+                'l1_b': {
+                    'l2_c': 'v2',
+                }
+            },
+            'l0_b': {
+                'l1_c': 'v3'
+            },
+        }
+        result = BlobETL(data).to_dataframe(group_by=2)
+        expected = [
+            {0: 'l0_a', 1: 'l1_a', 2: ['l2_a', 'l2_b'], 'value': ['v0', 'v1']},
+            {0: 'l0_a', 1: 'l1_b', 2: ['l2_c'], 'value': ['v2']},
+            {0: 'l0_b', 1: 'l1_c', 2: [np.nan], 'value': ['v3']},
+        ]
+        for i, row in enumerate(expected):
+            self.assertEqual(result.loc[i].to_dict(), row)
+
+        result = BlobETL(data).to_dataframe(group_by=1)
+        expected = [
+            {
+                0: 'l0_a',
+                1: ['l1_a', 'l1_a', 'l1_b'],
+                2: ['l2_a', 'l2_b', 'l2_c'],
+                'value': ['v0', 'v1', 'v2'],
+            },
+            {0: 'l0_b', 1: ['l1_c'], 2: [np.nan], 'value': ['v3']},
+        ]
+        for i, row in enumerate(expected):
+            self.assertEqual(result.loc[i].to_dict(), row)
 
     def test_to_prototype(self):
         data = {
