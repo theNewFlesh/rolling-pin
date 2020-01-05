@@ -241,6 +241,43 @@ class BlobETL():
         '''
         return deepcopy(self._data)
 
+    def to_records(self):
+        '''
+        Returns:
+            list[dict]: Data in records format.
+        '''
+        data = []
+        for key, val in self._data.items():
+            fields = key.split(self._separator)
+            row = {i: v for i, v in enumerate(fields)}
+            row['value'] = val
+            data.append(row)
+        return data
+
+    def to_dataframe(self, group_by=None):
+        '''
+        Convert data to pandas DataFrame.
+
+        Args:
+            group_by (int, optional): Field index to group rows of data by.
+                Default: None.
+
+        Returns:
+            pandas.DataFrame: DataFrame.
+        '''
+        data = self.to_records()
+        data = DataFrame(data)
+
+        if group_by is not None:
+            group = list(range(0, group_by))
+            data = DataFrame(data)\
+                .groupby(group, as_index=False)\
+                .agg(lambda x: x.tolist())\
+                .apply(lambda x: x.to_dict(), axis=1)\
+                .tolist()
+            data = DataFrame(data)
+        return data
+
     def to_prototype(self):
         '''
         Convert data to prototypical representation.
