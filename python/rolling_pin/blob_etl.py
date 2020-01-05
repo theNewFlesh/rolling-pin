@@ -128,7 +128,6 @@ class BlobETL():
         predicate=None,
         key_setter=None,
         value_setter=None,
-        by='key'
     ):
         '''
         Filter data items by key, value or key + value, according to a given
@@ -136,53 +135,34 @@ class BlobETL():
         given function.
 
         Args:
-            predicate (function, optional): Function that returns a boolean
-                value. Can be of form lambda k: bool or lambda k,v: bool.
-                Default: None --> lambda k: True.
-            key_setter (function, optional): Funciton of the form: lambda k: k.
-                Default: None --> lambda k: k.
-            value_setter (function, optional): Funciton of the form:
-                lambda v: v. Default: None --> lambda v: v.
-            by (str, optional): Value handed to predicate.
-                Options include: key, value, key+value. Default: key.
-
-        Raises:
-            ValueError: If by keyword is not key, value, or key+value.
+            predicate (function, optional): Function of the form:
+                lambda k, v: bool. Default: None --> lambda k, v: True.
+            key_setter (function, optional): Function of the form:
+                lambda k, v: str. Default: None --> lambda k, v: k.
+            value_setter (function, optional):  Function of the form:
+                lambda k, v: object. Default: None --> lambda k, v: v.
 
         Returns:
             BlobETL: New BlobETL instance.
         '''
-        if by not in ['key', 'value', 'key+value']:
-            msg = f'Invalid by argument: {by}. Needs to be one of: '
-            msg += 'key, value, key+value.'
-            raise ValueError(msg)
-
         # assign default predicate
         if predicate is None:
-            predicate = lambda x: True
+            predicate = lambda k, v: True
 
         # assign default key_setter
         if key_setter is None:
-            key_setter = lambda x: x
+            key_setter = lambda k, v: k
 
         # assign default value_setter
         if value_setter is None:
-            value_setter = lambda x: x
+            value_setter = lambda k, v: v
 
         data = deepcopy(self._data)
-        for key, val in self._data.items():
-            item = None
-            if by == 'key':
-                item = [key]
-            elif by == 'value':
-                item = [val]
-            else:
-                item = [key, val]
-
+        for item in self._data.items():
             if predicate(*item):
-                k = key_setter(key)
-                v = value_setter(val)
-                del data[key]
+                k = key_setter(*item)
+                v = value_setter(*item)
+                del data[item[0]]
                 data[k] = v
 
         return BlobETL(data, separator=self._separator)
@@ -205,7 +185,7 @@ class BlobETL():
         data.update(temp)
         return BlobETL(data, separator=self._separator)
 
-    def set_field_by_index(self, index, field_setter):
+    def set_field(self, index, field_setter):
         '''
         Set's a field at a given index according to a given function.
 
@@ -410,7 +390,9 @@ class BlobETL():
         graph.remove_node('root')
         return graph
 
-    def to_dot_graph(self, orthogonal_edges=False, color_scheme=None):
+    def to_dot_graph(
+        self, orthogonal_edges=False, orient='tb', color_scheme=None
+    ):
         '''
         Converts internal dictionary into pydot graph.
         Key and value nodes and edges are colored differently.
@@ -418,12 +400,25 @@ class BlobETL():
         Args:
             orthogonal_edges (bool, optional): Whether graph edges should have
                 non-right angles. Default: False.
+            orient (str, optional): Graph layout orientation. Default: tb.
+                Options include:
+
+                * tb - top to bottom
+                * bt - bottom to top
+                * lr - left to right
+                * rl - right to left
             color_scheme: (dict, optional): Color scheme to be applied to graph.
                 Default: rolling_pin.tools.COLOR_SCHEME
 
         Returns:
             pydot.Dot: Dot graph representation of dictionary.
         '''
+        orient = orient.lower()
+        orientations = ['tb', 'bt', 'lr', 'rl']
+        if orient not in orientations:
+            msg = f'Invalid orient value. {orient} not in {orientations}.'
+            raise ValueError(msg)
+
         # set default colort scheme
         if color_scheme is None:
             color_scheme = tools.COLOR_SCHEME
@@ -431,6 +426,9 @@ class BlobETL():
         # create pydot graph
         graph = self.to_networkx_graph()
         dot = networkx.drawing.nx_pydot.to_pydot(graph)
+
+        # set layout orientation
+        dot.set_rankdir(orient.upper())
 
         # set graph background color
         dot.set_bgcolor(color_scheme['background'])
@@ -475,6 +473,7 @@ class BlobETL():
         self,
         layout='dot',
         orthogonal_edges=False,
+        orient='tb',
         color_scheme=None,
         as_png=False,
     ):
@@ -487,6 +486,13 @@ class BlobETL():
                 Default: dot.
             orthogonal_edges (bool, optional): Whether graph edges should have
                 non-right angles. Default: False.
+            orient (str, optional): Graph layout orientation. Default: tb.
+                Options include:
+
+                * tb - top to bottom
+                * bt - bottom to top
+                * lr - left to right
+                * rl - right to left
             color_scheme: (dict, optional): Color scheme to be applied to graph.
                 Default: rolling_pin.tools.COLOR_SCHEME
             as_png (bool, optional): Display graph as a PNG image instead of
@@ -500,6 +506,7 @@ class BlobETL():
 
         dot = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
+            orient=orient,
             color_scheme=color_scheme,
         )
         return tools.dot_to_html(dot, layout=layout, as_png=as_png)
@@ -509,6 +516,7 @@ class BlobETL():
         fullpath,
         layout='dot',
         orthogonal_edges=False,
+        orient='tb',
         color_scheme=None
     ):
         '''
@@ -520,6 +528,17 @@ class BlobETL():
             layout (str, optional): Graph layout style.
                 Options include: circo, dot, fdp, neato, sfdp, twopi.
                 Default: dot.
+            orthogonal_edges (bool, optional): Whether graph edges should have
+                non-right angles. Default: False.
+            orient (str, optional): Graph layout orientation. Default: tb.
+                Options include:
+
+                * tb - top to bottom
+                * bt - bottom to top
+                * lr - left to right
+                * rl - right to left
+            color_scheme: (dict, optional): Color scheme to be applied to graph.
+                Default: rolling_pin.tools.COLOR_SCHEME
 
         Raises:
             ValueError: If invalid file extension given.
@@ -539,6 +558,7 @@ class BlobETL():
 
         graph = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
+            orient=orient,
             color_scheme=color_scheme,
         )
         try:

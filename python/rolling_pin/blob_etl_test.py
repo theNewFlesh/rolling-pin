@@ -1,7 +1,7 @@
+from collections import deque
 import os
 import re
 import unittest
-from collections import deque
 from copy import deepcopy
 from itertools import chain
 from pathlib import Path
@@ -288,27 +288,20 @@ class BlobEtlTests(unittest.TestCase):
         blob = self.get_simple_blob()
         etl = BlobETL(blob)
 
-        expected = r'Invalid by argument: foo\. Needs to be one of: '
-        expected + r'key, value, key\+value\.'
-        with self.assertRaisesRegex(ValueError, expected):
-            etl.set(by='foo')
-
-        k_set = lambda x: 'foo'
-        v_set = lambda x: 'bar'
+        k_set = lambda k, v: 'foo'
+        v_set = lambda k, v: 'bar'
         expected = ['a0/b0/c0', 'a0/b1/c0', 'foo']
 
         result = etl.set(
             key_setter=k_set,
             value_setter=v_set,
-            by='key'
         )._data
         self.assertEqual(result, {'foo': 'bar'})
 
         result = etl.set(
-            lambda x: re.search('c1', x),
+            lambda k, v: re.search('c1', k),
             k_set,
             v_set,
-            by='key'
         )._data
 
         self.assertEqual(result['foo'], 'bar')
@@ -316,10 +309,9 @@ class BlobEtlTests(unittest.TestCase):
         self.assertEqual(result, expected)
 
         result = etl.set(
-            lambda x: re.search('v1', x),
+            lambda k, v: re.search('v1', v),
             k_set,
             v_set,
-            by='value'
         )._data
         self.assertEqual(result['foo'], 'bar')
         result = sorted(list(result.keys()))
@@ -329,7 +321,6 @@ class BlobEtlTests(unittest.TestCase):
             lambda x, y: re.search('c1|v1', x + y),
             k_set,
             v_set,
-            by='key+value'
         )._data
         self.assertEqual(result['foo'], 'bar')
         result = sorted(list(result.keys()))
@@ -351,16 +342,16 @@ class BlobEtlTests(unittest.TestCase):
         self.assertEqual(result['foo/bar'], 'baz')
         self.assertEqual(result['foo/bingo/<list_0>/bango'], 'bongo')
 
-    def test_set_field_by_index(self):
+    def test_set_field(self):
         data = {
             'a/foo/c': 0,
             'a/b/c/d': 0,
         }
         etl = BlobETL(data)
         with self.assertRaises(IndexError):
-            etl.set_field_by_index(3, lambda x: 'foo')._data
+            etl.set_field(3, lambda x: 'foo')._data
 
-        result = etl.set_field_by_index(
+        result = etl.set_field(
             1,
             lambda x: 'bar' if x == 'foo' else x
         )._data
@@ -369,7 +360,7 @@ class BlobEtlTests(unittest.TestCase):
             'a/b/c/d': 0,
         }
 
-        result = etl.set_field_by_index(
+        result = etl.set_field(
             1,
             lambda x: 'foo'
         )._data
@@ -403,16 +394,16 @@ class BlobEtlTests(unittest.TestCase):
         result = a\
             .update(b)\
             .set(
-                lambda x: re.search('bingo', x),
-                key_setter=lambda x: re.sub('.*bingo', 'food', x)
+                lambda k, v: re.search('bingo', k),
+                key_setter=lambda k, v: re.sub('.*bingo', 'food', k)
             )\
             .set(
-                lambda x: re.search('taco', x),
-                value_setter=lambda x: 'salad'
+                lambda k, v: re.search('taco', k),
+                value_setter=lambda k, v: 'salad'
             )\
             .set(
-                lambda x: 'kiwi' in x,
-                key_setter=lambda x: re.sub('kiwi', 'pepperoni', x)
+                lambda k, v: 'kiwi' in k,
+                key_setter=lambda k, v: re.sub('kiwi', 'pepperoni', k)
             )\
             .delete(lambda x: x == 'v0', by='value')\
             .to_dict()
