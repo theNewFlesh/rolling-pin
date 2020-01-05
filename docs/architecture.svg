@@ -57,65 +57,65 @@
 <path fill="none" stroke="#b6ecf3" d="M191.3373,-71.8314C210.3396,-62.3302 233.7758,-50.6121 253.9252,-40.5374"/>
 <polygon fill="#b6ecf3" stroke="#b6ecf3" points="255.545,-43.6407 262.924,-36.038 252.4145,-37.3797 255.545,-43.6407"/>
 </g>
-<!-- rolling_pin -->
-<g id="node6" class="node">
-<title>rolling_pin</title>
-<polygon fill="#343434" stroke="#343434" points="348.5,-180 241.5,-180 241.5,-144 348.5,-144 348.5,-180"/>
-<text text-anchor="middle" x="295" y="-158.3" font-family="Courier,monospace" font-size="14.00" fill="#a0d17b">rolling_pin</text>
-</g>
-<!-- rolling_pin&#45;&gt;rolling_pin.blob_etl -->
-<g id="edge4" class="edge">
-<title>rolling_pin&#45;&gt;rolling_pin.blob_etl</title>
-<path fill="none" stroke="#a0d17b" d="M348.7483,-151.5017C362.5018,-148.931 377.2815,-146.2688 391,-144 446.5934,-134.8057 605.0922,-150.579 642,-108 667.6127,-78.4516 626.7673,-54.8952 582.8549,-39.3051"/>
-<polygon fill="#a0d17b" stroke="#a0d17b" points="583.7587,-35.9155 573.1642,-36.0028 581.5007,-42.5414 583.7587,-35.9155"/>
-</g>
-<!-- rolling_pin&#45;&gt;rolling_pin.repo_etl -->
-<g id="edge5" class="edge">
-<title>rolling_pin&#45;&gt;rolling_pin.repo_etl</title>
-<path fill="none" stroke="#a0d17b" d="M289.1728,-143.7141C284.1252,-125.5197 278.1869,-96.8103 282,-72 283.3374,-63.2979 285.8204,-54.074 288.4834,-45.759"/>
-<polygon fill="#a0d17b" stroke="#a0d17b" points="291.8406,-46.7579 291.7561,-36.1634 285.2154,-44.4982 291.8406,-46.7579"/>
-</g>
-<!-- rolling_pin&#45;&gt;rolling_pin.tools -->
-<g id="edge6" class="edge">
-<title>rolling_pin&#45;&gt;rolling_pin.tools</title>
-<path fill="none" stroke="#a0d17b" d="M339.1599,-143.8314C362.7732,-134.1162 392.0202,-122.0831 416.87,-111.8592"/>
-<polygon fill="#a0d17b" stroke="#a0d17b" points="418.2415,-115.0797 426.1577,-108.038 415.5781,-108.6061 418.2415,-115.0797"/>
-</g>
-<!-- rolling_pin&#45;&gt;rolling_pin.utils -->
-<g id="edge7" class="edge">
-<title>rolling_pin&#45;&gt;rolling_pin.utils</title>
-<path fill="none" stroke="#a0d17b" d="M259.6721,-143.8314C241.3507,-134.4089 218.7898,-122.8062 199.3105,-112.7883"/>
-<polygon fill="#a0d17b" stroke="#a0d17b" points="200.8102,-109.6239 190.3166,-108.1628 197.6088,-115.8489 200.8102,-109.6239"/>
-</g>
 <!-- IPython.display -->
-<g id="node7" class="node">
+<g id="node6" class="node">
 <title>IPython.display</title>
 <polygon fill="#343434" stroke="#343434" points="540,-180 400,-180 400,-144 540,-144 540,-180"/>
 <text text-anchor="middle" x="470" y="-158.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">IPython.display</text>
 </g>
 <!-- IPython.display&#45;&gt;rolling_pin.tools -->
-<g id="edge8" class="edge">
+<g id="edge4" class="edge">
 <title>IPython.display&#45;&gt;rolling_pin.tools</title>
 <path fill="none" stroke="#de958e" d="M470,-143.8314C470,-136.131 470,-126.9743 470,-118.4166"/>
 <polygon fill="#de958e" stroke="#de958e" points="473.5001,-118.4132 470,-108.4133 466.5001,-118.4133 473.5001,-118.4132"/>
 </g>
 <!-- networkx -->
-<g id="node8" class="node">
+<g id="node7" class="node">
 <title>networkx</title>
 <polygon fill="#343434" stroke="#343434" points="373.5,-108 290.5,-108 290.5,-72 373.5,-72 373.5,-108"/>
 <text text-anchor="middle" x="332" y="-86.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">networkx</text>
 </g>
 <!-- networkx&#45;&gt;rolling_pin.blob_etl -->
-<g id="edge9" class="edge">
+<g id="edge5" class="edge">
 <title>networkx&#45;&gt;rolling_pin.blob_etl</title>
 <path fill="none" stroke="#de958e" d="M373.8313,-72.3868C397.0651,-62.6042 426.1798,-50.3453 450.8836,-39.9437"/>
 <polygon fill="#de958e" stroke="#de958e" points="452.256,-43.1636 460.1141,-36.0572 449.5395,-36.7121 452.256,-43.1636"/>
 </g>
 <!-- networkx&#45;&gt;rolling_pin.repo_etl -->
-<g id="edge10" class="edge">
+<g id="edge6" class="edge">
 <title>networkx&#45;&gt;rolling_pin.repo_etl</title>
 <path fill="none" stroke="#de958e" d="M323.6727,-71.8314C320.027,-63.8771 315.6691,-54.369 311.6373,-45.5723"/>
 <polygon fill="#de958e" stroke="#de958e" points="314.7877,-44.0456 307.4394,-36.4133 308.4243,-46.9622 314.7877,-44.0456"/>
+</g>
+<!-- rolling_pin -->
+<g id="node8" class="node">
+<title>rolling_pin</title>
+<polygon fill="#343434" stroke="#343434" points="348.5,-180 241.5,-180 241.5,-144 348.5,-144 348.5,-180"/>
+<text text-anchor="middle" x="295" y="-158.3" font-family="Courier,monospace" font-size="14.00" fill="#a0d17b">rolling_pin</text>
+</g>
+<!-- rolling_pin&#45;&gt;rolling_pin.blob_etl -->
+<g id="edge7" class="edge">
+<title>rolling_pin&#45;&gt;rolling_pin.blob_etl</title>
+<path fill="none" stroke="#a0d17b" d="M348.7483,-151.5017C362.5018,-148.931 377.2815,-146.2688 391,-144 446.5934,-134.8057 605.0922,-150.579 642,-108 667.6127,-78.4516 626.7673,-54.8952 582.8549,-39.3051"/>
+<polygon fill="#a0d17b" stroke="#a0d17b" points="583.7587,-35.9155 573.1642,-36.0028 581.5007,-42.5414 583.7587,-35.9155"/>
+</g>
+<!-- rolling_pin&#45;&gt;rolling_pin.repo_etl -->
+<g id="edge8" class="edge">
+<title>rolling_pin&#45;&gt;rolling_pin.repo_etl</title>
+<path fill="none" stroke="#a0d17b" d="M289.1728,-143.7141C284.1252,-125.5197 278.1869,-96.8103 282,-72 283.3374,-63.2979 285.8204,-54.074 288.4834,-45.759"/>
+<polygon fill="#a0d17b" stroke="#a0d17b" points="291.8406,-46.7579 291.7561,-36.1634 285.2154,-44.4982 291.8406,-46.7579"/>
+</g>
+<!-- rolling_pin&#45;&gt;rolling_pin.tools -->
+<g id="edge9" class="edge">
+<title>rolling_pin&#45;&gt;rolling_pin.tools</title>
+<path fill="none" stroke="#a0d17b" d="M339.1599,-143.8314C362.7732,-134.1162 392.0202,-122.0831 416.87,-111.8592"/>
+<polygon fill="#a0d17b" stroke="#a0d17b" points="418.2415,-115.0797 426.1577,-108.038 415.5781,-108.6061 418.2415,-115.0797"/>
+</g>
+<!-- rolling_pin&#45;&gt;rolling_pin.utils -->
+<g id="edge10" class="edge">
+<title>rolling_pin&#45;&gt;rolling_pin.utils</title>
+<path fill="none" stroke="#a0d17b" d="M259.6721,-143.8314C241.3507,-134.4089 218.7898,-122.8062 199.3105,-112.7883"/>
+<polygon fill="#a0d17b" stroke="#a0d17b" points="200.8102,-109.6239 190.3166,-108.1628 197.6088,-115.8489 200.8102,-109.6239"/>
 </g>
 <!-- numpy -->
 <g id="node9" class="node">

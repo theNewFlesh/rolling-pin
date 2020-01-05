@@ -833,6 +833,24 @@ Options include: key, value, key+value. Default: key.</p></li>
 </dd></dl>
 
 <dl class="method">
+<dt id="rolling_pin.blob_etl.BlobETL.to_dataframe">
+<code class="sig-name descname">to_dataframe</code><span class="sig-paren">(</span><em class="sig-param">group_by=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert data to pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group_by</strong> (<em>int</em><em>, </em><em>optional</em>) – Field index to group rows of data by.
+Default: None.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="rolling_pin.blob_etl.BlobETL.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -966,6 +984,19 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">BlobETL</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.blob_etl.BlobETL.to_records">
+<code class="sig-name descname">to_records</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_records"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_records" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data in records format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list[dict]</p>
 </dd>
 </dl>
 </dd></dl>
