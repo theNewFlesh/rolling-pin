@@ -442,7 +442,7 @@ class BlobEtlTests(unittest.TestCase):
 
     def test_to_dot_graph_error(self):
         blob = self.get_simple_blob()
-        with pytest.raises(ValueError) as e: 
+        with pytest.raises(ValueError) as e:
             BlobETL(blob).to_dot_graph(orient='foo')
         expected = "Invalid orient value. foo not in ['tb', 'bt', 'lr', 'rl']."
         self.assertEqual(str(e.value), expected)
