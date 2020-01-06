@@ -188,7 +188,7 @@ class RadonETL():
         output = list(map(json.loads, output))
         keys = [
             'cyclomatic_complexity', 'raw_metrics', 'maintainability_index',
-            'halstead',
+            'halstead_metrics',
         ]
         output = dict(zip(keys, output))
         return output
@@ -275,7 +275,7 @@ class RadonETL():
         data = data[cols]
 
         # convert rank to integer
-        rank_lut = {k: i for i, k in enumerate('FEDCBA')}
+        rank_lut = {k: i for i, k in enumerate('ABCDEF')}
         data['maintainability_rank'] = data['maintainability_rank']\
             .apply(lambda x: rank_lut[x])
 
@@ -336,7 +336,7 @@ class RadonETL():
         data.reset_index(drop=True, inplace=True)
 
         # convert rank to integer
-        rank_lut = {k: i for i, k in enumerate('FEDCBA')}
+        rank_lut = {k: i for i, k in enumerate('ABCDEF')}
         data['cyclomatic_rank'] = data['cyclomatic_rank']\
             .apply(lambda x: rank_lut[x])
 
@@ -353,7 +353,7 @@ class RadonETL():
         Returns:
             pandas.DataFrame: Halstead DataFrame.
         '''
-        hal = report['halstead']
+        hal = report['halstead_metrics']
         keys = [
             'h1', 'h2', 'n1', 'n2', 'vocabulary', 'length', 'calculated_length',
             'volume', 'difficulty', 'effort', 'time', 'bugs',
