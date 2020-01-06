@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('../python'))
 project = 'rolling-pin'
 copyright = '2019, Alex Braun <TheNewFlesh@github.com>'
 author = 'Alex Braun <TheNewFlesh@github.com>'
-version = '0.1.4'
+version = '0.2.0'
 # release = ''
 
 # -- General configuration ---------------------------------------------------
