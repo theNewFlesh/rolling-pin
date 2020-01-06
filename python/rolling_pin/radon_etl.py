@@ -274,6 +274,11 @@ class RadonETL():
         cols = ['fullpath', 'maintainability_index', 'maintainability_rank']
         data = data[cols]
 
+        # convert rank to integer
+        rank_lut = {k: i for i, k in enumerate('FEDCBA')}
+        data['maintainability_rank'] = data['maintainability_rank']\
+            .apply(lambda x: rank_lut[x])
+
         return data
 
     @staticmethod
@@ -329,6 +334,11 @@ class RadonETL():
         data.drop_duplicates(inplace=True)
         data.rename(mapper=lambda x: lut[x], axis=1, inplace=True)
         data.reset_index(drop=True, inplace=True)
+
+        # convert rank to integer
+        rank_lut = {k: i for i, k in enumerate('FEDCBA')}
+        data['cyclomatic_rank'] = data['cyclomatic_rank']\
+            .apply(lambda x: rank_lut[x])
 
         return data
 
