@@ -1,0 +1,587 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rolling_pin.radon_etl &mdash; rolling-pin  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> rolling-pin
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">rolling-pin</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>rolling_pin.radon_etl</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for rolling_pin.radon_etl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span> <span class="nn">radon.complexity</span>
+<span class="kn">from</span> <span class="nn">radon.cli</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span> <span class="nn">radon.cli</span> <span class="kn">import</span> <span class="n">CCHarvester</span><span class="p">,</span> <span class="n">HCHarvester</span><span class="p">,</span> <span class="n">MIHarvester</span><span class="p">,</span> <span class="n">RawHarvester</span>
+
+<span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Contain the RadonETL class, which is used for generating a radon report on the</span>
+<span class="sd">code wthin a given directory.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="RadonETL"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL">[docs]</a><span class="k">class</span> <span class="nc">RadonETL</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Conforms all four radon reports (raw metrics, Halstead, maintainability and</span>
+<span class="sd">    cyclomatic complexity) into a single DataFrame that can then be plotted.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructs a RadonETL instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fullpath (str or Path): Python file or directory of python files.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span> <span class="o">=</span> <span class="n">RadonETL</span><span class="o">.</span><span class="n">_get_radon_report</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+    <span class="c1"># --------------------------------------------------------------------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        dict: Dictionary of all radon metrics.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        pandas.DataFrame: DataFrame of all radon metrics.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_radon_data</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">raw_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        pandas.DataFrame: DataFrame of radon raw metrics.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_raw_metrics_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">maintainability_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        pandas.DataFrame: DataFrame of radon maintainability index metrics.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_maintainability_index_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cyclomatic_complexity_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        pandas.DataFrame: DataFrame of radon cyclomatic complexity metrics.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cyclomatic_complexity_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">halstead_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        pandas.DataFrame: DataFrame of radon Halstead metrics.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_halstead_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">)</span>
+    <span class="c1"># --------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RadonETL._get_radon_data"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_radon_data">[docs]</a>    <span class="k">def</span> <span class="nf">_get_radon_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructs a DataFrame representing all the radon reports generated for</span>
+<span class="sd">        a given python file or directory containing python files.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: Radon report DataFrame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">hal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">halstead_metrics</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclomatic_complexity_metrics</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_metrics</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maintainability_index</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">hal</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;object_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">object_type_x</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">object_type_x</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;object_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;object_type_y&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;object_type_x&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;object_type_y&#39;</span><span class="p">]</span>
+
+        <span class="n">module</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;fullpath&#39;</span><span class="p">)</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">object_type</span> <span class="o">==</span> <span class="s1">&#39;module&#39;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">module</span><span class="p">[</span><span class="n">module</span><span class="o">.</span><span class="n">fullpath</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">fullpath</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;class_name&#39;</span><span class="p">,</span> <span class="s1">&#39;object_type&#39;</span><span class="p">,</span> <span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;bugs&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;calculated_length&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;column_offset&#39;</span><span class="p">,</span> <span class="s1">&#39;comment&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;complexity&#39;</span><span class="p">,</span> <span class="s1">&#39;difficulty&#39;</span><span class="p">,</span> <span class="s1">&#39;effort&#39;</span><span class="p">,</span> <span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="s1">&#39;h2&#39;</span><span class="p">,</span> <span class="s1">&#39;length&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;logical_code&#39;</span><span class="p">,</span> <span class="s1">&#39;maintainability_index&#39;</span><span class="p">,</span> <span class="s1">&#39;maintainability_rank&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;multiline_comment&#39;</span><span class="p">,</span> <span class="s1">&#39;n1&#39;</span><span class="p">,</span> <span class="s1">&#39;n2&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;single_comment&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;source_code&#39;</span><span class="p">,</span> <span class="s1">&#39;start_line&#39;</span><span class="p">,</span> <span class="s1">&#39;stop_line&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;vocabulary&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;volume&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+    <span class="c1"># --------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RadonETL._get_radon_report"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_radon_report">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_radon_report</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets all 4 report from radon and aggregates them into a single blob</span>
+<span class="sd">        object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fullpath (str or Path): Python file or directory of python files.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Radon report blob.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+            <span class="n">fullpath</span> <span class="o">=</span> <span class="n">fullpath</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+
+        <span class="n">fullpath</span> <span class="o">=</span> <span class="p">[</span><span class="n">fullpath</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
+            <span class="nb">min</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span>
+            <span class="nb">max</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">,</span>
+            <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">show_complexity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">total_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="n">radon</span><span class="o">.</span><span class="n">complexity</span><span class="p">,</span> <span class="s1">&#39;SCORE&#39;</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">radon</span><span class="o">.</span><span class="n">complexity</span><span class="p">,</span> <span class="s1">&#39;SCORE&#39;</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">no_assert</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">show_closures</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CCHarvester</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">as_json</span><span class="p">())</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
+            <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">summary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RawHarvester</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">as_json</span><span class="p">())</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
+            <span class="nb">min</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span>
+            <span class="nb">max</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>
+            <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">multi</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MIHarvester</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">as_json</span><span class="p">())</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
+            <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">by_function</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">HCHarvester</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">as_json</span><span class="p">())</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">output</span><span class="p">))</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;cyclomatic_complexity&#39;</span><span class="p">,</span> <span class="s1">&#39;raw_metrics&#39;</span><span class="p">,</span> <span class="s1">&#39;maintainability_index&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;halstead&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">output</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="RadonETL._get_raw_metrics_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_raw_metrics_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts radon raw metrics report into a pandas DataFrame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            report (dict): Radon report blob.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: Raw metrics DataFrame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s1">&#39;raw_metrics&#39;</span><span class="p">]</span>
+        <span class="n">fullpaths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">path_lut</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;&lt;list_</span><span class="si">{i}</span><span class="s1">&gt;&#39;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fullpaths</span><span class="p">)}</span>
+        <span class="n">fullpath_fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fullpath&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">}</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fullpaths</span><span class="p">}</span>
+
+        <span class="c1">#   loc = Lines of Code (total lines) - sloc + blanks + multi + single_comments</span>
+        <span class="c1">#   lloc = Logical Lines of Code</span>
+        <span class="c1">#   comments = Comments lines</span>
+        <span class="c1">#   multi = Multi-line strings (assumed to be docstrings)</span>
+        <span class="c1">#   blank = Blank lines (or whitespace-only lines)</span>
+        <span class="c1">#   single_comments = Single-line comments or docstrings</span>
+        <span class="n">name_lut</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">blank</span><span class="o">=</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;comment&#39;</span><span class="p">,</span>
+            <span class="n">lloc</span><span class="o">=</span><span class="s1">&#39;logical_code&#39;</span><span class="p">,</span>
+            <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;code&#39;</span><span class="p">,</span>
+            <span class="n">multi</span><span class="o">=</span><span class="s1">&#39;multiline_comment&#39;</span><span class="p">,</span>
+            <span class="n">single_comments</span><span class="o">=</span><span class="s1">&#39;single_comment&#39;</span><span class="p">,</span>
+            <span class="n">sloc</span><span class="o">=</span><span class="s1">&#39;source_code&#39;</span><span class="p">,</span>
+            <span class="n">fullpath</span><span class="o">=</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fullpath_fields</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">set_field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">path_lut</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>\
+            <span class="o">.</span><span class="n">set_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">name_lut</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>\
+            <span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;comment&#39;</span><span class="p">,</span> <span class="s1">&#39;logical_code&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;multiline_comment&#39;</span><span class="p">,</span> <span class="s1">&#39;single_comment&#39;</span><span class="p">,</span> <span class="s1">&#39;source_code&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="RadonETL._get_maintainability_index_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_maintainability_index_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts radon maintainability index report into a pandas DataFrame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            report (dict): Radon report blob.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: Maintainability DataFrame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s1">&#39;maintainability_index&#39;</span><span class="p">]</span>
+        <span class="n">fullpaths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mi</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">path_lut</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;&lt;list_</span><span class="si">{i}</span><span class="s1">&gt;&#39;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fullpaths</span><span class="p">)}</span>
+        <span class="n">fullpath_fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;fullpath&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">}</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fullpaths</span><span class="p">}</span>
+        <span class="n">name_lut</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">mi</span><span class="o">=</span><span class="s1">&#39;maintainability_index&#39;</span><span class="p">,</span>
+            <span class="n">rank</span><span class="o">=</span><span class="s1">&#39;maintainability_rank&#39;</span><span class="p">,</span>
+            <span class="n">fullpath</span><span class="o">=</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fullpath_fields</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">set_field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">path_lut</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>\
+            <span class="o">.</span><span class="n">set_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">name_lut</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>\
+            <span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="s1">&#39;maintainability_index&#39;</span><span class="p">,</span> <span class="s1">&#39;maintainability_rank&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="RadonETL._get_cyclomatic_complexity_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_cyclomatic_complexity_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts radon cyclomatic complexity report into a pandas DataFrame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            report (dict): Radon report blob.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: Cyclomatic complexity DataFrame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">lut</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;classname&#39;</span><span class="p">:</span> <span class="s1">&#39;class_name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;closures&#39;</span><span class="p">:</span> <span class="s1">&#39;closures&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;col_offset&#39;</span><span class="p">:</span> <span class="s1">&#39;column_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;complexity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;endline&#39;</span><span class="p">:</span> <span class="s1">&#39;stop_line&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;lineno&#39;</span><span class="p">:</span> <span class="s1">&#39;start_line&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;descriptor&#39;</span><span class="p">:</span> <span class="s1">&#39;descriptor&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;fullpath&#39;</span><span class="p">:</span> <span class="s1">&#39;fullpath&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;method_closure&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;^[^#]+#&lt;list_[0-9]+&gt;#methods#&lt;list_[0-9]+&gt;#closures#&lt;list_[0-9]+&gt;#[^#]+$&#39;</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;closure&#39;</span><span class="p">,</span> <span class="s1">&#39;^[^#]+#&lt;list_[0-9]+&gt;#closures#&lt;list_[0-9]+&gt;#[^#]+$&#39;</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;^[^#]+#&lt;list_[0-9]+&gt;#methods#&lt;list_[0-9]+&gt;#[^#]+$&#39;</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;^[^#]+#&lt;list_[0-9]+&gt;#[^#]+$&#39;</span><span class="p">],</span>
+        <span class="p">]</span>
+
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s1">&#39;cyclomatic_complexity&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">type_</span><span class="p">,</span> <span class="n">regex</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">to_flat_dict</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">temp</span>\
+                    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">item</span><span class="p">[</span><span class="s1">&#39;fullpath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">type_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">type_</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;classname&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;complexity&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;lineno&#39;</span><span class="p">,</span> <span class="s1">&#39;endline&#39;</span><span class="p">,</span> <span class="s1">&#39;col_offset&#39;</span>
+        <span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+        <span class="n">lut</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;fullpath&#39;</span><span class="p">:</span> <span class="s1">&#39;fullpath&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;classname&#39;</span><span class="p">:</span> <span class="s1">&#39;class_name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;complexity&#39;</span><span class="p">:</span> <span class="s1">&#39;complexity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;lineno&#39;</span><span class="p">:</span> <span class="s1">&#39;start_line&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;endline&#39;</span><span class="p">:</span> <span class="s1">&#39;stop_line&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;col_offset&#39;</span><span class="p">:</span> <span class="s1">&#39;column_offset&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">mapper</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lut</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="RadonETL._get_halstead_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_halstead_dataframe">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_halstead_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts radon Halstead report into a pandas DataFrame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            report (dict): Radon report blob.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: Halstead DataFrame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">hal</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="s1">&#39;halstead&#39;</span><span class="p">]</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="s1">&#39;h2&#39;</span><span class="p">,</span> <span class="s1">&#39;n1&#39;</span><span class="p">,</span> <span class="s1">&#39;n2&#39;</span><span class="p">,</span> <span class="s1">&#39;vocabulary&#39;</span><span class="p">,</span> <span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="s1">&#39;calculated_length&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="s1">&#39;difficulty&#39;</span><span class="p">,</span> <span class="s1">&#39;effort&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;bugs&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">hal</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;function|closure&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;fullpath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;object_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;s$&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">score</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+        <span class="n">total</span> <span class="o">=</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">hal</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;total&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+        <span class="n">total</span><span class="p">[</span><span class="s1">&#39;fullpath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">total</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">total</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">total</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">total</span><span class="p">[</span><span class="s1">&#39;object_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;module&#39;</span>
+        <span class="n">total</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span><span class="o">.</span><span class="n">fullpath</span>\
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">((</span><span class="n">Path</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fullpath&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;object_type&#39;</span><span class="p">]</span>
+        <span class="n">cols</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

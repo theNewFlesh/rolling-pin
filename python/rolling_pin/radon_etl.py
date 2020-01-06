@@ -36,26 +36,44 @@ class RadonETL():
 
     @property
     def report(self):
+        '''
+        dict: Dictionary of all radon metrics.
+        '''
         return self._report
 
     @property
     def data(self):
+        '''
+        pandas.DataFrame: DataFrame of all radon metrics.
+        '''
         return self._get_radon_data()
 
     @property
     def raw_metrics(self):
+        '''
+        pandas.DataFrame: DataFrame of radon raw metrics.
+        '''
         return self._get_raw_metrics_dataframe(self._report)
 
     @property
     def maintainability_index(self):
+        '''
+        pandas.DataFrame: DataFrame of radon maintainability index metrics.
+        '''
         return self._get_maintainability_index_dataframe(self._report)
 
     @property
     def cyclomatic_complexity_metrics(self):
+        '''
+        pandas.DataFrame: DataFrame of radon cyclomatic complexity metrics.
+        '''
         return self._get_cyclomatic_complexity_dataframe(self._report)
 
     @property
     def halstead_metrics(self):
+        '''
+        pandas.DataFrame: DataFrame of radon Halstead metrics.
+        '''
         return self._get_halstead_dataframe(self._report)
     # --------------------------------------------------------------------------
 

@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">cli</a></li>
 </ul>
 
@@ -782,39 +783,33 @@ regular expression search. Default: False.</p></li>
 
 <dl class="method">
 <dt id="rolling_pin.blob_etl.BlobETL.set">
-<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param">predicate=None</em>, <em class="sig-param">key_setter=None</em>, <em class="sig-param">value_setter=None</em>, <em class="sig-param">by='key'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param">predicate=None</em>, <em class="sig-param">key_setter=None</em>, <em class="sig-param">value_setter=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter data items by key, value or key + value, according to a given
 predicate. Then set that items key by a given function and value by a
 given function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>predicate</strong> (<em>function</em><em>, </em><em>optional</em>) – Function that returns a boolean
-value. Can be of form lambda k: bool or lambda k,v: bool.
-Default: None –&gt; lambda k: True.</p></li>
-<li><p><strong>key_setter</strong> (<em>function</em><em>, </em><em>optional</em>) – Funciton of the form: lambda k: k.
-Default: None –&gt; lambda k: k.</p></li>
-<li><p><strong>value_setter</strong> (<em>function</em><em>, </em><em>optional</em>) – Funciton of the form:
-lambda v: v. Default: None –&gt; lambda v: v.</p></li>
-<li><p><strong>by</strong> (<em>str</em><em>, </em><em>optional</em>) – Value handed to predicate.
-Options include: key, value, key+value. Default: key.</p></li>
+<li><p><strong>predicate</strong> (<em>function</em><em>, </em><em>optional</em>) – Function of the form:
+lambda k, v: bool. Default: None –&gt; lambda k, v: True.</p></li>
+<li><p><strong>key_setter</strong> (<em>function</em><em>, </em><em>optional</em>) – Function of the form:
+lambda k, v: str. Default: None –&gt; lambda k, v: k.</p></li>
+<li><p><strong>value_setter</strong> (<em>function</em><em>, </em><em>optional</em>) – Function of the form:
+lambda k, v: object. Default: None –&gt; lambda k, v: v.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If by keyword is not key, value, or key+value.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New BlobETL instance.</p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>New BlobETL instance.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">BlobETL</a></p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">BlobETL</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="rolling_pin.blob_etl.BlobETL.set_field_by_index">
-<code class="sig-name descname">set_field_by_index</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">field_setter</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set_field_by_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set_field_by_index" title="Permalink to this definition">¶</a></dt>
+<dt id="rolling_pin.blob_etl.BlobETL.set_field">
+<code class="sig-name descname">set_field</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">field_setter</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set’s a field at a given index according to a given function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -865,7 +860,7 @@ Default: None.</p>
 
 <dl class="method">
 <dt id="rolling_pin.blob_etl.BlobETL.to_dot_graph">
-<code class="sig-name descname">to_dot_graph</code><span class="sig-paren">(</span><em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_dot_graph</code><span class="sig-paren">(</span><em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">orient='tb'</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts internal dictionary into pydot graph.
 Key and value nodes and edges are colored differently.</p>
 <dl class="field-list simple">
@@ -873,6 +868,15 @@ Key and value nodes and edges are colored differently.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>orthogonal_edges</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether graph edges should have
 non-right angles. Default: False.</p></li>
+<li><p><strong>orient</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Graph layout orientation. Default: tb.
+Options include:</p>
+<ul>
+<li><p>tb - top to bottom</p></li>
+<li><p>bt - bottom to top</p></li>
+<li><p>lr - left to right</p></li>
+<li><p>rl - right to left</p></li>
+</ul>
+</p></li>
 <li><p><strong>color_scheme</strong> – (dict, optional): Color scheme to be applied to graph.
 Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </ul>
@@ -901,7 +905,7 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 
 <dl class="method">
 <dt id="rolling_pin.blob_etl.BlobETL.to_html">
-<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em>, <em class="sig-param">as_png=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_html" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">orient='tb'</em>, <em class="sig-param">color_scheme=None</em>, <em class="sig-param">as_png=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>For use in inline rendering of graph data in Jupyter Lab.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -911,6 +915,15 @@ Options include: circo, dot, fdp, neato, sfdp, twopi.
 Default: dot.</p></li>
 <li><p><strong>orthogonal_edges</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether graph edges should have
 non-right angles. Default: False.</p></li>
+<li><p><strong>orient</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Graph layout orientation. Default: tb.
+Options include:</p>
+<ul>
+<li><p>tb - top to bottom</p></li>
+<li><p>bt - bottom to top</p></li>
+<li><p>lr - left to right</p></li>
+<li><p>rl - right to left</p></li>
+</ul>
+</p></li>
 <li><p><strong>color_scheme</strong> – (dict, optional): Color scheme to be applied to graph.
 Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 <li><p><strong>as_png</strong> (<em>bool</em><em>, </em><em>optional</em>) – Display graph as a PNG image instead of
@@ -1021,7 +1034,7 @@ Given dictionary is first flattened with embeded types.</p>
 
 <dl class="method">
 <dt id="rolling_pin.blob_etl.BlobETL.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">fullpath</em>, <em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">fullpath</em>, <em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">orient='tb'</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes internal dictionary to a given filepath.
 Formats supported: svg, dot, png, json.</p>
 <dl class="field-list simple">
@@ -1031,12 +1044,173 @@ Formats supported: svg, dot, png, json.</p>
 <li><p><strong>layout</strong> (<em>str</em><em>, </em><em>optional</em>) – Graph layout style.
 Options include: circo, dot, fdp, neato, sfdp, twopi.
 Default: dot.</p></li>
+<li><p><strong>orthogonal_edges</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether graph edges should have
+non-right angles. Default: False.</p></li>
+<li><p><strong>orient</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Graph layout orientation. Default: tb.
+Options include:</p>
+<ul>
+<li><p>tb - top to bottom</p></li>
+<li><p>bt - bottom to top</p></li>
+<li><p>lr - left to right</p></li>
+<li><p>rl - right to left</p></li>
+</ul>
+</p></li>
+<li><p><strong>color_scheme</strong> – (dict, optional): Color scheme to be applied to graph.
+Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If invalid file extension given.</p>
 </dd>
 </dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-rolling_pin.radon_etl">
+<span id="radon-etl"></span><h1>radon_etl<a class="headerlink" href="#module-rolling_pin.radon_etl" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="rolling_pin.radon_etl.RadonETL">
+<em class="property">class </em><code class="sig-prename descclassname">rolling_pin.radon_etl.</code><code class="sig-name descname">RadonETL</code><span class="sig-paren">(</span><em class="sig-param">fullpath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Conforms all four radon reports (raw metrics, Halstead, maintainability and
+cyclomatic complexity) into a single DataFrame that can then be plotted.</p>
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">
+<em class="property">static </em><code class="sig-name descname">_get_cyclomatic_complexity_dataframe</code><span class="sig-paren">(</span><em class="sig-param">report</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_cyclomatic_complexity_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts radon cyclomatic complexity report into a pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>report</strong> (<em>dict</em>) – Radon report blob.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cyclomatic complexity DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL._get_halstead_dataframe">
+<em class="property">static </em><code class="sig-name descname">_get_halstead_dataframe</code><span class="sig-paren">(</span><em class="sig-param">report</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_halstead_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_halstead_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts radon Halstead report into a pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>report</strong> (<em>dict</em>) – Radon report blob.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Halstead DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe">
+<em class="property">static </em><code class="sig-name descname">_get_maintainability_index_dataframe</code><span class="sig-paren">(</span><em class="sig-param">report</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_maintainability_index_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts radon maintainability index report into a pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>report</strong> (<em>dict</em>) – Radon report blob.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Maintainability DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL._get_radon_data">
+<code class="sig-name descname">_get_radon_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_radon_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_radon_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a DataFrame representing all the radon reports generated for
+a given python file or directory containing python files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Radon report DataFrame.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL._get_radon_report">
+<em class="property">static </em><code class="sig-name descname">_get_radon_report</code><span class="sig-paren">(</span><em class="sig-param">fullpath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_radon_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_radon_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all 4 report from radon and aggregates them into a single blob
+object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fullpath</strong> (<em>str</em><em> or </em><em>Path</em>) – Python file or directory of python files.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Radon report blob.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe">
+<em class="property">static </em><code class="sig-name descname">_get_raw_metrics_dataframe</code><span class="sig-paren">(</span><em class="sig-param">report</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_raw_metrics_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts radon raw metrics report into a pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>report</strong> (<em>dict</em>) – Radon report blob.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Raw metrics DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics">
+<em class="property">property </em><code class="sig-name descname">cyclomatic_complexity_metrics</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>pandas.DataFrame: DataFrame of radon cyclomatic complexity metrics.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL.data">
+<em class="property">property </em><code class="sig-name descname">data</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>pandas.DataFrame: DataFrame of all radon metrics.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL.halstead_metrics">
+<em class="property">property </em><code class="sig-name descname">halstead_metrics</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.halstead_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>pandas.DataFrame: DataFrame of radon Halstead metrics.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL.maintainability_index">
+<em class="property">property </em><code class="sig-name descname">maintainability_index</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.maintainability_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>pandas.DataFrame: DataFrame of radon maintainability index metrics.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL.raw_metrics">
+<em class="property">property </em><code class="sig-name descname">raw_metrics</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.raw_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>pandas.DataFrame: DataFrame of radon raw metrics.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL.report">
+<em class="property">property </em><code class="sig-name descname">report</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.report" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict: Dictionary of all radon metrics.</p>
 </dd></dl>
 
 </dd></dl>

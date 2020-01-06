@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">cli</a></li>
 </ul>
 
@@ -163,6 +164,7 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
@@ -184,11 +186,23 @@
 </li>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._center_coordinate">_center_coordinate() (rolling_pin.repo_etl.RepoETL static method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">_get_cyclomatic_complexity_dataframe() (rolling_pin.radon_etl.RadonETL static method)</a>
+</li>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_data">_get_data() (rolling_pin.repo_etl.RepoETL static method)</a>
 </li>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_halstead_dataframe">_get_halstead_dataframe() (rolling_pin.radon_etl.RadonETL static method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_imports">_get_imports() (rolling_pin.repo_etl.RepoETL static method)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe">_get_maintainability_index_dataframe() (rolling_pin.radon_etl.RadonETL static method)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_radon_data">_get_radon_data() (rolling_pin.radon_etl.RadonETL method)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_radon_report">_get_radon_report() (rolling_pin.radon_etl.RadonETL static method)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe">_get_raw_metrics_dataframe() (rolling_pin.radon_etl.RadonETL static method)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._to_networkx_graph">_to_networkx_graph() (rolling_pin.repo_etl.RepoETL static method)</a>
 </li>
@@ -209,15 +223,21 @@
       <li><a href="cli.html#module-cli">cli (module)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics">cyclomatic_complexity_metrics() (rolling_pin.radon_etl.RadonETL property)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.delete">delete() (rolling_pin.blob_etl.BlobETL method)</a>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.data">data() (rolling_pin.radon_etl.RadonETL property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.delete">delete() (rolling_pin.blob_etl.BlobETL method)</a>
+</li>
       <li><a href="rolling_pin.html#rolling_pin.tools.dot_to_html">dot_to_html() (in module rolling_pin.tools)</a>
 </li>
   </ul></td>
@@ -283,6 +303,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.halstead_metrics">halstead_metrics() (rolling_pin.radon_etl.RadonETL property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -321,6 +349,10 @@
       <li><a href="cli.html#cli.main">main() (in module cli)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.maintainability_index">maintainability_index() (rolling_pin.radon_etl.RadonETL property)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
@@ -342,6 +374,10 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL">RadonETL (class in rolling_pin.radon_etl)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.raw_metrics">raw_metrics() (rolling_pin.radon_etl.RadonETL property)</a>
+</li>
       <li><a href="rolling_pin.html#rolling_pin.utils.relative_path">relative_path() (in module rolling_pin.utils)</a>
 </li>
       <li><a href="cli.html#cli.REPO_PATH">REPO_PATH (in module cli)</a>
@@ -350,7 +386,11 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.report">report() (rolling_pin.radon_etl.RadonETL property)</a>
+</li>
       <li><a href="rolling_pin.html#module-rolling_pin.blob_etl">rolling_pin.blob_etl (module)</a>
+</li>
+      <li><a href="rolling_pin.html#module-rolling_pin.radon_etl">rolling_pin.radon_etl (module)</a>
 </li>
       <li><a href="rolling_pin.html#module-rolling_pin.repo_etl">rolling_pin.repo_etl (module)</a>
 </li>
@@ -368,7 +408,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.set_field_by_index">set_field_by_index() (rolling_pin.blob_etl.BlobETL method)</a>
+      <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.set_field">set_field() (rolling_pin.blob_etl.BlobETL method)</a>
 </li>
   </ul></td>
 </tr></table>

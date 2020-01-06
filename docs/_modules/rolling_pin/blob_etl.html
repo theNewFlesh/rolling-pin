@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
 </ul>
 
@@ -283,7 +284,6 @@
         <span class="n">predicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">key_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">value_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span>
     <span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Filter data items by key, value or key + value, according to a given</span>
@@ -291,53 +291,34 @@
 <span class="sd">        given function.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            predicate (function, optional): Function that returns a boolean</span>
-<span class="sd">                value. Can be of form lambda k: bool or lambda k,v: bool.</span>
-<span class="sd">                Default: None --&gt; lambda k: True.</span>
-<span class="sd">            key_setter (function, optional): Funciton of the form: lambda k: k.</span>
-<span class="sd">                Default: None --&gt; lambda k: k.</span>
-<span class="sd">            value_setter (function, optional): Funciton of the form:</span>
-<span class="sd">                lambda v: v. Default: None --&gt; lambda v: v.</span>
-<span class="sd">            by (str, optional): Value handed to predicate.</span>
-<span class="sd">                Options include: key, value, key+value. Default: key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If by keyword is not key, value, or key+value.</span>
+<span class="sd">            predicate (function, optional): Function of the form:</span>
+<span class="sd">                lambda k, v: bool. Default: None --&gt; lambda k, v: True.</span>
+<span class="sd">            key_setter (function, optional): Function of the form:</span>
+<span class="sd">                lambda k, v: str. Default: None --&gt; lambda k, v: k.</span>
+<span class="sd">            value_setter (function, optional):  Function of the form:</span>
+<span class="sd">                lambda k, v: object. Default: None --&gt; lambda k, v: v.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            BlobETL: New BlobETL instance.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">by</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;key+value&#39;</span><span class="p">]:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid by argument: </span><span class="si">{by}</span><span class="s1">. Needs to be one of: &#39;</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;key, value, key+value.&#39;</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
         <span class="c1"># assign default predicate</span>
         <span class="k">if</span> <span class="n">predicate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">predicate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="kc">True</span>
 
         <span class="c1"># assign default key_setter</span>
         <span class="k">if</span> <span class="n">key_setter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">key_setter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+            <span class="n">key_setter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">k</span>
 
         <span class="c1"># assign default value_setter</span>
         <span class="k">if</span> <span class="n">value_setter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">value_setter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+            <span class="n">value_setter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">by</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">]</span>
-
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">):</span>
-                <span class="n">k</span> <span class="o">=</span> <span class="n">key_setter</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="n">value_setter</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-                <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">key_setter</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">value_setter</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
                 <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
@@ -360,7 +341,7 @@
         <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BlobETL.set_field_by_index"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.set_field_by_index">[docs]</a>    <span class="k">def</span> <span class="nf">set_field_by_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">field_setter</span><span class="p">):</span>
+<div class="viewcode-block" id="BlobETL.set_field"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.set_field">[docs]</a>    <span class="k">def</span> <span class="nf">set_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">field_setter</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Set&#39;s a field at a given index according to a given function.</span>
 
@@ -565,7 +546,9 @@
         <span class="n">graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span></div>
 
-<div class="viewcode-block" id="BlobETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BlobETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts internal dictionary into pydot graph.</span>
 <span class="sd">        Key and value nodes and edges are colored differently.</span>
@@ -573,12 +556,25 @@
 <span class="sd">        Args:</span>
 <span class="sd">            orthogonal_edges (bool, optional): Whether graph edges should have</span>
 <span class="sd">                non-right angles. Default: False.</span>
+<span class="sd">            orient (str, optional): Graph layout orientation. Default: tb.</span>
+<span class="sd">                Options include:</span>
+
+<span class="sd">                * tb - top to bottom</span>
+<span class="sd">                * bt - bottom to top</span>
+<span class="sd">                * lr - left to right</span>
+<span class="sd">                * rl - right to left</span>
 <span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
 <span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pydot.Dot: Dot graph representation of dictionary.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">orient</span> <span class="o">=</span> <span class="n">orient</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">orientations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="s1">&#39;bt&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;rl&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">orient</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">orientations</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid orient value. </span><span class="si">{orient}</span><span class="s1"> not in </span><span class="si">{orientations}</span><span class="s1">.&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="c1"># set default colort scheme</span>
         <span class="k">if</span> <span class="n">color_scheme</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">color_scheme</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">COLOR_SCHEME</span>
@@ -586,6 +582,9 @@
         <span class="c1"># create pydot graph</span>
         <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_networkx_graph</span><span class="p">()</span>
         <span class="n">dot</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">to_pydot</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+        <span class="c1"># set layout orientation</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">set_rankdir</span><span class="p">(</span><span class="n">orient</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 
         <span class="c1"># set graph background color</span>
         <span class="n">dot</span><span class="o">.</span><span class="n">set_bgcolor</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">])</span>
@@ -630,6 +629,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
         <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span>
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
@@ -642,6 +642,13 @@
 <span class="sd">                Default: dot.</span>
 <span class="sd">            orthogonal_edges (bool, optional): Whether graph edges should have</span>
 <span class="sd">                non-right angles. Default: False.</span>
+<span class="sd">            orient (str, optional): Graph layout orientation. Default: tb.</span>
+<span class="sd">                Options include:</span>
+
+<span class="sd">                * tb - top to bottom</span>
+<span class="sd">                * bt - bottom to top</span>
+<span class="sd">                * lr - left to right</span>
+<span class="sd">                * rl - right to left</span>
 <span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
 <span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
 <span class="sd">            as_png (bool, optional): Display graph as a PNG image instead of</span>
@@ -655,6 +662,7 @@
 
         <span class="n">dot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dot_graph</span><span class="p">(</span>
             <span class="n">orthogonal_edges</span><span class="o">=</span><span class="n">orthogonal_edges</span><span class="p">,</span>
+            <span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">,</span>
             <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">tools</span><span class="o">.</span><span class="n">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="n">as_png</span><span class="p">)</span></div>
@@ -664,6 +672,7 @@
         <span class="n">fullpath</span><span class="p">,</span>
         <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
         <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span>
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -675,6 +684,17 @@
 <span class="sd">            layout (str, optional): Graph layout style.</span>
 <span class="sd">                Options include: circo, dot, fdp, neato, sfdp, twopi.</span>
 <span class="sd">                Default: dot.</span>
+<span class="sd">            orthogonal_edges (bool, optional): Whether graph edges should have</span>
+<span class="sd">                non-right angles. Default: False.</span>
+<span class="sd">            orient (str, optional): Graph layout orientation. Default: tb.</span>
+<span class="sd">                Options include:</span>
+
+<span class="sd">                * tb - top to bottom</span>
+<span class="sd">                * bt - bottom to top</span>
+<span class="sd">                * lr - left to right</span>
+<span class="sd">                * rl - right to left</span>
+<span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
+<span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If invalid file extension given.</span>
@@ -694,6 +714,7 @@
 
         <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dot_graph</span><span class="p">(</span>
             <span class="n">orthogonal_edges</span><span class="o">=</span><span class="n">orthogonal_edges</span><span class="p">,</span>
+            <span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">,</span>
             <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
