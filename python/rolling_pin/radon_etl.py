@@ -287,19 +287,6 @@ class RadonETL():
         Returns:
             pandas.DataFrame: Cyclomatic complexity DataFrame.
         '''
-        lut = {
-            'classname': 'class_name',
-            'closures': 'closures',
-            'col_offset': 'column_offset',
-            'complexity': 'complexity',
-            'endline': 'stop_line',
-            'lineno': 'start_line',
-            'name': 'name',
-            'rank': 'rank',
-            'type': 'object_type',
-            'descriptor': 'descriptor',
-            'fullpath': 'fullpath',
-        }
         filters = [
             [4, 6, 'method_closure',
                 '^[^#]+#<list_[0-9]+>#methods#<list_[0-9]+>#closures#<list_[0-9]+>#[^#]+$'],
