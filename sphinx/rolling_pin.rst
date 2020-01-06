@@ -29,3 +29,11 @@ blob_etl
    :private-members:
    :undoc-members:
    :show-inheritance:
+
+radon_etl
+---------
+.. automodule:: rolling_pin.radon_etl
+   :members:
+   :private-members:
+   :undoc-members:
+   :show-inheritance:
