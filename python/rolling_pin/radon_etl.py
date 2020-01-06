@@ -115,11 +115,11 @@ class RadonETL():
         cols = [
             'fullpath', 'name', 'class_name', 'object_type', 'blank', 'bugs',
             'calculated_length', 'code', 'column_offset', 'comment',
-            'complexity', 'difficulty', 'effort', 'h1', 'h2', 'length',
-            'logical_code', 'maintainability_index', 'maintainability_rank',
-            'multiline_comment', 'n1', 'n2', 'rank', 'single_comment',
-            'source_code', 'start_line', 'stop_line', 'time', 'vocabulary',
-            'volume',
+            'cyclomatic_complexity', 'cyclomatic_rank', 'difficulty', 'effort',
+            'h1', 'h2', 'length', 'logical_code', 'maintainability_index',
+            'maintainability_rank', 'multiline_comment', 'n1', 'n2',
+            'single_comment', 'source_code', 'start_line', 'stop_line', 'time',
+            'vocabulary', 'volume',
         ]
         data = data[cols]
 
@@ -320,8 +320,8 @@ class RadonETL():
             'name': 'name',
             'classname': 'class_name',
             'type': 'object_type',
-            'complexity': 'complexity',
-            'rank': 'rank',
+            'complexity': 'cyclomatic_complexity',
+            'rank': 'cyclomatic_rank',
             'lineno': 'start_line',
             'endline': 'stop_line',
             'col_offset': 'column_offset',
