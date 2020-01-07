@@ -258,6 +258,28 @@
     <span class="k">return</span> <span class="n">cmd</span></div>
 
 
+<div class="viewcode-block" id="get_radon_metrics_command"><a class="viewcode-back" href="../cli.html#cli.get_radon_metrics_command">[docs]</a><span class="k">def</span> <span class="nf">get_radon_metrics_command</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Generates radon metrics of this repository as html files.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        info (dict): Info dictionary.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Command.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> python3.7 -c &quot;from rolling_pin.radon_etl import RadonETL; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot;etl = RadonETL(&#39;/root/</span><span class="si">{repo}</span><span class="s2">/python&#39;); &quot;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot;etl.write_plots(&#39;/root/</span><span class="si">{repo}</span><span class="s2">/docs/plots.html&#39;); &quot;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot;etl.write_tables(&#39;/root/</span><span class="si">{repo}</span><span class="s2">/docs&#39;); &quot;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
+        <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmd</span></div>
+
+
 <span class="c1"># COMMANDS----------------------------------------------------------------------</span>
 <div class="viewcode-block" id="get_bash_command"><a class="viewcode-back" href="../cli.html#cli.get_bash_command">[docs]</a><span class="k">def</span> <span class="nf">get_bash_command</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
@@ -587,6 +609,7 @@
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_docs_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_coverage_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_architecture_diagram_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_radon_metrics_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_image_id_command</span><span class="p">()</span>
