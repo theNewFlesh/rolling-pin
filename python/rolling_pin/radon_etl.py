@@ -3,6 +3,7 @@ import os
 import re
 from pathlib import Path
 
+import cufflinks as cf
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
@@ -11,6 +12,7 @@ from radon.cli import Config
 from radon.cli import CCHarvester, HCHarvester, MIHarvester, RawHarvester
 
 from rolling_pin.blob_etl import BlobETL
+import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
 
 '''
@@ -384,3 +386,133 @@ class RadonETL():
         data = data[cols]
 
         return data
+
+    # EXPORT--------------------------------------------------------------------
+    def write_plots(self, fullpath):
+        '''
+        Writes metrics plots to given file.
+
+        Args:
+            fullpath (Path or str): Target file.
+
+        Returns:
+            RadonETL: self.
+        '''
+        cf.go_offline()
+
+        def remove_test_modules(data):
+            mask = data.fullpath\
+                .apply(lambda x: not re.search(r'_test\.py$', x)).astype(bool)
+            return data[mask]
+
+        lut = dict(
+            h1='h1 - the number of distinct operators',
+            h2='h2 - the number of distinct operands',
+            n1='n1 - the total number of operators',
+            n2='n2 - the total number of operands',
+            vocabulary='vocabulary (h) - h1 + h2',
+            length='length (N) - n1 + n2',
+            calculated_length='calculated_length - h1 * log2(h1) + h2 * log2(h2)',
+            volume='volume (V) - N * log2(h)',
+            difficulty='difficulty (D) - h1 / 2 * n2 / h2',
+            effort='effort (E) - D * V',
+            time='time (T) - E / 18 seconds',
+            bugs='bugs (B) - V / 3000 - an estimate of the errors in the implementation',
+        )
+
+        params = dict(
+            theme='henanigans',
+            colors=tools.COLOR_SCALE,
+            dimensions=(900, 900),
+            asFigure=True,
+        )
+
+        html = '<body style="background: #242424">\n'
+
+        raw = remove_test_modules(self.raw_metrics)
+        mi = remove_test_modules(self.maintainability_index)
+        cc = remove_test_modules(self.cyclomatic_complexity_metrics)
+        hal = remove_test_modules(self.halstead_metrics)
+
+        raw['docstring_ratio'] = raw.multiline_comment / raw.code
+        raw.sort_values('docstring_ratio', inplace=True)
+        html += raw.iplot(
+            x='fullpath',
+            kind='barh',
+            title='Line Count Metrics',
+            **params
+        ).to_html()
+
+        html += mi.iplot(
+            x='fullpath',
+            kind='barh',
+            title='Maintainability Metrics',
+            **params
+        ).to_html()
+
+        params['dimensions'] = (900, 500)
+
+        cols = ['cyclomatic_complexity', 'cyclomatic_rank']
+        html += cc[cols].iplot(
+            kind='hist',
+            bins=50,
+            title='Cyclomatic Metric Distributions',
+            **params
+        ).to_html()
+
+        cols = [
+            'h1', 'h2', 'n1', 'n2', 'vocabulary', 'length', 'calculated_length',
+            'volume', 'difficulty', 'effort', 'time', 'bugs'
+        ]
+        html += hal[cols]\
+            .rename(mapper=lambda x: lut[x], axis=1)\
+            .iplot(
+                kind='hist',
+                bins=50,
+                title='Halstead Metric Distributions',
+                **params)\
+            .to_html()
+
+        html += '\n</body>'
+
+        with open(fullpath, 'w') as f:
+            f.write(html)
+
+        return self
+
+    def write_tables(self, target_dir):
+        '''
+        Writes metrics tables as HTML files to given directory.
+
+        Args:
+            target_dir (Path or str): Target directory.
+
+        Returns:
+            RadonETL: self.
+        '''
+        def write_table(data, target):
+            html = data.to_html()
+
+            # make table sortable
+            script = '<script '
+            script += 'src="http://www.kryogenix.org/code/browser/sorttable/sorttable.js" '
+            script += 'type="text/javascript"></script>\n'
+            html = re.sub('class="dataframe"', 'class="sortable"', html)
+            html = script + html
+
+            with open(target, 'w') as f:
+                f.write(html)
+
+        data = self.data
+        raw = self.raw_metrics
+        mi = self.maintainability_index
+        cc = self.cyclomatic_complexity_metrics
+        hal = self.halstead_metrics
+
+        write_table(data, Path(target_dir, 'all_metrics.html'))
+        write_table(raw, Path(target_dir, 'raw_metrics.html'))
+        write_table(mi, Path(target_dir, 'maintainability_metrics.html'))
+        write_table(cc, Path(target_dir, 'cyclomatic_complexity_metrics.html'))
+        write_table(hal, Path(target_dir, 'halstead_metrics.html'))
+
+        return self

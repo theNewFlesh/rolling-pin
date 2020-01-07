@@ -39,7 +39,7 @@ def get_info():
     coverage  - Generate coverage report for {repo} service
     destroy   - Shutdown {repo} service and destroy its Docker image
     docs      - Generate documentation for {repo} service
-    full-docs - Generates documentation and coverage report
+    full-docs - Generates documentation, coverage report and metrics
     image     - Display the Docker image id for {repo} service
     lab       - Start a Jupyter lab server
     lint      - Run linting on {repo} service code
@@ -94,6 +94,28 @@ def get_architecture_diagram_command(info):
     '''
     cmd = '{exec} python3.7 -c "from rolling_pin.repo_etl import RepoETL; '
     cmd += "RepoETL('/root/{repo}/python').write('/root/{repo}/docs/architecture.svg')"
+    cmd += '"'
+    cmd = cmd.format(
+        repo=REPO,
+        exec=get_docker_exec_command(info),
+    )
+    return cmd
+
+
+def get_radon_metrics_command(info):
+    '''
+    Generates radon metrics of this repository as html files.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} python3.7 -c "from rolling_pin.radon_etl import RadonETL; '
+    cmd += "etl = RadonETL('/root/{repo}/python'); "
+    cmd += "etl.write_plots('/root/{repo}/docs/plots.html'); "
+    cmd += "etl.write_tables('/root/{repo}/docs'); "
     cmd += '"'
     cmd = cmd.format(
         repo=REPO,
@@ -431,6 +453,7 @@ def main():
         cmd = get_docs_command(info)
         cmd += '; ' + get_coverage_command(info)
         cmd += '; ' + get_architecture_diagram_command(info)
+        cmd += '; ' + get_radon_metrics_command(info)
 
     elif mode == 'image':
         cmd = get_image_id_command()

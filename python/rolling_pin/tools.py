@@ -32,6 +32,19 @@ COLOR_SCHEME = dict(
     edge_module='#B6ECF3',
 )
 
+COLOR_SCALE = [
+    '#B6ECF3',
+    '#DE958E',
+    '#EBB483',
+    '#A0D17B',
+    '#93B6E6',
+    '#AC92DE',
+    '#E9EABE',
+    '#7EC4CF',
+    '#F77E70',
+    '#EB9E58',
+]
+
 
 # GENERAL-----------------------------------------------------------------------
 def try_(function, item, exception_value='item'):
