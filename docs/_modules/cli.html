@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.2.1
               </div>
             
           
@@ -414,11 +414,11 @@
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/LICENSE /tmp/</span><span class="si">{repo}</span><span class="s1">/LICENSE; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/pip/setup.cfg /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/pip/setup.py /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
-    <span class="n">cmd</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;find /tmp/</span><span class="si">{repo}</span><span class="s2"> | grep -E &#39;_test\.py$&#39; | parallel rm -rf; &quot;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;find /tmp/</span><span class="si">{repo}</span><span class="s2"> | grep -E &#39;_test\.py$&#39; | parallel rm -rf&quot;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;&quot;; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec2}</span><span class="s1"> python setup.py sdist; &#39;</span>
-    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec2}</span><span class="s1"> twine upload dist/*; &#39;</span>
-    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> rm -rf /tmp/</span><span class="si">{repo}</span><span class="s1">; &#39;</span>
+    <span class="c1"># cmd += &#39;{exec2} twine upload dist/*; &#39;</span>
+    <span class="c1"># cmd += &#39;{exec} rm -rf /tmp/{repo}; &#39;</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
         <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
