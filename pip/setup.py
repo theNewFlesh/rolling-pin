@@ -8,7 +8,7 @@ setup(
     author='Alex Braun',
     author_email='Alexander.G.Braun@gmail.com',
     url='https://github.com/theNewFlesh/rolling-pin',
-    download_url='https://github.com/theNewFlesh/rolling-pin/archive/0.2.0.tar.gz',
+    download_url='https://github.com/theNewFlesh/rolling-pin/archive/0.2.1.tar.gz',
     keywords=['ETL', 'blob', 'dependency', 'graph', 'svg', 'networkx', 'transform'],
     install_requires=[
         'graphviz',
