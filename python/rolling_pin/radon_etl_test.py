@@ -1,12 +1,14 @@
-from pathlib import Path
+import os
 import re
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import numpy as np
 from pandas import DataFrame
 
-from rolling_pin.radon_etl import RadonETL
 import rolling_pin.utils as utils
+from rolling_pin.radon_etl import RadonETL
 # ------------------------------------------------------------------------------
 
 
@@ -118,3 +120,26 @@ class RadonEtlTests(unittest.TestCase):
 
         cols = ['fullpath', 'name', 'object_type']
         self.assert_equal(result, expected, cols)
+
+    def test_write_plots(self):
+        repo = self.get_fake_repo()
+        with TemporaryDirectory() as root:
+            target = Path(root, 'foo.html')
+            RadonETL(repo).write_plots(target)
+            result = sorted(os.listdir(root))
+            expected = ['foo.html']
+            self.assertEqual(result, expected)
+
+    def test_write_tables(self):
+        repo = self.get_fake_repo()
+        with TemporaryDirectory() as root:
+            RadonETL(repo).write_tables(root)
+            result = sorted(os.listdir(root))
+            expected = [
+                'all_metrics.html',
+                'cyclomatic_complexity_metrics.html',
+                'halstead_metrics.html',
+                'maintainability_metrics.html',
+                'raw_metrics.html',
+            ]
+            self.assertEqual(result, expected)
