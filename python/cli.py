@@ -258,7 +258,7 @@ def get_publish_command(info):
     cmd += 'cp /root/{repo}/LICENSE /tmp/{repo}/LICENSE; '
     cmd += 'cp /root/{repo}/pip/setup.cfg /tmp/{repo}/; '
     cmd += 'cp /root/{repo}/pip/setup.py /tmp/{repo}/; '
-    cmd += r"find /tmp/{repo} | grep -E '_test\.py$' | parallel rm -rf; "
+    cmd += r"find /tmp/{repo} | grep -E '_test\.py$' | parallel rm -rf"
     cmd += '"; '
     cmd += '{exec2} python setup.py sdist; '
     cmd += '{exec2} twine upload dist/*; '
