@@ -39,14 +39,14 @@ RUN echo "\n${CYAN}INSTALL NODE.JS DEPENDENCIES${NO_COLOR}"; \
     rm -rf /var/lib/apt/lists/*
 
 # install python dependencies
-COPY ./requirements.txt /root/requirements.txt
+COPY ./dev_requirements.txt /root/dev_requirements.txt
 RUN echo "\n${CYAN}INSTALL PYTHON DEPENDECIES${NO_COLOR}"; \
     apt update && \
     apt install -y \
         graphviz \
         python3-pydot && \
-    pip3.7 install -r requirements.txt;
-RUN rm -rf /root/requirements;
+    pip3.7 install -r dev_requirements.txt;
+RUN rm -rf /root/dev_requirements;
 
 # added aliases to bashrc
 WORKDIR /root

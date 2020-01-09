@@ -1,0 +1,6 @@
+graphviz
+ipython
+networkx
+numpy
+pandas
+pydot

@@ -25,4 +25,4 @@ Running a conda environment is not recommended.
 However, if you would still like to build one, do the following:
 1. `conda create -y -n rolling-pin-env python==3.7`
 2. `source activate rolling-pin-env`
-3. `pip install -r docker/requirements.txt`
+3. `pip install -r docker/dev_requirements.txt`

@@ -14,14 +14,15 @@ import os
 import sys
 import sphinx_rtd_theme
 sys.path.insert(0, os.path.abspath('../python'))
-
+with open('../pip/version.txt') as f:
+    VERSION = f.read().strip('\n')
 
 # -- Project information -----------------------------------------------------
 
 project = 'rolling-pin'
 copyright = '2019, Alex Braun <TheNewFlesh@github.com>'
 author = 'Alex Braun <TheNewFlesh@github.com>'
-version = '0.2.1'
+version = VERSION
 # release = ''
 
 # -- General configuration ---------------------------------------------------
