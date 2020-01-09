@@ -264,7 +264,7 @@ def get_publish_command(info):
     cmd += 'cp /root/{repo}/docker/prod_requirements.txt /tmp/{repo}/; '
     cmd += r"find /tmp/{repo} | grep -E '_test\.py$' | parallel rm -rf"
     cmd += '"; '
-    cmd += '{exec2} python setup.py sdist; '
+    cmd += '{exec2} python3.7 setup.py sdist; '
     # cmd += '{exec2} twine upload dist/*; '
     # cmd += '{exec} rm -rf /tmp/{repo}; '
     cmd = cmd.format(
