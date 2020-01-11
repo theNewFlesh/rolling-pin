@@ -1,6 +1,8 @@
+cufflinks
 graphviz
 ipython
 networkx
 numpy
 pandas
 pydot
+radon
