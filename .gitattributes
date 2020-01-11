@@ -21,6 +21,6 @@
 *.jpeg   binary
 
 # ignore
-docs/* linguist-documentation
+docs/* linguist-detectable=false
 notebooks/* linguist-detectable=false
 resources/* linguist-detectable=false
