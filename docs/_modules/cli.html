@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.2
               </div>
             
           
@@ -190,22 +190,24 @@
                         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;Command to run in </span><span class="si">{repo}</span><span class="s1"> service.</span>
 
-<span class="s1">    bash      - Run BASH session inside </span><span class="si">{repo}</span><span class="s1"> container</span>
-<span class="s1">    container - Display the Docker container id for </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    coverage  - Generate coverage report for </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    destroy   - Shutdown </span><span class="si">{repo}</span><span class="s1"> service and destroy its Docker image</span>
-<span class="s1">    docs      - Generate documentation for </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    full-docs - Generates documentation, coverage report and metrics</span>
-<span class="s1">    image     - Display the Docker image id for </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    lab       - Start a Jupyter lab server</span>
-<span class="s1">    lint      - Run linting on </span><span class="si">{repo}</span><span class="s1"> service code</span>
-<span class="s1">    publish   - Publish repository to python package index.</span>
-<span class="s1">    python    - Run python interpreter session inside </span><span class="si">{repo}</span><span class="s1"> container</span>
-<span class="s1">    remove    - Remove </span><span class="si">{repo}</span><span class="s1"> service Docker image</span>
-<span class="s1">    restart   - Restart </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    start     - Start </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    stop      - Stop </span><span class="si">{repo}</span><span class="s1"> service</span>
-<span class="s1">    test      - Run testing on </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    bash         - Run BASH session inside </span><span class="si">{repo}</span><span class="s1"> container</span>
+<span class="s1">    container    - Display the Docker container id for </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    coverage     - Generate coverage report for </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    destroy      - Shutdown </span><span class="si">{repo}</span><span class="s1"> service and destroy its Docker image</span>
+<span class="s1">    docs         - Generate documentation for </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    full-docs    - Generates documentation, coverage report and metrics</span>
+<span class="s1">    image        - Display the Docker image id for </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    lab          - Start a Jupyter lab server</span>
+<span class="s1">    lint         - Run linting on </span><span class="si">{repo}</span><span class="s1"> service code</span>
+<span class="s1">    publish      - Publish repository to python package index.</span>
+<span class="s1">    python       - Run python interpreter session inside </span><span class="si">{repo}</span><span class="s1"> container</span>
+<span class="s1">    remove       - Remove </span><span class="si">{repo}</span><span class="s1"> service Docker image</span>
+<span class="s1">    restart      - Restart </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    requirements - Write frozen requirements to disk</span>
+<span class="s1">    start        - Start </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    stop         - Stop </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    test         - Run testing on </span><span class="si">{repo}</span><span class="s1"> service</span>
+<span class="s1">    tox          - Run tox tests on </span><span class="si">{repo}</span><span class="s1"></span>
 <span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">))</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -410,15 +412,19 @@
     <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> bash -c &quot;&#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;rm -rf /tmp/</span><span class="si">{repo}</span><span class="s1">; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp -r /root/</span><span class="si">{repo}</span><span class="s1">/python /tmp/</span><span class="si">{repo}</span><span class="s1">; &#39;</span>
-    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/README.md /tmp/</span><span class="si">{repo}</span><span class="s1">/README; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/README.md /tmp/</span><span class="si">{repo}</span><span class="s1">/README.md; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/LICENSE /tmp/</span><span class="si">{repo}</span><span class="s1">/LICENSE; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/pip/MANIFEST.in /tmp/</span><span class="si">{repo}</span><span class="s1">/MANIFEST.in; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/pip/setup.cfg /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/pip/setup.py /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/pip/version.txt /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/docker/dev_requirements.txt /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/docker/prod_requirements.txt /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;find /tmp/</span><span class="si">{repo}</span><span class="s2"> | grep -E &#39;_test\.py$&#39; | parallel rm -rf&quot;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;&quot;; &#39;</span>
-    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec2}</span><span class="s1"> python setup.py sdist; &#39;</span>
-    <span class="c1"># cmd += &#39;{exec2} twine upload dist/*; &#39;</span>
-    <span class="c1"># cmd += &#39;{exec} rm -rf /tmp/{repo}; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec2}</span><span class="s1"> python3.7 setup.py sdist; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec2}</span><span class="s1"> twine upload dist/*; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> rm -rf /tmp/</span><span class="si">{repo}</span><span class="s1">; &#39;</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
         <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
@@ -454,6 +460,27 @@
     <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;IMAGE_ID=$(</span><span class="si">{image_command}</span><span class="s1">); &#39;</span>
     <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;docker image rm --force $IMAGE_ID&#39;</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">image_command</span><span class="o">=</span><span class="n">get_image_id_command</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">cmd</span></div>
+
+
+<div class="viewcode-block" id="get_requirements_command"><a class="viewcode-back" href="../cli.html#cli.get_requirements_command">[docs]</a><span class="k">def</span> <span class="nf">get_requirements_command</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Writes a pip frozen requirements command to docker directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        info (dict): Info dictionary.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Command.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> bash -c &quot;python3.7 -m pip list --format freeze &gt; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;/root/</span><span class="si">{repo}</span><span class="s1">/docker/frozen_requirements.txt &amp;&amp; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;chown -R </span><span class="si">{user}</span><span class="s1"> /root/</span><span class="si">{repo}</span><span class="s1">/docker/frozen_requirements.txt&quot;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
+        <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">],</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">cmd</span></div>
 
 
@@ -503,6 +530,34 @@
         <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
         <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
         <span class="n">args</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmd</span></div>
+
+
+<div class="viewcode-block" id="get_tox_command"><a class="viewcode-back" href="../cli.html#cli.get_tox_command">[docs]</a><span class="k">def</span> <span class="nf">get_tox_command</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Run tox tests.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        info (dict): Info dictionary.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Command.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{exec}</span><span class="s1"> bash -c &quot;&#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;rm -rf /tmp/</span><span class="si">{repo}</span><span class="s1">; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp -R /root/</span><span class="si">{repo}</span><span class="s1">/python /tmp/</span><span class="si">{repo}</span><span class="s1">; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/README.md /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/LICENSE /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/docker/* /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp /root/</span><span class="si">{repo}</span><span class="s1">/pip/* /tmp/</span><span class="si">{repo}</span><span class="s1">/; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cp -R /root/</span><span class="si">{repo}</span><span class="s1">/resources /tmp; &#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;find /tmp/</span><span class="si">{repo}</span><span class="s2"> | grep -E &#39;__pycache__|\.pyc$&#39; | parallel &#39;rm -rf&#39;; &quot;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;cd /tmp/</span><span class="si">{repo}</span><span class="s1">; tox&#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">,</span>
+        <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">cmd</span></div>
 
@@ -621,7 +676,8 @@
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_lint_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;publish&#39;</span><span class="p">:</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_publish_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_tox_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; &amp;&amp; &#39;</span> <span class="o">+</span> <span class="n">get_publish_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_python_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
@@ -633,6 +689,9 @@
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_stop_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_start_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;requirements&#39;</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_requirements_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;start&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_start_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
@@ -641,6 +700,9 @@
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_test_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;tox&#39;</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_tox_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="c1"># print is used instead of execute because REPO_PATH and CURRENT_USER do not</span>
     <span class="c1"># resolve in a subprocess and subprocesses do not give real time stdout.</span>

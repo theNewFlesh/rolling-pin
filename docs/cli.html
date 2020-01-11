@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.2
               </div>
             
           
@@ -434,6 +434,23 @@ repository’s structure. Written to be python version agnostic.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="cli.get_requirements_command">
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_requirements_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_requirements_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_requirements_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a pip frozen requirements command to docker directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>info</strong> (<em>dict</em>) – Info dictionary.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Command.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="cli.get_start_command">
 <code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_start_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_start_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_start_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts up container.</p>
@@ -471,6 +488,23 @@ repository’s structure. Written to be python version agnostic.</p>
 <dt id="cli.get_test_command">
 <code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_test_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_test_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_test_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs pytest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>info</strong> (<em>dict</em>) – Info dictionary.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Command.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cli.get_tox_command">
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_tox_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_tox_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_tox_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run tox tests.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>info</strong> (<em>dict</em>) – Info dictionary.</p>
