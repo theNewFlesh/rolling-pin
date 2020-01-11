@@ -53,7 +53,7 @@ def to_svg():
         required: false
         default: dot
       - name: orthogonal_edges
-        type: bool
+        type: boolean
         required: false
         description: Whether graph edges should have non-right angles.
         default: false
@@ -67,11 +67,13 @@ def to_svg():
         type: object
         required: false
         description: Color scheme to be applied to graph.
-        default: rolling_pin.tools.COLOR_SCHEME
+        default: none
 
     responses:
       200:
         description: A SVG image.
+        content:
+          image/svg+xml:
       400:
         description: Invalid JSON request sent.
         example:
