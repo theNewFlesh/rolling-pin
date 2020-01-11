@@ -21,6 +21,6 @@
 *.jpeg   binary
 
 # ignore
-docs/ linguist-documentation
-notebooks/ linguist-vendored
-resources/ linguist-vendored
+docs/* linguist-documentation
+notebooks/* linguist-vendored
+resources/* linguist-vendored
