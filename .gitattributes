@@ -10,11 +10,9 @@
 *.pyd    binary
 *.pyo    binary
 
-# jupyter
-notebooks/* linguist-vendored=false
+# ignore
+notebooks/* export-ignore
+resources/* export-ignore
 
 # docs
 docs/* linguist-documentation
-
-# resources
-resources/* linguist-vendored=false
