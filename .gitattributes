@@ -22,5 +22,5 @@
 
 # ignore
 docs/* linguist-documentation
-notebooks/* linguist-vendored
-resources/* linguist-vendored
+notebooks/* linguist-detectable=false
+resources/* linguist-detectable=false
