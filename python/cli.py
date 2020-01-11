@@ -34,22 +34,23 @@ def get_info():
                         action='store',
                         help='''Command to run in {repo} service.
 
-    bash      - Run BASH session inside {repo} container
-    container - Display the Docker container id for {repo} service
-    coverage  - Generate coverage report for {repo} service
-    destroy   - Shutdown {repo} service and destroy its Docker image
-    docs      - Generate documentation for {repo} service
-    full-docs - Generates documentation, coverage report and metrics
-    image     - Display the Docker image id for {repo} service
-    lab       - Start a Jupyter lab server
-    lint      - Run linting on {repo} service code
-    publish   - Publish repository to python package index.
-    python    - Run python interpreter session inside {repo} container
-    remove    - Remove {repo} service Docker image
-    restart   - Restart {repo} service
-    start     - Start {repo} service
-    stop      - Stop {repo} service
-    test      - Run testing on {repo} service
+    bash         - Run BASH session inside {repo} container
+    container    - Display the Docker container id for {repo} service
+    coverage     - Generate coverage report for {repo} service
+    destroy      - Shutdown {repo} service and destroy its Docker image
+    docs         - Generate documentation for {repo} service
+    full-docs    - Generates documentation, coverage report and metrics
+    image        - Display the Docker image id for {repo} service
+    lab          - Start a Jupyter lab server
+    lint         - Run linting on {repo} service code
+    publish      - Publish repository to python package index.
+    python       - Run python interpreter session inside {repo} container
+    remove       - Remove {repo} service Docker image
+    restart      - Restart {repo} service
+    requirements - Write frozen requirements to disk
+    start        - Start {repo} service
+    stop         - Stop {repo} service
+    test         - Run testing on {repo} service
 '''.format(repo=REPO))
 
     parser.add_argument(
@@ -275,6 +276,27 @@ def get_publish_command(info):
     return cmd
 
 
+def get_frozen_requirements_command(info):
+    '''
+    Writes a pip frozen requirements command to docker directory.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} bash -c "python3.7 -m pip list --format freeze > '
+    cmd += '/root/{repo}/docker/frozen_requirements.txt && '
+    cmd += 'chown -R {user} /root/{repo}/docker/frozen_requirements.txt"'
+    cmd = cmd.format(
+        repo=REPO,
+        exec=get_docker_exec_command(info),
+        user=info['user'],
+    )
+    return cmd
+
+
 def get_python_command(info):
     '''
     Opens a python interpreter inside a running container.
@@ -480,6 +502,9 @@ def main():
     elif mode == 'restart':
         cmd = get_stop_command(info)
         cmd += '; ' + get_start_command(info)
+
+    elif mode == 'requirements':
+        cmd = get_frozen_requirements_command(info)
 
     elif mode == 'start':
         cmd = get_start_command(info)
