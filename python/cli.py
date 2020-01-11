@@ -267,8 +267,8 @@ def get_publish_command(info):
     cmd += r"find /tmp/{repo} | grep -E '_test\.py$' | parallel rm -rf"
     cmd += '"; '
     cmd += '{exec2} python3.7 setup.py sdist; '
-    # cmd += '{exec2} twine upload dist/*; '
-    # cmd += '{exec} rm -rf /tmp/{repo}; '
+    cmd += '{exec2} twine upload dist/*; '
+    cmd += '{exec} rm -rf /tmp/{repo}; '
     cmd = cmd.format(
         repo=REPO,
         exec=get_docker_exec_command(info),
