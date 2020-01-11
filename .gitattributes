@@ -1,5 +1,11 @@
 # python
 *.py linguist-language=Python
+*.pxd text diff=python
+*.py  text diff=python
+*.py3 text diff=python
+*.pyw text diff=python
+*.pyx text diff=python
+*.pyz text diff=python
 
 # binary
 *.db     binary
@@ -9,8 +15,12 @@
 *.pyc    binary
 *.pyd    binary
 *.pyo    binary
+*.svg    binary
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
 
 # ignore
-docs/ export-ignore
-notebooks/ export-ignore
-resources/ export-ignore
+docs/ linguist-documentation
+notebooks/ linguist-vendored
+resources/ linguist-vendored
