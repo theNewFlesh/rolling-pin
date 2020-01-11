@@ -18,6 +18,7 @@ services:
       dockerfile: rolling_pin.dockerfile
     ports:
       - '9001:9000'
+      - '5000:5000'
     userns_mode: "host"
     user: root
     volumes:

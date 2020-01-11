@@ -1,4 +1,6 @@
 cufflinks
+flask
+flasgger
 graphviz
 ipython
 networkx
