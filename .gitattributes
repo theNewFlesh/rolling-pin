@@ -11,8 +11,6 @@
 *.pyo    binary
 
 # ignore
-notebooks/* export-ignore
-resources/* export-ignore
-
-# docs
-docs/* linguist-documentation
+docs/ export-ignore
+notebooks/ export-ignore
+resources/ export-ignore
