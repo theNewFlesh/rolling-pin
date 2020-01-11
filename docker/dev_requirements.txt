@@ -27,4 +27,5 @@ radon
 sphinx
 sphinx-rtd-theme
 sphinxcontrib-napoleon
+tox
 twine

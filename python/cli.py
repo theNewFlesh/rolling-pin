@@ -51,6 +51,7 @@ def get_info():
     start        - Start {repo} service
     stop         - Stop {repo} service
     test         - Run testing on {repo} service
+    tox          - Run tox tests on {repo}
 '''.format(repo=REPO))
 
     parser.add_argument(
@@ -276,27 +277,6 @@ def get_publish_command(info):
     return cmd
 
 
-def get_frozen_requirements_command(info):
-    '''
-    Writes a pip frozen requirements command to docker directory.
-
-    Args:
-        info (dict): Info dictionary.
-
-    Returns:
-        str: Command.
-    '''
-    cmd = '{exec} bash -c "python3.7 -m pip list --format freeze > '
-    cmd += '/root/{repo}/docker/frozen_requirements.txt && '
-    cmd += 'chown -R {user} /root/{repo}/docker/frozen_requirements.txt"'
-    cmd = cmd.format(
-        repo=REPO,
-        exec=get_docker_exec_command(info),
-        user=info['user'],
-    )
-    return cmd
-
-
 def get_python_command(info):
     '''
     Opens a python interpreter inside a running container.
@@ -324,6 +304,27 @@ def get_remove_image_command(info):
     cmd = 'IMAGE_ID=$({image_command}); '
     cmd += 'docker image rm --force $IMAGE_ID'
     cmd = cmd.format(image_command=get_image_id_command())
+    return cmd
+
+
+def get_requirements_command(info):
+    '''
+    Writes a pip frozen requirements command to docker directory.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} bash -c "python3.7 -m pip list --format freeze > '
+    cmd += '/root/{repo}/docker/frozen_requirements.txt && '
+    cmd += 'chown -R {user} /root/{repo}/docker/frozen_requirements.txt"'
+    cmd = cmd.format(
+        repo=REPO,
+        exec=get_docker_exec_command(info),
+        user=info['user'],
+    )
     return cmd
 
 
@@ -373,6 +374,34 @@ def get_test_command(info):
         repo=REPO,
         exec=get_docker_exec_command(info),
         args=' '.join(info['args']),
+    )
+    return cmd
+
+
+def get_tox_command(info):
+    '''
+    Run tox tests.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} bash -c "'
+    cmd += 'rm -rf /tmp/{repo}; '
+    cmd += 'cp -R /root/{repo}/python /tmp/{repo}; '
+    cmd += 'cp /root/{repo}/README.md /tmp/{repo}/; '
+    cmd += 'cp /root/{repo}/LICENSE /tmp/{repo}/; '
+    cmd += 'cp /root/{repo}/docker/* /tmp/{repo}/; '
+    cmd += 'cp /root/{repo}/pip/* /tmp/{repo}/; '
+    cmd += 'cp -R /root/{repo}/resources /tmp; '
+    cmd += r"find /tmp/{repo} | grep -E '__pycache__|\.pyc$' | parallel 'rm -rf'; "
+    cmd += 'cd /tmp/{repo}; tox'
+    cmd += '"'
+    cmd = cmd.format(
+        repo=REPO,
+        exec=get_docker_exec_command(info),
     )
     return cmd
 
@@ -491,7 +520,8 @@ def main():
         cmd = get_lint_command(info)
 
     elif mode == 'publish':
-        cmd = get_publish_command(info)
+        cmd = get_tox_command(info)
+        cmd += ' && ' + get_publish_command(info)
 
     elif mode == 'python':
         cmd = get_python_command(info)
@@ -504,7 +534,7 @@ def main():
         cmd += '; ' + get_start_command(info)
 
     elif mode == 'requirements':
-        cmd = get_frozen_requirements_command(info)
+        cmd = get_requirements_command(info)
 
     elif mode == 'start':
         cmd = get_start_command(info)
@@ -514,6 +544,9 @@ def main():
 
     elif mode == 'test':
         cmd = get_test_command(info)
+
+    elif mode == 'tox':
+        cmd = get_tox_command(info)
 
     # print is used instead of execute because REPO_PATH and CURRENT_USER do not
     # resolve in a subprocess and subprocesses do not give real time stdout.
