@@ -18,10 +18,10 @@ linguist-language=Python
 *.pyo    binary
 
 # jupyter
-*.ipynb text
+notebooks/* linguist-vendored=false
 
 # docs
 docs/* linguist-documentation
 
 # resources
-resources/* linguist-vendored
+resources/* linguist-vendored=false
