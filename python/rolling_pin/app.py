@@ -6,6 +6,11 @@ import rolling_pin.utils as utils
 # ------------------------------------------------------------------------------
 
 
+'''
+Rolling-Pin Flask service.
+'''
+
+
 app = Flask(__name__)
 swagger = Swagger(app)
 
@@ -23,6 +28,28 @@ def get_svg(
     orient='tb',
     color_scheme=None,
 ):
+    '''
+    Generate a SVG string from a given JSON blob.
+
+    Args:
+        data (dict or list): JSON blob.
+        layout (str, optional): Graph layout style.
+            Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
+        orthogonal_edges (bool, optional): Whether graph edges should have
+                non-right angles. Default: False.
+            orient (str, optional): Graph layout orientation. Default: tb.
+                Options include:
+
+                * tb - top to bottom
+                * bt - bottom to top
+                * lr - left to right
+                * rl - right to left
+            color_scheme: (dict, optional): Color scheme to be applied to graph.
+                Default: rolling_pin.tools.COLOR_SCHEME
+
+    Returns:
+        str: SVG string.
+    '''
     output = BlobETL(data)\
         .to_dot_graph(
             orthogonal_edges=orthogonal_edges,

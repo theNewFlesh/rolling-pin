@@ -37,3 +37,11 @@ radon_etl
    :private-members:
    :undoc-members:
    :show-inheritance:
+
+app
+---
+.. automodule:: rolling_pin.app
+   :members:
+   :private-members:
+   :undoc-members:
+   :show-inheritance:

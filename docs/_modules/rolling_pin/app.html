@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rolling_pin.app &mdash; rolling-pin  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> rolling-pin
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.app">app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">rolling-pin</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>rolling_pin.app</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for rolling_pin.app</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">flasgger</span> <span class="kn">import</span> <span class="n">Swagger</span>
+
+<span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
+<span class="kn">import</span> <span class="nn">rolling_pin.utils</span> <span class="k">as</span> <span class="nn">utils</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Rolling-Pin Flask service.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">swagger</span> <span class="o">=</span> <span class="n">Swagger</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="index"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.app.index">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;flasgger.apidocs&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_svg"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.app.get_svg">[docs]</a><span class="nd">@utils</span><span class="o">.</span><span class="n">api_function</span>
+<span class="k">def</span> <span class="nf">get_svg</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="s1">&#39;&lt;required&gt;&#39;</span><span class="p">,</span>
+    <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
+    <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span>
+    <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Generate a SVG string from a given JSON blob.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (dict or list): JSON blob.</span>
+<span class="sd">        layout (str, optional): Graph layout style.</span>
+<span class="sd">            Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</span>
+<span class="sd">        orthogonal_edges (bool, optional): Whether graph edges should have</span>
+<span class="sd">                non-right angles. Default: False.</span>
+<span class="sd">            orient (str, optional): Graph layout orientation. Default: tb.</span>
+<span class="sd">                Options include:</span>
+
+<span class="sd">                * tb - top to bottom</span>
+<span class="sd">                * bt - bottom to top</span>
+<span class="sd">                * lr - left to right</span>
+<span class="sd">                * rl - right to left</span>
+<span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
+<span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: SVG string.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">to_dot_graph</span><span class="p">(</span>
+            <span class="n">orthogonal_edges</span><span class="o">=</span><span class="n">orthogonal_edges</span><span class="p">,</span>
+            <span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">,</span>
+            <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">create_svg</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="to_svg"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.app.to_svg">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/to_svg&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">to_svg</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Endpoint for converting a given JSON blob into a SVG graph.</span>
+<span class="sd">    ---</span>
+<span class="sd">    parameters:</span>
+<span class="sd">      - name: data</span>
+<span class="sd">        type: object</span>
+<span class="sd">        required: true</span>
+<span class="sd">      - name: layout</span>
+<span class="sd">        type: string</span>
+<span class="sd">        description: Graph layout style.</span>
+<span class="sd">        enum: [&#39;circo&#39;, &#39;dot&#39;, &#39;fdp&#39;, &#39;neato&#39;, &#39;sfdp&#39;, &#39;twopi&#39;]</span>
+<span class="sd">        required: false</span>
+<span class="sd">        default: dot</span>
+<span class="sd">      - name: orthogonal_edges</span>
+<span class="sd">        type: boolean</span>
+<span class="sd">        required: false</span>
+<span class="sd">        description: Whether graph edges should have non-right angles.</span>
+<span class="sd">        default: false</span>
+<span class="sd">      - name: orient</span>
+<span class="sd">        type: string</span>
+<span class="sd">        required: false</span>
+<span class="sd">        description: Graph layout orientation.</span>
+<span class="sd">        default: tb</span>
+<span class="sd">        enum: [&#39;tb&#39;, &#39;bt&#39;, &#39;lr&#39;, &#39;rl&#39;]</span>
+<span class="sd">      - name: color_scheme</span>
+<span class="sd">        type: object</span>
+<span class="sd">        required: false</span>
+<span class="sd">        description: Color scheme to be applied to graph.</span>
+<span class="sd">        default: none</span>
+
+<span class="sd">    responses:</span>
+<span class="sd">      200:</span>
+<span class="sd">        description: A SVG image.</span>
+<span class="sd">        content:</span>
+<span class="sd">          image/svg+xml:</span>
+<span class="sd">      400:</span>
+<span class="sd">        description: Invalid JSON request sent.</span>
+<span class="sd">        example:</span>
+<span class="sd">            {</span>
+<span class="sd">                &quot;error&quot;: &quot;KeyError: data&quot;,</span>
+<span class="sd">                &quot;status&quot;: 400,</span>
+<span class="sd">                &quot;success&quot;: false</span>
+<span class="sd">            }</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">get_svg</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">),</span> <span class="n">mimetype</span><span class="o">=</span><span class="s1">&#39;image/svg+xml&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
