@@ -413,6 +413,48 @@ outside of Docker environment (ie no dependencies or specific python versions.)<
 </dd></dl>
 
 <dl class="function">
+<dt id="rolling_pin.utils.api_function">
+<code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">api_function</code><span class="sig-paren">(</span><em class="sig-param">wrapped=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/utils.html#api_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.utils.api_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator that enforces keyword argument only function signatures and
+required keyword argument values when called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wrapped</strong> (<em>function</em>) – For dev use. Default: None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments. # noqa: W605</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If non-keyword argument found in functionn signature.</p></li>
+<li><p><strong>ValueError</strong> – If keyword arg with value of ‘&lt;required&gt;’ is found.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>api function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rolling_pin.utils.get_function_signature">
+<code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">get_function_signature</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/utils.html#get_function_signature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.utils.get_function_signature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inspect a given function and return its arguments as a list and its keyword
+arguments as a dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>function</strong> (<em>function</em>) – Function to be inspected.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>args and kwargs.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="rolling_pin.utils.is_standard_module">
 <code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">is_standard_module</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/utils.html#is_standard_module"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.utils.is_standard_module" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines if given module name is a python builtin.</p>

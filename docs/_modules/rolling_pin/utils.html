@@ -154,10 +154,14 @@
            <div itemprop="articleBody">
             
   <h1>Source code for rolling_pin.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">dropwhile</span><span class="p">,</span> <span class="n">takewhile</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">wrapt</span>
 
 <span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOG_LEVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;WARNING&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">LOG_LEVEL</span><span class="p">)</span>
@@ -192,6 +196,69 @@
     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
         <span class="sa">f</span><span class="s1">&#39;relative_path called with: </span><span class="si">{module}</span><span class="s1"> and </span><span class="si">{path}</span><span class="s1">. Returned: </span><span class="si">{output}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="get_function_signature"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.utils.get_function_signature">[docs]</a><span class="k">def</span> <span class="nf">get_function_signature</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Inspect a given function and return its arguments as a list and its keyword</span>
+<span class="sd">    arguments as a dict.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        function (function): Function to be inspected.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: args and kwargs.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">defaults</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">defaults</span><span class="p">)]</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">args</span><span class="p">)[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">defaults</span><span class="p">):]</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">defaults</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="api_function"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.utils.api_function">[docs]</a><span class="k">def</span> <span class="nf">api_function</span><span class="p">(</span><span class="n">wrapped</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A decorator that enforces keyword argument only function signatures and</span>
+<span class="sd">    required keyword argument values when called.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        wrapped (function): For dev use. Default: None.</span>
+<span class="sd">        \*\*kwargs (dict): Keyword arguments. # noqa: W605</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: If non-keyword argument found in functionn signature.</span>
+<span class="sd">        ValueError: If keyword arg with value of &#39;&lt;required&gt;&#39; is found.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        api function.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">wrapped</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">api_function</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@wrapt</span><span class="o">.</span><span class="n">decorator</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">get_function_signature</span><span class="p">(</span><span class="n">wrapped</span><span class="p">)</span>
+
+        <span class="c1"># ensure no arguments are present</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Function may only have keyword arguments. &#39;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Found non-keyword arguments: </span><span class="si">{sig[&#39;args&#39;]}</span><span class="s2">.&quot;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1"># ensure all required kwarg values are present</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s1">&#39;&lt;required&gt;&#39;</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Missing required keyword argument: </span><span class="si">{key}</span><span class="s1">.&#39;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{wrapped}</span><span class="s1"> called with </span><span class="si">{params}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="is_standard_module"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.utils.is_standard_module">[docs]</a><span class="k">def</span> <span class="nf">is_standard_module</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
