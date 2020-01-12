@@ -91,7 +91,7 @@ def api_function(wrapped=None, **kwargs):
             msg = 'Function may only have keyword arguments. '
             msg += f"Found non-keyword arguments: {sig['args']}."
             raise TypeError(msg)
-        
+
         # ensure all required kwarg values are present
         params = sig['kwargs']
         params.update(kwargs)

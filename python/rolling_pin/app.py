@@ -1,5 +1,3 @@
-import json
-
 from flask import Flask, Response, request, redirect, url_for, jsonify
 from flasgger import Swagger
 
@@ -19,18 +17,17 @@ def index():
 
 @utils.api_function
 def get_svg(
-        data='<required>',
-        layout='dot',
-        orthogonal_edges=False,
-        orient='tb',
-        color_scheme=None,
-    ):
+    data='<required>',
+    layout='dot',
+    orthogonal_edges=False,
+    orient='tb',
+    color_scheme=None,
+):
     output = BlobETL(data)\
         .to_dot_graph(
             orthogonal_edges=orthogonal_edges,
             orient=orient,
-            color_scheme=color_scheme,
-        )\
+            color_scheme=color_scheme)\
         .create_svg(prog=layout)\
         .decode('utf-8')
     return output
@@ -39,7 +36,7 @@ def get_svg(
 @app.route('/to_svg')
 def to_svg():
     '''
-    Converts a given JSON blob into a SVG graph.
+    Endpoint for converting a given JSON blob into a SVG graph.
     ---
     parameters:
       - name: data
@@ -77,8 +74,8 @@ def to_svg():
         description: Invalid JSON request sent.
         example:
             {
-                "error": "KeyError: data", 
-                "status": 400, 
+                "error": "KeyError: data",
+                "status": 400,
                 "success": false
             }
     '''
