@@ -1,7 +1,10 @@
+import json
+
 from flask import Flask, Response, request, redirect, url_for, jsonify
 from flasgger import Swagger
 
 from rolling_pin.blob_etl import BlobETL
+import rolling_pin.utils as utils
 # ------------------------------------------------------------------------------
 
 
@@ -14,27 +17,23 @@ def index():
     return redirect(url_for('flasgger.apidocs'))
 
 
-def get_svg(request):
-    data = request['data']
-
-    params = dict(
+@utils.api_function
+def get_svg(
+        data='<required>',
         layout='dot',
         orthogonal_edges=False,
         orient='tb',
         color_scheme=None,
-    )
-    if 'parameters' in request:
-        params.update(request['parameters'])
-
-    content = BlobETL(data)\
+    ):
+    output = BlobETL(data)\
         .to_dot_graph(
-            orthogonal_edges=params['orthogonal_edges'],
-            orient=params['orient'],
-            color_scheme=params['color_scheme'],
+            orthogonal_edges=orthogonal_edges,
+            orient=orient,
+            color_scheme=color_scheme,
         )\
-        .create_svg(prog=params['layout'])\
+        .create_svg(prog=layout)\
         .decode('utf-8')
-    return Response(content, mimetype='image/svg+xml')
+    return output
 
 
 @app.route('/to_svg')
@@ -84,8 +83,8 @@ def to_svg():
             }
     '''
     try:
-        req = request.get_json()
-        return get_svg(req)
+        params = request.get_json()
+        return Response(get_svg(**params), mimetype='image/svg+xml')
     except Exception as e:
         msg = e.__class__.__name__ + ': ' + ' '.join(e.args)
         return jsonify(error=msg, status=400, success=False)

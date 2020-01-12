@@ -1,7 +1,11 @@
-import logging
-import os
+from functools import partial
 from itertools import dropwhile, takewhile
 from pathlib import Path
+import inspect
+import logging
+import os
+
+import wrapt
 
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'WARNING').upper()
 logging.basicConfig(level=LOG_LEVEL)
@@ -36,6 +40,69 @@ def relative_path(module, path):
     LOGGER.debug(
         f'relative_path called with: {module} and {path}. Returned: {output}')
     return output
+
+
+def get_function_signature(function):
+    '''
+    Inspect a given function and return its arguments as a list and its keyword
+    arguments as a dict.
+
+    Args:
+        function (function): Function to be inspected.
+
+    Returns:
+        dict: args and kwargs.
+    '''
+    spec = inspect.getfullargspec(function)
+    args = list(spec.args)
+    kwargs = {}
+    if spec.defaults is not None:
+        args = args[:-len(spec.defaults)]
+        kwargs = list(spec.args)[-len(spec.defaults):]
+        kwargs = dict(zip(kwargs, spec.defaults))
+    return dict(args=args, kwargs=kwargs)
+
+
+def api_function(wrapped=None, **kwargs):
+    '''
+    A decorator that enforces keyword argument only function signatures and
+    required keyword argument values when called.
+
+    Args:
+        wrapped (function): For dev use. Default: None.
+        \*\*kwargs (dict): Keyword arguments. # noqa: W605
+
+    Raises:
+        TypeError: If non-keyword argument found in functionn signature.
+        ValueError: If keyword arg with value of '<required>' is found.
+
+    Returns:
+        api function.
+    '''
+    if wrapped is None:
+        return partial(api_function, **kwargs)
+
+    @wrapt.decorator
+    def wrapper(wrapped, instance, args, kwargs):
+        sig = get_function_signature(wrapped)
+
+        # ensure no arguments are present
+        if len(sig['args']) > 0:
+            msg = 'Function may only have keyword arguments. '
+            msg += f"Found non-keyword arguments: {sig['args']}."
+            raise TypeError(msg)
+        
+        # ensure all required kwarg values are present
+        params = sig['kwargs']
+        params.update(kwargs)
+        for key, val in params.items():
+            if val == '<required>':
+                msg = f'Missing required keyword argument: {key}.'
+                raise ValueError(msg)
+
+        LOGGER.debug(f'{wrapped} called with {params}.')
+        return wrapped(*args, **kwargs)
+    return wrapper(wrapped)
 
 
 def is_standard_module(name):
