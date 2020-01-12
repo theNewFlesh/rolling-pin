@@ -79,9 +79,6 @@ def api_function(wrapped=None, **kwargs):
     Returns:
         api function.
     '''
-    if wrapped is None:
-        return partial(api_function, **kwargs)
-
     @wrapt.decorator
     def wrapper(wrapped, instance, args, kwargs):
         sig = get_function_signature(wrapped)
