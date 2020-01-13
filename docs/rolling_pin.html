@@ -1339,64 +1339,7 @@ Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</p></li>
 <dl class="function">
 <dt id="rolling_pin.app.to_svg">
 <code class="sig-prename descclassname">rolling_pin.app.</code><code class="sig-name descname">to_svg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/app.html#to_svg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.app.to_svg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Endpoint for converting a given JSON blob into a SVG graph.
-—
-:param - name: data</p>
-<blockquote>
-<div><p>type: object
-required: true</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>-</em>) – layout
-type: string
-description: Graph layout style.
-enum: [‘circo’, ‘dot’, ‘fdp’, ‘neato’, ‘sfdp’, ‘twopi’]
-required: false
-default: dot</p></li>
-<li><p><strong>name</strong> – orthogonal_edges
-type: boolean
-required: false
-description: Whether graph edges should have non-right angles.
-default: false</p></li>
-<li><p><strong>name</strong> – orient
-type: string
-required: false
-description: Graph layout orientation.
-default: tb
-enum: [‘tb’, ‘bt’, ‘lr’, ‘rl’]</p></li>
-<li><p><strong>name</strong> – color_scheme
-type: object
-required: false
-description: Color scheme to be applied to graph.
-default: none</p></li>
-</ul>
-</dd>
-</dl>
-<dl>
-<dt>responses:</dt><dd><dl>
-<dt>200:</dt><dd><p>description: A SVG image.
-content:</p>
-<blockquote>
-<div><p>image/svg+xml:</p>
-</div></blockquote>
-</dd>
-<dt>400:</dt><dd><p>description: Invalid JSON request sent.
-example:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>{</dt><dd><p>“error”: “KeyError: data”,
-“status”: 400,
-“success”: false</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-</dd>
-</dl>
-</dd>
-</dl>
+<dd><p>Endpoint for converting a given JSON blob into a SVG graph.</p>
 </dd></dl>
 
 </div>

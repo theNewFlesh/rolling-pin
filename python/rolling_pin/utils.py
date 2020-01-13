@@ -1,4 +1,3 @@
-from functools import partial
 from itertools import dropwhile, takewhile
 from pathlib import Path
 import inspect

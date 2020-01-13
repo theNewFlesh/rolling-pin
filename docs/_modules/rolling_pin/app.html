@@ -155,8 +155,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for rolling_pin.app</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">jsonify</span>
-<span class="kn">from</span> <span class="nn">flasgger</span> <span class="kn">import</span> <span class="n">Swagger</span>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span>
+<span class="kn">from</span> <span class="nn">flasgger</span> <span class="kn">import</span> <span class="n">Swagger</span><span class="p">,</span> <span class="n">swag_from</span>
 
 <span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
 <span class="kn">import</span> <span class="nn">rolling_pin.utils</span> <span class="k">as</span> <span class="nn">utils</span>
@@ -218,57 +218,69 @@
 
 
 <div class="viewcode-block" id="to_svg"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.app.to_svg">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/to_svg&#39;</span><span class="p">)</span>
+<span class="nd">@swag_from</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+        <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">,</span>
+            <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;layout&#39;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Graph layout style.&#39;</span><span class="p">,</span>
+            <span class="n">enum</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;circo&#39;</span><span class="p">,</span> <span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="s1">&#39;fdp&#39;</span><span class="p">,</span> <span class="s1">&#39;neato&#39;</span><span class="p">,</span> <span class="s1">&#39;sfdp&#39;</span><span class="p">,</span> <span class="s1">&#39;twopi&#39;</span><span class="p">],</span>
+            <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;orthogonal_edges&#39;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+            <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether graph edges should have non-right angles.&#39;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;orient&#39;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+            <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Graph layout orientation.&#39;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span>
+            <span class="n">enum</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="s1">&#39;bt&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;rl&#39;</span><span class="p">],</span>
+        <span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;color_scheme&#39;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">,</span>
+            <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Color scheme to be applied to graph.&#39;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">200</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A SVG image.&#39;</span><span class="p">,</span>
+            <span class="n">content</span><span class="o">=</span><span class="s1">&#39;image/svg+xml&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="mi">400</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Invalid JSON request sent.&#39;</span><span class="p">,</span>
+            <span class="n">example</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">error</span><span class="o">=</span><span class="s2">&quot;KeyError: data&quot;</span><span class="p">,</span>
+                <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+                <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">))</span>
 <span class="k">def</span> <span class="nf">to_svg</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Endpoint for converting a given JSON blob into a SVG graph.</span>
-<span class="sd">    ---</span>
-<span class="sd">    parameters:</span>
-<span class="sd">      - name: data</span>
-<span class="sd">        type: object</span>
-<span class="sd">        required: true</span>
-<span class="sd">      - name: layout</span>
-<span class="sd">        type: string</span>
-<span class="sd">        description: Graph layout style.</span>
-<span class="sd">        enum: [&#39;circo&#39;, &#39;dot&#39;, &#39;fdp&#39;, &#39;neato&#39;, &#39;sfdp&#39;, &#39;twopi&#39;]</span>
-<span class="sd">        required: false</span>
-<span class="sd">        default: dot</span>
-<span class="sd">      - name: orthogonal_edges</span>
-<span class="sd">        type: boolean</span>
-<span class="sd">        required: false</span>
-<span class="sd">        description: Whether graph edges should have non-right angles.</span>
-<span class="sd">        default: false</span>
-<span class="sd">      - name: orient</span>
-<span class="sd">        type: string</span>
-<span class="sd">        required: false</span>
-<span class="sd">        description: Graph layout orientation.</span>
-<span class="sd">        default: tb</span>
-<span class="sd">        enum: [&#39;tb&#39;, &#39;bt&#39;, &#39;lr&#39;, &#39;rl&#39;]</span>
-<span class="sd">      - name: color_scheme</span>
-<span class="sd">        type: object</span>
-<span class="sd">        required: false</span>
-<span class="sd">        description: Color scheme to be applied to graph.</span>
-<span class="sd">        default: none</span>
-
-<span class="sd">    responses:</span>
-<span class="sd">      200:</span>
-<span class="sd">        description: A SVG image.</span>
-<span class="sd">        content:</span>
-<span class="sd">          image/svg+xml:</span>
-<span class="sd">      400:</span>
-<span class="sd">        description: Invalid JSON request sent.</span>
-<span class="sd">        example:</span>
-<span class="sd">            {</span>
-<span class="sd">                &quot;error&quot;: &quot;KeyError: data&quot;,</span>
-<span class="sd">                &quot;status&quot;: 400,</span>
-<span class="sd">                &quot;success&quot;: false</span>
-<span class="sd">            }</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">get_svg</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">),</span> <span class="n">mimetype</span><span class="o">=</span><span class="s1">&#39;image/svg+xml&#39;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
