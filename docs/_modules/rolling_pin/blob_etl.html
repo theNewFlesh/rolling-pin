@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.3.1
               </div>
             
           
@@ -155,7 +155,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for rolling_pin.blob_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
@@ -413,6 +414,13 @@
                 <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>\
                 <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># clean up column order</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">cols</span><span class="p">)))</span>
+        <span class="n">cols</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="n">data</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_prototype"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_prototype">[docs]</a>    <span class="k">def</span> <span class="nf">to_prototype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -446,8 +454,8 @@
 <span class="sd">            &#39;^users&#39;: {</span>
 <span class="sd">                &#39;&lt;list_[0-9]+&gt;&#39;: {</span>
 <span class="sd">                    &#39;name&#39;: {</span>
-<span class="sd">                        &#39;first$&#39;: [&#39;dick&#39;, &#39;jane&#39;, &#39;tom&#39;],</span>
-<span class="sd">                        &#39;last$&#39;: [&#39;doe&#39;, &#39;smith&#39;]</span>
+<span class="sd">                        &#39;first$&#39;: Counter({&#39;dick&#39;: 1, &#39;jane&#39;: 1, &#39;tom&#39;: 1}),</span>
+<span class="sd">                        &#39;last$&#39;: Counter({&#39;doe&#39;: 1, &#39;smith&#39;: 2})</span>
 <span class="sd">                    }</span>
 <span class="sd">                }</span>
 <span class="sd">            }</span>
@@ -505,13 +513,7 @@
         <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">p_keys</span><span class="p">:</span>
             <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">to_flat_dict</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-            <span class="c1"># set requires hashable values, dicts and lists are not hashable</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">values</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="p">)))</span>
-            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                <span class="k">pass</span>
-            <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-
+            <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_networkx_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

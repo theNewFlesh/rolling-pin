@@ -159,29 +159,29 @@
 <path fill="none" stroke="#a0d17b" d="M362.4103,-219.6028C323.073,-209.0345 269.0646,-194.5248 225.0953,-182.7122"/>
 <polygon fill="#a0d17b" stroke="#a0d17b" points="225.8677,-179.2956 215.302,-180.0811 224.0515,-186.0559 225.8677,-179.2956"/>
 </g>
-<!-- IPython.display -->
-<g id="node11" class="node">
-<title>IPython.display</title>
-<polygon fill="#343434" stroke="#343434" points="723,-252 583,-252 583,-216 723,-216 723,-252"/>
-<text text-anchor="middle" x="653" y="-230.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">IPython.display</text>
-</g>
-<!-- IPython.display&#45;&gt;rolling_pin.tools -->
-<g id="edge16" class="edge">
-<title>IPython.display&#45;&gt;rolling_pin.tools</title>
-<path fill="none" stroke="#de958e" d="M653,-215.8314C653,-208.131 653,-198.9743 653,-190.4166"/>
-<polygon fill="#de958e" stroke="#de958e" points="656.5001,-190.4132 653,-180.4133 649.5001,-190.4133 656.5001,-190.4132"/>
-</g>
 <!-- wrapt -->
-<g id="node12" class="node">
+<g id="node11" class="node">
 <title>wrapt</title>
 <polygon fill="#343434" stroke="#343434" points="177,-252 119,-252 119,-216 177,-216 177,-252"/>
 <text text-anchor="middle" x="148" y="-230.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">wrapt</text>
 </g>
 <!-- wrapt&#45;&gt;rolling_pin.utils -->
-<g id="edge17" class="edge">
+<g id="edge16" class="edge">
 <title>wrapt&#45;&gt;rolling_pin.utils</title>
 <path fill="none" stroke="#de958e" d="M148,-215.8314C148,-208.131 148,-198.9743 148,-190.4166"/>
 <polygon fill="#de958e" stroke="#de958e" points="151.5001,-190.4132 148,-180.4133 144.5001,-190.4133 151.5001,-190.4132"/>
+</g>
+<!-- IPython.display -->
+<g id="node12" class="node">
+<title>IPython.display</title>
+<polygon fill="#343434" stroke="#343434" points="723,-252 583,-252 583,-216 723,-216 723,-252"/>
+<text text-anchor="middle" x="653" y="-230.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">IPython.display</text>
+</g>
+<!-- IPython.display&#45;&gt;rolling_pin.tools -->
+<g id="edge17" class="edge">
+<title>IPython.display&#45;&gt;rolling_pin.tools</title>
+<path fill="none" stroke="#de958e" d="M653,-215.8314C653,-208.131 653,-198.9743 653,-190.4166"/>
+<polygon fill="#de958e" stroke="#de958e" points="656.5001,-190.4132 653,-180.4133 649.5001,-190.4133 656.5001,-190.4132"/>
 </g>
 <!-- networkx -->
 <g id="node13" class="node">
