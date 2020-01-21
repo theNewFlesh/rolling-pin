@@ -1,3 +1,4 @@
+from collections import Counter
 import json
 import os
 import re
@@ -256,6 +257,13 @@ class BlobETL():
                 .apply(lambda x: x.to_dict(), axis=1)\
                 .tolist()
             data = DataFrame(data)
+
+        # clean up column order
+        cols = data.columns.tolist()
+        cols = list(sorted(filter(lambda x: x != 'value', cols)))
+        cols += ['value']
+        data = data[cols]
+
         return data
 
     def to_prototype(self):
@@ -289,8 +297,8 @@ class BlobETL():
             '^users': {
                 '<list_[0-9]+>': {
                     'name': {
-                        'first$': ['dick', 'jane', 'tom'],
-                        'last$': ['doe', 'smith']
+                        'first$': Counter({'dick': 1, 'jane': 1, 'tom': 1}),
+                        'last$': Counter({'doe': 1, 'smith': 2})
                     }
                 }
             }
@@ -348,13 +356,7 @@ class BlobETL():
         output = {}
         for key in p_keys:
             values = self.query(key).to_flat_dict().values()
-            # set requires hashable values, dicts and lists are not hashable
-            try:
-                values = sorted(list(set(values)))
-            except TypeError:
-                pass
-            output[key] = list(values)
-
+            output[key] = Counter(values)
         return BlobETL(output, separator=self._separator)
 
     def to_networkx_graph(self):

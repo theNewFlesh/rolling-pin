@@ -118,6 +118,8 @@ def is_dictlike(item):
     '''
     for type_ in [dict, OrderedDict]:
         if isinstance(item, type_):
+            if item.__class__.__name__ == 'Counter':
+                return False
             return True
     return False
 

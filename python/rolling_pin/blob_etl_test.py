@@ -1,4 +1,4 @@
-from collections import deque
+from collections import deque, Counter
 import os
 import re
 import unittest
@@ -183,8 +183,8 @@ class BlobEtlTests(unittest.TestCase):
             '^users': {
                 '<list_[0-9]+>': {
                     'name': {
-                        'first$': ['dick', 'jane', 'tom'],
-                        'last$': ['doe', 'smith']
+                        'first$': Counter(['dick', 'jane', 'tom']),
+                        'last$': Counter(['doe', 'smith', 'smith']),
                     }
                 }
             }
@@ -199,31 +199,20 @@ class BlobEtlTests(unittest.TestCase):
             'users': [
                 {
                     'name': {'first': 'tom', 'last': 'smith'},
-                    'unhashable': unhashable,
+                    'age': 32,
                 },
                 {
                     'name': {'first': 'dick', 'last': 'smith'},
-                    'unhashable': unhashable,
+                    'age': 56,
                 },
                 {
                     'name': {'first': 'jane', 'last': 'doe'},
-                    'unhashable': unhashable,
+                    'age': unhashable,
                 },
             ]
         }
-        expected = {
-            '^users': {
-                '<list_[0-9]+>': {
-                    'name': {
-                        'first$': ['dick', 'jane', 'tom'],
-                        'last$': ['doe', 'smith']
-                    },
-                    'unhashable$': [unhashable, unhashable, unhashable],
-                }
-            }
-        }
-        result = BlobETL(data).to_prototype().to_dict()
-        self.assertEqual(result, expected)
+        with self.assertRaises(TypeError):
+            BlobETL(data).to_prototype()
 
     def test_filter(self):
         blob = self.get_simple_blob()
