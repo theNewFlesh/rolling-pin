@@ -65,6 +65,18 @@ a:hover {
     background: #444444 !important;
 }
 
+.wy-menu-vertical li a,
+.wy-menu-vertical li.on a,
+.wy-menu-vertical li.current a {
+    background: #343434 !important;
+    border: 0px solid #343434 !important;
+}
+
+.wy-menu-vertical li.on a span.toctree-expand,
+.wy-menu-vertical li.current>a span.toctree-expand {
+    color: #DE958E !important;
+}
+
 input {
     background: #242424;
     color: #F4F4F4;
@@ -132,6 +144,8 @@ pre > span {
 }
 
 .rst-content dl:not(.docutils) dt {
+    background: #343434 !important;
+    color: #7EC4CF !important;
     border-top-color: #A4A4A4 !important;
 }
 
