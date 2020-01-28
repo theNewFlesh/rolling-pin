@@ -412,6 +412,9 @@ class BlobETL():
             color_scheme: (dict, optional): Color scheme to be applied to graph.
                 Default: rolling_pin.tools.COLOR_SCHEME
 
+        Raises:
+            ValueError: If orient is invalid.
+
         Returns:
             pydot.Dot: Dot graph representation of dictionary.
         '''

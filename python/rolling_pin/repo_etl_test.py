@@ -192,6 +192,15 @@ class RepoEtlTests(unittest.TestCase):
             edge_count = data.dependencies.apply(len).sum()
             self.assertEqual(edge_count, graph.number_of_edges())
 
+    def test_to_dot_graph_error(self):
+        with TemporaryDirectory() as root:
+            self.create_repo(root)
+
+            with pytest.raises(ValueError) as e:
+                RepoETL(root).to_dot_graph(orient='foo')
+            expected = "Invalid orient value. foo not in ['tb', 'bt', 'lr', 'rl']."
+            self.assertEqual(str(e.value), expected)
+
     def test_to_dot_graph(self):
         color_scheme = dict(
             background='#F00000',

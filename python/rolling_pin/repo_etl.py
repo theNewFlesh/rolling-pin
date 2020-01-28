@@ -356,19 +356,35 @@ class RepoETL():
         '''
         return RepoETL._to_networkx_graph(self._data)
 
-    def to_dot_graph(self, orthogonal_edges=False, color_scheme=None):
+    def to_dot_graph(self, orient='tb', orthogonal_edges=False, color_scheme=None):
         '''
         Converts internal data into pydot graph.
 
         Args:
+            orient (str, optional): Graph layout orientation. Default: tb.
+                Options include:
+
+                * tb - top to bottom
+                * bt - bottom to top
+                * lr - left to right
+                * rl - right to left
             orthogonal_edges (bool, optional): Whether graph edges should have
                 non-right angles. Default: False.
             color_scheme: (dict, optional): Color scheme to be applied to graph.
                 Default: rolling_pin.tools.COLOR_SCHEME
 
+        Raises:
+            ValueError: If orient is invalid.
+
         Returns:
             pydot.Dot: Dot graph of nodes.
         '''
+        orient = orient.lower()
+        orientations = ['tb', 'bt', 'lr', 'rl']
+        if orient not in orientations:
+            msg = f'Invalid orient value. {orient} not in {orientations}.'
+            raise ValueError(msg)
+
         # set color scheme of graph
         if color_scheme is None:
             color_scheme = tools.COLOR_SCHEME
@@ -376,6 +392,9 @@ class RepoETL():
         # create dot graph
         graph = self.to_networkx_graph()
         dot = networkx.drawing.nx_pydot.to_pydot(graph)
+
+        # set layout orientation
+        dot.set_rankdir(orient.upper())
 
         # set graph background color
         dot.set_bgcolor(color_scheme['background'])
@@ -480,6 +499,7 @@ class RepoETL():
         self,
         fullpath,
         layout='dot',
+        orient='tb',
         orthogonal_edges=False,
         color_scheme=None
     ):
@@ -488,9 +508,20 @@ class RepoETL():
         Formats supported: svg, dot, png, json.
 
         Args:
-            fulllpath (str or Path): File tobe written to.
+            fulllpath (str or Path): File to be written to.
             layout (str, optional): Graph layout style.
                 Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.
+            orient (str, optional): Graph layout orientation. Default: tb.
+                Options include:
+
+                * tb - top to bottom
+                * bt - bottom to top
+                * lr - left to right
+                * rl - right to left
+            orthogonal_edges (bool, optional): Whether graph edges should have
+                non-right angles. Default: False.
+            color_scheme: (dict, optional): Color scheme to be applied to graph.
+                Default: rolling_pin.tools.COLOR_SCHEME
 
         Raises:
             ValueError: If invalid file extension given.
@@ -508,6 +539,7 @@ class RepoETL():
             color_scheme = tools.COLOR_SCHEME
 
         graph = self.to_dot_graph(
+            orient=orient,
             orthogonal_edges=orthogonal_edges,
             color_scheme=color_scheme,
         )
