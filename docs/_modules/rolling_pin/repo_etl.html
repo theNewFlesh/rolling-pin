@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.3.2
               </div>
             
           
@@ -513,19 +513,35 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">RepoETL</span><span class="o">.</span><span class="n">_to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RepoETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RepoETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts internal data into pydot graph.</span>
 
 <span class="sd">        Args:</span>
+<span class="sd">            orient (str, optional): Graph layout orientation. Default: tb.</span>
+<span class="sd">                Options include:</span>
+
+<span class="sd">                * tb - top to bottom</span>
+<span class="sd">                * bt - bottom to top</span>
+<span class="sd">                * lr - left to right</span>
+<span class="sd">                * rl - right to left</span>
 <span class="sd">            orthogonal_edges (bool, optional): Whether graph edges should have</span>
 <span class="sd">                non-right angles. Default: False.</span>
 <span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
 <span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
 
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If orient is invalid.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            pydot.Dot: Dot graph of nodes.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">orient</span> <span class="o">=</span> <span class="n">orient</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">orientations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="s1">&#39;bt&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;rl&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">orient</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">orientations</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid orient value. </span><span class="si">{orient}</span><span class="s1"> not in </span><span class="si">{orientations}</span><span class="s1">.&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="c1"># set color scheme of graph</span>
         <span class="k">if</span> <span class="n">color_scheme</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">color_scheme</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">COLOR_SCHEME</span>
@@ -533,6 +549,9 @@
         <span class="c1"># create dot graph</span>
         <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_networkx_graph</span><span class="p">()</span>
         <span class="n">dot</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">to_pydot</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+        <span class="c1"># set layout orientation</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">set_rankdir</span><span class="p">(</span><span class="n">orient</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 
         <span class="c1"># set graph background color</span>
         <span class="n">dot</span><span class="o">.</span><span class="n">set_bgcolor</span><span class="p">(</span><span class="n">color_scheme</span><span class="p">[</span><span class="s1">&#39;background&#39;</span><span class="p">])</span>
@@ -637,6 +656,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fullpath</span><span class="p">,</span>
         <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
+        <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span>
         <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
@@ -645,9 +665,20 @@
 <span class="sd">        Formats supported: svg, dot, png, json.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            fulllpath (str or Path): File tobe written to.</span>
+<span class="sd">            fulllpath (str or Path): File to be written to.</span>
 <span class="sd">            layout (str, optional): Graph layout style.</span>
 <span class="sd">                Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</span>
+<span class="sd">            orient (str, optional): Graph layout orientation. Default: tb.</span>
+<span class="sd">                Options include:</span>
+
+<span class="sd">                * tb - top to bottom</span>
+<span class="sd">                * bt - bottom to top</span>
+<span class="sd">                * lr - left to right</span>
+<span class="sd">                * rl - right to left</span>
+<span class="sd">            orthogonal_edges (bool, optional): Whether graph edges should have</span>
+<span class="sd">                non-right angles. Default: False.</span>
+<span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
+<span class="sd">                Default: rolling_pin.tools.COLOR_SCHEME</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If invalid file extension given.</span>
@@ -665,6 +696,7 @@
             <span class="n">color_scheme</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">COLOR_SCHEME</span>
 
         <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dot_graph</span><span class="p">(</span>
+            <span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">,</span>
             <span class="n">orthogonal_edges</span><span class="o">=</span><span class="n">orthogonal_edges</span><span class="p">,</span>
             <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span>
         <span class="p">)</span>

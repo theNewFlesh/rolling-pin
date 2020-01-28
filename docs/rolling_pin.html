@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.3.2
               </div>
             
           
@@ -661,22 +661,34 @@ directy search. Default: ‘(__init__|_test).py$’.</p></li>
 
 <dl class="method">
 <dt id="rolling_pin.repo_etl.RepoETL.to_dot_graph">
-<code class="sig-name descname">to_dot_graph</code><span class="sig-paren">(</span><em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_dot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_dot_graph</code><span class="sig-paren">(</span><em class="sig-param">orient='tb'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_dot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts internal data into pydot graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>orient</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Graph layout orientation. Default: tb.
+Options include:</p>
+<ul>
+<li><p>tb - top to bottom</p></li>
+<li><p>bt - bottom to top</p></li>
+<li><p>lr - left to right</p></li>
+<li><p>rl - right to left</p></li>
+</ul>
+</p></li>
 <li><p><strong>orthogonal_edges</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether graph edges should have
 non-right angles. Default: False.</p></li>
 <li><p><strong>color_scheme</strong> – (dict, optional): Color scheme to be applied to graph.
 Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dot graph of nodes.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If orient is invalid.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pydot.Dot</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dot graph of nodes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pydot.Dot</p>
 </dd>
 </dl>
 </dd></dl>
@@ -724,15 +736,28 @@ SVG. Useful for display on Github. Default: False.</p></li>
 
 <dl class="method">
 <dt id="rolling_pin.repo_etl.RepoETL.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">fullpath</em>, <em class="sig-param">layout='dot'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">fullpath</em>, <em class="sig-param">layout='dot'</em>, <em class="sig-param">orient='tb'</em>, <em class="sig-param">orthogonal_edges=False</em>, <em class="sig-param">color_scheme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes internal data to a given filepath.
 Formats supported: svg, dot, png, json.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fulllpath</strong> (<em>str</em><em> or </em><em>Path</em>) – File tobe written to.</p></li>
+<li><p><strong>fulllpath</strong> (<em>str</em><em> or </em><em>Path</em>) – File to be written to.</p></li>
 <li><p><strong>layout</strong> (<em>str</em><em>, </em><em>optional</em>) – Graph layout style.
 Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</p></li>
+<li><p><strong>orient</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Graph layout orientation. Default: tb.
+Options include:</p>
+<ul>
+<li><p>tb - top to bottom</p></li>
+<li><p>bt - bottom to top</p></li>
+<li><p>lr - left to right</p></li>
+<li><p>rl - right to left</p></li>
+</ul>
+</p></li>
+<li><p><strong>orthogonal_edges</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether graph edges should have
+non-right angles. Default: False.</p></li>
+<li><p><strong>color_scheme</strong> – (dict, optional): Color scheme to be applied to graph.
+Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -924,11 +949,14 @@ Options include:</p>
 Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dot graph representation of dictionary.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If orient is invalid.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pydot.Dot</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dot graph representation of dictionary.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pydot.Dot</p>
 </dd>
 </dl>
 </dd></dl>
