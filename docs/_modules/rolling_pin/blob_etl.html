@@ -180,7 +180,7 @@
 <span class="sd">    searchable, editable and convertable back to the data&#39;s original structure,</span>
 <span class="sd">    new blob structures or dircted graphs.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="BlobETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Contructs BlobETL instance.</span>
 
@@ -190,7 +190,7 @@
 <span class="sd">                each key. Default: &#39;/&#39;.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="n">separator</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span></div>
 
     <span class="c1"># EDIT_METHODS--------------------------------------------------------------</span>
 <div class="viewcode-block" id="BlobETL.query"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">ignore_case</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>

@@ -180,7 +180,7 @@
 <span class="sd">    given repository. This information is stored internally as a DataFrame and</span>
 <span class="sd">    can be rendered as networkx, pydot or SVG graphs.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="RepoETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">root</span><span class="p">,</span>
         <span class="n">include_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*\.py$&#39;</span><span class="p">,</span>
@@ -200,7 +200,7 @@
 <span class="sd">            ValueError: If include or exclude regex does not end in &#39;\.py$&#39;.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">=</span> <span class="n">root</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">include_regex</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">include_regex</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RepoETL._get_imports"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_imports">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_imports</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>

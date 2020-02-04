@@ -183,14 +183,14 @@
 <span class="sd">    Conforms all four radon reports (raw metrics, Halstead, maintainability and</span>
 <span class="sd">    cyclomatic complexity) into a single DataFrame that can then be plotted.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
+<div class="viewcode-block" id="RadonETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.radon_etl.RadonETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Constructs a RadonETL instance.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            fullpath (str or Path): Python file or directory of python files.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span> <span class="o">=</span> <span class="n">RadonETL</span><span class="o">.</span><span class="n">_get_radon_report</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_report</span> <span class="o">=</span> <span class="n">RadonETL</span><span class="o">.</span><span class="n">_get_radon_report</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span></div>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
     <span class="nd">@property</span>

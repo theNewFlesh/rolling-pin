@@ -502,6 +502,42 @@ arguments as a dict.</p>
 <p>RepoETL is a class for extracting 1st order dependencies of modules within a
 given repository. This information is stored internally as a DataFrame and
 can be rendered as networkx, pydot or SVG graphs.</p>
+<dl class="attribute">
+<dt id="rolling_pin.repo_etl.RepoETL.__dict__">
+<code class="sig-name descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'rolling_pin.repo_etl', '__doc__': '\n    RepoETL is a class for extracting 1st order dependencies of modules within a\n    given repository. This information is stored internally as a DataFrame and\n    can be rendered as networkx, pydot or SVG graphs.\n    ', '__init__': &lt;function RepoETL.__init__&gt;, '_get_imports': &lt;staticmethod object&gt;, '_get_data': &lt;staticmethod object&gt;, '_calculate_coordinates': &lt;staticmethod object&gt;, '_anneal_coordinate': &lt;staticmethod object&gt;, '_center_coordinate': &lt;staticmethod object&gt;, '_to_networkx_graph': &lt;staticmethod object&gt;, 'to_networkx_graph': &lt;function RepoETL.to_networkx_graph&gt;, 'to_dot_graph': &lt;function RepoETL.to_dot_graph&gt;, 'to_dataframe': &lt;function RepoETL.to_dataframe&gt;, 'to_html': &lt;function RepoETL.to_html&gt;, 'write': &lt;function RepoETL.write&gt;, '__dict__': &lt;attribute '__dict__' of 'RepoETL' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'RepoETL' objects&gt;})</em><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.repo_etl.RepoETL.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">root</em>, <em class="sig-param">include_regex='.*\\.py$'</em>, <em class="sig-param">exclude_regex='(__init__|_test)\\.py$'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct RepoETL instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<em>str</em><em> or </em><em>Path</em>) – Full path to repository root directory.</p></li>
+<li><p><strong>include_regex</strong> (<em>str</em><em>, </em><em>optional</em>) – Files to be included in recursive
+directy search. Default: ‘.*.py$’.</p></li>
+<li><p><strong>exclude_regex</strong> (<em>str</em><em>, </em><em>optional</em>) – Files to be excluded in recursive
+directy search. Default: ‘(__init__|_test).py$’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If include or exclude regex does not end in ‘.py$’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rolling_pin.repo_etl.RepoETL.__module__">
+<code class="sig-name descname">__module__</code><em class="property"> = 'rolling_pin.repo_etl'</em><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="rolling_pin.repo_etl.RepoETL.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="rolling_pin.repo_etl.RepoETL._anneal_coordinate">
 <em class="property">static </em><code class="sig-name descname">_anneal_coordinate</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">anneal_axis='x'</em>, <em class="sig-param">pin_axis='y'</em>, <em class="sig-param">iterations=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._anneal_coordinate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._anneal_coordinate" title="Permalink to this definition">¶</a></dt>
@@ -778,6 +814,37 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 <p>Converts blob data internally into a flat dictionary that is universally
 searchable, editable and convertable back to the data’s original structure,
 new blob structures or dircted graphs.</p>
+<dl class="attribute">
+<dt id="rolling_pin.blob_etl.BlobETL.__dict__">
+<code class="sig-name descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'rolling_pin.blob_etl', '__doc__': &quot;\n    Converts blob data internally into a flat dictionary that is universally\n    searchable, editable and convertable back to the data's original structure,\n    new blob structures or dircted graphs.\n    &quot;, '__init__': &lt;function BlobETL.__init__&gt;, 'query': &lt;function BlobETL.query&gt;, 'filter': &lt;function BlobETL.filter&gt;, 'delete': &lt;function BlobETL.delete&gt;, 'set': &lt;function BlobETL.set&gt;, 'update': &lt;function BlobETL.update&gt;, 'set_field': &lt;function BlobETL.set_field&gt;, 'to_dict': &lt;function BlobETL.to_dict&gt;, 'to_flat_dict': &lt;function BlobETL.to_flat_dict&gt;, 'to_records': &lt;function BlobETL.to_records&gt;, 'to_dataframe': &lt;function BlobETL.to_dataframe&gt;, 'to_prototype': &lt;function BlobETL.to_prototype&gt;, 'to_networkx_graph': &lt;function BlobETL.to_networkx_graph&gt;, 'to_dot_graph': &lt;function BlobETL.to_dot_graph&gt;, 'to_html': &lt;function BlobETL.to_html&gt;, 'write': &lt;function BlobETL.write&gt;, '__dict__': &lt;attribute '__dict__' of 'BlobETL' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'BlobETL' objects&gt;})</em><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.blob_etl.BlobETL.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">blob</em>, <em class="sig-param">separator='/'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contructs BlobETL instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blob</strong> (<em>object</em>) – Iterable object.</p></li>
+<li><p><strong>separator</strong> (<em>str</em><em>, </em><em>optional</em>) – String to be used as a field separator in
+each key. Default: ‘/’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rolling_pin.blob_etl.BlobETL.__module__">
+<code class="sig-name descname">__module__</code><em class="property"> = 'rolling_pin.blob_etl'</em><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="rolling_pin.blob_etl.BlobETL.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="rolling_pin.blob_etl.BlobETL.delete">
 <code class="sig-name descname">delete</code><span class="sig-paren">(</span><em class="sig-param">predicate</em>, <em class="sig-param">by='key'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.delete" title="Permalink to this definition">¶</a></dt>
@@ -1147,6 +1214,33 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Conforms all four radon reports (raw metrics, Halstead, maintainability and
 cyclomatic complexity) into a single DataFrame that can then be plotted.</p>
+<dl class="attribute">
+<dt id="rolling_pin.radon_etl.RadonETL.__dict__">
+<code class="sig-name descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'rolling_pin.radon_etl', '__doc__': '\n    Conforms all four radon reports (raw metrics, Halstead, maintainability and\n    cyclomatic complexity) into a single DataFrame that can then be plotted.\n    ', '__init__': &lt;function RadonETL.__init__&gt;, 'report': &lt;property object&gt;, 'data': &lt;property object&gt;, 'raw_metrics': &lt;property object&gt;, 'maintainability_index': &lt;property object&gt;, 'cyclomatic_complexity_metrics': &lt;property object&gt;, 'halstead_metrics': &lt;property object&gt;, '_get_radon_data': &lt;function RadonETL._get_radon_data&gt;, '_get_radon_report': &lt;staticmethod object&gt;, '_get_raw_metrics_dataframe': &lt;staticmethod object&gt;, '_get_maintainability_index_dataframe': &lt;staticmethod object&gt;, '_get_cyclomatic_complexity_dataframe': &lt;staticmethod object&gt;, '_get_halstead_dataframe': &lt;staticmethod object&gt;, 'write_plots': &lt;function RadonETL.write_plots&gt;, 'write_tables': &lt;function RadonETL.write_tables&gt;, '__dict__': &lt;attribute '__dict__' of 'RadonETL' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'RadonETL' objects&gt;})</em><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="rolling_pin.radon_etl.RadonETL.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">fullpath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a RadonETL instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fullpath</strong> (<em>str</em><em> or </em><em>Path</em>) – Python file or directory of python files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rolling_pin.radon_etl.RadonETL.__module__">
+<code class="sig-name descname">__module__</code><em class="property"> = 'rolling_pin.radon_etl'</em><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="rolling_pin.radon_etl.RadonETL.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">
 <em class="property">static </em><code class="sig-name descname">_get_cyclomatic_complexity_dataframe</code><span class="sig-paren">(</span><em class="sig-param">report</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_cyclomatic_complexity_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe" title="Permalink to this definition">¶</a></dt>
