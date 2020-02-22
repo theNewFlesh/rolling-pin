@@ -171,3 +171,7 @@ code.literal {
     color: #DE958E !important;
     background: #444444 !important;
 }
+
+span[id*='MathJax-Span'] {
+    color: #E9EABE !important;
+}
