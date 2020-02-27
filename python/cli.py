@@ -84,6 +84,24 @@ def get_info():
     return info
 
 
+def get_fix_permissions_command(info, directory):
+    '''
+    Reverts permissions from root:root
+
+    Args:
+        directory (str): Directory to be recursively chowned.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = "{exec} chown -R {user} {directory}".format(
+        exec=get_docker_exec_command(info),
+        user=info['user'],
+        directory=directory
+    )
+    return cmd
+
+
 def get_architecture_diagram_command(info):
     '''
     Generates a svg file detailing this repository's module structure.
@@ -486,6 +504,7 @@ def main():
     '''
     info = get_info()
     mode = info['mode']
+    docs = os.path.join('/root', REPO, 'docs')
     cmd = get_docker_command(info)
 
     if mode == 'bash':
@@ -496,6 +515,7 @@ def main():
 
     elif mode == 'coverage':
         cmd = get_coverage_command(info)
+        cmd += '; ' + get_fix_permissions_command(info, docs)
 
     elif mode == 'destroy':
         cmd = get_stop_command(info)
@@ -503,12 +523,14 @@ def main():
 
     elif mode == 'docs':
         cmd = get_docs_command(info)
+        cmd += '; ' + get_fix_permissions_command(info, docs)
 
     elif mode == 'full-docs':
         cmd = get_docs_command(info)
         cmd += '; ' + get_coverage_command(info)
         cmd += '; ' + get_architecture_diagram_command(info)
         cmd += '; ' + get_radon_metrics_command(info)
+        cmd += '; ' + get_fix_permissions_command(info, docs)
 
     elif mode == 'image':
         cmd = get_image_id_command()
