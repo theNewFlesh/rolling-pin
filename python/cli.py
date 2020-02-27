@@ -86,7 +86,7 @@ def get_info():
 
 def get_fix_permissions_command(info, directory):
     '''
-    Reverts permissions from root:root
+    Recursively reverts permissions of given directory from root:root.
 
     Args:
         directory (str): Directory to be recursively chowned.

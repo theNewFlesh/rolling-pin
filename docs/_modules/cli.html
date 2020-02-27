@@ -241,6 +241,24 @@
     <span class="k">return</span> <span class="n">info</span></div>
 
 
+<div class="viewcode-block" id="get_fix_permissions_command"><a class="viewcode-back" href="../cli.html#cli.get_fix_permissions_command">[docs]</a><span class="k">def</span> <span class="nf">get_fix_permissions_command</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Recursively reverts permissions of given directory from root:root.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        directory (str): Directory to be recursively chowned.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Command.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{exec}</span><span class="s2"> chown -R </span><span class="si">{user}</span><span class="s2"> </span><span class="si">{directory}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">exec</span><span class="o">=</span><span class="n">get_docker_exec_command</span><span class="p">(</span><span class="n">info</span><span class="p">),</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">],</span>
+        <span class="n">directory</span><span class="o">=</span><span class="n">directory</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmd</span></div>
+
+
 <div class="viewcode-block" id="get_architecture_diagram_command"><a class="viewcode-back" href="../cli.html#cli.get_architecture_diagram_command">[docs]</a><span class="k">def</span> <span class="nf">get_architecture_diagram_command</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Generates a svg file detailing this repository&#39;s module structure.</span>
@@ -643,6 +661,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">get_info</span><span class="p">()</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;/root&#39;</span><span class="p">,</span> <span class="n">REPO</span><span class="p">,</span> <span class="s1">&#39;docs&#39;</span><span class="p">)</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_docker_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;bash&#39;</span><span class="p">:</span>
@@ -653,6 +672,7 @@
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;coverage&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_coverage_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_fix_permissions_command</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">docs</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;destroy&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_stop_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
@@ -660,12 +680,14 @@
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;docs&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_docs_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_fix_permissions_command</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">docs</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;full-docs&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_docs_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_coverage_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_architecture_diagram_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_radon_metrics_command</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39;; &#39;</span> <span class="o">+</span> <span class="n">get_fix_permissions_command</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">docs</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">get_image_id_command</span><span class="p">()</span>
