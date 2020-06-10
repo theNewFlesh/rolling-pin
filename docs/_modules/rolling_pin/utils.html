@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.3.3
               </div>
             
           
@@ -194,7 +194,7 @@
     <span class="n">output</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
 
     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s1">&#39;relative_path called with: </span><span class="si">{module}</span><span class="s1"> and </span><span class="si">{path}</span><span class="s1">. Returned: </span><span class="si">{output}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="sa">f</span><span class="s1">&#39;relative_path called with: </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">. Returned: </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 
@@ -242,7 +242,7 @@
         <span class="c1"># ensure no arguments are present</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Function may only have keyword arguments. &#39;</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Found non-keyword arguments: </span><span class="si">{sig[&#39;args&#39;]}</span><span class="s2">.&quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Found non-keyword arguments: </span><span class="si">{</span><span class="n">sig</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># ensure all required kwarg values are present</span>
@@ -250,10 +250,10 @@
         <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s1">&#39;&lt;required&gt;&#39;</span><span class="p">:</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Missing required keyword argument: </span><span class="si">{key}</span><span class="s1">.&#39;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Missing required keyword argument: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">.&#39;</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{wrapped}</span><span class="s1"> called with </span><span class="si">{params}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">wrapped</span><span class="si">}</span><span class="s1"> called with </span><span class="si">{</span><span class="n">params</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">)</span></div>
 

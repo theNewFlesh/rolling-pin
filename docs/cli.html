@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.3.3
               </div>
             
           
@@ -161,16 +161,16 @@
             
   <div class="section" id="module-cli">
 <span id="cli"></span><h1>cli<a class="headerlink" href="#module-cli" title="Permalink to this headline">¶</a></h1>
-<dl class="data">
+<dl class="py data">
 <dt id="cli.REPO_PATH">
 <code class="sig-prename descclassname">cli.</code><code class="sig-name descname">REPO_PATH</code><em class="property"> = '/root/rolling-pin'</em><a class="headerlink" href="#cli.REPO_PATH" title="Permalink to this definition">¶</a></dt>
 <dd><p>A CLI for developing and deploying a service deeply integrated with this
 repository’s structure. Written to be python version agnostic.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_architecture_diagram_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_architecture_diagram_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_architecture_diagram_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_architecture_diagram_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_architecture_diagram_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_architecture_diagram_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_architecture_diagram_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a svg file detailing this repository’s module structure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -185,9 +185,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_bash_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_bash_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_bash_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_bash_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_bash_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_bash_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_bash_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Opens a bash session inside a running container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -202,7 +202,7 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_container_id_command">
 <code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_container_id_command</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_container_id_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_container_id_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets current container id.</p>
@@ -216,9 +216,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_coverage_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_coverage_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_coverage_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_coverage_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_coverage_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_coverage_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_coverage_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs pytest coverage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,9 +233,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_docker_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docker_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docker_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docker_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docker_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docker_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docker_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get misc docker command.</p>
 <dl class="simple">
 <dt>Args:age</dt><dd><p>info (dict): Info dictionary.</p>
@@ -251,9 +251,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_docker_compose_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docker_compose_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docker_compose_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docker_compose_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docker_compose_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docker_compose_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docker_compose_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets docker-compose command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -268,9 +268,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_docker_exec_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docker_exec_command</code><span class="sig-paren">(</span><em class="sig-param">info</em>, <em class="sig-param">working_directory=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docker_exec_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docker_exec_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docker_exec_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em>, <em class="sig-param"><span class="n">working_directory</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docker_exec_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docker_exec_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets docker exec command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -288,9 +288,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_docs_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docs_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docs_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docs_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_docs_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_docs_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_docs_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build documentation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -305,9 +305,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_fix_permissions_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_fix_permissions_command</code><span class="sig-paren">(</span><em class="sig-param">info</em>, <em class="sig-param">directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_fix_permissions_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_fix_permissions_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_fix_permissions_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em>, <em class="sig-param"><span class="n">directory</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_fix_permissions_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_fix_permissions_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recursively reverts permissions of given directory from root:root.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -322,7 +322,7 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_image_id_command">
 <code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_image_id_command</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_image_id_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_image_id_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets currently built image id.</p>
@@ -336,7 +336,7 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_info">
 <code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_info" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -349,9 +349,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_lab_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_lab_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_lab_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_lab_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_lab_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_lab_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_lab_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start a jupyter lab server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -366,9 +366,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_lint_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_lint_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_lint_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_lint_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_lint_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_lint_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_lint_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs flake8 linting on python code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -383,9 +383,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_publish_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_publish_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_publish_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_publish_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_publish_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_publish_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_publish_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Publish repository to python package index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -400,9 +400,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_python_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_python_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_python_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_python_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_python_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_python_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_python_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Opens a python interpreter inside a running container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -417,9 +417,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_radon_metrics_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_radon_metrics_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_radon_metrics_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_radon_metrics_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_radon_metrics_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_radon_metrics_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_radon_metrics_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates radon metrics of this repository as html files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -434,9 +434,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_remove_image_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_remove_image_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_remove_image_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_remove_image_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_remove_image_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_remove_image_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_remove_image_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes docker image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -451,9 +451,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_requirements_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_requirements_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_requirements_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_requirements_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_requirements_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_requirements_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_requirements_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes a pip frozen requirements command to docker directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -468,9 +468,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_start_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_start_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_start_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_start_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_start_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_start_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_start_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts up container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -485,9 +485,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_stop_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_stop_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_stop_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_stop_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_stop_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_stop_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_stop_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shuts down container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -502,9 +502,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_test_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_test_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_test_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_test_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_test_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_test_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_test_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs pytest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -519,9 +519,9 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.get_tox_command">
-<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_tox_command</code><span class="sig-paren">(</span><em class="sig-param">info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_tox_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_tox_command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cli.</code><code class="sig-name descname">get_tox_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_tox_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.get_tox_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run tox tests.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -536,7 +536,7 @@ repository’s structure. Written to be python version agnostic.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="cli.main">
 <code class="sig-prename descclassname">cli.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print different commands to stdout depending on mode provided to command.</p>

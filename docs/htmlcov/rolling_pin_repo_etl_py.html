@@ -80,7 +80,7 @@
     <p id="t27" class="pln"><span class="n"><a href="#t27">27</a></span><span class="t">        <span class="nam">self</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t28" class="pln"><span class="n"><a href="#t28">28</a></span><span class="t">        <span class="nam">root</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t29" class="pln"><span class="n"><a href="#t29">29</a></span><span class="t">        <span class="nam">include_regex</span><span class="op">=</span><span class="str">r'.*\.py$'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t30" class="pln"><span class="n"><a href="#t30">30</a></span><span class="t">        <span class="nam">exclude_regex</span><span class="op">=</span><span class="str">r'(__init__|_test)\.py$'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t30" class="pln"><span class="n"><a href="#t30">30</a></span><span class="t">        <span class="nam">exclude_regex</span><span class="op">=</span><span class="str">r'(__init__|test_|_test|mock_)\.py$'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t31" class="pln"><span class="n"><a href="#t31">31</a></span><span class="t">    <span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t32" class="pln"><span class="n"><a href="#t32">32</a></span><span class="t">        <span class="str">r'''</span>&nbsp;</span><span class="r"></span></p>
     <p id="t33" class="pln"><span class="n"><a href="#t33">33</a></span><span class="t"><span class="str">        Construct RepoETL instance.</span>&nbsp;</span><span class="r"></span></p>
@@ -90,7 +90,7 @@
     <p id="t37" class="pln"><span class="n"><a href="#t37">37</a></span><span class="t"><span class="str">            include_regex (str, optional): Files to be included in recursive</span>&nbsp;</span><span class="r"></span></p>
     <p id="t38" class="pln"><span class="n"><a href="#t38">38</a></span><span class="t"><span class="str">                directy search. Default: '.*\.py$'.</span>&nbsp;</span><span class="r"></span></p>
     <p id="t39" class="pln"><span class="n"><a href="#t39">39</a></span><span class="t"><span class="str">            exclude_regex (str, optional): Files to be excluded in recursive</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t40" class="pln"><span class="n"><a href="#t40">40</a></span><span class="t"><span class="str">                directy search. Default: '(__init__|_test)\.py$'.</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t40" class="pln"><span class="n"><a href="#t40">40</a></span><span class="t"><span class="str">                directy search. Default: '(__init__|test_|_test|mock_)\.py$'.</span>&nbsp;</span><span class="r"></span></p>
     <p id="t41" class="pln"><span class="n"><a href="#t41">41</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t42" class="pln"><span class="n"><a href="#t42">42</a></span><span class="t"><span class="str">        Raises:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t43" class="pln"><span class="n"><a href="#t43">43</a></span><span class="t"><span class="str">            ValueError: If include or exclude regex does not end in '\.py$'.</span>&nbsp;</span><span class="r"></span></p>
@@ -607,8 +607,8 @@
 <div id="footer">
     <div class="content">
         <p>
-            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.0.3</a>,
-            created at 2020-02-27 04:06
+            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.1</a>,
+            created at 2020-06-10 02:55
         </p>
     </div>
 </div>

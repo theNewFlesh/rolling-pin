@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.3.3
               </div>
             
           
@@ -184,7 +184,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">root</span><span class="p">,</span>
         <span class="n">include_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*\.py$&#39;</span><span class="p">,</span>
-        <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;(__init__|_test)\.py$&#39;</span><span class="p">,</span>
+        <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;(__init__|test_|_test|mock_)\.py$&#39;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct RepoETL instance.</span>
@@ -194,7 +194,7 @@
 <span class="sd">            include_regex (str, optional): Files to be included in recursive</span>
 <span class="sd">                directy search. Default: &#39;.*\.py$&#39;.</span>
 <span class="sd">            exclude_regex (str, optional): Files to be excluded in recursive</span>
-<span class="sd">                directy search. Default: &#39;(__init__|_test)\.py$&#39;.</span>
+<span class="sd">                directy search. Default: &#39;(__init__|test_|_test|mock_)\.py$&#39;.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If include or exclude regex does not end in &#39;\.py$&#39;.</span>
@@ -261,7 +261,7 @@
         <span class="n">files</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">list_all_files</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">include_regex</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">include_regex</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\.py$&#39;</span><span class="p">):</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid include_regex: &#39;</span><span class="si">{include_regex}</span><span class="s2">&#39;. &quot;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid include_regex: &#39;</span><span class="si">{</span><span class="n">include_regex</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
                 <span class="n">msg</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;Does not end in &#39;.py$&#39;.&quot;</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
@@ -277,7 +277,7 @@
 
         <span class="n">files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;No files found after filters in directory: </span><span class="si">{root}</span><span class="s1">.&#39;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;No files found after filters in directory: </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s1">.&#39;</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># buid DataFrame of nodes and imported dependencies</span>
@@ -539,7 +539,7 @@
         <span class="n">orient</span> <span class="o">=</span> <span class="n">orient</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="n">orientations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="s1">&#39;bt&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;rl&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">orient</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">orientations</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid orient value. </span><span class="si">{orient}</span><span class="s1"> not in </span><span class="si">{orientations}</span><span class="s1">.&#39;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid orient value. </span><span class="si">{</span><span class="n">orient</span><span class="si">}</span><span class="s1"> not in </span><span class="si">{</span><span class="n">orientations</span><span class="si">}</span><span class="s1">.&#39;</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># set color scheme of graph</span>
@@ -578,7 +578,7 @@
                 <span class="k">continue</span>  <span class="c1"># pragma: no cover</span>
 
             <span class="c1"># set node x, y coordinates</span>
-            <span class="n">node</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{nx_node[&#39;x&#39;]}</span><span class="s2">,</span><span class="si">{nx_node[&#39;y&#39;]}</span><span class="s2">!&quot;</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nx_node</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">nx_node</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
 
             <span class="c1"># vary node font color by noe type</span>
             <span class="k">if</span> <span class="n">nx_node</span><span class="p">[</span><span class="s1">&#39;node_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;library&#39;</span><span class="p">:</span>
@@ -703,7 +703,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">tools</span><span class="o">.</span><span class="n">write_dot_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid extension found: </span><span class="si">{ext}</span><span class="s1">. &#39;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid extension found: </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">. &#39;</span>
             <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;Valid extensions include: svg, dot, png, json.&#39;</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div></div>
