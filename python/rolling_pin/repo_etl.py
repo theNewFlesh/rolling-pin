@@ -27,7 +27,7 @@ class RepoETL():
         self,
         root,
         include_regex=r'.*\.py$',
-        exclude_regex=r'(__init__|_test)\.py$',
+        exclude_regex=r'(__init__|test_|_test|mock_)\.py$',
     ):
         r'''
         Construct RepoETL instance.
@@ -37,7 +37,7 @@ class RepoETL():
             include_regex (str, optional): Files to be included in recursive
                 directy search. Default: '.*\.py$'.
             exclude_regex (str, optional): Files to be excluded in recursive
-                directy search. Default: '(__init__|_test)\.py$'.
+                directy search. Default: '(__init__|test_|_test|mock_)\.py$'.
 
         Raises:
             ValueError: If include or exclude regex does not end in '\.py$'.
