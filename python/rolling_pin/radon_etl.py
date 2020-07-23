@@ -1,3 +1,5 @@
+from typing import Any, Dict, List, Union
+
 import json
 import os
 import re
@@ -27,6 +29,7 @@ class RadonETL():
     cyclomatic complexity) into a single DataFrame that can then be plotted.
     '''
     def __init__(self, fullpath):
+        # type: (Union[str, Path]) -> None
         '''
         Constructs a RadonETL instance.
 
@@ -38,6 +41,7 @@ class RadonETL():
 
     @property
     def report(self):
+        # type: () -> Dict
         '''
         dict: Dictionary of all radon metrics.
         '''
@@ -45,47 +49,53 @@ class RadonETL():
 
     @property
     def data(self):
+        # type: () -> DataFrame
         '''
-        pandas.DataFrame: DataFrame of all radon metrics.
+        DataFrame: DataFrame of all radon metrics.
         '''
         return self._get_radon_data()
 
     @property
     def raw_metrics(self):
+        # type: () -> DataFrame
         '''
-        pandas.DataFrame: DataFrame of radon raw metrics.
+        DataFrame: DataFrame of radon raw metrics.
         '''
         return self._get_raw_metrics_dataframe(self._report)
 
     @property
     def maintainability_index(self):
+        # type: () -> DataFrame
         '''
-        pandas.DataFrame: DataFrame of radon maintainability index metrics.
+        DataFrame: DataFrame of radon maintainability index metrics.
         '''
         return self._get_maintainability_index_dataframe(self._report)
 
     @property
     def cyclomatic_complexity_metrics(self):
+        # type: () -> DataFrame
         '''
-        pandas.DataFrame: DataFrame of radon cyclomatic complexity metrics.
+        DataFrame: DataFrame of radon cyclomatic complexity metrics.
         '''
         return self._get_cyclomatic_complexity_dataframe(self._report)
 
     @property
     def halstead_metrics(self):
+        # type: () -> DataFrame
         '''
-        pandas.DataFrame: DataFrame of radon Halstead metrics.
+        DataFrame: DataFrame of radon Halstead metrics.
         '''
         return self._get_halstead_dataframe(self._report)
     # --------------------------------------------------------------------------
 
     def _get_radon_data(self):
+        # type: () -> DataFrame
         '''
         Constructs a DataFrame representing all the radon reports generated for
         a given python file or directory containing python files.
 
         Returns:
-            pandas.DataFrame: Radon report DataFrame.
+            DataFrame: Radon report DataFrame.
         '''
         hal = self.halstead_metrics
         cc = self.cyclomatic_complexity_metrics
@@ -102,7 +112,7 @@ class RadonETL():
 
         module = raw.merge(mi, on='fullpath')
 
-        cols = set(module.columns.tolist())
+        cols = set(module.columns.tolist())  # type: Any
         cols = cols.difference(data.columns.tolist())
         cols = list(cols)
         for col in cols:
@@ -130,6 +140,7 @@ class RadonETL():
 
     @staticmethod
     def _get_radon_report(fullpath):
+        # type: (Union[str, Path]) -> Dict[str, Any]
         '''
         Gets all 4 report from radon and aggregates them into a single blob
         object.
@@ -140,11 +151,8 @@ class RadonETL():
         Returns:
             dict: Radon report blob.
         '''
-        if isinstance(fullpath, Path):
-            fullpath = fullpath.absolute().as_posix()
-
-        fullpath = [fullpath]
-        output = []
+        fullpath_ = [Path(fullpath).absolute().as_posix()]  # type: List[str]
+        output = []  # type: Any
 
         config = Config(
             min='A',
@@ -160,14 +168,14 @@ class RadonETL():
             no_assert=False,
             show_closures=False,
         )
-        output.append(CCHarvester(fullpath, config).as_json())
+        output.append(CCHarvester(fullpath_, config).as_json())
 
         config = Config(
             exclude=None,
             ignore=None,
             summary=False,
         )
-        output.append(RawHarvester(fullpath, config).as_json())
+        output.append(RawHarvester(fullpath_, config).as_json())
 
         config = Config(
             min='A',
@@ -178,14 +186,14 @@ class RadonETL():
             show=False,
             sort=False,
         )
-        output.append(MIHarvester(fullpath, config).as_json())
+        output.append(MIHarvester(fullpath_, config).as_json())
 
         config = Config(
             exclude=None,
             ignore=None,
             by_function=False,
         )
-        output.append(HCHarvester(fullpath, config).as_json())
+        output.append(HCHarvester(fullpath_, config).as_json())
 
         output = list(map(json.loads, output))
         keys = [
@@ -197,6 +205,7 @@ class RadonETL():
 
     @staticmethod
     def _get_raw_metrics_dataframe(report):
+        # type: (Dict) -> DataFrame
         '''
         Converts radon raw metrics report into a pandas DataFrame.
 
@@ -204,7 +213,7 @@ class RadonETL():
             report (dict): Radon report blob.
 
         Returns:
-            pandas.DataFrame: Raw metrics DataFrame.
+            DataFrame: Raw metrics DataFrame.
         '''
         raw = report['raw_metrics']
         fullpaths = list(raw.keys())
@@ -231,7 +240,7 @@ class RadonETL():
             .update(fullpath_fields) \
             .set_field(0, lambda x: path_lut[x])\
             .set_field(1, lambda x: name_lut[x])\
-            .to_dict()
+            .to_dict()  # type: Union[Dict, DataFrame]
 
         data = DataFrame(data)
         data.sort_values('fullpath', inplace=True)
@@ -246,6 +255,7 @@ class RadonETL():
 
     @staticmethod
     def _get_maintainability_index_dataframe(report):
+        # type: (Dict) -> DataFrame
         '''
         Converts radon maintainability index report into a pandas DataFrame.
 
@@ -253,7 +263,7 @@ class RadonETL():
             report (dict): Radon report blob.
 
         Returns:
-            pandas.DataFrame: Maintainability DataFrame.
+            DataFrame: Maintainability DataFrame.
         '''
         mi = report['maintainability_index']
         fullpaths = list(mi.keys())
@@ -264,6 +274,7 @@ class RadonETL():
             rank='maintainability_rank',
             fullpath='fullpath',
         )
+        data = None  # type: Any
         data = BlobETL(mi, '#')\
             .update(fullpath_fields) \
             .set_field(0, lambda x: path_lut[x])\
@@ -285,6 +296,7 @@ class RadonETL():
 
     @staticmethod
     def _get_cyclomatic_complexity_dataframe(report):
+        # type: (Dict) -> DataFrame
         '''
         Converts radon cyclomatic complexity report into a pandas DataFrame.
 
@@ -292,7 +304,7 @@ class RadonETL():
             report (dict): Radon report blob.
 
         Returns:
-            pandas.DataFrame: Cyclomatic complexity DataFrame.
+            DataFrame: Cyclomatic complexity DataFrame.
         '''
         filters = [
             [4, 6, 'method_closure',
@@ -300,12 +312,12 @@ class RadonETL():
             [3, 4, 'closure', '^[^#]+#<list_[0-9]+>#closures#<list_[0-9]+>#[^#]+$'],
             [3, 4, 'method', '^[^#]+#<list_[0-9]+>#methods#<list_[0-9]+>#[^#]+$'],
             [2, 2, None, '^[^#]+#<list_[0-9]+>#[^#]+$'],
-        ]
+        ]  # type: Any
 
         cc = report['cyclomatic_complexity']
         data = DataFrame()
         for i, j, type_, regex in filters:
-            temp = BlobETL(cc, '#').query(regex)
+            temp = BlobETL(cc, '#').query(regex)  # type: DataFrame
             if len(temp.to_flat_dict().keys()) > 0:
                 temp = temp.to_dataframe(i)
                 item = temp\
@@ -346,6 +358,7 @@ class RadonETL():
 
     @staticmethod
     def _get_halstead_dataframe(report):
+        # type: (Dict) -> DataFrame
         '''
         Converts radon Halstead report into a pandas DataFrame.
 
@@ -353,7 +366,7 @@ class RadonETL():
             report (dict): Radon report blob.
 
         Returns:
-            pandas.DataFrame: Halstead DataFrame.
+            DataFrame: Halstead DataFrame.
         '''
         hal = report['halstead_metrics']
         keys = [
@@ -389,6 +402,7 @@ class RadonETL():
 
     # EXPORT--------------------------------------------------------------------
     def write_plots(self, fullpath):
+        # type: (Union[str, Path]) -> RadonETL
         '''
         Writes metrics plots to given file.
 
@@ -401,6 +415,7 @@ class RadonETL():
         cf.go_offline()
 
         def remove_test_modules(data):
+            # type: (DataFrame) -> DataFrame
             mask = data.fullpath\
                 .apply(lambda x: not re.search(r'_test\.py$', x)).astype(bool)
             return data[mask]
@@ -481,6 +496,7 @@ class RadonETL():
         return self
 
     def write_tables(self, target_dir):
+        # type: (Union[str, Path]) -> RadonETL
         '''
         Writes metrics tables as HTML files to given directory.
 
@@ -491,6 +507,7 @@ class RadonETL():
             RadonETL: self.
         '''
         def write_table(data, target):
+            # type: (DataFrame, Path) -> None
             html = data.to_html()
 
             # make table sortable

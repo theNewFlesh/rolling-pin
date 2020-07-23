@@ -1,3 +1,6 @@
+from typing import Any, Dict, Iterator, List, Optional, Union
+from IPython.display import HTML
+
 import os
 import re
 from itertools import chain
@@ -29,6 +32,7 @@ class RepoETL():
         include_regex=r'.*\.py$',
         exclude_regex=r'(__init__|test_|_test|mock_)\.py$',
     ):
+        # type: (Union[str, Path], str, str) -> None
         r'''
         Construct RepoETL instance.
 
@@ -42,11 +46,12 @@ class RepoETL():
         Raises:
             ValueError: If include or exclude regex does not end in '\.py$'.
         '''
-        self._root = root
-        self._data = self._get_data(root, include_regex, exclude_regex)
+        self._root = root  # type: Union[str, Path]
+        self._data = self._get_data(root, include_regex, exclude_regex)  # type: DataFrame
 
     @staticmethod
     def _get_imports(fullpath):
+        # type: (Union[str, Path]) -> List[str]
         '''
         Get's import statements from a given python module.
 
@@ -57,7 +62,7 @@ class RepoETL():
             list(str): List of imported modules.
         '''
         with open(fullpath) as f:
-            data = f.readlines()
+            data = f.readlines()  # type: Union[List, Iterator]
         data = map(lambda x: x.strip('\n'), data)
         data = filter(lambda x: re.search('^import|^from', x), data)
         data = map(lambda x: re.sub('from (.*?) .*', '\\1', x), data)
@@ -73,6 +78,7 @@ class RepoETL():
         include_regex=r'.*\.py$',
         exclude_regex=r'(__init__|_test)\.py$',
     ):
+        # type: (Union[str, Path], str, str) -> DataFrame
         r'''
         Recursively aggregates and filters all the files found with a given
         directory into a DataFrame. Data is used to create directed graphs.
@@ -99,9 +105,9 @@ class RepoETL():
             FileNotFoundError: If no files are found after filtering.
 
         Returns:
-            pandas.DataFrame: DataFrame of file information.
+            DataFrame: DataFrame of file information.
         '''
-        files = tools.list_all_files(root)
+        files = tools.list_all_files(root)  # type: Union[Iterator, List]
         if include_regex != '':
             if not include_regex.endswith(r'\.py$'):
                 msg = f"Invalid include_regex: '{include_regex}'. "
@@ -149,7 +155,7 @@ class RepoETL():
         data['node_type'] = 'module'
 
         # add subpackages as nodes
-        pkgs = set(chain(*data.subpackages.tolist()))
+        pkgs = set(chain(*data.subpackages.tolist()))  # type: Any
         pkgs = pkgs.difference(data.node_name.tolist())
         pkgs = sorted(list(pkgs))
         pkgs = Series(pkgs)\
@@ -164,7 +170,7 @@ class RepoETL():
         data = data.append(pkgs, ignore_index=True, sort=True)
 
         # add library dependencies as nodes
-        libs = set(chain(*data.dependencies.tolist()))
+        libs = set(chain(*data.dependencies.tolist()))  # type: Any
         libs = libs.difference(data.node_name.tolist())
         libs = sorted(list(libs))
         libs = Series(libs)\
@@ -205,15 +211,16 @@ class RepoETL():
 
     @staticmethod
     def _calculate_coordinates(data):
+        # type: (DataFrame) -> DataFrame
         '''
         Calculate inital x, y coordinates for each node in given DataFrame.
         Node are startified by type along the y axis.
 
         Args:
-            pandas.DataFrame: DataFrame of nodes.
+            DataFrame: DataFrame of nodes.
 
         Returns:
-            pandas.DataFrame: DataFrame with x and y coordinate columns.
+            DataFrame: DataFrame with x and y coordinate columns.
         '''
         # set initial node coordinates
         data['y'] = 0
@@ -244,6 +251,7 @@ class RepoETL():
 
     @staticmethod
     def _anneal_coordinate(data, anneal_axis='x', pin_axis='y', iterations=10):
+        # type: (DataFrame, str, str, int) -> DataFrame
         '''
         Iteratively align nodes in the anneal axis according to the mean
         position of their connected nodes. Node anneal coordinates are rectified
@@ -252,7 +260,7 @@ class RepoETL():
         axis.
 
         Args:
-            data (pandas.DataFrame): DataFrame with x column.
+            data (DataFrame): DataFrame with x column.
             anneal_axis (str, optional): Coordinate column to be annealed.
                 Default: 'x'.
             pin_axis (str, optional): Coordinate column to be held constant.
@@ -261,7 +269,7 @@ class RepoETL():
                 Default: 10.
 
         Returns:
-            pandas.DataFrame: DataFrame with annealed anneal axis coordinates.
+            DataFrame: DataFrame with annealed anneal axis coordinates.
         '''
         x = anneal_axis
         y = pin_axis
@@ -296,11 +304,12 @@ class RepoETL():
 
     @staticmethod
     def _center_coordinate(data, center_axis='x', pin_axis='y'):
+        # (DataFrame, str, str) -> DataFrame
         '''
         Sorted center_axis coordinates at each level of the pin axis.
 
         Args:
-            data (pandas.DataFrame): DataFrame with x column.
+            data (DataFrame): DataFrame with x column.
             anneal_column (str, optional): Coordinate column to be annealed.
                 Default: 'x'.
             pin_axis (str, optional): Coordinate column to be held constant.
@@ -309,7 +318,7 @@ class RepoETL():
                 Default: 10.
 
         Returns:
-            pandas.DataFrame: DataFrame with centered center axis coordinates.
+            DataFrame: DataFrame with centered center axis coordinates.
         '''
         x = center_axis
         y = pin_axis
@@ -323,11 +332,12 @@ class RepoETL():
 
     @staticmethod
     def _to_networkx_graph(data):
+        # (DataFrame) -> networkx.DiGraph
         '''
         Converts given DataFrame into networkx directed graph.
 
         Args:
-            pandas.DataFrame: DataFrame of nodes.
+            DataFrame: DataFrame of nodes.
 
         Returns:
             networkx.DiGraph: Graph of nodes.
@@ -348,6 +358,7 @@ class RepoETL():
         return graph
 
     def to_networkx_graph(self):
+        # () -> networkx.DiGraph
         '''
         Converts internal data into networkx directed graph.
 
@@ -357,6 +368,7 @@ class RepoETL():
         return RepoETL._to_networkx_graph(self._data)
 
     def to_dot_graph(self, orient='tb', orthogonal_edges=False, color_scheme=None):
+        # (str, bool, Optional[Dict[str, str]]) -> pydot.Dot
         '''
         Converts internal data into pydot graph.
 
@@ -456,9 +468,10 @@ class RepoETL():
         return dot
 
     def to_dataframe(self):
+        # type: () -> DataFrame
         '''
         Retruns:
-            pandas.DataFrame: DataFrame of nodes representing repo modules.
+            DataFrame: DataFrame of nodes representing repo modules.
         '''
         return self._data.copy()
 
@@ -469,6 +482,7 @@ class RepoETL():
         color_scheme=None,
         as_png=False
     ):
+        # type: (str, bool, Optional[Dict[str, str]], bool) -> HTML
         '''
         For use in inline rendering of graph data in Jupyter Lab.
 
@@ -503,6 +517,7 @@ class RepoETL():
         orthogonal_edges=False,
         color_scheme=None
     ):
+        # type: (Union[str, Path], str, str, bool, Optional[Dict[str, str]]) -> RepoETL
         '''
         Writes internal data to a given filepath.
         Formats supported: svg, dot, png, json.
@@ -525,6 +540,9 @@ class RepoETL():
 
         Raises:
             ValueError: If invalid file extension given.
+
+        Returns:
+            RepoETL: Self.
         '''
         if isinstance(fullpath, Path):
             fullpath = fullpath.absolute().as_posix()

@@ -1,3 +1,5 @@
+from typing import Any, Callable, Dict, List, Optional, Union
+
 from itertools import dropwhile, takewhile
 from pathlib import Path
 import inspect
@@ -18,30 +20,32 @@ outside of Docker environment (ie no dependencies or specific python versions.)
 
 
 def relative_path(module, path):
+    # type: (Union[str, Path], Union[str, Path]) -> Path
     '''
     Resolve path given current module's file path and given suffix.
 
     Args:
-        module (str): Always __file__ of current module.
-        path (str): Path relative to __file__.
+        module (str or Path): Always __file__ of current module.
+        path (str or Path): Path relative to __file__.
 
     Returns:
         Path: Resolved Path object.
     '''
     module_root = Path(module).parent
-    path = Path(path).parts
-    path = list(dropwhile(lambda x: x == ".", path))
-    up = len(list(takewhile(lambda x: x == "..", path)))
-    path = Path(*path[up:])
+    path_ = Path(path).parts  # type: Any
+    path_ = list(dropwhile(lambda x: x == ".", path_))
+    up = len(list(takewhile(lambda x: x == "..", path_)))
+    path_ = Path(*path_[up:])
     root = list(module_root.parents)[up - 1]
-    output = Path(root, path).absolute()
+    output = Path(root, path_).absolute()
 
     LOGGER.debug(
-        f'relative_path called with: {module} and {path}. Returned: {output}')
+        f'relative_path called with: {module} and {path_}. Returned: {output}')
     return output
 
 
 def get_function_signature(function):
+    # type: (Callable) -> Dict
     '''
     Inspect a given function and return its arguments as a list and its keyword
     arguments as a dict.
@@ -54,7 +58,7 @@ def get_function_signature(function):
     '''
     spec = inspect.getfullargspec(function)
     args = list(spec.args)
-    kwargs = {}
+    kwargs = {}  # type: Any
     if spec.defaults is not None:
         args = args[:-len(spec.defaults)]
         kwargs = list(spec.args)[-len(spec.defaults):]
@@ -63,6 +67,7 @@ def get_function_signature(function):
 
 
 def api_function(wrapped=None, **kwargs):
+    # type: (Optional[Callable], **Any) -> Callable
     '''
     A decorator that enforces keyword argument only function signatures and
     required keyword argument values when called.
@@ -102,6 +107,7 @@ def api_function(wrapped=None, **kwargs):
 
 
 def is_standard_module(name):
+    # type: (str) -> bool
     '''
     Determines if given module name is a python builtin.
 
@@ -443,4 +449,4 @@ _PYTHON_STANDARD_MODULES = [
     'zipfile',
     'zipimport',
     'zlib'
-]
+]  # type: List[str]

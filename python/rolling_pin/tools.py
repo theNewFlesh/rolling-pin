@@ -1,3 +1,6 @@
+from typing import Any, Callable, Dict, Iterable, List, Union
+import pydot
+
 import logging
 import os
 import re
@@ -30,7 +33,7 @@ COLOR_SCHEME = dict(
     edge_library='#DE958E',
     edge_subpackage='#A0D17B',
     edge_module='#B6ECF3',
-)
+)  # type: Dict[str, str]
 
 COLOR_SCALE = [
     '#B6ECF3',
@@ -43,11 +46,12 @@ COLOR_SCALE = [
     '#7EC4CF',
     '#F77E70',
     '#EB9E58',
-]
+]  # type: List[str]
 
 
 # GENERAL-----------------------------------------------------------------------
 def try_(function, item, exception_value='item'):
+    # type: (Callable[[Any], Any], Any, Any) -> Any
     '''
     Try applying a given function to a given item. If that fails return the item
     or exception value.
@@ -72,6 +76,7 @@ def try_(function, item, exception_value='item'):
 
 
 def get_ordered_unique(items):
+    # type: (List[Any]) -> List
     '''
     Generates a unique list of items in same order they were received in.
 
@@ -92,6 +97,7 @@ def get_ordered_unique(items):
 
 # PREDICATE-FUNCTIONS-----------------------------------------------------------
 def is_iterable(item):
+    # type: (Any) -> bool
     '''
     Determines if given item is iterable.
 
@@ -107,6 +113,7 @@ def is_iterable(item):
 
 
 def is_dictlike(item):
+    # type: (Any) -> bool
     '''
     Determines if given item is dict-like.
 
@@ -125,6 +132,7 @@ def is_dictlike(item):
 
 
 def is_listlike(item):
+    # type: (Any) -> bool
     '''
     Determines if given item is list-like.
 
@@ -142,6 +150,7 @@ def is_listlike(item):
 
 # CORE-FUNCTIONS----------------------------------------------------------------
 def flatten(item, separator='/', embed_types=True):
+    # type: (Iterable, str, bool) -> Dict[str, Any]
     '''
     Flattens a iterable object into a flat dictionary.
 
@@ -152,9 +161,10 @@ def flatten(item, separator='/', embed_types=True):
     Returns:
         dict: Dictionary representation of given object.
     '''
-    output = {}
+    output = {}  # type: Dict[str, Any]
 
     def recurse(item, cursor):
+        # type (Iterable, Any) -> None
         if is_listlike(item):
             if embed_types:
                 name = item.__class__.__name__
@@ -176,6 +186,7 @@ def flatten(item, separator='/', embed_types=True):
 
 
 def nest(flat_dict, separator='/'):
+    # type: (Dict[str, Any], str) -> Dict[str, Any]
     '''
     Converts a flat dictionary into a nested dictionary by splitting keys by a
     given separator.
@@ -188,7 +199,7 @@ def nest(flat_dict, separator='/'):
     Returns:
         dict: Nested dictionary.
     '''
-    output = {}
+    output = {}  # type: Dict[str, Any]
     for keys, val in flat_dict.items():
         split_keys = list(filter(
             lambda x: x != '', keys.split(separator)
@@ -209,6 +220,7 @@ def nest(flat_dict, separator='/'):
 
 
 def unembed(item):
+    # type: (Any) -> Any
     '''
     Convert embeded types in dictionary keys into python types.
 
@@ -221,14 +233,13 @@ def unembed(item):
     lut = {'list': list, 'tuple': tuple, 'set': set}
     embed_re = re.compile(r'^<([a-z]+)_(\d+)>$')
 
-    output = {}
     if is_dictlike(item) and item != {}:
+        output = {}  # type: Any
         keys = list(item.keys())
-
         match = embed_re.match(keys[0])
         if match:
-            indices = [embed_re.match(key).group(2) for key in keys]
-            indices = map(int, indices)
+            indices = [embed_re.match(key).group(2) for key in keys]  # type: ignore
+            indices = map(int, indices)  # type: ignore
 
             output = []
             for i, key in sorted(zip(indices, keys)):
@@ -242,13 +253,13 @@ def unembed(item):
         else:
             for key, val in item.items():
                 output[key] = unembed(val)
-    else:
-        output = item
-    return output
+        return output
+    return item
 
 
 # FILE-FUNCTIONS----------------------------------------------------------------
 def list_all_files(directory):
+    # type: (Union[str, Path]) -> List[Path]
     '''
     Recursively lists all files within a give directory.
 
@@ -258,7 +269,7 @@ def list_all_files(directory):
     Returns:
         list[Path]: List of filepaths.
     '''
-    output = []
+    output = []  # type: List[Path]
     for root, dirs, files in os.walk(directory):
         for file_ in files:
             fullpath = Path(root, file_)
@@ -267,6 +278,7 @@ def list_all_files(directory):
 
 
 def get_parent_fields(key, separator='/'):
+    # type: (str, str) -> List[str]
     '''
     Get all the parent fields of a given key, split by given separator.
 
@@ -279,7 +291,7 @@ def get_parent_fields(key, separator='/'):
         list(str): List of absolute parent fields.
     '''
     fields = key.split(separator)
-    output = []
+    output = []  # type: List[str]
     for i in range(len(fields) - 1):
         output.append(separator.join(fields[:i + 1]))
     return output
@@ -287,6 +299,7 @@ def get_parent_fields(key, separator='/'):
 
 # EXPORT-FUNCTIONS--------------------------------------------------------------
 def dot_to_html(dot, layout='dot', as_png=False):
+    # type: (pydot.Dot, str, bool) -> Union[HTML, Image]
     '''
     Converts a given pydot graph into a IPython.display.HTML object.
     Used in jupyter lab inline display of graph data.
@@ -314,7 +327,7 @@ def dot_to_html(dot, layout='dot', as_png=False):
         return Image(data=dot.create_png())
 
     svg = dot.create_svg(prog=layout)
-    html = f'<object type="image/svg+xml" data="data:image/svg+xml;{svg}"></object>'
+    html = f'<object type="image/svg+xml" data="data:image/svg+xml;{svg}"></object>'  # type: Any
     html = HTML(html)
     html.data = re.sub(r'\\n|\\', '', html.data)
     html.data = re.sub('</svg>.*', '</svg>', html.data)
@@ -326,6 +339,7 @@ def write_dot_graph(
     fullpath,
     layout='dot',
 ):
+    # type: (pydot.Dot, Union[str, Path], str) -> None
     '''
     Writes a pydot.Dot object to a given filepath.
     Formats supported: svg, dot, png.

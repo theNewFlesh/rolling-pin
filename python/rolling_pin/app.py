@@ -1,3 +1,5 @@
+from typing import Any, Dict, Optional
+
 from flask import Flask, Response, request, redirect, url_for
 from flasgger import Swagger, swag_from
 
@@ -17,6 +19,7 @@ swagger = Swagger(app)
 
 @app.route('/')
 def index():
+    # type: () -> Any
     return redirect(url_for('flasgger.apidocs'))
 
 
@@ -28,6 +31,7 @@ def get_svg(
     orient='tb',
     color_scheme=None,
 ):
+    # type: (str, str, bool, str, Optional[Dict]) -> str
     '''
     Generate a SVG string from a given JSON blob.
 
@@ -115,6 +119,7 @@ def get_svg(
     }
 ))
 def to_svg():
+    # type: () -> Response
     '''
     Endpoint for converting a given JSON blob into a SVG graph.
     '''

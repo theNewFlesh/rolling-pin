@@ -1,3 +1,7 @@
+from typing import Any, Callable, Dict, Iterator, List, Optional, Union
+from IPython.display import HTML, Image
+import pydot
+
 from collections import Counter
 import json
 import os
@@ -24,6 +28,7 @@ class BlobETL():
     new blob structures or dircted graphs.
     '''
     def __init__(self, blob, separator='/'):
+        # type: (Any, str) -> None
         '''
         Contructs BlobETL instance.
 
@@ -32,11 +37,13 @@ class BlobETL():
             separator (str, optional): String to be used as a field separator in
                 each key. Default: '/'.
         '''
-        self._data = tools.flatten(blob, separator=separator, embed_types=True)
-        self._separator = separator
+        self._data = tools \
+            .flatten(blob, separator=separator, embed_types=True)  # type: Dict[str, Any]
+        self._separator = separator  # type: str
 
     # EDIT_METHODS--------------------------------------------------------------
     def query(self, regex, ignore_case=True):
+        # type: (str, bool) -> BlobETL
         '''
         Filter data items by key according to given regular expression.
 
@@ -49,10 +56,11 @@ class BlobETL():
             BlobETL: New BlobETL instance.
         '''
         if ignore_case:
-            return self.filter(lambda x: re.search(regex, x, re.I), by='key')
-        return self.filter(lambda x: re.search(regex, x), by='key')
+            return self.filter(lambda x: bool(re.search(regex, x, re.I)), by='key')
+        return self.filter(lambda x: bool(re.search(regex, x)), by='key')
 
     def filter(self, predicate, by='key'):
+        # type: (Callable[[Any], bool], str) -> BlobETL
         '''
         Filter data items by key, value or key + value, according to a given
         predicate.
@@ -89,6 +97,7 @@ class BlobETL():
         return BlobETL(data, separator=self._separator)
 
     def delete(self, predicate, by='key'):
+        # type: (Callable[[Any], bool], str) -> BlobETL
         '''
         Delete data items by key, value or key + value, according to a given
         predicate.
@@ -126,10 +135,11 @@ class BlobETL():
 
     def set(
         self,
-        predicate=None,
-        key_setter=None,
-        value_setter=None,
+        predicate=None,  # type: Optional[Callable[[Any, Any], bool]]
+        key_setter=None,  # type: Optional[Callable[[Any, Any], str]]
+        value_setter=None,  # type: Optional[Callable[[Any, Any], Any]]
     ):
+        # type: (...) -> BlobETL
         '''
         Filter data items by key, value or key + value, according to a given
         predicate. Then set that items key by a given function and value by a
@@ -169,6 +179,7 @@ class BlobETL():
         return BlobETL(data, separator=self._separator)
 
     def update(self, item):
+        # type: (Union[Dict, BlobETL]) -> BlobETL
         '''
         Updates internal dictionary with given dictionary or BlobETL instance.
         Given dictionary is first flattened with embeded types.
@@ -187,12 +198,13 @@ class BlobETL():
         return BlobETL(data, separator=self._separator)
 
     def set_field(self, index, field_setter):
+        # type: (int, Callable[[str], str]) -> BlobETL
         '''
         Set's a field at a given index according to a given function.
 
         Args:
             index (int): Field index.
-            field_setter (functon): Function of form lambda str: str.
+            field_setter (function): Function of form lambda str: str.
 
         Returns:
             BlobETL: New BlobETL instance.
@@ -207,6 +219,7 @@ class BlobETL():
 
     # EXPORT-METHODS------------------------------------------------------------
     def to_dict(self):
+        # type: () -> Dict[str, Any]
         '''
         Returns:
             dict: Nested representation of internal data.
@@ -216,6 +229,7 @@ class BlobETL():
         )
 
     def to_flat_dict(self):
+        # type: () -> Dict[str, Any]
         '''
         Returns:
             dict: Flat dictionary with embedded types.
@@ -223,6 +237,7 @@ class BlobETL():
         return deepcopy(self._data)
 
     def to_records(self):
+        # type: () -> List[Dict]
         '''
         Returns:
             list[dict]: Data in records format.
@@ -230,12 +245,13 @@ class BlobETL():
         data = []
         for key, val in self._data.items():
             fields = key.split(self._separator)
-            row = {i: v for i, v in enumerate(fields)}
+            row = {i: v for i, v in enumerate(fields)}  # type: Dict[Any, Any]
             row['value'] = val
             data.append(row)
         return data
 
     def to_dataframe(self, group_by=None):
+        # type: (Optional[int]) -> DataFrame
         '''
         Convert data to pandas DataFrame.
 
@@ -244,9 +260,9 @@ class BlobETL():
                 Default: None.
 
         Returns:
-            pandas.DataFrame: DataFrame.
+            DataFrame: DataFrame.
         '''
-        data = self.to_records()
+        data = self.to_records()  # type: Any
         data = DataFrame(data)
 
         if group_by is not None:
@@ -259,7 +275,7 @@ class BlobETL():
             data = DataFrame(data)
 
         # clean up column order
-        cols = data.columns.tolist()
+        cols = data.columns.tolist()  # type: List[str]
         cols = list(sorted(filter(lambda x: x != 'value', cols)))
         cols += ['value']
         data = data[cols]
@@ -267,6 +283,7 @@ class BlobETL():
         return data
 
     def to_prototype(self):
+        # type: () -> BlobETL
         '''
         Convert data to prototypical representation.
 
@@ -308,12 +325,14 @@ class BlobETL():
             BlobETL: New BlobETL instance.
         '''
         def regex_in_list(regex, items):
+            # type: (str, List[str]) -> bool
             for item in items:
                 if re.search(regex, item):
                     return True
             return False  # pragma: no cover
 
         def field_combinations(a, b):
+            # type: (List[str], List[str]) -> List[str]
             output = []
             for fa in a:
                 for fb in b:
@@ -335,7 +354,7 @@ class BlobETL():
         prev = fields[0]
         regexes = list()
         for i, level in enumerate(fields[1:]):
-            temp = field_combinations(prev, level)
+            temp = field_combinations(prev, level)  # type: Union[List, Iterator]
             temp = filter(lambda x: regex_in_list('^' + x, keys), temp)
             prev = list(temp)
             regexes.extend(prev)
@@ -360,8 +379,9 @@ class BlobETL():
         return BlobETL(output, separator=self._separator)
 
     def to_networkx_graph(self):
+        # type: () -> networkx.DiGraph
         '''
-        Converts internal dictionar into a networkx directed graph.
+        Converts internal dictionary into a networkx directed graph.
 
         Returns:
             networkx.DiGraph: Graph representation of dictionary.
@@ -371,6 +391,7 @@ class BlobETL():
         embed_re = re.compile(r'<[a-z]+_(\d+)>')
 
         def recurse(item, parent):
+            # type: (Dict, str) -> None
             for key, val in item.items():
                 k = f'{parent}{self._separator}{key}'
                 short_name = embed_re.sub('\\1', key)
@@ -395,6 +416,7 @@ class BlobETL():
     def to_dot_graph(
         self, orthogonal_edges=False, orient='tb', color_scheme=None
     ):
+        # type: (bool, str, Optional[Dict[str, str]]) -> pydot.Dot
         '''
         Converts internal dictionary into pydot graph.
         Key and value nodes and edges are colored differently.
@@ -482,6 +504,7 @@ class BlobETL():
         color_scheme=None,
         as_png=False,
     ):
+        # type: (str, bool, str, Optional[Dict[str, str]], bool) -> Union[Image, HTML]
         '''
         For use in inline rendering of graph data in Jupyter Lab.
 
@@ -524,6 +547,7 @@ class BlobETL():
         orient='tb',
         color_scheme=None
     ):
+        # type: (Union[str, Path], str, bool, str, Dict[str, str]) -> BlobETL
         '''
         Writes internal dictionary to a given filepath.
         Formats supported: svg, dot, png, json.
@@ -547,6 +571,9 @@ class BlobETL():
 
         Raises:
             ValueError: If invalid file extension given.
+
+        Returns:
+            BlobETL: self.
         '''
         if isinstance(fullpath, Path):
             fullpath = fullpath.absolute().as_posix()
