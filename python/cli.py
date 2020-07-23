@@ -42,7 +42,7 @@ def get_info():
     full-docs    - Generates documentation, coverage report and metrics
     image        - Display the Docker image id for {repo} service
     lab          - Start a Jupyter lab server
-    lint         - Run linting on {repo} service code
+    lint         - Run linting and type checking on {repo} service code
     publish      - Publish repository to python package index.
     python       - Run python interpreter session inside {repo} container
     remove       - Remove {repo} service Docker image
@@ -257,6 +257,21 @@ def get_lint_command(info):
         str: Command.
     '''
     cmd = '{exec} flake8 /root/{repo}/python --config /root/{repo}/docker/flake8.ini'
+    cmd = cmd.format(repo=REPO, exec=get_docker_exec_command(info))
+    return cmd
+
+
+def get_type_checking_command(info):
+    '''
+    Runs mypy type checking on python code.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} mypy /root/{repo}/python --config-file /root/{repo}/docker/mypy.ini'
     cmd = cmd.format(repo=REPO, exec=get_docker_exec_command(info))
     return cmd
 
@@ -539,7 +554,11 @@ def main():
         cmd = get_lab_command(info)
 
     elif mode == 'lint':
-        cmd = get_lint_command(info)
+        cmd = 'echo LINTING'
+        cmd += '; ' + get_lint_command(info)
+        cmd += '; ' + 'echo'
+        cmd += '; ' + 'echo "TYPE CHECKING"'
+        cmd += '; ' + get_type_checking_command(info)
 
     elif mode == 'publish':
         cmd = get_tox_command(info)
