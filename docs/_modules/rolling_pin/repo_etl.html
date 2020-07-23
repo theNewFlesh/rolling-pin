@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,19 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> rolling-pin
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> rolling-pin
           
 
           
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                0.3.3
+                0.4.0
               </div>
             
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,6 +99,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -135,7 +138,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -155,7 +158,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for rolling_pin.repo_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -186,6 +192,7 @@
         <span class="n">include_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*\.py$&#39;</span><span class="p">,</span>
         <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;(__init__|test_|_test|mock_)\.py$&#39;</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="c1"># type: (Union[str, Path], str, str) -&gt; None</span>
         <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct RepoETL instance.</span>
 
@@ -199,11 +206,12 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If include or exclude regex does not end in &#39;\.py$&#39;.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">=</span> <span class="n">root</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">include_regex</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">=</span> <span class="n">root</span>  <span class="c1"># type: Union[str, Path]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">include_regex</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="p">)</span>  <span class="c1"># type: DataFrame</span></div>
 
 <div class="viewcode-block" id="RepoETL._get_imports"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_imports">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_imports</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
+        <span class="c1"># type: (Union[str, Path]) -&gt; List[str]</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get&#39;s import statements from a given python module.</span>
 
@@ -214,7 +222,7 @@
 <span class="sd">            list(str): List of imported modules.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>  <span class="c1"># type: Union[List, Iterator]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">data</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;^import|^from&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">data</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;from (.*?) .*&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">1&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">data</span><span class="p">)</span>
@@ -230,6 +238,7 @@
         <span class="n">include_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*\.py$&#39;</span><span class="p">,</span>
         <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;(__init__|_test)\.py$&#39;</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="c1"># type: (Union[str, Path], str, str) -&gt; DataFrame</span>
         <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Recursively aggregates and filters all the files found with a given</span>
 <span class="sd">        directory into a DataFrame. Data is used to create directed graphs.</span>
@@ -256,9 +265,9 @@
 <span class="sd">            FileNotFoundError: If no files are found after filtering.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame of file information.</span>
+<span class="sd">            DataFrame: DataFrame of file information.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">list_all_files</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">list_all_files</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>  <span class="c1"># type: Union[Iterator, List]</span>
         <span class="k">if</span> <span class="n">include_regex</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">include_regex</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\.py$&#39;</span><span class="p">):</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid include_regex: &#39;</span><span class="si">{</span><span class="n">include_regex</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
@@ -306,7 +315,7 @@
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;node_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;module&#39;</span>
 
         <span class="c1"># add subpackages as nodes</span>
-        <span class="n">pkgs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">subpackages</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+        <span class="n">pkgs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">subpackages</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>  <span class="c1"># type: Any</span>
         <span class="n">pkgs</span> <span class="o">=</span> <span class="n">pkgs</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">node_name</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
         <span class="n">pkgs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pkgs</span><span class="p">))</span>
         <span class="n">pkgs</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">pkgs</span><span class="p">)</span>\
@@ -321,7 +330,7 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pkgs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># add library dependencies as nodes</span>
-        <span class="n">libs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+        <span class="n">libs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>  <span class="c1"># type: Any</span>
         <span class="n">libs</span> <span class="o">=</span> <span class="n">libs</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">node_name</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
         <span class="n">libs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">libs</span><span class="p">))</span>
         <span class="n">libs</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">libs</span><span class="p">)</span>\
@@ -362,15 +371,16 @@
 
 <div class="viewcode-block" id="RepoETL._calculate_coordinates"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._calculate_coordinates">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_calculate_coordinates</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="c1"># type: (DataFrame) -&gt; DataFrame</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Calculate inital x, y coordinates for each node in given DataFrame.</span>
 <span class="sd">        Node are startified by type along the y axis.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            pandas.DataFrame: DataFrame of nodes.</span>
+<span class="sd">            DataFrame: DataFrame of nodes.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame with x and y coordinate columns.</span>
+<span class="sd">            DataFrame: DataFrame with x and y coordinate columns.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="c1"># set initial node coordinates</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -401,6 +411,7 @@
 
 <div class="viewcode-block" id="RepoETL._anneal_coordinate"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._anneal_coordinate">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_anneal_coordinate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">anneal_axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">pin_axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="c1"># type: (DataFrame, str, str, int) -&gt; DataFrame</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Iteratively align nodes in the anneal axis according to the mean</span>
 <span class="sd">        position of their connected nodes. Node anneal coordinates are rectified</span>
@@ -409,7 +420,7 @@
 <span class="sd">        axis.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (pandas.DataFrame): DataFrame with x column.</span>
+<span class="sd">            data (DataFrame): DataFrame with x column.</span>
 <span class="sd">            anneal_axis (str, optional): Coordinate column to be annealed.</span>
 <span class="sd">                Default: &#39;x&#39;.</span>
 <span class="sd">            pin_axis (str, optional): Coordinate column to be held constant.</span>
@@ -418,7 +429,7 @@
 <span class="sd">                Default: 10.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame with annealed anneal axis coordinates.</span>
+<span class="sd">            DataFrame: DataFrame with annealed anneal axis coordinates.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">anneal_axis</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">pin_axis</span>
@@ -453,11 +464,12 @@
 
 <div class="viewcode-block" id="RepoETL._center_coordinate"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._center_coordinate">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_center_coordinate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">center_axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">pin_axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">):</span>
+        <span class="c1"># (DataFrame, str, str) -&gt; DataFrame</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Sorted center_axis coordinates at each level of the pin axis.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (pandas.DataFrame): DataFrame with x column.</span>
+<span class="sd">            data (DataFrame): DataFrame with x column.</span>
 <span class="sd">            anneal_column (str, optional): Coordinate column to be annealed.</span>
 <span class="sd">                Default: &#39;x&#39;.</span>
 <span class="sd">            pin_axis (str, optional): Coordinate column to be held constant.</span>
@@ -466,7 +478,7 @@
 <span class="sd">                Default: 10.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame with centered center axis coordinates.</span>
+<span class="sd">            DataFrame: DataFrame with centered center axis coordinates.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">center_axis</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">pin_axis</span>
@@ -480,11 +492,12 @@
 
 <div class="viewcode-block" id="RepoETL._to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._to_networkx_graph">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_to_networkx_graph</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="c1"># (DataFrame) -&gt; networkx.DiGraph</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts given DataFrame into networkx directed graph.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            pandas.DataFrame: DataFrame of nodes.</span>
+<span class="sd">            DataFrame: DataFrame of nodes.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            networkx.DiGraph: Graph of nodes.</span>
@@ -505,6 +518,7 @@
         <span class="k">return</span> <span class="n">graph</span></div>
 
 <div class="viewcode-block" id="RepoETL.to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_networkx_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># () -&gt; networkx.DiGraph</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts internal data into networkx directed graph.</span>
 
@@ -514,6 +528,7 @@
         <span class="k">return</span> <span class="n">RepoETL</span><span class="o">.</span><span class="n">_to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RepoETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># (str, bool, Optional[Dict[str, str]]) -&gt; pydot.Dot</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts internal data into pydot graph.</span>
 
@@ -613,9 +628,10 @@
         <span class="k">return</span> <span class="n">dot</span></div>
 
 <div class="viewcode-block" id="RepoETL.to_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; DataFrame</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Retruns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame of nodes representing repo modules.</span>
+<span class="sd">            DataFrame: DataFrame of nodes representing repo modules.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
@@ -626,6 +642,7 @@
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
+        <span class="c1"># type: (str, bool, Optional[Dict[str, str]], bool) -&gt; HTML</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        For use in inline rendering of graph data in Jupyter Lab.</span>
 
@@ -660,6 +677,7 @@
         <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
+        <span class="c1"># type: (Union[str, Path], str, str, bool, Optional[Dict[str, str]]) -&gt; RepoETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Writes internal data to a given filepath.</span>
 <span class="sd">        Formats supported: svg, dot, png, json.</span>
@@ -682,6 +700,9 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If invalid file extension given.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RepoETL: Self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
             <span class="n">fullpath</span> <span class="o">=</span> <span class="n">fullpath</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
@@ -719,11 +740,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -734,7 +763,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

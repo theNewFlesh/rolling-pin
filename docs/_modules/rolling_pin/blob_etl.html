@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,19 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> rolling-pin
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> rolling-pin
           
 
           
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                0.3.3
+                0.4.0
               </div>
             
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,6 +99,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -135,7 +138,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -155,7 +158,11 @@
            <div itemprop="articleBody">
             
   <h1>Source code for rolling_pin.blob_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">pydot</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -181,6 +188,7 @@
 <span class="sd">    new blob structures or dircted graphs.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 <div class="viewcode-block" id="BlobETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+        <span class="c1"># type: (Any, str) -&gt; None</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Contructs BlobETL instance.</span>
 
@@ -189,11 +197,13 @@
 <span class="sd">            separator (str, optional): String to be used as a field separator in</span>
 <span class="sd">                each key. Default: &#39;/&#39;.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="n">separator</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">tools</span> \
+            <span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="n">separator</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: Dict[str, Any]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span>  <span class="c1"># type: str</span></div>
 
     <span class="c1"># EDIT_METHODS--------------------------------------------------------------</span>
 <div class="viewcode-block" id="BlobETL.query"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">ignore_case</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># type: (str, bool) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Filter data items by key according to given regular expression.</span>
 
@@ -206,10 +216,11 @@
 <span class="sd">            BlobETL: New BlobETL instance.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">ignore_case</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.filter"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
+        <span class="c1"># type: (Callable[[Any], bool], str) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Filter data items by key, value or key + value, according to a given</span>
 <span class="sd">        predicate.</span>
@@ -246,6 +257,7 @@
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.delete"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
+        <span class="c1"># type: (Callable[[Any], bool], str) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Delete data items by key, value or key + value, according to a given</span>
 <span class="sd">        predicate.</span>
@@ -283,10 +295,11 @@
 
 <div class="viewcode-block" id="BlobETL.set"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">predicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">key_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">value_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[Callable[[Any, Any], bool]]</span>
+        <span class="n">key_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[Callable[[Any, Any], str]]</span>
+        <span class="n">value_setter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[Callable[[Any, Any], Any]]</span>
     <span class="p">):</span>
+        <span class="c1"># type: (...) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Filter data items by key, value or key + value, according to a given</span>
 <span class="sd">        predicate. Then set that items key by a given function and value by a</span>
@@ -326,6 +339,7 @@
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.update"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="c1"># type: (Union[Dict, BlobETL]) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Updates internal dictionary with given dictionary or BlobETL instance.</span>
 <span class="sd">        Given dictionary is first flattened with embeded types.</span>
@@ -344,12 +358,13 @@
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.set_field"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.set_field">[docs]</a>    <span class="k">def</span> <span class="nf">set_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">field_setter</span><span class="p">):</span>
+        <span class="c1"># type: (int, Callable[[str], str]) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Set&#39;s a field at a given index according to a given function.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            index (int): Field index.</span>
-<span class="sd">            field_setter (functon): Function of form lambda str: str.</span>
+<span class="sd">            field_setter (function): Function of form lambda str: str.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            BlobETL: New BlobETL instance.</span>
@@ -364,6 +379,7 @@
 
     <span class="c1"># EXPORT-METHODS------------------------------------------------------------</span>
 <div class="viewcode-block" id="BlobETL.to_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; Dict[str, Any]</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: Nested representation of internal data.</span>
@@ -373,6 +389,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_flat_dict"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_flat_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_flat_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; Dict[str, Any]</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: Flat dictionary with embedded types.</span>
@@ -380,6 +397,7 @@
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_records"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_records">[docs]</a>    <span class="k">def</span> <span class="nf">to_records</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; List[Dict]</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            list[dict]: Data in records format.</span>
@@ -387,12 +405,13 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">fields</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span>
-            <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fields</span><span class="p">)}</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fields</span><span class="p">)}</span>  <span class="c1"># type: Dict[Any, Any]</span>
             <span class="n">row</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
             <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_by</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># type: (Optional[int]) -&gt; DataFrame</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Convert data to pandas DataFrame.</span>
 
@@ -401,9 +420,9 @@
 <span class="sd">                Default: None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame.</span>
+<span class="sd">            DataFrame: DataFrame.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_records</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_records</span><span class="p">()</span>  <span class="c1"># type: Any</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">group_by</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -416,7 +435,7 @@
             <span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
         <span class="c1"># clean up column order</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>  <span class="c1"># type: List[str]</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">cols</span><span class="p">)))</span>
         <span class="n">cols</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
@@ -424,6 +443,7 @@
         <span class="k">return</span> <span class="n">data</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_prototype"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_prototype">[docs]</a>    <span class="k">def</span> <span class="nf">to_prototype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Convert data to prototypical representation.</span>
 
@@ -465,12 +485,14 @@
 <span class="sd">            BlobETL: New BlobETL instance.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">def</span> <span class="nf">regex_in_list</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+            <span class="c1"># type: (str, List[str]) -&gt; bool</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
                     <span class="k">return</span> <span class="kc">True</span>
             <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># pragma: no cover</span>
 
         <span class="k">def</span> <span class="nf">field_combinations</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="c1"># type: (List[str], List[str]) -&gt; List[str]</span>
             <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">fa</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">fb</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
@@ -492,7 +514,7 @@
         <span class="n">prev</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">regexes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="n">field_combinations</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">field_combinations</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>  <span class="c1"># type: Union[List, Iterator]</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">regex_in_list</span><span class="p">(</span><span class="s1">&#39;^&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="n">keys</span><span class="p">),</span> <span class="n">temp</span><span class="p">)</span>
             <span class="n">prev</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
             <span class="n">regexes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
@@ -517,8 +539,9 @@
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BlobETL.to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_networkx_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; networkx.DiGraph</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Converts internal dictionar into a networkx directed graph.</span>
+<span class="sd">        Converts internal dictionary into a networkx directed graph.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            networkx.DiGraph: Graph representation of dictionary.</span>
@@ -528,6 +551,7 @@
         <span class="n">embed_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;[a-z]+_(\d+)&gt;&#39;</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+            <span class="c1"># type: (Dict, str) -&gt; None</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">k</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">parent</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="si">}{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span>
                 <span class="n">short_name</span> <span class="o">=</span> <span class="n">embed_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">1&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
@@ -552,6 +576,7 @@
 <div class="viewcode-block" id="BlobETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
+        <span class="c1"># type: (bool, str, Optional[Dict[str, str]]) -&gt; pydot.Dot</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts internal dictionary into pydot graph.</span>
 <span class="sd">        Key and value nodes and edges are colored differently.</span>
@@ -639,6 +664,7 @@
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="c1"># type: (str, bool, str, Optional[Dict[str, str]], bool) -&gt; Union[Image, HTML]</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        For use in inline rendering of graph data in Jupyter Lab.</span>
 
@@ -681,6 +707,7 @@
         <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span>
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
+        <span class="c1"># type: (Union[str, Path], str, bool, str, Dict[str, str]) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Writes internal dictionary to a given filepath.</span>
 <span class="sd">        Formats supported: svg, dot, png, json.</span>
@@ -704,6 +731,9 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If invalid file extension given.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
             <span class="n">fullpath</span> <span class="o">=</span> <span class="n">fullpath</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
@@ -742,11 +772,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -757,7 +795,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
