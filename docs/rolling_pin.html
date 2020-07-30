@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -90,7 +90,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.blob_etl">blob_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.radon_etl">radon_etl</a></li>
@@ -220,23 +220,6 @@ Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.get_ordered_unique">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">get_ordered_unique</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">items</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="_modules/rolling_pin/tools.html#get_ordered_unique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.get_ordered_unique" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a unique list of items in same order they were received in.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>items</strong> (<em>list</em>) – List of items.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Unique ordered list.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="rolling_pin.tools.get_parent_fields">
 <code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">get_parent_fields</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'/'</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/tools.html#get_parent_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.get_parent_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all the parent fields of a given key, split by given separator.</p>
@@ -348,28 +331,6 @@ keys. Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.try_">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">try_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>Any<span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">exception_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">'item'</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="_modules/rolling_pin/tools.html#try_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.try_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Try applying a given function to a given item. If that fails return the item
-or exception value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>function</strong> (<em>function</em>) – Function that expects an item.</p></li>
-<li><p><strong>item</strong> (<em>object</em>) – Item to be processed by function.</p></li>
-<li><p><strong>exception_value</strong> (<em>object</em><em>, </em><em>optional</em>) – If left to ‘item’, returns item,             else returns given value. Default: ‘item’.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Ouput of <em>function(item)</em> or exception_value.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="rolling_pin.tools.unembed">
 <code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">unembed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="_modules/rolling_pin/tools.html#unembed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.unembed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert embeded types in dictionary keys into python types.</p>
@@ -407,94 +368,8 @@ Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="module-rolling_pin.utils">
-<span id="utils"></span><h1>utils<a class="headerlink" href="#module-rolling_pin.utils" title="Permalink to this headline">¶</a></h1>
-<dl class="py data">
-<dt id="rolling_pin.utils.LOGGER">
-<code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">LOGGER</code><em class="property"> = &lt;Logger rolling_pin.utils (WARNING)&gt;</em><a class="headerlink" href="#rolling_pin.utils.LOGGER" title="Permalink to this definition">¶</a></dt>
-<dd><p>Imports only python builtins and contains only function for use within or
-outside of Docker environment (ie no dependencies or specific python versions.)</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="rolling_pin.utils.api_function">
-<code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">api_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wrapped</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Callable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="reference internal" href="_modules/rolling_pin/utils.html#api_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.utils.api_function" title="Permalink to this definition">¶</a></dt>
-<dd><p>A decorator that enforces keyword argument only function signatures and
-required keyword argument values when called.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>wrapped</strong> (<em>function</em>) – For dev use. Default: None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments. # noqa: W605</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>TypeError</strong> – If non-keyword argument found in functionn signature.</p></li>
-<li><p><strong>ValueError</strong> – If keyword arg with value of ‘&lt;required&gt;’ is found.</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>api function.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="rolling_pin.utils.get_function_signature">
-<code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">get_function_signature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span></em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="_modules/rolling_pin/utils.html#get_function_signature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.utils.get_function_signature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Inspect a given function and return its arguments as a list and its keyword
-arguments as a dict.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>function</strong> (<em>function</em>) – Function to be inspected.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>args and kwargs.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="rolling_pin.utils.is_standard_module">
-<code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">is_standard_module</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/rolling_pin/utils.html#is_standard_module"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.utils.is_standard_module" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if given module name is a python builtin.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Python module name.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Whether string names a python module.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="rolling_pin.utils.relative_path">
-<code class="sig-prename descclassname">rolling_pin.utils.</code><code class="sig-name descname">relative_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; pathlib.Path<a class="reference internal" href="_modules/rolling_pin/utils.html#relative_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.utils.relative_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Resolve path given current module’s file path and given suffix.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>module</strong> (<em>str</em><em> or </em><em>Path</em>) – Always __file__ of current module.</p></li>
-<li><p><strong>path</strong> (<em>str</em><em> or </em><em>Path</em>) – Path relative to __file__.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Resolved Path object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Path</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="utils">
+<h1>utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h1>
 </div>
 <div class="section" id="module-rolling_pin.repo_etl">
 <span id="repo-etl"></span><h1>repo_etl<a class="headerlink" href="#module-rolling_pin.repo_etl" title="Permalink to this headline">¶</a></h1>

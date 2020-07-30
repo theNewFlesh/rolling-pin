@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -88,7 +88,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
@@ -162,9 +162,9 @@
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span>
 <span class="kn">from</span> <span class="nn">flasgger</span> <span class="kn">import</span> <span class="n">Swagger</span><span class="p">,</span> <span class="n">swag_from</span>
+<span class="kn">import</span> <span class="nn">lunchbox.tools</span> <span class="k">as</span> <span class="nn">lbt</span>
 
 <span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
-<span class="kn">import</span> <span class="nn">rolling_pin.utils</span> <span class="k">as</span> <span class="nn">utils</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
 
@@ -183,7 +183,7 @@
     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;flasgger.apidocs&#39;</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="get_svg"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.app.get_svg">[docs]</a><span class="nd">@utils</span><span class="o">.</span><span class="n">api_function</span>
+<div class="viewcode-block" id="get_svg"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.app.get_svg">[docs]</a><span class="nd">@lbt</span><span class="o">.</span><span class="n">api_function</span>
 <span class="k">def</span> <span class="nf">get_svg</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="s1">&#39;&lt;required&gt;&#39;</span><span class="p">,</span>
     <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>

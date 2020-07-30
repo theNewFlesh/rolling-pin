@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -88,7 +88,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for rolling_pin.tools</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">pydot</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -207,52 +207,6 @@
     <span class="s1">&#39;#F77E70&#39;</span><span class="p">,</span>
     <span class="s1">&#39;#EB9E58&#39;</span><span class="p">,</span>
 <span class="p">]</span>  <span class="c1"># type: List[str]</span>
-
-
-<span class="c1"># GENERAL-----------------------------------------------------------------------</span>
-<div class="viewcode-block" id="try_"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.try_">[docs]</a><span class="k">def</span> <span class="nf">try_</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">exception_value</span><span class="o">=</span><span class="s1">&#39;item&#39;</span><span class="p">):</span>
-    <span class="c1"># type: (Callable[[Any], Any], Any, Any) -&gt; Any</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Try applying a given function to a given item. If that fails return the item</span>
-<span class="sd">    or exception value.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        function (function): Function that expects an item.</span>
-<span class="sd">        item (object): Item to be processed by function.</span>
-<span class="sd">        exception_value (object, optional): If left to &#39;item&#39;, returns item, \</span>
-<span class="sd">            else returns given value. Default: &#39;item&#39;.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        object: Ouput of *function(item)* or exception_value.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;try_ function called with: </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> object&#39;</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;try_ function failed with message: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">exception_value</span> <span class="o">==</span> <span class="s1">&#39;item&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">item</span>
-        <span class="k">return</span> <span class="n">exception_value</span></div>
-
-
-<div class="viewcode-block" id="get_ordered_unique"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.get_ordered_unique">[docs]</a><span class="k">def</span> <span class="nf">get_ordered_unique</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-    <span class="c1"># type: (List[Any]) -&gt; List</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Generates a unique list of items in same order they were received in.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        items (list): List of items.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        list: Unique ordered list.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-            <span class="n">temp</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">output</span></div>
 
 
 <span class="c1"># PREDICATE-FUNCTIONS-----------------------------------------------------------</span>
