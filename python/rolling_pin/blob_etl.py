@@ -9,8 +9,10 @@ import re
 from copy import deepcopy
 from pathlib import Path
 
+import lunchbox.tools as lbt
 from pandas import DataFrame
 import networkx
+
 import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
 
@@ -359,7 +361,7 @@ class BlobETL():
             prev = list(temp)
             regexes.extend(prev)
 
-        regexes = tools.get_ordered_unique(regexes)
+        regexes = lbt.get_ordered_unique(regexes)
 
         p_keys = set()
         for regex in regexes:

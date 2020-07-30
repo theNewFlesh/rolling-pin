@@ -4,17 +4,17 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import lunchbox.tools as lbt
 import numpy as np
 from pandas import DataFrame
 
-import rolling_pin.utils as utils
 from rolling_pin.radon_etl import RadonETL
 # ------------------------------------------------------------------------------
 
 
 class RadonEtlTests(unittest.TestCase):
     def get_fake_repo(self):
-        return utils.relative_path(__file__, '../../resources/fake_repo')
+        return lbt.relative_path(__file__, '../../resources/fake_repo')
 
     def get_fake_repo_data(self):
         data = [

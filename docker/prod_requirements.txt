@@ -3,6 +3,7 @@ flask
 flasgger
 graphviz
 ipython
+lunchbox
 networkx
 numpy
 pandas

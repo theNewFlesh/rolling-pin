@@ -2,9 +2,9 @@ from typing import Any, Dict, Optional
 
 from flask import Flask, Response, request, redirect, url_for
 from flasgger import Swagger, swag_from
+import lunchbox.tools as lbt
 
 from rolling_pin.blob_etl import BlobETL
-import rolling_pin.utils as utils
 # ------------------------------------------------------------------------------
 
 
@@ -23,7 +23,7 @@ def index():
     return redirect(url_for('flasgger.apidocs'))
 
 
-@utils.api_function
+@lbt.api_function
 def get_svg(
     data='<required>',
     layout='dot',

@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, Iterable, List, Union
+from typing import Any, Dict, Iterable, List, Union
 import pydot
 
 import logging
@@ -47,52 +47,6 @@ COLOR_SCALE = [
     '#F77E70',
     '#EB9E58',
 ]  # type: List[str]
-
-
-# GENERAL-----------------------------------------------------------------------
-def try_(function, item, exception_value='item'):
-    # type: (Callable[[Any], Any], Any, Any) -> Any
-    '''
-    Try applying a given function to a given item. If that fails return the item
-    or exception value.
-
-    Args:
-        function (function): Function that expects an item.
-        item (object): Item to be processed by function.
-        exception_value (object, optional): If left to 'item', returns item, \
-            else returns given value. Default: 'item'.
-
-    Returns:
-        object: Ouput of *function(item)* or exception_value.
-    '''
-    LOGGER.debug(f'try_ function called with: {item.__class__.__name__} object')
-    try:
-        return function(item)
-    except Exception as e:
-        LOGGER.debug(f'try_ function failed with message: {e}')
-        if exception_value == 'item':
-            return item
-        return exception_value
-
-
-def get_ordered_unique(items):
-    # type: (List[Any]) -> List
-    '''
-    Generates a unique list of items in same order they were received in.
-
-    Args:
-        items (list): List of items.
-
-    Returns:
-        list: Unique ordered list.
-    '''
-    output = []
-    temp = set()
-    for item in items:
-        if item not in temp:
-            output.append(item)
-            temp.add(item)
-    return output
 
 
 # PREDICATE-FUNCTIONS-----------------------------------------------------------

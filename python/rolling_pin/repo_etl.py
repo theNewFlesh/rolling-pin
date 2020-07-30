@@ -6,12 +6,12 @@ import re
 from itertools import chain
 from pathlib import Path
 
+import lunchbox.tools as lbt
 import numpy as np
 from pandas import DataFrame, Series
 
 import networkx
 import rolling_pin.tools as tools
-import rolling_pin.utils as utils
 # ------------------------------------------------------------------------------
 
 '''
@@ -69,7 +69,7 @@ class RepoETL():
         data = map(lambda x: re.sub(' as .*', '', x), data)
         data = map(lambda x: re.sub(' *#.*', '', x), data)
         data = map(lambda x: re.sub('import ', '', x), data)
-        data = filter(lambda x: not utils.is_standard_module(x), data)
+        data = filter(lambda x: not lbt.is_standard_module(x), data)
         return list(data)
 
     @staticmethod
@@ -141,12 +141,12 @@ class RepoETL():
             .apply(lambda x: re.sub('/', '.', x))
 
         data['subpackages'] = data.node_name\
-            .apply(lambda x: tools.get_parent_fields(x, '.')).apply(tools.get_ordered_unique)
+            .apply(lambda x: tools.get_parent_fields(x, '.')).apply(lbt.get_ordered_unique)
         data.subpackages = data.subpackages\
             .apply(lambda x: list(filter(lambda y: y != '', x)))
 
         data['dependencies'] = data.fullpath\
-            .apply(RepoETL._get_imports).apply(tools.get_ordered_unique)
+            .apply(RepoETL._get_imports).apply(lbt.get_ordered_unique)
         data.dependencies += data.node_name\
             .apply(lambda x: ['.'.join(x.split('.')[:-1])])
         data.dependencies = data.dependencies\
