@@ -10,21 +10,28 @@ ARG NO_COLOR='\033[0m'
 RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${NO_COLOR}"; \
     apt update && \
     apt install -y \
-    curl \
-    git \
-    parallel \
-    python3-dev \
-    software-properties-common \
-    tree \
-    vim \
-    wget
+        curl \
+        git \
+        parallel \
+        pandoc \
+        python3-dev \
+        software-properties-common \
+        tree \
+        vim \
+        wget
+
+# install zsh
+RUN echo "\n${CYAN}SETUP ZSH${NO_COLOR}"; \
+    apt install -y zsh && \
+    curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -o install-oh-my-zsh.sh && \
+    echo y | sh install-oh-my-zsh.sh
 
 # install python3.7 and pip
-ADD https://bootstrap.pypa.io/get-pip.py get-pip.py
 RUN echo "\n${CYAN}SETUP PYTHON3.7${NO_COLOR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
     apt install -y python3.7 && \
+    wget https://bootstrap.pypa.io/get-pip.py && \
     python3.7 get-pip.py && \
     rm -rf /root/get-pip.py
 
@@ -35,7 +42,7 @@ RUN echo "\n${CYAN}INSTALL NODE.JS DEPENDENCIES${NO_COLOR}"; \
     apt upgrade -y && \
     echo "\n${CYAN}INSTALL JUPYTERLAB DEPENDENCIES${NO_COLOR}"; \
     apt install -y \
-    nodejs && \
+        nodejs && \
     rm -rf /var/lib/apt/lists/*
 
 # install python dependencies
@@ -50,21 +57,24 @@ RUN echo "\n${CYAN}INSTALL PYTHON DEPENDECIES${NO_COLOR}"; \
     pip3.7 install -r prod_requirements.txt;
 RUN rm -rf /root/dev_requirements;
 
-# added aliases to bashrc
+# configure zsh
 WORKDIR /root
-RUN echo "\n${CYAN}CONFIGURE BASHRC${NO_COLOR}"; \
-    echo 'export PYTHONPATH="/root/rolling-pin/python"' >> /root/.bashrc;
+RUN echo "\n${CYAN}CONFIGURE ZSH${NO_COLOR}"; \
+    echo 'export PYTHONPATH="/root/shekels/python"' >> /root/.zshrc
+COPY ./henanigans.zsh-theme /root/.oh-my-zsh/custom/themes/henanigans.zsh-theme
+COPY ./zshrc /root/.zshrc
 
 # install jupyter lab extensions
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 RUN echo "\n${CYAN}INSTALL JUPYTER LAB EXTENSIONS${NO_COLOR}"; \
     jupyter labextension install \
     --dev-build=False \
-    nbdime-jupyterlab \
-    @jupyterlab/toc \
-    @oriolmirosa/jupyterlab_materialdarker \
-    @ryantam626/jupyterlab_sublime \
-    jupyterlab-drawio \
-    @jupyterlab/plotly-extension
+        nbdime-jupyterlab \
+        @oriolmirosa/jupyterlab_materialdarker \
+        @ryantam626/jupyterlab_sublime \
+        @jupyterlab/plotly-extension
 
 ENV PYTHONPATH "${PYTHONPATH}:/root/rolling-pin/python"
+ENV LANGUAGE "C"
+ENV LC_ALL "C"
+ENV LANG "C"

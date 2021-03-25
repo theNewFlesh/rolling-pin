@@ -6,7 +6,8 @@
     "service": "${localWorkspaceFolderBasename}",
     "workspaceFolder": "/root/${localWorkspaceFolderBasename}",
     "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash",
+        "terminal.integrated.cwd": "/root/${localWorkspaceFolderBasename}",
+        "terminal.integrated.shell.linux": "/bin/zsh",
         "python.languageServer": "Pylance",
         "python.linting.enabled": true,
         "python.linting.flake8Args": ["--config=docker/flake8.ini"],
@@ -38,7 +39,6 @@
         }
     },
     "extensions": [
-        "ms-python.python",
         "arturock.gitstash",
         "bibhasdn.unique-lines",
         "christian-kohler.path-intellisense",
@@ -49,6 +49,7 @@
         "fabiospampinato.vscode-diff",
         "gruntfuggly.todo-tree",
         "konstantin.wrapselection",
+        "littlefoxteam.vscode-python-test-adapter",
         "magicstack.magicpython",
         "ms-azuretools.vscode-docker",
         "ms-python.anaconda-extension-pack",

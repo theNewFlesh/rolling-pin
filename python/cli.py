@@ -34,7 +34,6 @@ def get_info():
                         action='store',
                         help='''Command to run in {repo} service.
 
-    bash         - Run BASH session inside {repo} container
     container    - Display the Docker container id for {repo} service
     coverage     - Generate coverage report for {repo} service
     destroy      - Shutdown {repo} service and destroy its Docker image
@@ -43,15 +42,18 @@ def get_info():
     image        - Display the Docker image id for {repo} service
     lab          - Start a Jupyter lab server
     lint         - Run linting and type checking on {repo} service code
+    package      - Build {repo} pip package
     publish      - Publish repository to python package index.
     python       - Run python interpreter session inside {repo} container
     remove       - Remove {repo} service Docker image
     restart      - Restart {repo} service
     requirements - Write frozen requirements to disk
     start        - Start {repo} service
+    state        - State of {repo} service
     stop         - Stop {repo} service
     test         - Run testing on {repo} service
     tox          - Run tox tests on {repo}
+    zsh          - Run ZSH session inside {repo} container
 '''.format(repo=REPO))
 
     parser.add_argument(
@@ -112,8 +114,19 @@ def get_architecture_diagram_command(info):
     Returns:
         str: Command.
     '''
-    cmd = '{exec} python3.7 -c "from rolling_pin.repo_etl import RepoETL; '
-    cmd += "RepoETL('/root/{repo}/python').write('/root/{repo}/docs/architecture.svg')"
+    cmd = '{exec} python3.7 -c "'
+    cmd += "import re; from rolling_pin.repo_etl import RepoETL; "
+    cmd += "etl = RepoETL('/root/{repo}/python'); "
+    cmd += "regex = 'test|mock'; "
+    cmd += "data = etl._data.copy(); "
+    cmd += "func = lambda x: not bool(re.search(regex, x)); "
+    cmd += "mask = data.node_name.apply(func); "
+    cmd += "data = data[mask]; "
+    cmd += "data.reset_index(inplace=True, drop=True); "
+    cmd += "data.dependencies = data.dependencies"
+    cmd += ".apply(lambda x: list(filter(func, x))); "
+    cmd += "etl._data = data; "
+    cmd += "etl.write('/root/{repo}/docs/architecture.svg', orient='lr')"
     cmd += '"'
     cmd = cmd.format(
         repo=REPO,
@@ -144,21 +157,20 @@ def get_radon_metrics_command(info):
     return cmd
 
 
-# COMMANDS----------------------------------------------------------------------
-def get_bash_command(info):
+def get_remove_pycache_command():
     '''
-    Opens a bash session inside a running container.
-
-    Args:
-        info (dict): Info dictionary.
+    Removes all pycache files and directories under the repo's main directory.
 
     Returns:
         str: Command.
     '''
-    cmd = "{exec} bash".format(exec=get_docker_exec_command(info))
+    cmd = r"find {repo_path} | grep -E '__pycache__|\.pyc$' | "
+    cmd += "parallel 'rm -rf {x}'"
+    cmd = cmd.format(repo_path=REPO_PATH, x='{}')
     return cmd
 
 
+# COMMANDS----------------------------------------------------------------------
 def get_container_id_command():
     '''
     Gets current container id.
@@ -166,7 +178,7 @@ def get_container_id_command():
     Returns:
         str: Command.
     '''
-    cmd = 'docker ps | grep {repo} '.format(repo=REPO)
+    cmd = "docker ps | grep '{repo} ' ".format(repo=REPO)
     cmd += "| head -n 1 | awk '{print $1}'"
     return cmd
 
@@ -209,9 +221,13 @@ def get_docs_command(info):
         str: Fully resolved build docs command.
     '''
     cmd = '{exec} mkdir -p /root/{repo}/docs; '
-    cmd += '{exec} sphinx-build /root/{repo}/sphinx /root/{repo}/docs; '
-    cmd += '{exec} cp /root/{repo}/sphinx/style.css /root/{repo}/docs/_static/style.css; '
-    cmd += '{exec} touch /root/{repo}/docs/.nojekyll'
+    cmd += '{exec} zsh -c "'
+    cmd += 'pandoc /root/{repo}/README.md -o /root/{repo}/sphinx/intro.rst; '
+    cmd += 'sphinx-build /root/{repo}/sphinx /root/{repo}/docs; '
+    cmd += 'cp /root/{repo}/sphinx/style.css /root/{repo}/docs/_static/style.css; '
+    cmd += 'touch /root/{repo}/docs/.nojekyll; '
+    cmd += 'mkdir -p /root/{repo}/docs/resources; '
+    cmd += '"'
     cmd = cmd.format(
         repo=REPO,
         exec=get_docker_exec_command(info),
@@ -226,7 +242,7 @@ def get_image_id_command():
     Returns:
         str: Command.
     '''
-    cmd = 'docker image ls | grep {repo} '.format(repo=REPO)
+    cmd = 'docker image ls | grep "{repo} " '.format(repo=REPO)
     cmd += "| head -n 1 | awk '{print $3}'"
     return cmd
 
@@ -286,9 +302,29 @@ def get_publish_command(info):
     Returns:
         str: Command.
     '''
-    cmd = '{exec} bash -c "'
+    cmd = '{exec} twine upload dist/*; '
+    cmd += '{exec2} rm -rf /tmp/{repo} '
+    cmd = cmd.format(
+        repo=REPO,
+        exec=get_docker_exec_command(info, '/tmp/' + REPO),
+        exec2=get_docker_exec_command(info),
+    )
+    return cmd
+
+
+def get_package_command(info):
+    '''
+    Build pip package.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = '{exec} zsh -c "'
     cmd += 'rm -rf /tmp/{repo}; '
-    cmd += 'cp -r /root/{repo}/python /tmp/{repo}; '
+    cmd += 'cp -R /root/{repo}/python /tmp/{repo}; '
     cmd += 'cp /root/{repo}/README.md /tmp/{repo}/README.md; '
     cmd += 'cp /root/{repo}/LICENSE /tmp/{repo}/LICENSE; '
     cmd += 'cp /root/{repo}/pip/MANIFEST.in /tmp/{repo}/MANIFEST.in; '
@@ -297,12 +333,15 @@ def get_publish_command(info):
     cmd += 'cp /root/{repo}/pip/version.txt /tmp/{repo}/; '
     cmd += 'cp /root/{repo}/docker/dev_requirements.txt /tmp/{repo}/; '
     cmd += 'cp /root/{repo}/docker/prod_requirements.txt /tmp/{repo}/; '
-    cmd += r"find /tmp/{repo} | grep -E '_test\.py$' | parallel rm -rf"
+    cmd += 'cp -r /root/{repo}/templates /tmp/{repo}/{repo}; '
+    cmd += r"find /tmp/{repo} | grep -E '.*test.*\.py$|mock.*\.py$|__pycache__'"
+    cmd += " | parallel 'rm -rf {x}'; "
+    cmd += "find /tmp/{repo} -type f | grep __init__.py | parallel '"
+    cmd += "rm -rf {x}; touch {x}'"
     cmd += '"; '
-    cmd += '{exec2} python3.7 setup.py sdist; '
-    cmd += '{exec2} twine upload dist/*; '
-    cmd += '{exec} rm -rf /tmp/{repo}; '
+    cmd += '{exec2} python3.7 setup.py sdist '
     cmd = cmd.format(
+        x='{}',
         repo=REPO,
         exec=get_docker_exec_command(info),
         exec2=get_docker_exec_command(info, '/tmp/' + REPO),
@@ -350,13 +389,51 @@ def get_requirements_command(info):
     Returns:
         str: Command.
     '''
-    cmd = '{exec} bash -c "python3.7 -m pip list --format freeze > '
+    cmd = '{exec} zsh -c "python3.7 -m pip list --format freeze > '
     cmd += '/root/{repo}/docker/frozen_requirements.txt && '
     cmd += 'chown -R {user} /root/{repo}/docker/frozen_requirements.txt"'
     cmd = cmd.format(
         repo=REPO,
         exec=get_docker_exec_command(info),
         user=info['user'],
+    )
+    return cmd
+
+
+def get_state_command():
+    '''
+    Gets the state of the service.
+
+    * Container states include: absent, running, stopped.
+    * Image states include: present, absent.
+
+    Returns:
+        str: Command
+    '''
+    cmd = 'export IMAGE_EXISTS=`docker images {repo} | grep -v REPOSITORY`; '
+    cmd += 'export CONTAINER_EXISTS=`docker ps -a -f name={repo}'
+    cmd += ' | grep -v CONTAINER`; '
+    cmd += 'export RUNNING=`docker ps -a -f name={repo} -f status=running '
+    cmd += '| grep -v CONTAINER`; '
+    cmd += 'export CONTAINER_STATE; export IMAGE_STATE; '
+    cmd += 'if [ -z "$IMAGE_EXISTS" ]; then'
+    cmd += '    export IMAGE_STATE="{red}absent{clear}"; '
+    cmd += 'else export IMAGE_STATE="{green}present{clear}"; fi; '
+    cmd += 'if [ -z "$CONTAINER_EXISTS" ]; then'
+    cmd += '    export CONTAINER_STATE="{red}absent{clear}"; '
+    cmd += 'elif [ -z "$RUNNING" ]; then '
+    cmd += '    export CONTAINER_STATE="{red}stopped{clear}"; '
+    cmd += 'else'
+    cmd += '    export CONTAINER_STATE="{green}running{clear}"; '
+    cmd += 'fi; '
+    cmd += 'echo "service: {cyan}{repo}{clear}  -  '
+    cmd += 'image: $IMAGE_STATE  -  container: $CONTAINER_STATE"'
+    cmd = cmd.format(
+        repo=REPO,
+        cyan='\033[0;36m',
+        red='\033[0;31m',
+        green='\033[0;32m',
+        clear='\033[0m',
     )
     return cmd
 
@@ -371,8 +448,13 @@ def get_start_command(info):
     Returns:
         str: Fully resolved docker-compose up command.
     '''
-    cmd = '{compose} up --detach; cd $CWD'
-    cmd = cmd.format(compose=get_docker_compose_command(info))
+    cmd = 'export STATE=`docker ps -a -f name={repo} -f status=running '
+    cmd += '| grep -v CONTAINER`; '
+    cmd += 'if [ -z "$STATE" ]; then {compose} up --detach; cd $CWD; fi'
+    cmd = cmd.format(
+        repo=REPO,
+        compose=get_docker_compose_command(info)
+    )
     return cmd
 
 
@@ -421,7 +503,7 @@ def get_tox_command(info):
     Returns:
         str: Command.
     '''
-    cmd = '{exec} bash -c "'
+    cmd = '{exec} zsh -c "'
     cmd += 'rm -rf /tmp/{repo}; '
     cmd += 'cp -R /root/{repo}/python /tmp/{repo}; '
     cmd += 'cp /root/{repo}/README.md /tmp/{repo}/; '
@@ -429,6 +511,7 @@ def get_tox_command(info):
     cmd += 'cp /root/{repo}/docker/* /tmp/{repo}/; '
     cmd += 'cp /root/{repo}/pip/* /tmp/{repo}/; '
     cmd += 'cp -R /root/{repo}/resources /tmp; '
+    cmd += 'cp -R /root/{repo}/templates /tmp/{repo}/{repo}; '
     cmd += r"find /tmp/{repo} | grep -E '__pycache__|\.pyc$' | parallel 'rm -rf'; "
     cmd += 'cd /tmp/{repo}; tox'
     cmd += '"'
@@ -436,6 +519,20 @@ def get_tox_command(info):
         repo=REPO,
         exec=get_docker_exec_command(info),
     )
+    return cmd
+
+
+def get_zsh_command(info):
+    '''
+    Opens a zsh session inside a running container.
+
+    Args:
+        info (dict): Info dictionary.
+
+    Returns:
+        str: Command.
+    '''
+    cmd = "{exec} zsh".format(exec=get_docker_exec_command(info))
     return cmd
 
 
@@ -522,10 +619,7 @@ def main():
     docs = os.path.join('/root', REPO, 'docs')
     cmd = get_docker_command(info)
 
-    if mode == 'bash':
-        cmd = get_bash_command(info)
-
-    elif mode == 'container':
+    if mode == 'container':
         cmd = get_container_id_command()
 
     elif mode == 'coverage':
@@ -560,8 +654,13 @@ def main():
         cmd += '; ' + 'echo "TYPE CHECKING"'
         cmd += '; ' + get_type_checking_command(info)
 
+    elif mode == 'package':
+        cmd = get_package_command(info)
+
     elif mode == 'publish':
         cmd = get_tox_command(info)
+        cmd += ' && ' + get_remove_pycache_command()
+        cmd += ' && ' + get_package_command(info)
         cmd += ' && ' + get_publish_command(info)
 
     elif mode == 'python':
@@ -580,6 +679,9 @@ def main():
     elif mode == 'start':
         cmd = get_start_command(info)
 
+    elif mode == 'state':
+        cmd = get_state_command()
+
     elif mode == 'stop':
         cmd = get_stop_command(info)
 
@@ -588,6 +690,9 @@ def main():
 
     elif mode == 'tox':
         cmd = get_tox_command(info)
+
+    elif mode == 'zsh':
+        cmd = get_zsh_command(info)
 
     # print is used instead of execute because REPO_PATH and CURRENT_USER do not
     # resolve in a subprocess and subprocesses do not give real time stdout.
