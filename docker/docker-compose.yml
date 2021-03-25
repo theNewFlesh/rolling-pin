@@ -16,5 +16,6 @@ services:
     volumes:
       - ../:/root/rolling-pin
       - ./jupyter:/root/.jupyter
+      - ~/.ssh:/root/.ssh
     working_dir: "/root/rolling-pin/python"
     command: "tail -f /dev/null"
