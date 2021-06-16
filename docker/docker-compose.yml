@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 volumes:
   cache:
 services:
@@ -9,8 +9,8 @@ services:
       context: .
       dockerfile: rolling_pin.dockerfile
     ports:
-      - '9001:9000'
-      - '5001:5000'
+      - "5000:9000"
+      - "5080:8080"
     userns_mode: "host"
     user: root
     volumes:
