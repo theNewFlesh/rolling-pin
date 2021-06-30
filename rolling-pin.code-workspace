@@ -144,8 +144,8 @@
                     "cp docker/dev_requirements.txt /tmp/$REPO/ && ",
                     "cp docker/prod_requirements.txt /tmp/$REPO/ && ",
                     "cp -R templates /tmp/$REPO/$REPO && ",
-                    // "cp -R resources /tmp/$REPO/$REPO && ",
-                    // "find /tmp/$REPO/$REPO/resources -type f | grep -vE 'icon|test_' | parallel 'rm -rf {}' && ",
+                    "cp -R resources /tmp/$REPO/$REPO && ",
+                    "find /tmp/$REPO/$REPO/resources -type f | grep -vE 'icon|test_' | parallel 'rm -rf {}' && ",
                     "find /tmp/$REPO | grep -E '.*test.*\\.py$|mock.*\\.py$|__pycache__' | parallel 'rm -rf {}' && ",
                     "find /tmp/$REPO -type f | grep __init__.py | parallel 'rm -rf {} && touch {}' && ",
                     "cd /tmp/$REPO && ",
@@ -191,9 +191,9 @@
                     "cp -R /home/ubuntu/$REPO/docker/* /tmp/$REPO/ && ",
                     "cp -R /home/ubuntu/$REPO/pip/* /tmp/$REPO/ && ",
                     "cp -R /home/ubuntu/$REPO/resources /tmp/$REPO/$REPO && ",
-                    // "find /tmp/$REPO/$REPO/resources -type f | grep -vE 'icon|test_' | parallel 'rm -rf {}' && ",
+                    "find /tmp/$REPO/$REPO/resources -type f | grep -vE 'icon|test_' | parallel 'rm -rf {}' && ",
                     "cp -R /home/ubuntu/$REPO/templates /tmp/$REPO/$REPO && ",
-                    // "cp -R /home/ubuntu/$REPO/python/conftest.py /tmp/$REPO/ && ",
+                    "cp -R /home/ubuntu/$REPO/python/conftest.py /tmp/$REPO/ && ",
                     "find /tmp/$REPO | grep -E '__pycache__|\\.pyc$' | parallel 'rm -rf'"
                 ],
                 "type": "shell"

@@ -9,8 +9,8 @@ services:
       context: .
       dockerfile: dev.dockerfile
     ports:
-      - "5000:9000"
-      - "5080:8080"
+      - "5100:9000"
+      - "5180:8080"
     userns_mode: "host"
     user: ubuntu
     volumes:
