@@ -1,0 +1,15 @@
+apiVersion: v2
+name: rolling-pin
+version: 0.1.0
+home: https://github.com/theNewFlesh/rolling-pin
+description: |
+  
+keywords:
+  - foo
+  - bar
+type: application
+appVersion: "0.1.0"
+maintainers:
+  - name: Alex Braun
+    email: alexander.g.braun@gmail.com
+    url: http://www.alexgbraun.com

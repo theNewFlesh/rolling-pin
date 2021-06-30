@@ -7,15 +7,16 @@ services:
     image: rolling-pin
     build:
       context: .
-      dockerfile: rolling_pin.dockerfile
+      dockerfile: dev.dockerfile
     ports:
       - "5000:9000"
       - "5080:8080"
     userns_mode: "host"
-    user: root
+    user: ubuntu
     volumes:
-      - ../:/root/rolling-pin
-      - ./jupyter:/root/.jupyter
-      - ~/.ssh:/root/.ssh
-    working_dir: "/root/rolling-pin/python"
+      - ../:/home/ubuntu/rolling-pin
+      - ./jupyter:/home/ubuntu/.jupyter
+      - ./ipython:/home/ubuntu/.ipython
+      - ~/.ssh:/home/ubuntu/.ssh
+    working_dir: "/home/ubuntu"
     command: "tail -f /dev/null"

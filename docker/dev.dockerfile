@@ -1,80 +1,94 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.04 AS base
 
-WORKDIR /root
+USER root
 
 # coloring syntax for headers
-ARG CYAN='\033[0;36m'
-ARG NO_COLOR='\033[0m'
+ENV CYAN='\033[0;36m'
+ENV CLEAR='\033[0m'
+ENV DEBIAN_FRONTEND='noninteractive'
+
+# setup ubuntu user
+ARG UID_='1000'
+ARG GID_='1000'
+RUN echo "\n${CYAN}SETUP UBUNTU USER${CLEAR}"; \
+    addgroup --gid $GID_ ubuntu && \
+    adduser \
+        --disabled-password \
+        --gecos '' \
+        --uid $UID_ \
+        --gid $GID_ ubuntu && \
+    usermod -aG root ubuntu
+WORKDIR /home/ubuntu
 
 # update ubuntu and install basic dependencies
-RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${NO_COLOR}"; \
+RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
     apt update && \
     apt install -y \
         curl \
         git \
-        parallel \
+        graphviz \
         pandoc \
-        python3-dev \
+        parallel \
+        python3-pydot \
+        python3.7-dev \
         software-properties-common \
         tree \
         vim \
         wget
 
 # install zsh
-RUN echo "\n${CYAN}SETUP ZSH${NO_COLOR}"; \
+RUN echo "\n${CYAN}SETUP ZSH${CLEAR}"; \
     apt install -y zsh && \
-    curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -o install-oh-my-zsh.sh && \
-    echo y | sh install-oh-my-zsh.sh
+    curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh \
+        -o install-oh-my-zsh.sh && \
+    echo y | sh install-oh-my-zsh.sh && \
+    cp -r /root/.oh-my-zsh /home/ubuntu/ && \
+    chown -R ubuntu:ubuntu \
+        .oh-my-zsh \
+        install-oh-my-zsh.sh && \
+    echo 'UTC' > /etc/timezone
 
 # install python3.7 and pip
-RUN echo "\n${CYAN}SETUP PYTHON3.7${NO_COLOR}"; \
+RUN echo "\n${CYAN}SETUP PYTHON3.7${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install -y python3.7 && \
+    apt install --fix-missing -y \
+        python3.7 && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python3.7 get-pip.py && \
-    rm -rf /root/get-pip.py
+    chown -R ubuntu:ubuntu get-pip.py
 
-# DEBIAN_FRONTEND needed by texlive to install non-interactively
-ARG DEBIAN_FRONTEND=noninteractive
-RUN echo "\n${CYAN}INSTALL NODE.JS DEPENDENCIES${NO_COLOR}"; \
-    curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+# install node.js, needed by jupyterlab
+RUN echo "\n${CYAN}INSTALL NODE.JS${CLEAR}"; \
+    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt upgrade -y && \
-    echo "\n${CYAN}INSTALL JUPYTERLAB DEPENDENCIES${NO_COLOR}"; \
-    apt install -y \
-        nodejs && \
+    apt install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-# install python dependencies
-COPY ./dev_requirements.txt /root/dev_requirements.txt
-COPY ./prod_requirements.txt /root/prod_requirements.txt
-RUN echo "\n${CYAN}INSTALL PYTHON DEPENDECIES${NO_COLOR}"; \
-    apt update && \
-    apt install -y \
-        graphviz \
-        python3-pydot && \
-    pip3.7 install -r dev_requirements.txt && \
-    pip3.7 install -r prod_requirements.txt;
-RUN rm -rf /root/dev_requirements;
+USER ubuntu
+ENV PATH="/home/ubuntu/.local/bin:$PATH"
+COPY ./henanigans.zsh-theme .oh-my-zsh/custom/themes/henanigans.zsh-theme
+COPY ./zshrc .zshrc
 
-# configure zsh
-WORKDIR /root
-RUN echo "\n${CYAN}CONFIGURE ZSH${NO_COLOR}"; \
-    echo 'export PYTHONPATH="/root/shekels/python"' >> /root/.zshrc
-COPY ./henanigans.zsh-theme /root/.oh-my-zsh/custom/themes/henanigans.zsh-theme
-COPY ./zshrc /root/.zshrc
-
-# install jupyter lab extensions
-ENV NODE_OPTIONS="--max-old-space-size=8192"
-RUN echo "\n${CYAN}INSTALL JUPYTER LAB EXTENSIONS${NO_COLOR}"; \
-    jupyter labextension install \
-    --dev-build=False \
-        nbdime-jupyterlab \
-        @oriolmirosa/jupyterlab_materialdarker \
-        @ryantam626/jupyterlab_sublime \
-        @jupyterlab/plotly-extension
-
-ENV PYTHONPATH "${PYTHONPATH}:/root/rolling-pin/python"
+ENV LANG "C"
 ENV LANGUAGE "C"
 ENV LC_ALL "C"
-ENV LANG "C"
+# ------------------------------------------------------------------------------
+
+FROM base AS dev
+
+USER root
+WORKDIR /home/ubuntu
+ENV REPO='rolling-pin'
+ENV PYTHONPATH "${PYTHONPATH}:/home/ubuntu/$REPO/python"
+ENV REPO_ENV=True
+
+USER ubuntu
+
+# install python dependencies
+COPY ./dev_requirements.txt dev_requirements.txt
+COPY ./prod_requirements.txt prod_requirements.txt
+RUN echo "\n${CYAN}INSTALL PYTHON DEPENDENCIES${CLEAR}"; \
+    pip3.7 install -r dev_requirements.txt && \
+    pip3.7 install -r prod_requirements.txt && \
+    jupyter server extension enable --py --user jupyterlab_git
