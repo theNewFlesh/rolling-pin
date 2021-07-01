@@ -40,7 +40,7 @@ RUN echo "\n${CYAN}SETUP PYTHON3.7${CLEAR}"; \
 USER ubuntu
 ENV REPO='rolling-pin'
 ENV PYTHONPATH "${PYTHONPATH}:/home/ubuntu/$REPO/python"
-RUN echo "\n${CYAN}INSTALL $REPO${CLEAR}"; \
+RUN echo "\n${CYAN}INSTALL ROLLING-PIN{CLEAR}"; \
     pip3.7 install rolling-pin
 
 ENTRYPOINT [\
