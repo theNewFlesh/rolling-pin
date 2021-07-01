@@ -958,8 +958,10 @@ def zsh_complete_command():
         str: Command to generate and install zsh completions.
     '''
     cmds = [
-        'export _COMP=~/.oh-my-zsh/custom/plugins/zsh-completions/src/_{repo}',
+        'mkdir -p ~/.oh-my-zsh/custom/completions',
+        'export _COMP=~/.oh-my-zsh/custom/completions/_{repo}',
         'touch $_COMP',
+        "echo 'fpath=(~/.oh-my-zsh/custom/completions $fpath)' >> ~/.zshrc",
         'echo "#compdef {repo} rec" > $_COMP',
         'echo "" >> $_COMP',
         'echo "local -a _subcommands" >> $_COMP',
