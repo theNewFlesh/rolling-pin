@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as base
+FROM ubuntu:18.04 AS base
 
 USER root
 
