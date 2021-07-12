@@ -189,7 +189,7 @@ def start():
         line('''
             export STATE=`docker ps
                 -a
-                -f name={repo}
+                -f name=^{repo}$
                 -f status=running
                 --format='{{{{{{{{.Status}}}}}}}}'`
         '''),
@@ -421,7 +421,7 @@ def container_id_command():
         str: Command to get docker container id.
     '''
     cmds = [
-        "docker ps -a --filter name={repo} --format '{{{{.ID}}}}'"
+        "docker ps -a --filter name=^{repo}$ --format '{{{{.ID}}}}'"
     ]
     return resolve(cmds)
 
@@ -465,7 +465,7 @@ def destroy_prod_command():
         str: Command to destroy prod image.
     '''
     cmds = [
-        "export PROD_CID=`docker ps --filter name={repo}-prod --format '{{{{.ID}}}}'`",
+        "export PROD_CID=`docker ps --filter name=^{repo}-prod$ --format '{{{{.ID}}}}'`",
         "export PROD_IID=`docker images {github_user}/{repo} --format '{{{{.ID}}}}'`",
         'docker container stop $PROD_CID',
         'docker image rm --force $PROD_IID',
@@ -827,10 +827,10 @@ def state_command():
         enter_repo(),
         version_variable(),
         'export IMAGE_EXISTS=`docker images {repo} | grep -v REPOSITORY`',
-        'export CONTAINER_EXISTS=`docker ps -a -f name={repo} | grep -v CONTAINER`',
-        'export RUNNING=`docker ps -a -f name={repo} -f status=running | grep -v CONTAINER`',
+        'export CONTAINER_EXISTS=`docker ps -a -f name=^{repo}$ | grep -v CONTAINER`',
+        'export RUNNING=`docker ps -a -f name=^{repo}$ -f status=running | grep -v CONTAINER`',
         line(r'''
-            export PORTS=`docker ps -a -f name={repo}
+            export PORTS=`docker ps -a -f name=^{repo}$
                 --format '{{{{.Ports}}}}'
             | sed -E 's/[0-9.]+:|:|\/[a-z]+//g'
             | sed 's/, /\n/g' | uniq
