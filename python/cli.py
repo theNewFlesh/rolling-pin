@@ -310,7 +310,9 @@ def tmp_repo():
         cp docker/dev_requirements.txt /tmp/{repo}/ &&
         cp docker/prod_requirements.txt /tmp/{repo}/ &&
         cp -R pip/* /tmp/{repo}/ &&
-        find /tmp/{repo} | grep -E '__pycache__|flask_monitor|cli.py'
+        cp -R resources /tmp/{repo}/ &&
+        find /tmp/{repo} | grep -E
+        '__pycache__|flask_monitor|cli.py|\\.mypy_cache|\\.pytest_cache|\\.coverage'
             | parallel 'rm -rf {{}}' &&
         find /tmp/{repo} -type f | grep __init__.py
             | parallel 'rm -rf {{}}; touch {{}}'
@@ -325,7 +327,8 @@ def package_repo():
         str: Command to create a temporary repo in /tmp.
     '''
     pkg = line('''
-        find /tmp/$REPO | grep -E '.*test.*\\.py$|mock.*\\.py$'
+        rm -rf /tmp/{repo}/resources &&
+        find /tmp/{repo} | grep -E '.*test.*\\.py$|mock.*\\.py$'
             | parallel 'rm -rf {{}}'
     ''')
     cmd = docker_exec() + ' {repo} zsh -c "' + tmp_repo() + ' && ' + pkg + '"'

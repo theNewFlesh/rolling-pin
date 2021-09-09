@@ -136,7 +136,8 @@
                     "cp docker/dev_requirements.txt /tmp/$REPO/ &&",
                     "cp docker/prod_requirements.txt /tmp/$REPO/ &&",
                     "cp -R pip/* /tmp/$REPO/ &&",
-                    "find /tmp/$REPO | grep -E '__pycache__|flask_monitor|cli.py' | parallel 'rm -rf {}' &&",
+                    "cp -R resources /tmp/$REPO/ &&",
+                    "find /tmp/$REPO | grep -E '__pycache__|flask_monitor|cli.py|\.mypy_cache|\.pytest_cache|\.coverage' | parallel 'rm -rf {}' &&",
                     "find /tmp/$REPO -type f | grep __init__.py | parallel 'rm -rf {}; touch {}'"
                 ],
                 "type": "shell"
@@ -158,6 +159,7 @@
                 "command": [
                     "unset REPO_ENV &&",
                     "cd /tmp/$REPO &&",
+                    "rm -rf /tmp/$REPO/resources &&",
                     "python3.7 setup.py sdist"
                 ],
                 "dependsOrder": "sequence",
