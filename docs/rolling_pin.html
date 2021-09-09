@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>tools &mdash; rolling-pin  documentation</title>
   
@@ -13,11 +13,16 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/style.css" type="text/css" />
 
   
   
+
   
+  
+
   
 
   
@@ -27,10 +32,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -52,7 +57,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> rolling-pin
+            <a href="index.html" class="icon icon-home"> rolling-pin
           
 
           
@@ -62,7 +67,7 @@
             
             
               <div class="version">
-                0.4.1
+                0.4.2
               </div>
             
           
@@ -87,7 +92,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Rolling-Pin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#installation">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#utils">utils</a></li>
@@ -136,6 +146,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -149,7 +161,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/rolling_pin.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -166,14 +178,14 @@
   <div class="section" id="module-rolling_pin.tools">
 <span id="tools"></span><h1>tools<a class="headerlink" href="#module-rolling_pin.tools" title="Permalink to this headline">¶</a></h1>
 <dl class="py data">
-<dt id="rolling_pin.tools.LOGGER">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">LOGGER</code><em class="property"> = &lt;Logger rolling_pin.tools (WARNING)&gt;</em><a class="headerlink" href="#rolling_pin.tools.LOGGER" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.LOGGER">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">LOGGER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Logger</span> <span class="pre">rolling_pin.tools</span> <span class="pre">(WARNING)&gt;</span></em><a class="headerlink" href="#rolling_pin.tools.LOGGER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Contains basic functions for more complex ETL functions and classes.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.dot_to_html">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">dot_to_html</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dot</span><span class="p">:</span> <span class="n">pydot.Dot</span></em>, <em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dot'</span></em>, <em class="sig-param"><span class="n">as_png</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>IPython.core.display.HTML<span class="p">, </span>IPython.core.display.Image<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/tools.html#dot_to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.dot_to_html" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.dot_to_html">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">dot_to_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dot</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pydot.Dot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'dot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_png</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">IPython.core.display.HTML</span><span class="p"><span class="pre">,</span> </span><span class="pre">IPython.core.display.Image</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#dot_to_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.dot_to_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a given pydot graph into a IPython.display.HTML object.
 Used in jupyter lab inline display of graph data.</p>
 <dl class="field-list simple">
@@ -200,8 +212,8 @@ Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.flatten">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">flatten</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Iterable</span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'/'</span></em>, <em class="sig-param"><span class="n">embed_types</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/tools.html#flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.flatten" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.flatten">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed_types</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#flatten"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.flatten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flattens a iterable object into a flat dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -220,8 +232,8 @@ Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.get_parent_fields">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">get_parent_fields</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'/'</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/tools.html#get_parent_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.get_parent_fields" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.get_parent_fields">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">get_parent_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'/'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#get_parent_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.get_parent_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all the parent fields of a given key, split by given separator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -241,8 +253,8 @@ Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.is_dictlike">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">is_dictlike</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/rolling_pin/tools.html#is_dictlike"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.is_dictlike" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.is_dictlike">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">is_dictlike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#is_dictlike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.is_dictlike" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines if given item is dict-like.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -258,8 +270,8 @@ Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.is_iterable">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">is_iterable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/rolling_pin/tools.html#is_iterable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.is_iterable" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.is_iterable">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">is_iterable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#is_iterable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.is_iterable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines if given item is iterable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -275,8 +287,8 @@ Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.is_listlike">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">is_listlike</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/rolling_pin/tools.html#is_listlike"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.is_listlike" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.is_listlike">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">is_listlike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#is_listlike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.is_listlike" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines if given item is list-like.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -292,8 +304,8 @@ Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.list_all_files">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">list_all_files</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directory</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pathlib.Path<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/tools.html#list_all_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.list_all_files" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.list_all_files">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">list_all_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#list_all_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.list_all_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recursively lists all files within a give directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -309,8 +321,8 @@ Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.nest">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">nest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">flat_dict</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'/'</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/tools.html#nest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.nest" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.nest">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">nest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flat_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'/'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#nest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.nest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a flat dictionary into a nested dictionary by splitting keys by a
 given separator.</p>
 <dl class="field-list simple">
@@ -331,8 +343,8 @@ keys. Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.unembed">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">unembed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="_modules/rolling_pin/tools.html#unembed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.unembed" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.unembed">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">unembed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#unembed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.unembed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert embeded types in dictionary keys into python types.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -348,8 +360,8 @@ keys. Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.tools.write_dot_graph">
-<code class="sig-prename descclassname">rolling_pin.tools.</code><code class="sig-name descname">write_dot_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dot</span><span class="p">:</span> <span class="n">pydot.Dot</span></em>, <em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dot'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/rolling_pin/tools.html#write_dot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.tools.write_dot_graph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.tools.write_dot_graph">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">write_dot_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dot</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pydot.Dot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'dot'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#write_dot_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.write_dot_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes a pydot.Dot object to a given filepath.
 Formats supported: svg, dot, png.</p>
 <dl class="field-list simple">
@@ -374,20 +386,20 @@ Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</p></li>
 <div class="section" id="module-rolling_pin.repo_etl">
 <span id="repo-etl"></span><h1>repo_etl<a class="headerlink" href="#module-rolling_pin.repo_etl" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="rolling_pin.repo_etl.RepoETL">
-<em class="property">class </em><code class="sig-prename descclassname">rolling_pin.repo_etl.</code><code class="sig-name descname">RepoETL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">include_regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.*\\.py$'</span></em>, <em class="sig-param"><span class="n">exclude_regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'(__init__|test_|_test|mock_)\\.py$'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rolling_pin.repo_etl.</span></span><span class="sig-name descname"><span class="pre">RepoETL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.*\\.py$'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'(__init__|test_|_test|mock_)\\.py$'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>RepoETL is a class for extracting 1st order dependencies of modules within a
 given repository. This information is stored internally as a DataFrame and
 can be rendered as networkx, pydot or SVG graphs.</p>
 <dl class="py attribute">
-<dt id="rolling_pin.repo_etl.RepoETL.__dict__">
-<code class="sig-name descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'rolling_pin.repo_etl', '__doc__': '\n    RepoETL is a class for extracting 1st order dependencies of modules within a\n    given repository. This information is stored internally as a DataFrame and\n    can be rendered as networkx, pydot or SVG graphs.\n    ', '__init__': &lt;function RepoETL.__init__&gt;, '_get_imports': &lt;staticmethod object&gt;, '_get_data': &lt;staticmethod object&gt;, '_calculate_coordinates': &lt;staticmethod object&gt;, '_anneal_coordinate': &lt;staticmethod object&gt;, '_center_coordinate': &lt;staticmethod object&gt;, '_to_networkx_graph': &lt;staticmethod object&gt;, 'to_networkx_graph': &lt;function RepoETL.to_networkx_graph&gt;, 'to_dot_graph': &lt;function RepoETL.to_dot_graph&gt;, 'to_dataframe': &lt;function RepoETL.to_dataframe&gt;, 'to_html': &lt;function RepoETL.to_html&gt;, 'write': &lt;function RepoETL.write&gt;, '__dict__': &lt;attribute '__dict__' of 'RepoETL' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'RepoETL' objects&gt;})</em><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__dict__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"> <span class="pre">=</span> <span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rolling_pin.repo_etl',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">RepoETL</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">class</span> <span class="pre">for</span> <span class="pre">extracting</span> <span class="pre">1st</span> <span class="pre">order</span> <span class="pre">dependencies</span> <span class="pre">of</span> <span class="pre">modules</span> <span class="pre">within</span> <span class="pre">a\n</span>&#160;&#160;&#160; <span class="pre">given</span> <span class="pre">repository.</span> <span class="pre">This</span> <span class="pre">information</span> <span class="pre">is</span> <span class="pre">stored</span> <span class="pre">internally</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">DataFrame</span> <span class="pre">and\n</span>&#160;&#160;&#160; <span class="pre">can</span> <span class="pre">be</span> <span class="pre">rendered</span> <span class="pre">as</span> <span class="pre">networkx,</span> <span class="pre">pydot</span> <span class="pre">or</span> <span class="pre">SVG</span> <span class="pre">graphs.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">RepoETL.__init__&gt;,</span> <span class="pre">'_get_imports':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_get_data':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_calculate_coordinates':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_anneal_coordinate':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_center_coordinate':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_to_networkx_graph':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'to_networkx_graph':</span> <span class="pre">&lt;function</span> <span class="pre">RepoETL.to_networkx_graph&gt;,</span> <span class="pre">'to_dot_graph':</span> <span class="pre">&lt;function</span> <span class="pre">RepoETL.to_dot_graph&gt;,</span> <span class="pre">'to_dataframe':</span> <span class="pre">&lt;function</span> <span class="pre">RepoETL.to_dataframe&gt;,</span> <span class="pre">'to_html':</span> <span class="pre">&lt;function</span> <span class="pre">RepoETL.to_html&gt;,</span> <span class="pre">'write':</span> <span class="pre">&lt;function</span> <span class="pre">RepoETL.write&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'RepoETL'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'RepoETL'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{'_root':</span> <span class="pre">'Union[str,</span> <span class="pre">Path]',</span> <span class="pre">'_data':</span> <span class="pre">'DataFrame'}})</span></em><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__dict__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">include_regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.*\\.py$'</span></em>, <em class="sig-param"><span class="n">exclude_regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'(__init__|test_|_test|mock_)\\.py$'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.*\\.py$'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'(__init__|test_|_test|mock_)\\.py$'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct RepoETL instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -406,19 +418,19 @@ directy search. Default: ‘(__init__|test_|_test|mock_).py$’.</p></li>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="rolling_pin.repo_etl.RepoETL.__module__">
-<code class="sig-name descname">__module__</code><em class="property"> = 'rolling_pin.repo_etl'</em><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__module__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'rolling_pin.repo_etl'</span></em><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__module__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="rolling_pin.repo_etl.RepoETL.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL._anneal_coordinate">
-<em class="property">static </em><code class="sig-name descname">_anneal_coordinate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">anneal_axis</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">pin_axis</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'y'</span></em>, <em class="sig-param"><span class="n">iterations</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._anneal_coordinate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._anneal_coordinate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL._anneal_coordinate">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_anneal_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anneal_axis</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_axis</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'y'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._anneal_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._anneal_coordinate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iteratively align nodes in the anneal axis according to the mean
 position of their connected nodes. Node anneal coordinates are rectified
 at the end of each iteration according to a pin axis, so that they do
@@ -446,8 +458,8 @@ Default: 10.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL._calculate_coordinates">
-<em class="property">static </em><code class="sig-name descname">_calculate_coordinates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._calculate_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._calculate_coordinates" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL._calculate_coordinates">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_calculate_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._calculate_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._calculate_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate inital x, y coordinates for each node in given DataFrame.
 Node are startified by type along the y axis.</p>
 <dl class="field-list simple">
@@ -464,8 +476,8 @@ Node are startified by type along the y axis.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL._center_coordinate">
-<em class="property">static </em><code class="sig-name descname">_center_coordinate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">center_axis</span><span class="o">=</span><span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">pin_axis</span><span class="o">=</span><span class="default_value">'y'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._center_coordinate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._center_coordinate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL._center_coordinate">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_center_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'y'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._center_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._center_coordinate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sorted center_axis coordinates at each level of the pin axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -489,8 +501,8 @@ Default: 10.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL._get_data">
-<em class="property">static </em><code class="sig-name descname">_get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">include_regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.*\\.py$'</span></em>, <em class="sig-param"><span class="n">exclude_regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'(__init__|_test)\\.py$'</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._get_data" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL._get_data">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.*\\.py$'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'(__init__|_test)\\.py$'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recursively aggregates and filters all the files found with a given
 directory into a DataFrame. Data is used to create directed graphs.</p>
 <p>DataFrame has these columns:</p>
@@ -531,8 +543,8 @@ directy search. Default: ‘(__init__|_test).py$’.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL._get_imports">
-<em class="property">static </em><code class="sig-name descname">_get_imports</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._get_imports"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._get_imports" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL._get_imports">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_imports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._get_imports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._get_imports" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get’s import statements from a given python module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -548,8 +560,8 @@ directy search. Default: ‘(__init__|_test).py$’.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL._to_networkx_graph">
-<em class="property">static </em><code class="sig-name descname">_to_networkx_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._to_networkx_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._to_networkx_graph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL._to_networkx_graph">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_to_networkx_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._to_networkx_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._to_networkx_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts given DataFrame into networkx directed graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -565,8 +577,8 @@ directy search. Default: ‘(__init__|_test).py$’.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL.to_dataframe">
-<code class="sig-name descname">to_dataframe</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.to_dataframe">
+<span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Retruns:</dt><dd><p>DataFrame: DataFrame of nodes representing repo modules.</p>
 </dd>
@@ -574,8 +586,8 @@ directy search. Default: ‘(__init__|_test).py$’.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL.to_dot_graph">
-<code class="sig-name descname">to_dot_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">orient</span><span class="o">=</span><span class="default_value">'tb'</span></em>, <em class="sig-param"><span class="n">orthogonal_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">color_scheme</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_dot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.to_dot_graph">
+<span class="sig-name descname"><span class="pre">to_dot_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_dot_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts internal data into pydot graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -608,8 +620,8 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL.to_html">
-<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dot'</span></em>, <em class="sig-param"><span class="n">orthogonal_edges</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">color_scheme</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">as_png</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; IPython.core.display.HTML<a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_html" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.to_html">
+<span class="sig-name descname"><span class="pre">to_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'dot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_png</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">IPython.core.display.HTML</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>For use in inline rendering of graph data in Jupyter Lab.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -635,8 +647,8 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL.to_networkx_graph">
-<code class="sig-name descname">to_networkx_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_networkx_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_networkx_graph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.to_networkx_graph">
+<span class="sig-name descname"><span class="pre">to_networkx_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.to_networkx_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.to_networkx_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts internal data into networkx directed graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -649,8 +661,8 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.repo_etl.RepoETL.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dot'</span></em>, <em class="sig-param"><span class="n">orient</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tb'</span></em>, <em class="sig-param"><span class="n">orthogonal_edges</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">color_scheme</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.repo_etl.RepoETL" title="rolling_pin.repo_etl.RepoETL">rolling_pin.repo_etl.RepoETL</a><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.write" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'dot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'tb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.repo_etl.RepoETL" title="rolling_pin.repo_etl.RepoETL"><span class="pre">rolling_pin.repo_etl.RepoETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes internal data to a given filepath.
 Formats supported: svg, dot, png, json.</p>
 <dl class="field-list simple">
@@ -688,24 +700,56 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.write_repo_architecture">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.repo_etl.</span></span><span class="sig-name descname"><span class="pre">write_repo_architecture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'test|mock'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'lr'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#write_repo_architecture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.write_repo_architecture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function for writing a repo architecture graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em><em> or </em><em>Path</em>) – Repo directory.</p></li>
+<li><p><strong>target</strong> (<em>str</em><em> or </em><em>Path</em>) – Target filepath.</p></li>
+<li><p><strong>exclude_regex</strong> (<em>str</em><em>, </em><em>optional</em>) – Exclude files that match this regex pattern.
+Default: ‘test|mock’.</p></li>
+<li><p><strong>orient</strong> (<em>str</em><em>, </em><em>optional</em>) – Graph orientation. Default: lr.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rolling_pin.repo_etl.write_repo_plots_and_tables">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.repo_etl.</span></span><span class="sig-name descname"><span class="pre">write_repo_plots_and_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#write_repo_plots_and_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.write_repo_plots_and_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function for writing repo plot and table files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em><em> or </em><em>Path</em>) – Repo directory.</p></li>
+<li><p><strong>plot_path</strong> (<em>str</em><em> or </em><em>Path</em>) – Plot filepath.</p></li>
+<li><p><strong>table_dir</strong> (<em>str</em><em> or </em><em>Path</em>) – Table parent directory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-rolling_pin.blob_etl">
 <span id="blob-etl"></span><h1>blob_etl<a class="headerlink" href="#module-rolling_pin.blob_etl" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="rolling_pin.blob_etl.BlobETL">
-<em class="property">class </em><code class="sig-prename descclassname">rolling_pin.blob_etl.</code><code class="sig-name descname">BlobETL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">blob</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'/'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rolling_pin.blob_etl.</span></span><span class="sig-name descname"><span class="pre">BlobETL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blob</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'/'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Converts blob data internally into a flat dictionary that is universally
 searchable, editable and convertable back to the data’s original structure,
 new blob structures or dircted graphs.</p>
 <dl class="py attribute">
-<dt id="rolling_pin.blob_etl.BlobETL.__dict__">
-<code class="sig-name descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'rolling_pin.blob_etl', '__doc__': &quot;\n    Converts blob data internally into a flat dictionary that is universally\n    searchable, editable and convertable back to the data's original structure,\n    new blob structures or dircted graphs.\n    &quot;, '__init__': &lt;function BlobETL.__init__&gt;, 'query': &lt;function BlobETL.query&gt;, 'filter': &lt;function BlobETL.filter&gt;, 'delete': &lt;function BlobETL.delete&gt;, 'set': &lt;function BlobETL.set&gt;, 'update': &lt;function BlobETL.update&gt;, 'set_field': &lt;function BlobETL.set_field&gt;, 'to_dict': &lt;function BlobETL.to_dict&gt;, 'to_flat_dict': &lt;function BlobETL.to_flat_dict&gt;, 'to_records': &lt;function BlobETL.to_records&gt;, 'to_dataframe': &lt;function BlobETL.to_dataframe&gt;, 'to_prototype': &lt;function BlobETL.to_prototype&gt;, 'to_networkx_graph': &lt;function BlobETL.to_networkx_graph&gt;, 'to_dot_graph': &lt;function BlobETL.to_dot_graph&gt;, 'to_html': &lt;function BlobETL.to_html&gt;, 'write': &lt;function BlobETL.write&gt;, '__dict__': &lt;attribute '__dict__' of 'BlobETL' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'BlobETL' objects&gt;})</em><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__dict__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"> <span class="pre">=</span> <span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rolling_pin.blob_etl',</span> <span class="pre">'__doc__':</span> <span class="pre">&quot;\n</span>&#160;&#160;&#160; <span class="pre">Converts</span> <span class="pre">blob</span> <span class="pre">data</span> <span class="pre">internally</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">flat</span> <span class="pre">dictionary</span> <span class="pre">that</span> <span class="pre">is</span> <span class="pre">universally\n</span>&#160;&#160;&#160; <span class="pre">searchable,</span> <span class="pre">editable</span> <span class="pre">and</span> <span class="pre">convertable</span> <span class="pre">back</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">data's</span> <span class="pre">original</span> <span class="pre">structure,\n</span>&#160;&#160;&#160; <span class="pre">new</span> <span class="pre">blob</span> <span class="pre">structures</span> <span class="pre">or</span> <span class="pre">dircted</span> <span class="pre">graphs.\n</span>&#160;&#160;&#160; <span class="pre">&quot;,</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.__init__&gt;,</span> <span class="pre">'query':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.query&gt;,</span> <span class="pre">'filter':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.filter&gt;,</span> <span class="pre">'delete':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.delete&gt;,</span> <span class="pre">'set':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.set&gt;,</span> <span class="pre">'update':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.update&gt;,</span> <span class="pre">'set_field':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.set_field&gt;,</span> <span class="pre">'to_dict':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_dict&gt;,</span> <span class="pre">'to_flat_dict':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_flat_dict&gt;,</span> <span class="pre">'to_records':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_records&gt;,</span> <span class="pre">'to_dataframe':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_dataframe&gt;,</span> <span class="pre">'to_prototype':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_prototype&gt;,</span> <span class="pre">'to_networkx_graph':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_networkx_graph&gt;,</span> <span class="pre">'to_dot_graph':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_dot_graph&gt;,</span> <span class="pre">'to_html':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.to_html&gt;,</span> <span class="pre">'write':</span> <span class="pre">&lt;function</span> <span class="pre">BlobETL.write&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'BlobETL'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'BlobETL'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{'_data':</span> <span class="pre">'Dict[str,</span> <span class="pre">Any]',</span> <span class="pre">'_separator':</span> <span class="pre">'str'}})</span></em><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__dict__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">blob</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'/'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blob</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'/'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Contructs BlobETL instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -719,19 +763,19 @@ each key. Default: ‘/’.</p></li>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="rolling_pin.blob_etl.BlobETL.__module__">
-<code class="sig-name descname">__module__</code><em class="property"> = 'rolling_pin.blob_etl'</em><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__module__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'rolling_pin.blob_etl'</span></em><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__module__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="rolling_pin.blob_etl.BlobETL.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.delete">
-<code class="sig-name descname">delete</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predicate</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>Any<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">by</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'key'</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.delete" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'key'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete data items by key, value or key + value, according to a given
 predicate.</p>
 <dl class="field-list simple">
@@ -755,8 +799,8 @@ Options include: key, value, key+value. Default: key.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.filter">
-<code class="sig-name descname">filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predicate</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>Any<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">by</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'key'</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.filter" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'key'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.filter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter data items by key, value or key + value, according to a given
 predicate.</p>
 <dl class="field-list simple">
@@ -780,8 +824,8 @@ Options include: key, value, key+value. Default: key.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.query">
-<code class="sig-name descname">query</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regex</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">ignore_case</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.query" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_case</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter data items by key according to given regular expression.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -801,8 +845,8 @@ regular expression search. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.set">
-<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predicate</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Callable<span class="p">[</span><span class="p">[</span>Any<span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">key_setter</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Callable<span class="p">[</span><span class="p">[</span>Any<span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_setter</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Callable<span class="p">[</span><span class="p">[</span>Any<span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_setter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_setter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter data items by key, value or key + value, according to a given
 predicate. Then set that items key by a given function and value by a
 given function.</p>
@@ -827,8 +871,8 @@ lambda k, v: object. Default: None –&gt; lambda k, v: v.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.set_field">
-<code class="sig-name descname">set_field</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">field_setter</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>str<span class="p">]</span><span class="p">, </span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set_field" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.set_field">
+<span class="sig-name descname"><span class="pre">set_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_setter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.set_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.set_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set’s a field at a given index according to a given function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -847,8 +891,8 @@ lambda k, v: object. Default: None –&gt; lambda k, v: v.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_dataframe">
-<code class="sig-name descname">to_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">group_by</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_dataframe">
+<span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert data to pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -865,8 +909,8 @@ Default: None.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_dict">
-<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dict" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Nested representation of internal data.</p>
@@ -878,8 +922,8 @@ Default: None.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_dot_graph">
-<code class="sig-name descname">to_dot_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">orthogonal_edges</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">orient</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tb'</span></em>, <em class="sig-param"><span class="n">color_scheme</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; pydot.Dot<a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_dot_graph">
+<span class="sig-name descname"><span class="pre">to_dot_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'tb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pydot.Dot</span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_dot_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_dot_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts internal dictionary into pydot graph.
 Key and value nodes and edges are colored differently.</p>
 <dl class="field-list simple">
@@ -913,8 +957,8 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_flat_dict">
-<code class="sig-name descname">to_flat_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_flat_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_flat_dict" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_flat_dict">
+<span class="sig-name descname"><span class="pre">to_flat_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_flat_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_flat_dict" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Flat dictionary with embedded types.</p>
@@ -926,8 +970,8 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_html">
-<code class="sig-name descname">to_html</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dot'</span></em>, <em class="sig-param"><span class="n">orthogonal_edges</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">orient</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tb'</span></em>, <em class="sig-param"><span class="n">color_scheme</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">as_png</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>IPython.core.display.Image<span class="p">, </span>IPython.core.display.HTML<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_html" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_html">
+<span class="sig-name descname"><span class="pre">to_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'dot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'tb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_png</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">IPython.core.display.Image</span><span class="p"><span class="pre">,</span> </span><span class="pre">IPython.core.display.HTML</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>For use in inline rendering of graph data in Jupyter Lab.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -962,8 +1006,8 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_networkx_graph">
-<code class="sig-name descname">to_networkx_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; networkx.classes.digraph.DiGraph<a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_networkx_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_networkx_graph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_networkx_graph">
+<span class="sig-name descname"><span class="pre">to_networkx_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">networkx.classes.digraph.DiGraph</span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_networkx_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_networkx_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts internal dictionary into a networkx directed graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -976,8 +1020,8 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_prototype">
-<code class="sig-name descname">to_prototype</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_prototype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_prototype" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_prototype">
+<span class="sig-name descname"><span class="pre">to_prototype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_prototype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_prototype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert data to prototypical representation.</p>
 <p>Example:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -1024,8 +1068,8 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.to_records">
-<code class="sig-name descname">to_records</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Dict<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_records"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_records" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_records">
+<span class="sig-name descname"><span class="pre">to_records</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_records" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Data in records format.</p>
@@ -1037,8 +1081,8 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>Dict<span class="p">, </span><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.update" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates internal dictionary with given dictionary or BlobETL instance.
 Given dictionary is first flattened with embeded types.</p>
 <dl class="field-list simple">
@@ -1055,8 +1099,8 @@ Given dictionary is first flattened with embeded types.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.blob_etl.BlobETL.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dot'</span></em>, <em class="sig-param"><span class="n">orthogonal_edges</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">orient</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tb'</span></em>, <em class="sig-param"><span class="n">color_scheme</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">rolling_pin.blob_etl.BlobETL</a><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.write" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'dot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'tb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">rolling_pin.blob_etl.BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes internal dictionary to a given filepath.
 Formats supported: svg, dot, png, json.</p>
 <dl class="field-list simple">
@@ -1099,19 +1143,19 @@ Default: rolling_pin.tools.COLOR_SCHEME</p></li>
 <div class="section" id="module-rolling_pin.radon_etl">
 <span id="radon-etl"></span><h1>radon_etl<a class="headerlink" href="#module-rolling_pin.radon_etl" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="rolling_pin.radon_etl.RadonETL">
-<em class="property">class </em><code class="sig-prename descclassname">rolling_pin.radon_etl.</code><code class="sig-name descname">RadonETL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rolling_pin.radon_etl.</span></span><span class="sig-name descname"><span class="pre">RadonETL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Conforms all four radon reports (raw metrics, Halstead, maintainability and
 cyclomatic complexity) into a single DataFrame that can then be plotted.</p>
 <dl class="py attribute">
-<dt id="rolling_pin.radon_etl.RadonETL.__dict__">
-<code class="sig-name descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'rolling_pin.radon_etl', '__doc__': '\n    Conforms all four radon reports (raw metrics, Halstead, maintainability and\n    cyclomatic complexity) into a single DataFrame that can then be plotted.\n    ', '__init__': &lt;function RadonETL.__init__&gt;, 'report': &lt;property object&gt;, 'data': &lt;property object&gt;, 'raw_metrics': &lt;property object&gt;, 'maintainability_index': &lt;property object&gt;, 'cyclomatic_complexity_metrics': &lt;property object&gt;, 'halstead_metrics': &lt;property object&gt;, '_get_radon_data': &lt;function RadonETL._get_radon_data&gt;, '_get_radon_report': &lt;staticmethod object&gt;, '_get_raw_metrics_dataframe': &lt;staticmethod object&gt;, '_get_maintainability_index_dataframe': &lt;staticmethod object&gt;, '_get_cyclomatic_complexity_dataframe': &lt;staticmethod object&gt;, '_get_halstead_dataframe': &lt;staticmethod object&gt;, 'write_plots': &lt;function RadonETL.write_plots&gt;, 'write_tables': &lt;function RadonETL.write_tables&gt;, '__dict__': &lt;attribute '__dict__' of 'RadonETL' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'RadonETL' objects&gt;})</em><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__dict__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"> <span class="pre">=</span> <span class="pre">mappingproxy({'__module__':</span> <span class="pre">'rolling_pin.radon_etl',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Conforms</span> <span class="pre">all</span> <span class="pre">four</span> <span class="pre">radon</span> <span class="pre">reports</span> <span class="pre">(raw</span> <span class="pre">metrics,</span> <span class="pre">Halstead,</span> <span class="pre">maintainability</span> <span class="pre">and\n</span>&#160;&#160;&#160; <span class="pre">cyclomatic</span> <span class="pre">complexity)</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">DataFrame</span> <span class="pre">that</span> <span class="pre">can</span> <span class="pre">then</span> <span class="pre">be</span> <span class="pre">plotted.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">RadonETL.__init__&gt;,</span> <span class="pre">'report':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'data':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'raw_metrics':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'maintainability_index':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'cyclomatic_complexity_metrics':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'halstead_metrics':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'_get_radon_data':</span> <span class="pre">&lt;function</span> <span class="pre">RadonETL._get_radon_data&gt;,</span> <span class="pre">'_get_radon_report':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_get_raw_metrics_dataframe':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_get_maintainability_index_dataframe':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_get_cyclomatic_complexity_dataframe':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'_get_halstead_dataframe':</span> <span class="pre">&lt;staticmethod</span> <span class="pre">object&gt;,</span> <span class="pre">'write_plots':</span> <span class="pre">&lt;function</span> <span class="pre">RadonETL.write_plots&gt;,</span> <span class="pre">'write_tables':</span> <span class="pre">&lt;function</span> <span class="pre">RadonETL.write_tables&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'RadonETL'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'RadonETL'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__dict__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs a RadonETL instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1121,19 +1165,19 @@ cyclomatic complexity) into a single DataFrame that can then be plotted.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="rolling_pin.radon_etl.RadonETL.__module__">
-<code class="sig-name descname">__module__</code><em class="property"> = 'rolling_pin.radon_etl'</em><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__module__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'rolling_pin.radon_etl'</span></em><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__module__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="rolling_pin.radon_etl.RadonETL.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">
-<em class="property">static </em><code class="sig-name descname">_get_cyclomatic_complexity_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">report</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_cyclomatic_complexity_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_cyclomatic_complexity_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_cyclomatic_complexity_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts radon cyclomatic complexity report into a pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1149,8 +1193,8 @@ cyclomatic complexity) into a single DataFrame that can then be plotted.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL._get_halstead_dataframe">
-<em class="property">static </em><code class="sig-name descname">_get_halstead_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">report</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_halstead_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_halstead_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL._get_halstead_dataframe">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_halstead_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_halstead_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_halstead_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts radon Halstead report into a pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1166,8 +1210,8 @@ cyclomatic complexity) into a single DataFrame that can then be plotted.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe">
-<em class="property">static </em><code class="sig-name descname">_get_maintainability_index_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">report</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_maintainability_index_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_maintainability_index_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_maintainability_index_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts radon maintainability index report into a pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1183,8 +1227,8 @@ cyclomatic complexity) into a single DataFrame that can then be plotted.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL._get_radon_data">
-<code class="sig-name descname">_get_radon_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_radon_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_radon_data" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL._get_radon_data">
+<span class="sig-name descname"><span class="pre">_get_radon_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_radon_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_radon_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs a DataFrame representing all the radon reports generated for
 a given python file or directory containing python files.</p>
 <dl class="field-list simple">
@@ -1198,8 +1242,8 @@ a given python file or directory containing python files.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL._get_radon_report">
-<em class="property">static </em><code class="sig-name descname">_get_radon_report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_radon_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_radon_report" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL._get_radon_report">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_radon_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_radon_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_radon_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets all 4 report from radon and aggregates them into a single blob
 object.</p>
 <dl class="field-list simple">
@@ -1216,8 +1260,8 @@ object.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe">
-<em class="property">static </em><code class="sig-name descname">_get_raw_metrics_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">report</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_raw_metrics_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_get_raw_metrics_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL._get_raw_metrics_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts radon raw metrics report into a pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1232,45 +1276,45 @@ object.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics">
-<em class="property">property </em><code class="sig-name descname">cyclomatic_complexity_metrics</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cyclomatic_complexity_metrics</span></span><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame: DataFrame of radon cyclomatic complexity metrics.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.data">
-<em class="property">property </em><code class="sig-name descname">data</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.data" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.data">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame: DataFrame of all radon metrics.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.halstead_metrics">
-<em class="property">property </em><code class="sig-name descname">halstead_metrics</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.halstead_metrics" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.halstead_metrics">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">halstead_metrics</span></span><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.halstead_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame: DataFrame of radon Halstead metrics.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.maintainability_index">
-<em class="property">property </em><code class="sig-name descname">maintainability_index</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.maintainability_index" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.maintainability_index">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">maintainability_index</span></span><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.maintainability_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame: DataFrame of radon maintainability index metrics.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.raw_metrics">
-<em class="property">property </em><code class="sig-name descname">raw_metrics</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.raw_metrics" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.raw_metrics">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">raw_metrics</span></span><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.raw_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame: DataFrame of radon raw metrics.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.report">
-<em class="property">property </em><code class="sig-name descname">report</code><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.report" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.report">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">report</span></span><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.report" title="Permalink to this definition">¶</a></dt>
 <dd><p>dict: Dictionary of all radon metrics.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.write_plots">
-<code class="sig-name descname">write_plots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fullpath</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.radon_etl.RadonETL" title="rolling_pin.radon_etl.RadonETL">rolling_pin.radon_etl.RadonETL</a><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL.write_plots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.write_plots" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.write_plots">
+<span class="sig-name descname"><span class="pre">write_plots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.radon_etl.RadonETL" title="rolling_pin.radon_etl.RadonETL"><span class="pre">rolling_pin.radon_etl.RadonETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL.write_plots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.write_plots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes metrics plots to given file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1286,8 +1330,8 @@ object.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="rolling_pin.radon_etl.RadonETL.write_tables">
-<code class="sig-name descname">write_tables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_dir</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#rolling_pin.radon_etl.RadonETL" title="rolling_pin.radon_etl.RadonETL">rolling_pin.radon_etl.RadonETL</a><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL.write_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.write_tables" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.radon_etl.RadonETL.write_tables">
+<span class="sig-name descname"><span class="pre">write_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.radon_etl.RadonETL" title="rolling_pin.radon_etl.RadonETL"><span class="pre">rolling_pin.radon_etl.RadonETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/radon_etl.html#RadonETL.write_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.radon_etl.RadonETL.write_tables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes metrics tables as HTML files to given directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1308,8 +1352,8 @@ object.</p>
 <div class="section" id="module-rolling_pin.app">
 <span id="app"></span><h1>app<a class="headerlink" href="#module-rolling_pin.app" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="rolling_pin.app.get_svg">
-<code class="sig-prename descclassname">rolling_pin.app.</code><code class="sig-name descname">get_svg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'&lt;required&gt;'</span></em>, <em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dot'</span></em>, <em class="sig-param"><span class="n">orthogonal_edges</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">orient</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'tb'</span></em>, <em class="sig-param"><span class="n">color_scheme</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/rolling_pin/app.html#get_svg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.app.get_svg" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.app.get_svg">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.app.</span></span><span class="sig-name descname"><span class="pre">get_svg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'&lt;required&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'dot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'tb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rolling_pin/app.html#get_svg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.app.get_svg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a SVG string from a given JSON blob.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1344,13 +1388,13 @@ Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.app.index">
-<code class="sig-prename descclassname">rolling_pin.app.</code><code class="sig-name descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="_modules/rolling_pin/app.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.app.index" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.app.index">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.app.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/rolling_pin/app.html#index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.app.index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="rolling_pin.app.to_svg">
-<code class="sig-prename descclassname">rolling_pin.app.</code><code class="sig-name descname">to_svg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/app.html#to_svg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rolling_pin.app.to_svg" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rolling_pin.app.to_svg">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.app.</span></span><span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">flask.wrappers.Response</span></span></span><a class="reference internal" href="_modules/rolling_pin/app.html#to_svg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.app.to_svg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Endpoint for converting a given JSON blob into a SVG graph.</p>
 </dd></dl>
 
@@ -1361,37 +1405,29 @@ Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</p></li>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="cli.html" class="btn btn-neutral float-right" title="cli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="cli.html" class="btn btn-neutral float-right" title="cli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
+        &#169; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

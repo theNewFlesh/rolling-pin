@@ -1,13 +1,16 @@
-.. rolling-pin documentation master file, created by
-   sphinx-quickstart on Mon Oct 21 19:41:32 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. rolling-pin documentation master file
 
-Welcome to rolling-pin's documentation!
-==========================================
+Welcome to rolling-pin' documentation!
+==================================
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Documentation
+
+   intro
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Python API
 
    modules
 
