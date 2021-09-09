@@ -1,16 +1,17 @@
 from typing import Any, Dict, Iterator, List, Optional, Union
-from IPython.display import HTML
 
-import os
-import re
 from itertools import chain
 from pathlib import Path
+import os
+import re
 
-import lunchbox.tools as lbt
-import numpy as np
+from IPython.display import HTML
 from pandas import DataFrame, Series
-
+import lunchbox.tools as lbt
 import networkx
+import numpy as np
+
+from rolling_pin.radon_etl import RadonETL
 import rolling_pin.tools as tools
 # ------------------------------------------------------------------------------
 
@@ -107,6 +108,7 @@ class RepoETL():
         Returns:
             DataFrame: DataFrame of file information.
         '''
+        root = Path(root).as_posix()
         files = tools.list_all_files(root)  # type: Union[Iterator, List]
         if include_regex != '':
             if not include_regex.endswith(r'\.py$'):
@@ -568,3 +570,44 @@ class RepoETL():
             msg += 'Valid extensions include: svg, dot, png, json.'
             raise ValueError(msg)
         return self
+# ------------------------------------------------------------------------------
+
+
+def write_repo_architecture(
+    source, target, exclude_regex='test|mock', orient='lr'
+):
+    # type: (Union[str, Path], Union[str, Path], str, str) -> None
+    '''
+    Convenience function for writing a repo architecture graph.
+
+    Args:
+        source (str or Path): Repo directory.
+        target (str or Path): Target filepath.
+        exclude_regex (str, optional): Exclude files that match this regex pattern.
+            Default: 'test|mock'.
+        orient (str, optional): Graph orientation. Default: lr.
+    '''
+    etl = RepoETL(source)
+    data = etl._data.copy()
+    func = lambda x: not bool(re.search(exclude_regex, x))
+    mask = data.node_name.apply(func)
+    data = data[mask]
+    data.reset_index(inplace=True, drop=True)
+    data.dependencies = data.dependencies.apply(lambda x: list(filter(func, x)))
+    etl._data = data
+    etl.write(target, orient=orient)
+
+
+def write_repo_plots_and_tables(source, plot_path, table_dir):
+    # type: (Union[str, Path], Union[str, Path], Union[str, Path]) -> None
+    '''
+    Convenience function for writing repo plot and table files.
+
+    Args:
+        source (str or Path): Repo directory.
+        plot_path (str or Path): Plot filepath.
+        table_dir (str or Path): Table parent directory.
+    '''
+    etl = RadonETL(source)
+    etl.write_plots(plot_path)
+    etl.write_tables(table_dir)

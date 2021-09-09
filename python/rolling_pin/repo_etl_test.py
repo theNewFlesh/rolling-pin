@@ -1,14 +1,15 @@
-import os
-import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import os
+import unittest
 
-import IPython
-import numpy as np
 from pandas import DataFrame
+import IPython
+import lunchbox.tools as lbt
+import numpy as np
 import pytest
 
-from rolling_pin.repo_etl import RepoETL
+import rolling_pin.repo_etl as rpo
 # ------------------------------------------------------------------------------
 
 
@@ -73,40 +74,40 @@ class RepoEtlTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             expected = f'No files found after filters in directory: {root}.'
             with self.assertRaisesRegex(FileNotFoundError, expected):
-                RepoETL(root)
+                rpo.RepoETL(root)
 
             expected = f'No files found after filters in directory: {root}.'
             with self.assertRaisesRegex(FileNotFoundError, expected):
-                RepoETL(root, include_regex=r'foobar\.py$')
+                rpo.RepoETL(root, include_regex=r'foobar\.py$')
 
             expected = f'No files found after filters in directory: {root}.'
             with self.assertRaisesRegex(FileNotFoundError, expected):
-                RepoETL(root, exclude_regex='.*')
+                rpo.RepoETL(root, exclude_regex='.*')
 
             self.create_repo(root)
-            RepoETL(root)
+            rpo.RepoETL(root)
 
     def test_get_imports(self):
         with TemporaryDirectory() as root:
             self.create_repo(root)
 
             module = Path(root, 'a1/b1/m2_test.py')
-            result = RepoETL._get_imports(module)
+            result = rpo.RepoETL._get_imports(module)
             self.assertEqual(result, ['root.a1.b1.m2', 'pytest'])
 
             module = Path(root, 'a1/m1.py')
-            result = RepoETL._get_imports(module)
+            result = rpo.RepoETL._get_imports(module)
             self.assertEqual(result, ['m0', 'm2', 'm3'])
 
     def test_get_data(self):
         with TemporaryDirectory() as root:
             self.create_repo(root)
             with pytest.raises(ValueError) as e:
-                RepoETL._get_data(root, include_regex='foo')
+                rpo.RepoETL._get_data(Path(root), include_regex='foo')
             expected = "Invalid include_regex: 'foo'. Does not end in '.py$'."
             self.assertEqual(str(e.value), expected)
 
-            result = RepoETL._get_data(root)
+            result = rpo.RepoETL._get_data(root)
             expected = self.get_repo_data(root)
             cols = expected.columns.tolist()
             for i, row in expected.iterrows():
@@ -117,7 +118,7 @@ class RepoEtlTests(unittest.TestCase):
 
     def test_calculate_coordinates(self):
         data = self.get_repo_data('/tmp/foo')
-        result = RepoETL._calculate_coordinates(data)
+        result = rpo.RepoETL._calculate_coordinates(data)
 
         # ensure y axis is stratified according to node type
         mod = result[result.node_type == 'module']
@@ -133,10 +134,10 @@ class RepoEtlTests(unittest.TestCase):
 
     def test_anneal_coordinate(self):
         data = self.get_repo_data('/tmp/foo')
-        data = RepoETL._calculate_coordinates(data)
+        data = rpo.RepoETL._calculate_coordinates(data)
         data.sort_values('node_name', inplace=True)
         expected = data.y.tolist()
-        result = RepoETL._anneal_coordinate(
+        result = rpo.RepoETL._anneal_coordinate(
             data,
             anneal_axis='x',
             pin_axis='y',
@@ -163,14 +164,14 @@ class RepoEtlTests(unittest.TestCase):
                     [1, 2], [2, 2], [3, 2],         # noqa E126
         ]
         expected = DataFrame(expected, columns=list('xy'))
-        result = RepoETL._center_coordinate(data, center_axis='x', pin_axis='y')
+        result = rpo.RepoETL._center_coordinate(data, center_axis='x', pin_axis='y')
         self.assertEqual(result.x.tolist(), expected.x.tolist())
         self.assertEqual(result.y.tolist(), expected.y.tolist())
 
     def test_to_networkx_graph(self):
         with TemporaryDirectory() as root:
             self.create_repo(root)
-            repo = RepoETL(root)
+            repo = rpo.RepoETL(root)
             data = repo._data
             graph = repo.to_networkx_graph()
 
@@ -197,7 +198,7 @@ class RepoEtlTests(unittest.TestCase):
             self.create_repo(root)
 
             with pytest.raises(ValueError) as e:
-                RepoETL(root).to_dot_graph(orient='foo')
+                rpo.RepoETL(root).to_dot_graph(orient='foo')
             expected = "Invalid orient value. foo not in ['tb', 'bt', 'lr', 'rl']."
             self.assertEqual(str(e.value), expected)
 
@@ -216,7 +217,7 @@ class RepoEtlTests(unittest.TestCase):
         )
         with TemporaryDirectory() as root:
             self.create_repo(root)
-            repo = RepoETL(root)
+            repo = rpo.RepoETL(root)
 
             result = repo.to_dot_graph(orthogonal_edges=True)
             self.assertEqual(result.get_splines(), 'ortho')
@@ -270,21 +271,21 @@ class RepoEtlTests(unittest.TestCase):
     def test_to_dataframe(self):
         with TemporaryDirectory() as root:
             self.create_repo(root)
-            repo = RepoETL(root)
+            repo = rpo.RepoETL(root)
             result = repo.to_dataframe()
             self.assertIsNot(result, repo._data)
 
     def test_to_html(self):
         with TemporaryDirectory() as root:
             self.create_repo(root)
-            repo = RepoETL(root)
+            repo = rpo.RepoETL(root)
             result = repo.to_html()
             self.assertIsInstance(result, IPython.display.HTML)
 
     def test_write(self):
         with TemporaryDirectory() as root:
             self.create_repo(root)
-            repo = RepoETL(root)
+            repo = rpo.RepoETL(root)
 
             result = Path(root, 'foo.svg')
             repo.write(result)
@@ -348,3 +349,38 @@ class RepoEtlTests(unittest.TestCase):
         data.sort_values('fullpath', inplace=True)
         data.reset_index(drop=True, inplace=True)
         return data
+# ------------------------------------------------------------------------------
+
+
+class RepoEtlFuncTests(unittest.TestCase):
+    def get_fake_repo(self):
+        if 'REPO_ENV' in os.environ.keys():
+            return lbt.relative_path(__file__, '../../resources/fake_repo')
+        return lbt.relative_path(__file__, '../resources/fake_repo')
+
+    def test_write_repo_plots_and_tables(self):
+        with TemporaryDirectory() as root:
+            repo = self.get_fake_repo()
+            tables = Path(root, 'tables')
+            os.makedirs(tables)
+            plot = Path(root, 'plot.html')
+
+            # write plots
+            rpo.write_repo_plots_and_tables(repo, plot, tables)
+            result = sorted(os.listdir(tables))
+            expected = [
+                'all_metrics.html',
+                'cyclomatic_complexity_metrics.html',
+                'halstead_metrics.html',
+                'maintainability_metrics.html',
+                'raw_metrics.html',
+            ]
+            self.assertEqual(result, expected)
+            self.assertTrue(plot.is_file())
+
+    def test_write_repo_architecture(self):
+        with TemporaryDirectory() as root:
+            source = self.get_fake_repo()
+            target = Path(root, 'architecture.svg')
+            rpo.write_repo_architecture(source, target)
+            self.assertTrue(target.is_file())
