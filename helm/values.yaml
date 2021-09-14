@@ -1,10 +1,8 @@
 namespace: rolling-pin
 
-organization: k8s
-
 container:
-  image: k3d-dev-registry:5000/rolling-pin
-  tag: dev
+  image: rolling-pin
+  tag: latest
   repo: /mnt/repos/rolling-pin
   storage_volume: /mnt/storage
   port: 8080
@@ -12,7 +10,7 @@ container:
   command:
     [
       "python3.7",
-      "/home/ubuntu/rolling-pin/python/rolling-pin/server/app.py",
+      "/home/ubuntu/rolling-pin/python/rolling_pin/server/app.py",
     ]
   env:
     - name: REPO_ENV
@@ -20,6 +18,3 @@ container:
 
 service:
   port: 80
-
-ingress:
-  path: /rolling-pin
