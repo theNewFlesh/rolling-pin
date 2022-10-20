@@ -315,7 +315,7 @@ class RadonETL():
         ]  # type: Any
 
         cc = report['cyclomatic_complexity']
-        data = DataFrame()
+        rows = []
         for i, j, type_, regex in filters:
             temp = BlobETL(cc, '#').query(regex)  # type: DataFrame
             if len(temp.to_flat_dict().keys()) > 0:
@@ -327,7 +327,8 @@ class RadonETL():
                 item['fullpath'] = temp[0]
                 if type_ is not None:
                     item.type = type_
-                data = data.append(item, ignore_index=True, sort=False)
+                rows.append(item)
+        data = pd.concat(rows, ignore_index=True, sort=False)
 
         cols = [
             'fullpath', 'name', 'classname', 'type', 'complexity', 'rank',
@@ -392,7 +393,7 @@ class RadonETL():
         total['object_type'] = 'module'
         total['name'] = total.fullpath\
             .apply(lambda x: os.path.splitext((Path(x).name))[0])
-        data = data.append(total, sort=False)
+        data = pd.concat([data, total], ignore_index=True, sort=False)
 
         cols = ['fullpath', 'name', 'object_type']
         cols.extend(keys)
