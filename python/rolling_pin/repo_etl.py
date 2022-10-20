@@ -10,6 +10,7 @@ from pandas import DataFrame, Series
 import lunchbox.tools as lbt
 import networkx
 import numpy as np
+import pandas as pd
 
 from rolling_pin.radon_etl import RadonETL
 import rolling_pin.tools as tools
@@ -169,7 +170,7 @@ class RepoETL():
                     subpackages=tools.get_parent_fields(x, '.'),
                 )).tolist()
         pkgs = DataFrame(pkgs)
-        data = data.append(pkgs, ignore_index=True, sort=True)
+        data = pd.concat([data, pkgs], ignore_index=True, sort=True)
 
         # add library dependencies as nodes
         libs = set(chain(*data.dependencies.tolist()))  # type: Any
@@ -184,7 +185,7 @@ class RepoETL():
                     subpackages=[],
                 )).tolist()
         libs = DataFrame(libs)
-        data = data.append(libs, ignore_index=True, sort=True)
+        data = pd.concat([data, libs], ignore_index=True, sort=True)
 
         data.drop_duplicates('node_name', inplace=True)
         data.reset_index(drop=True, inplace=True)
