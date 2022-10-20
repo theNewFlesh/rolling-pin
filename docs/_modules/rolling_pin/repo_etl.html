@@ -1,71 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.repo_etl &mdash; rolling-pin  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> rolling-pin
-          
-
-          
+            <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
-
-          
-            
-            
               <div class="version">
-                0.4.1
+                0.4.4
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -73,19 +37,13 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Rolling-Pin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#utils">utils</a></li>
@@ -96,81 +54,46 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">rolling-pin</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-        
       <li>rolling_pin.repo_etl</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for rolling_pin.repo_etl</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
-<span class="kn">import</span> <span class="nn">lunchbox.tools</span> <span class="k">as</span> <span class="nn">lbt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
-
+<span class="kn">import</span> <span class="nn">lunchbox.tools</span> <span class="k">as</span> <span class="nn">lbt</span>
 <span class="kn">import</span> <span class="nn">networkx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">rolling_pin.radon_etl</span> <span class="kn">import</span> <span class="n">RadonETL</span>
 <span class="kn">import</span> <span class="nn">rolling_pin.tools</span> <span class="k">as</span> <span class="nn">tools</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
@@ -267,6 +190,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            DataFrame: DataFrame of file information.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
         <span class="n">files</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">list_all_files</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>  <span class="c1"># type: Union[Iterator, List]</span>
         <span class="k">if</span> <span class="n">include_regex</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">include_regex</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\.py$&#39;</span><span class="p">):</span>
@@ -327,7 +251,7 @@
                     <span class="n">subpackages</span><span class="o">=</span><span class="n">tools</span><span class="o">.</span><span class="n">get_parent_fields</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">),</span>
                 <span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">pkgs</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">pkgs</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pkgs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">pkgs</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># add library dependencies as nodes</span>
         <span class="n">libs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>  <span class="c1"># type: Any</span>
@@ -342,7 +266,7 @@
                     <span class="n">subpackages</span><span class="o">=</span><span class="p">[],</span>
                 <span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">libs</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">libs</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">libs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">libs</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s1">&#39;node_name&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -728,52 +652,74 @@
             <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;Valid extensions include: svg, dot, png, json.&#39;</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div></div>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="write_repo_architecture"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.write_repo_architecture">[docs]</a><span class="k">def</span> <span class="nf">write_repo_architecture</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="o">=</span><span class="s1">&#39;test|mock&#39;</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;lr&#39;</span>
+<span class="p">):</span>
+    <span class="c1"># type: (Union[str, Path], Union[str, Path], str, str) -&gt; None</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convenience function for writing a repo architecture graph.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source (str or Path): Repo directory.</span>
+<span class="sd">        target (str or Path): Target filepath.</span>
+<span class="sd">        exclude_regex (str, optional): Exclude files that match this regex pattern.</span>
+<span class="sd">            Default: &#39;test|mock&#39;.</span>
+<span class="sd">        orient (str, optional): Graph orientation. Default: lr.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">etl</span> <span class="o">=</span> <span class="n">RepoETL</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">etl</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">exclude_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">node_name</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+    <span class="n">etl</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">etl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_repo_plots_and_tables"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.write_repo_plots_and_tables">[docs]</a><span class="k">def</span> <span class="nf">write_repo_plots_and_tables</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">plot_path</span><span class="p">,</span> <span class="n">table_dir</span><span class="p">):</span>
+    <span class="c1"># type: (Union[str, Path], Union[str, Path], Union[str, Path]) -&gt; None</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convenience function for writing repo plot and table files.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source (str or Path): Repo directory.</span>
+<span class="sd">        plot_path (str or Path): Plot filepath.</span>
+<span class="sd">        table_dir (str or Path): Table parent directory.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">etl</span> <span class="o">=</span> <span class="n">RadonETL</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="n">etl</span><span class="o">.</span><span class="n">write_plots</span><span class="p">(</span><span class="n">plot_path</span><span class="p">)</span>
+    <span class="n">etl</span><span class="o">.</span><span class="n">write_tables</span><span class="p">(</span><span class="n">table_dir</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;
-
-    </p>
+    <p>&#169; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
