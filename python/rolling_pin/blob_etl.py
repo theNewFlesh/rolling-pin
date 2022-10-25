@@ -39,7 +39,7 @@ class BlobETL():
             separator (str, optional): String to be used as a field separator in
                 each key. Default: '/'.
         '''
-        self._data = tools \
+        self._data = rpt \
             .flatten(blob, separator=separator, embed_types=True)  # type: Dict[str, Any]
         self._separator = separator  # type: str
 
