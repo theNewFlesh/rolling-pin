@@ -324,8 +324,7 @@ def copy_file(source, target):
         AssertionError: If source is not a file.
     '''
     assert Path(source).is_file()
-    parent = Path(target).parent
-    os.makedirs(parent, exist_ok=True)
+    os.makedirs(Path(target).parent, exist_ok=True)
     shutil.copy2(source, target)
 
 
@@ -343,8 +342,7 @@ def move_file(source, target):
     '''
     src = Path(source).as_posix()
     assert Path(src).is_file()
-    parent = Path(target).parent
-    os.makedirs(parent, exist_ok=True)
+    os.makedirs(Path(target).parent, exist_ok=True)
     shutil.move(src, target)
 
 
