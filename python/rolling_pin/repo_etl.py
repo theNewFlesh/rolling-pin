@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 
 from rolling_pin.radon_etl import RadonETL
-import rolling_pin.tools as tools
+import rolling_pin.tools as rpt
 # ------------------------------------------------------------------------------
 
 '''
@@ -110,7 +110,7 @@ class RepoETL():
             DataFrame: DataFrame of file information.
         '''
         root = Path(root).as_posix()
-        files = tools.list_all_files(root)  # type: Union[Iterator, List]
+        files = rpt.list_all_files(root)  # type: Union[Iterator, List]
         if include_regex != '':
             if not include_regex.endswith(r'\.py$'):
                 msg = f"Invalid include_regex: '{include_regex}'. "
@@ -144,7 +144,7 @@ class RepoETL():
             .apply(lambda x: re.sub('/', '.', x))
 
         data['subpackages'] = data.node_name\
-            .apply(lambda x: tools.get_parent_fields(x, '.')).apply(lbt.get_ordered_unique)
+            .apply(lambda x: rpt.get_parent_fields(x, '.')).apply(lbt.get_ordered_unique)
         data.subpackages = data.subpackages\
             .apply(lambda x: list(filter(lambda y: y != '', x)))
 
@@ -166,8 +166,8 @@ class RepoETL():
                 lambda x: dict(
                     node_name=x,
                     node_type='subpackage',
-                    dependencies=tools.get_parent_fields(x, '.'),
-                    subpackages=tools.get_parent_fields(x, '.'),
+                    dependencies=rpt.get_parent_fields(x, '.'),
+                    subpackages=rpt.get_parent_fields(x, '.'),
                 )).tolist()
         pkgs = DataFrame(pkgs)
         data = pd.concat([data, pkgs], ignore_index=True, sort=True)
@@ -402,7 +402,7 @@ class RepoETL():
 
         # set color scheme of graph
         if color_scheme is None:
-            color_scheme = tools.COLOR_SCHEME
+            color_scheme = rpt.COLOR_SCHEME
 
         # create dot graph
         graph = self.to_networkx_graph()
@@ -504,13 +504,13 @@ class RepoETL():
             IPython.display.HTML: HTML object for inline display.
         '''
         if color_scheme is None:
-            color_scheme = tools.COLOR_SCHEME
+            color_scheme = rpt.COLOR_SCHEME
 
         dot = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
             color_scheme=color_scheme,
         )
-        return tools.dot_to_html(dot, layout=layout, as_png=as_png)
+        return rpt.dot_to_html(dot, layout=layout, as_png=as_png)
 
     def write(
         self,
@@ -557,7 +557,7 @@ class RepoETL():
             return self
 
         if color_scheme is None:
-            color_scheme = tools.COLOR_SCHEME
+            color_scheme = rpt.COLOR_SCHEME
 
         graph = self.to_dot_graph(
             orient=orient,
@@ -565,7 +565,7 @@ class RepoETL():
             color_scheme=color_scheme,
         )
         try:
-            tools.write_dot_graph(graph, fullpath, layout=layout,)
+            rpt.write_dot_graph(graph, fullpath, layout=layout,)
         except ValueError:
             msg = f'Invalid extension found: {ext}. '
             msg += 'Valid extensions include: svg, dot, png, json.'

@@ -14,7 +14,7 @@ from radon.cli import Config
 from radon.cli import CCHarvester, HCHarvester, MIHarvester, RawHarvester
 
 from rolling_pin.blob_etl import BlobETL
-import rolling_pin.tools as tools
+import rolling_pin.tools as rpt
 # ------------------------------------------------------------------------------
 
 '''
@@ -438,7 +438,7 @@ class RadonETL():
 
         params = dict(
             theme='henanigans',
-            colors=tools.COLOR_SCALE,
+            colors=rpt.COLOR_SCALE,
             dimensions=(900, 900),
             asFigure=True,
         )

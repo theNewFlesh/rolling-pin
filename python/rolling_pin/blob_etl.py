@@ -13,7 +13,7 @@ import lunchbox.tools as lbt
 from pandas import DataFrame
 import networkx
 
-import rolling_pin.tools as tools
+import rolling_pin.tools as rpt
 # ------------------------------------------------------------------------------
 
 '''
@@ -194,7 +194,7 @@ class BlobETL():
         '''
         if isinstance(item, BlobETL):
             item = item._data
-        temp = tools.flatten(item, separator=self._separator, embed_types=True)
+        temp = rpt.flatten(item, separator=self._separator, embed_types=True)
         data = deepcopy(self._data)
         data.update(temp)
         return BlobETL(data, separator=self._separator)
@@ -226,8 +226,8 @@ class BlobETL():
         Returns:
             dict: Nested representation of internal data.
         '''
-        return tools.unembed(
-            tools.nest(deepcopy(self._data), separator=self._separator)
+        return rpt.unembed(
+            rpt.nest(deepcopy(self._data), separator=self._separator)
         )
 
     def to_flat_dict(self):
@@ -411,7 +411,7 @@ class BlobETL():
                     )
                     graph.add_edge(k, v)
 
-        recurse(tools.nest(self._data, self._separator), 'root')
+        recurse(rpt.nest(self._data, self._separator), 'root')
         graph.remove_node('root')
         return graph
 
@@ -450,7 +450,7 @@ class BlobETL():
 
         # set default colort scheme
         if color_scheme is None:
-            color_scheme = tools.COLOR_SCHEME
+            color_scheme = rpt.COLOR_SCHEME
 
         # create pydot graph
         graph = self.to_networkx_graph()
@@ -532,14 +532,14 @@ class BlobETL():
             IPython.display.HTML: HTML object for inline display.
         '''
         if color_scheme is None:
-            color_scheme = tools.COLOR_SCHEME
+            color_scheme = rpt.COLOR_SCHEME
 
         dot = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
             orient=orient,
             color_scheme=color_scheme,
         )
-        return tools.dot_to_html(dot, layout=layout, as_png=as_png)
+        return rpt.dot_to_html(dot, layout=layout, as_png=as_png)
 
     def write(
         self,
@@ -588,7 +588,7 @@ class BlobETL():
             return self
 
         if color_scheme is None:
-            color_scheme = tools.COLOR_SCHEME
+            color_scheme = rpt.COLOR_SCHEME
 
         graph = self.to_dot_graph(
             orthogonal_edges=orthogonal_edges,
@@ -596,7 +596,7 @@ class BlobETL():
             color_scheme=color_scheme,
         )
         try:
-            tools.write_dot_graph(graph, fullpath, layout=layout,)
+            rpt.write_dot_graph(graph, fullpath, layout=layout,)
         except ValueError:
             msg = f'Invalid extension found: {ext}. '
             msg += 'Valid extensions include: svg, dot, png, json.'

@@ -11,7 +11,7 @@ import IPython
 import pytest
 import numpy as np
 
-import rolling_pin.tools as tools
+import rolling_pin.tools as rpt
 from rolling_pin.blob_etl import BlobETL
 # ------------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ class BlobEtlTests(unittest.TestCase):
         result = BlobETL(blob)._data
         self.assertEqual(
             result,
-            tools.flatten(blob, embed_types=True)
+            rpt.flatten(blob, embed_types=True)
         )
 
         sep = '~'
@@ -75,7 +75,7 @@ class BlobEtlTests(unittest.TestCase):
         result = BlobETL(blob, separator=sep)._data
         self.assertEqual(
             result,
-            tools.flatten(blob, separator=sep, embed_types=True)
+            rpt.flatten(blob, separator=sep, embed_types=True)
         )
 
     def test_query(self):
@@ -95,7 +95,7 @@ class BlobEtlTests(unittest.TestCase):
 
     def test_to_flat_dict(self):
         blob = self.get_complex_blob()
-        expected = tools.flatten(blob, embed_types=True)
+        expected = rpt.flatten(blob, embed_types=True)
         result = BlobETL(blob).to_flat_dict()
         self.assertEqual(result, expected)
 
@@ -252,7 +252,7 @@ class BlobEtlTests(unittest.TestCase):
             etl.delete(lambda x: x, by='foo')
 
         result = etl.delete(lambda x: re.search('c1', x), by='key')._data
-        expected = tools.flatten(deepcopy(blob))
+        expected = rpt.flatten(deepcopy(blob))
         del expected['a0/b0/c1']
         self.assertEqual(result, expected)
 
@@ -268,7 +268,7 @@ class BlobEtlTests(unittest.TestCase):
             .delete(lambda x: re.search('b0', x), by='key')\
             .delete(lambda x: x == 'v1', by='value')\
             ._data
-        expected = tools.flatten(deepcopy(blob))
+        expected = rpt.flatten(deepcopy(blob))
         del expected['a0/b0/c0']
         del expected['a0/b0/c1']
         self.assertEqual(result, expected)

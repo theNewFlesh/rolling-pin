@@ -9,7 +9,7 @@ from pandas import DataFrame
 import pydot
 import pytest
 
-import rolling_pin.tools as tools
+import rolling_pin.tools as rpt
 # ------------------------------------------------------------------------------
 
 
@@ -75,53 +75,53 @@ class ToolsTests(unittest.TestCase):
 
     # GENERAL-------------------------------------------------------------------
     def test_is_iterable(self):
-        self.assertTrue(tools.is_iterable({}))
-        self.assertTrue(tools.is_iterable(OrderedDict({})))
-        self.assertTrue(tools.is_iterable([]))
-        self.assertTrue(tools.is_iterable(set()))
-        self.assertTrue(tools.is_iterable(tuple()))
+        self.assertTrue(rpt.is_iterable({}))
+        self.assertTrue(rpt.is_iterable(OrderedDict({})))
+        self.assertTrue(rpt.is_iterable([]))
+        self.assertTrue(rpt.is_iterable(set()))
+        self.assertTrue(rpt.is_iterable(tuple()))
 
-        self.assertTrue(tools.is_iterable([
+        self.assertTrue(rpt.is_iterable([
             ('k0', 'v0'),
             ('k1', 'v1'),
         ]))
-        self.assertFalse(tools.is_iterable(
+        self.assertFalse(rpt.is_iterable(
             json.dumps({'a': 'b'})
         ))
-        self.assertFalse(tools.is_iterable('foo'))
+        self.assertFalse(rpt.is_iterable('foo'))
 
     # PREDICATE-FUNCTIONS-------------------------------------------------------
     def test_is_dictlike(self):
-        self.assertTrue(tools.is_dictlike({}))
-        self.assertTrue(tools.is_dictlike(OrderedDict({})))
+        self.assertTrue(rpt.is_dictlike({}))
+        self.assertTrue(rpt.is_dictlike(OrderedDict({})))
 
-        self.assertFalse(tools.is_dictlike(
+        self.assertFalse(rpt.is_dictlike(
             json.dumps({'a': 'b'})
         ))
-        self.assertFalse(tools.is_dictlike([
+        self.assertFalse(rpt.is_dictlike([
             ('k0', 'v0'),
             ('k1', 'v1'),
         ]))
-        self.assertFalse(tools.is_dictlike([]))
-        self.assertFalse(tools.is_dictlike(set()))
-        self.assertFalse(tools.is_dictlike(tuple()))
-        self.assertFalse(tools.is_dictlike('foo'))
+        self.assertFalse(rpt.is_dictlike([]))
+        self.assertFalse(rpt.is_dictlike(set()))
+        self.assertFalse(rpt.is_dictlike(tuple()))
+        self.assertFalse(rpt.is_dictlike('foo'))
 
     def test_is_listlike(self):
-        self.assertTrue(tools.is_listlike([]))
-        self.assertTrue(tools.is_listlike(set()))
-        self.assertTrue(tools.is_listlike(tuple()))
-        self.assertTrue(tools.is_listlike([
+        self.assertTrue(rpt.is_listlike([]))
+        self.assertTrue(rpt.is_listlike(set()))
+        self.assertTrue(rpt.is_listlike(tuple()))
+        self.assertTrue(rpt.is_listlike([
             ('k0', 'v0'),
             ('k1', 'v1'),
         ]))
 
-        self.assertFalse(tools.is_listlike({}))
-        self.assertFalse(tools.is_listlike(OrderedDict({})))
-        self.assertFalse(tools.is_listlike(
+        self.assertFalse(rpt.is_listlike({}))
+        self.assertFalse(rpt.is_listlike(OrderedDict({})))
+        self.assertFalse(rpt.is_listlike(
             json.dumps({'a': 'b'})
         ))
-        self.assertFalse(tools.is_listlike('foo'))
+        self.assertFalse(rpt.is_listlike('foo'))
 
     # FLATTEN-------------------------------------------------------------------
     def test_flatten_simple(self):
@@ -131,7 +131,7 @@ class ToolsTests(unittest.TestCase):
             'a0/b0/c1': 'a0/b0/c1/value',
             'a0/b1/c0': 'a0/b1/c0/value',
         }
-        result = tools.flatten(data)
+        result = rpt.flatten(data)
         self.assertEqual(result, expected)
 
     def test_flatten_simple_separator(self):
@@ -141,7 +141,7 @@ class ToolsTests(unittest.TestCase):
             'a0_b0_c1': 'a0/b0/c1/value',
             'a0_b1_c0': 'a0/b1/c0/value',
         }
-        result = tools.flatten(blob, separator='_')
+        result = rpt.flatten(blob, separator='_')
         self.assertEqual(result, expected)
 
     def test_flatten_complex(self):
@@ -156,7 +156,7 @@ class ToolsTests(unittest.TestCase):
             'a0/b1/<list_1>/c3/d0/<list_1>/<tuple_0>': 'a0/b1/c3/d0/value0',
             'a0/b1/<list_1>/c3/d0/<list_1>/<tuple_1>': 'a0/b1/c3/d0/value1',
         }
-        result = tools.flatten(blob, embed_types=True)
+        result = rpt.flatten(blob, embed_types=True)
         self.assertEqual(result, expected)
 
     def test_flatten_complex_separator(self):
@@ -171,7 +171,7 @@ class ToolsTests(unittest.TestCase):
             'a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_0>': 'a0/b1/c3/d0/value0',
             'a0=>b1=><list_1>=>c3=>d0=><list_1>=><tuple_1>': 'a0/b1/c3/d0/value1',
         }
-        result = tools.flatten(blob, separator='=>')
+        result = rpt.flatten(blob, separator='=>')
         self.assertEqual(result, expected)
 
     def test_flatten_complex_no_embed(self):
@@ -186,7 +186,7 @@ class ToolsTests(unittest.TestCase):
             'a0/b1/1/c3/d0/1/0': 'a0/b1/c3/d0/value0',
             'a0/b1/1/c3/d0/1/1': 'a0/b1/c3/d0/value1',
         }
-        result = tools.flatten(blob, embed_types=False)
+        result = rpt.flatten(blob, embed_types=False)
         self.assertEqual(result, expected)
 
     def test_flatten_complex_separator_no_embed(self):
@@ -201,7 +201,7 @@ class ToolsTests(unittest.TestCase):
             'a0=>b1=>1=>c3=>d0=>1=>0': 'a0/b1/c3/d0/value0',
             'a0=>b1=>1=>c3=>d0=>1=>1': 'a0/b1/c3/d0/value1',
         }
-        result = tools.flatten(blob, separator='=>', embed_types=False)
+        result = rpt.flatten(blob, separator='=>', embed_types=False)
         self.assertEqual(result, expected)
 
     def test_flatten_double(self):
@@ -210,8 +210,8 @@ class ToolsTests(unittest.TestCase):
             'a0/b0/c1': 'a0/b0/c1/value',
             'a0/b1/c0': 'a0/b1/c0/value',
         }
-        result = tools.flatten(expected)
-        result = tools.flatten(result)
+        result = rpt.flatten(expected)
+        result = rpt.flatten(result)
         self.assertEqual(result, expected)
 
     # NEST----------------------------------------------------------------------
@@ -222,7 +222,7 @@ class ToolsTests(unittest.TestCase):
             'a0/b1/c1': 2,
         }
         expected = self.get_nested_dict()
-        result = tools.nest(blob)
+        result = rpt.nest(blob)
         self.assertEqual(result, expected)
 
         blob = {
@@ -232,7 +232,7 @@ class ToolsTests(unittest.TestCase):
         }
         expected = "Duplicate key conflict. Key: 'foo'."
         with self.assertRaisesRegex(KeyError, expected):
-            tools.nest(blob)
+            rpt.nest(blob)
 
     def test_nest_separator(self):
         blob = {
@@ -241,13 +241,13 @@ class ToolsTests(unittest.TestCase):
             'a0-b1-c1': 2,
         }
         expected = self.get_nested_dict()
-        result = tools.nest(blob, separator='-')
+        result = rpt.nest(blob, separator='-')
         self.assertEqual(result, expected)
 
     def test_nest_double(self):
         expected = self.get_nested_dict()
-        result = tools.nest(expected)
-        result = tools.nest(result)
+        result = rpt.nest(expected)
+        result = rpt.nest(result)
         self.assertEqual(result, expected)
 
     # UNEMBED-------------------------------------------------------------------
@@ -276,13 +276,13 @@ class ToolsTests(unittest.TestCase):
                 'b1': [2, 3],
             }
         }
-        result = tools.unembed(blob)
+        result = rpt.unembed(blob)
         self.assertEqual(result, expected)
 
     def test_unembed_nest_flatten_cycle(self):
         expected = self.get_complex_blob()
-        result = tools.unembed(tools.nest(tools.flatten(expected)))
-        result = tools.unembed(tools.nest(tools.flatten(result)))
+        result = rpt.unembed(rpt.nest(rpt.flatten(expected)))
+        result = rpt.unembed(rpt.nest(rpt.flatten(result)))
         self.assertEqual(result, expected)
         self.assertFalse(result is expected)
 
@@ -326,7 +326,7 @@ class ToolsTests(unittest.TestCase):
             with open(Path(root, 'a1/b1/m3.py'), 'w') as f:
                 f.writelines(['some python code'])
 
-            result = tools.list_all_files(root)
+            result = rpt.list_all_files(root)
             expected = [
                 Path(root, 'a0/m0.py'),
                 Path(root, 'a1/m1.py'),
@@ -354,15 +354,15 @@ class ToolsTests(unittest.TestCase):
     def test_list_all_files_errors(self):
         expected = '/foo/bar is not a directory or does not exist.'
         with self.assertRaisesRegexp(FileNotFoundError, expected):
-            next(tools.list_all_files('/foo/bar'))
+            next(rpt.list_all_files('/foo/bar'))
 
         expected = '/foo.bar is not a directory or does not exist.'
         with self.assertRaisesRegexp(FileNotFoundError, expected):
-            next(tools.list_all_files('/foo.bar'))
+            next(rpt.list_all_files('/foo.bar'))
 
         with TemporaryDirectory() as root:
             expected = sorted(self.create_files(root))
-            result = sorted(list(tools.list_all_files(root)))
+            result = sorted(list(rpt.list_all_files(root)))
             self.assertEqual(result, expected)
 
     def test_list_all_files_include(self):
@@ -375,7 +375,7 @@ class ToolsTests(unittest.TestCase):
                 Path(root, 'a/b/c/5.txt'),
             ]
 
-            result = tools.list_all_files(root, include_regex=regex)
+            result = rpt.list_all_files(root, include_regex=regex)
             result = sorted(list(result))
             self.assertEqual(result, expected)
 
@@ -390,7 +390,7 @@ class ToolsTests(unittest.TestCase):
                 Path(root, 'a/b/c/4.json'),
             ]
 
-            result = tools.list_all_files(root, exclude_regex=regex)
+            result = rpt.list_all_files(root, exclude_regex=regex)
             result = sorted(list(result))
             self.assertEqual(result, expected)
 
@@ -405,7 +405,7 @@ class ToolsTests(unittest.TestCase):
                 Path(root, 'a/b/c/5.txt'),
             ]
 
-            result = tools.list_all_files(
+            result = rpt.list_all_files(
                 root,
                 include_regex=i_regex,
                 exclude_regex=e_regex
@@ -414,36 +414,36 @@ class ToolsTests(unittest.TestCase):
             self.assertEqual(result, expected)
 
     def test_get_parent_fields(self):
-        result = tools.get_parent_fields('a/b/c/d')
+        result = rpt.get_parent_fields('a/b/c/d')
         expected = ['a', 'a/b', 'a/b/c']
         self.assertEqual(result, expected)
 
-        result = tools.get_parent_fields('a-b-c-d', separator='-')
+        result = rpt.get_parent_fields('a-b-c-d', separator='-')
         expected = ['a', 'a-b', 'a-b-c']
         self.assertEqual(result, expected)
 
     def test_dot_to_html(self):
         dot = pydot.Dot()
         with pytest.raises(ValueError) as e:
-            tools.dot_to_html(dot, layout='foo')
+            rpt.dot_to_html(dot, layout='foo')
         expected = 'Invalid layout value. foo not in '
         expected += "['circo', 'dot', 'fdp', 'neato', 'sfdp', 'twopi']."
         self.assertEqual(str(e.value), expected)
 
-        tools.dot_to_html(dot)
-        tools.dot_to_html(dot, as_png=True)
+        rpt.dot_to_html(dot)
+        rpt.dot_to_html(dot, as_png=True)
 
     def test_write_dot_graph(self):
         expected = 'Invalid extension found: bar. '
         expected += 'Valid extensions include: svg, dot, png.'
         with pytest.raises(ValueError) as e:
-            tools.write_dot_graph(pydot.Dot(), '/tmp/foo.bar')
+            rpt.write_dot_graph(pydot.Dot(), '/tmp/foo.bar')
         self.assertEqual(str(e.value), expected)
 
         with TemporaryDirectory() as root:
             for ext in ['SVG', 'dot', 'pNg']:
                 result = Path(root, 'foo.' + ext)
-                tools.write_dot_graph(pydot.Dot(), result)
+                rpt.write_dot_graph(pydot.Dot(), result)
                 self.assertTrue(os.path.exists(result))
 
     def test_directory_to_dataframe(self):
@@ -459,7 +459,7 @@ class ToolsTests(unittest.TestCase):
             expected['extension'] = 'txt'
             expected.filepath = expected.filepath.apply(lambda x: x.as_posix())
 
-            result = tools.directory_to_dataframe(
+            result = rpt.directory_to_dataframe(
                 root,
                 include_regex=r'/a/b',
                 exclude_regex=r'\.json'
@@ -478,7 +478,7 @@ class ToolsTests(unittest.TestCase):
     def test_copy_lines(self):
         with TemporaryDirectory() as root:
             src, tgt = self.copy_lines_setup(root)
-            tools.copy_lines(src, tgt)
+            rpt.copy_lines(src, tgt)
 
             with open(src) as f:
                 expected = f.read()
@@ -489,7 +489,7 @@ class ToolsTests(unittest.TestCase):
     def test_copy_lines_include(self):
         with TemporaryDirectory() as root:
             src, tgt = self.copy_lines_setup(root)
-            tools.copy_lines(src, tgt, include_regex='foo|baz')
+            rpt.copy_lines(src, tgt, include_regex='foo|baz')
 
             expected = 'foo\nbaz'
             with open(tgt) as f:
@@ -499,7 +499,7 @@ class ToolsTests(unittest.TestCase):
     def test_copy_lines_exclude(self):
         with TemporaryDirectory() as root:
             src, tgt = self.copy_lines_setup(root)
-            tools.copy_lines(src, tgt, exclude_regex='foo|baz')
+            rpt.copy_lines(src, tgt, exclude_regex='foo|baz')
 
             expected = 'bar'
             with open(tgt) as f:
@@ -509,7 +509,7 @@ class ToolsTests(unittest.TestCase):
     def test_copy_lines_include_exclude(self):
         with TemporaryDirectory() as root:
             src, tgt = self.copy_lines_setup(root)
-            tools.copy_lines(src, tgt, include_regex='foo|baz', exclude_regex='baz')
+            rpt.copy_lines(src, tgt, include_regex='foo|baz', exclude_regex='baz')
 
             expected = 'foo'
             with open(tgt) as f:
@@ -522,7 +522,7 @@ class ToolsTests(unittest.TestCase):
             tgt = Path(root, 'target', 'tgt.txt')
             with open(src, 'w') as f:
                 f.write('foo\nbar')
-            tools.copy_file(src, tgt)
+            rpt.copy_file(src, tgt)
 
             with open(src) as f:
                 expected = f.read()
@@ -535,7 +535,7 @@ class ToolsTests(unittest.TestCase):
         src = '/tmp/not-a-directory/src.txt'
         tgt = '/tmp/foobar/tgt.txt'
         with self.assertRaises(AssertionError):
-            tools.copy_file(src, tgt)
+            rpt.copy_file(src, tgt)
 
     def test_move_file(self):
         with TemporaryDirectory() as root:
@@ -544,7 +544,7 @@ class ToolsTests(unittest.TestCase):
             expected = 'foo\nbar'
             with open(src, 'w') as f:
                 f.write(expected)
-            tools.move_file(src, tgt)
+            rpt.move_file(src, tgt)
 
             with open(tgt) as f:
                 result = f.read()
@@ -556,4 +556,4 @@ class ToolsTests(unittest.TestCase):
         src = '/tmp/not-a-directory/src.txt'
         tgt = '/tmp/foobar/tgt.txt'
         with self.assertRaises(AssertionError):
-            tools.move_file(src, tgt)
+            rpt.move_file(src, tgt)
