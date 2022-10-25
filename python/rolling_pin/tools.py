@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterable, List, Union
+from typing import Any, Dict, Generator, Iterable, List, Optional, Union
 import pydot
 
 import logging
@@ -8,7 +8,9 @@ from collections import OrderedDict
 from pathlib import Path
 
 from IPython.display import HTML, Image
+import pandas as pd
 
+FilePath = Union[str, Path]
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'WARNING').upper()
 logging.basicConfig(level=LOG_LEVEL)
 LOGGER = logging.getLogger(__name__)
@@ -212,23 +214,49 @@ def unembed(item):
 
 
 # FILE-FUNCTIONS----------------------------------------------------------------
-def list_all_files(directory):
-    # type: (Union[str, Path]) -> List[Path]
+def list_all_files(
+    directory,           # type: FilePath
+    include_regex=None,  # type: Optional[str]
+    exclude_regex=None   # type: Optional[str]
+):
+    # type: (...) -> Generator[Path, None, None]
     '''
-    Recursively lists all files within a give directory.
+    Recusively list all files within a given directory.
 
     Args:
-        directory (str or Path): Directory to be recursed.
+        directory (str or Path): Directory to walk.
+        include_regex (str, optional): Include filenames that match this regex.
+            Default: None.
+        exclude_regex (str, optional): Exclude filenames that match this regex.
+            Default: None.
 
-    Returns:
-        list[Path]: List of filepaths.
+    Raises:
+        FileNotFoundError: If argument is not a directory or does not exist.
+
+    Yields:
+        Path: File.
     '''
-    output = []  # type: List[Path]
-    for root, dirs, files in os.walk(directory):
+    directory = Path(directory)
+    if not directory.is_dir():
+        msg = f'{directory} is not a directory or does not exist.'
+        raise FileNotFoundError(msg)
+
+    include_re = re.compile(include_regex or '')  # type: Any
+    exclude_re = re.compile(exclude_regex or '')  # type: Any
+
+    for root, _, files in os.walk(directory):
         for file_ in files:
-            fullpath = Path(root, file_)
-            output.append(fullpath)
-    return output
+            filepath = Path(root, file_)
+
+            output = True
+            temp = filepath.absolute().as_posix()
+            if include_regex is not None and not include_re.search(temp):
+                output = False
+            if exclude_regex is not None and exclude_re.search(temp):
+                output = False
+
+            if output:
+                yield Path(root, file_)
 
 
 def get_parent_fields(key, separator='/'):

@@ -335,6 +335,83 @@ class ToolsTests(unittest.TestCase):
             for item in expected:
                 self.assertIn(item, result)
 
+    def create_files(self, root):
+        filepaths = [
+            'a/1.foo',
+            'a/b/2.json',
+            'a/b/3.txt',
+            'a/b/c/4.json',
+            'a/b/c/5.txt'
+        ]
+        filepaths = [Path(root, x) for x in filepaths]
+        for filepath in filepaths:
+            os.makedirs(filepath.parent, exist_ok=True)
+            with open(filepath, 'w') as f:
+                f.write('')
+        return filepaths
+
+    def test_list_all_files_errors(self):
+        expected = '/foo/bar is not a directory or does not exist.'
+        with self.assertRaisesRegexp(FileNotFoundError, expected):
+            next(tools.list_all_files('/foo/bar'))
+
+        expected = '/foo.bar is not a directory or does not exist.'
+        with self.assertRaisesRegexp(FileNotFoundError, expected):
+            next(tools.list_all_files('/foo.bar'))
+
+        with TemporaryDirectory() as root:
+            expected = sorted(self.create_files(root))
+            result = sorted(list(tools.list_all_files(root)))
+            self.assertEqual(result, expected)
+
+    def test_list_all_files_include(self):
+        with TemporaryDirectory() as root:
+            regex = r'\.txt'
+
+            self.create_files(root)
+            expected = [
+                Path(root, 'a/b/3.txt'),
+                Path(root, 'a/b/c/5.txt'),
+            ]
+
+            result = tools.list_all_files(root, include_regex=regex)
+            result = sorted(list(result))
+            self.assertEqual(result, expected)
+
+    def test_list_all_files_exclude(self):
+        with TemporaryDirectory() as root:
+            regex = r'\.txt'
+
+            self.create_files(root)
+            expected = [
+                Path(root, 'a/1.foo'),
+                Path(root, 'a/b/2.json'),
+                Path(root, 'a/b/c/4.json'),
+            ]
+
+            result = tools.list_all_files(root, exclude_regex=regex)
+            result = sorted(list(result))
+            self.assertEqual(result, expected)
+
+    def test_list_all_files_include_exclude(self):
+        with TemporaryDirectory() as root:
+            i_regex = r'/a/b'
+            e_regex = r'\.json'
+
+            self.create_files(root)
+            expected = [
+                Path(root, 'a/b/3.txt'),
+                Path(root, 'a/b/c/5.txt'),
+            ]
+
+            result = tools.list_all_files(
+                root,
+                include_regex=i_regex,
+                exclude_regex=e_regex
+            )
+            result = sorted(list(result))
+            self.assertEqual(result, expected)
+
     def test_get_parent_fields(self):
         result = tools.get_parent_fields('a/b/c/d')
         expected = ['a', 'a/b', 'a/b/c']
