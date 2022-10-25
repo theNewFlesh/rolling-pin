@@ -107,6 +107,14 @@ class ConformETL:
         output.insert(0, 'base')
         return output
 
+    def to_dataframe(self):
+        # type: () -> DataFrame
+        '''
+        Returns:
+            DataFrame: Copy of internal data.
+        '''
+        return self._data.copy()
+
     def to_blob(self):
         # type: () -> BlobETL
         '''
