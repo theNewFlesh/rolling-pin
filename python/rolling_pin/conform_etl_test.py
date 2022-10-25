@@ -63,8 +63,8 @@ class ConformETLTests(unittest.TestCase):
     def test_init(self):
         with TemporaryDirectory() as root:
             source = self.create_source_dir(root)
-            args = self.get_config(source)
-            etl = ConformETL(source_rules=args['source_rules'])
+            config = self.get_config(source)
+            etl = ConformETL(source_rules=config['source_rules'])
             result = sorted(etl._data['source'].tolist())
             expected = self.get_expected_filepaths(source)
             self.assertEqual(result, expected)
