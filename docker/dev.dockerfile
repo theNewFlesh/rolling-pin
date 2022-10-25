@@ -30,8 +30,6 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         npm \
         pandoc \
         parallel \
-        python3-pydot \
-        python3.7-dev \
         software-properties-common \
         tree \
         vim \
@@ -55,15 +53,21 @@ RUN echo "\n${CYAN}SETUP ZSH${CLEAR}"; \
         install-oh-my-zsh.sh && \
     echo 'UTC' > /etc/timezone
 
-# install python3.7 and pip
-RUN echo "\n${CYAN}SETUP PYTHON3.7${CLEAR}"; \
+# install python
+RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y \
-        python3.7 && \
+    apt install -y \
+        python3-pydot \
+        python3.7-dev \
+        python3.7-distutils
+
+# install pip
+RUN echo "\n${CYAN}INSTALL PIP${CLEAR}"; \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python3.7 get-pip.py && \
-    chown -R ubuntu:ubuntu get-pip.py
+    chown -R ubuntu:ubuntu get-pip.py && \
+    pip3.7 install --upgrade pip
 
 # install node.js, needed by jupyterlab
 RUN echo "\n${CYAN}INSTALL NODE.JS${CLEAR}"; \
