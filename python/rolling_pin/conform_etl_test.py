@@ -34,30 +34,20 @@ class ConformETLTests(unittest.TestCase):
             line_rules=[],
         )
 
-    def get_expected_filepaths(self, root):
-        return sorted([
-            f'{root}/FAKE-LICENSE',
-            f'{root}/FAKE-README',
-            f'{root}/docker/fake-pdm.lock',
-            f'{root}/docker/fake-pdm.toml',
-            f'{root}/docker/fake-pyproject.toml',
-            f'{root}/python/bar/__init__.py',
-            f'{root}/python/bar/baz.py',
-            f'{root}/python/foo.py',
-        ])
-
-    def get_expected_filepaths_with_tests(self, root):
-        return sorted([
-            f'{root}/FAKE-LICENSE',
-            f'{root}/FAKE-README',
-            f'{root}/docker/fake-pdm.lock',
-            f'{root}/docker/fake-pdm.toml',
-            f'{root}/docker/fake-pyproject.toml',
-            f'{root}/python/bar/__init__.py',
-            f'{root}/python/bar/baz.py',
-            f'{root}/python/bar/baz_testerooni.py',
-            f'{root}/python/foo.py',
-        ])
+    def get_expected_filepaths(self, source_dir, tests=False):
+        output = [
+            f'{source_dir}/FAKE-LICENSE',
+            f'{source_dir}/FAKE-README',
+            f'{source_dir}/docker/fake-pdm.lock',
+            f'{source_dir}/docker/fake-pdm.toml',
+            f'{source_dir}/docker/fake-pyproject.toml',
+            f'{source_dir}/python/bar/__init__.py',
+            f'{source_dir}/python/bar/baz.py',
+            f'{source_dir}/python/foo.py',
+        ]
+        if tests:
+            output.append(f'{source_dir}/python/bar/baz_testerooni.py')
+        return sorted(output)
 
     def test_init(self):
         with TemporaryDirectory() as root:
