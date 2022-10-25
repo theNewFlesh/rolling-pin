@@ -56,8 +56,8 @@ class ConformETL:
         for rule in source_rules:
             files = rpt.list_all_files(
                 rule['path'],
-                include_regex=rule['include'],
-                exclude_regex=rule['exclude'],
+                include_regex=rule.get('include', None),
+                exclude_regex=rule.get('exclude', None),
             )
             source.extend(files)
         source = sorted([x.as_posix() for x in source])
@@ -174,15 +174,15 @@ class ConformETL:
         data = data[mask]
         data.apply(lambda x: rpt.copy_file(x.source, x.target), axis=1)
 
-        for r in self._line_rules:
-            mask = data.groups.apply(lambda x: r['group'] in x)
+        for rule in self._line_rules:
+            mask = data.groups.apply(lambda x: rule['group'] in x)
             temp = data[mask]
             temp.apply(
                 lambda x: rpt.copy_lines(
                     x.source,
                     x.target,
-                    include_regex=r['include'],
-                    exclude_regex=r['exclude'],
+                    include_regex=rule.get('include', None),
+                    exclude_regex=rule.get('exclude', None),
                 ),
                 axis=1
             )
