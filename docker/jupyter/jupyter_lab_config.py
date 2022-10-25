@@ -6,3 +6,4 @@ c.NotebookApp.password_required = False
 c.NotebookApp.port = 9000
 c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 c.NotebookApp.token = ''
+c.IPCompleter.use_jedi = False

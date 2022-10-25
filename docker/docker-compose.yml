@@ -16,7 +16,6 @@ services:
     volumes:
       - ../:/home/ubuntu/rolling-pin
       - ./jupyter:/home/ubuntu/.jupyter
-      - ./ipython:/home/ubuntu/.ipython
       - ~/.ssh:/home/ubuntu/.ssh:ro
     working_dir: "/home/ubuntu"
     command: "tail -f /dev/null"
