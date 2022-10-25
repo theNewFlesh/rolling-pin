@@ -5,6 +5,7 @@ from collections import OrderedDict
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from pandas import DataFrame
 import pydot
 import pytest
 
@@ -444,3 +445,25 @@ class ToolsTests(unittest.TestCase):
                 result = Path(root, 'foo.' + ext)
                 tools.write_dot_graph(pydot.Dot(), result)
                 self.assertTrue(os.path.exists(result))
+
+    def test_directory_to_dataframe(self):
+        with TemporaryDirectory() as root:
+            self.create_files(root)
+            filepaths = [
+                Path(root, 'a/b/3.txt'),
+                Path(root, 'a/b/c/5.txt'),
+            ]
+            expected = DataFrame()
+            expected['filepath'] = filepaths
+            expected['filename'] = expected.filepath.apply(lambda x: x.name)
+            expected['extension'] = 'txt'
+            expected.filepath = expected.filepath.apply(lambda x: x.as_posix())
+
+            result = tools.directory_to_dataframe(
+                root,
+                include_regex=r'/a/b',
+                exclude_regex=r'\.json'
+            )
+            cols = ['filepath', 'filename', 'extension']
+            for col in cols:
+                self.assertEqual(result[col].tolist(), expected[col].tolist())
