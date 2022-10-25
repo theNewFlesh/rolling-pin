@@ -468,6 +468,54 @@ class ToolsTests(unittest.TestCase):
             for col in cols:
                 self.assertEqual(result[col].tolist(), expected[col].tolist())
 
+    def copy_lines_setup(self, root):
+        src = Path(root, 'src.txt')
+        tgt = Path(root, 'target', 'tgt.txt')
+        with open(src, 'w') as f:
+            f.write('foo\nbar\nbaz')
+        return src, tgt
+
+    def test_copy_lines(self):
+        with TemporaryDirectory() as root:
+            src, tgt = self.copy_lines_setup(root)
+            tools.copy_lines(src, tgt)
+
+            with open(src) as f:
+                expected = f.read()
+            with open(tgt) as f:
+                result = f.read()
+            self.assertEqual(result, expected)
+
+    def test_copy_lines_include(self):
+        with TemporaryDirectory() as root:
+            src, tgt = self.copy_lines_setup(root)
+            tools.copy_lines(src, tgt, include_regex='foo|baz')
+
+            expected = 'foo\nbaz'
+            with open(tgt) as f:
+                result = f.read()
+            self.assertEqual(result, expected)
+
+    def test_copy_lines_exclude(self):
+        with TemporaryDirectory() as root:
+            src, tgt = self.copy_lines_setup(root)
+            tools.copy_lines(src, tgt, exclude_regex='foo|baz')
+
+            expected = 'bar'
+            with open(tgt) as f:
+                result = f.read()
+            self.assertEqual(result, expected)
+
+    def test_copy_lines_include_exclude(self):
+        with TemporaryDirectory() as root:
+            src, tgt = self.copy_lines_setup(root)
+            tools.copy_lines(src, tgt, include_regex='foo|baz', exclude_regex='baz')
+
+            expected = 'foo'
+            with open(tgt) as f:
+                result = f.read()
+            self.assertEqual(result, expected)
+
     def test_copy_file(self):
         with TemporaryDirectory() as root:
             src = Path(root, 'src.txt')

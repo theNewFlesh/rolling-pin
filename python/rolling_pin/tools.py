@@ -311,6 +311,34 @@ def get_parent_fields(key, separator='/'):
     return output
 
 
+def copy_lines(source, target, include_regex=None, exclude_regex=None):
+    # type: (Filepath, Filepath, Optional[str], Optional[str]) -> None
+    '''
+    Copy lines form a source file to a target file.
+
+    Creates directories as needed.
+
+    Args:
+        source (str or Path): Source filepath.
+        target (str or Path): Target filepath.
+
+    Raises:
+        AssertionError: If source is not a file.
+    '''
+    with open(source) as f:
+        lines = f.read().split('\n')  # type: Union[str, List[str]]
+
+    if include_regex is not None:
+        lines = list(filter(lambda x: re.search(include_regex, x), lines))
+    if exclude_regex is not None:
+        lines = list(filter(lambda x: not re.search(exclude_regex, x), lines))
+
+    os.makedirs(Path(target).parent, exist_ok=True)
+    lines = '\n'.join(lines)
+    with open(target, 'w') as f:
+        f.write(lines)
+
+
 def copy_file(source, target):
     # type: (Filepath, Filepath) -> None
     '''
