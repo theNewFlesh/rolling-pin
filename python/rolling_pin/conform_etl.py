@@ -70,7 +70,7 @@ class ConformETL:
                 .apply(lambda x: re.sub(rule['regex'], rule['replace'], x))
 
         data['groups'] = data.source.apply(lambda x: [])
-        for r in group_rules:
+        for rule in group_rules:
             mask = data.source \
                 .apply(lambda x: re.search(rule['regex'], x)) \
                 .astype(bool)
