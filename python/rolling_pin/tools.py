@@ -259,6 +259,37 @@ def list_all_files(
                 yield Path(root, file_)
 
 
+def directory_to_dataframe(directory, include_regex='', exclude_regex=r'\.DS_Store'):
+    # type: (FilePath, str, str) -> pd.DataFrame
+    r'''
+    Recursively list files with in a given directory as rows in a pd.DataFrame.
+
+    Args:
+        directory (str or Path): Directory to walk.
+        include_regex (str, optional): Include filenames that match this regex.
+            Default: None.
+        exclude_regex (str, optional): Exclude filenames that match this regex.
+            Default: '\.DS_Store'.
+
+    Returns:
+        pd.DataFrame: pd.DataFrame with one file per row.
+    '''
+    files = list_all_files(
+        directory,
+        include_regex=include_regex,
+        exclude_regex=exclude_regex
+    )  # type: Any
+    files = sorted(list(files))
+
+    data = pd.DataFrame()
+    data['filepath'] = files
+    data['filename'] = data.filepath.apply(lambda x: x.name)
+    data['extension'] = data.filepath \
+        .apply(lambda x: Path(x).suffix.lstrip('.'))
+    data.filepath = data.filepath.apply(lambda x: x.absolute().as_posix())
+    return data
+
+
 def get_parent_fields(key, separator='/'):
     # type: (str, str) -> List[str]
     '''
@@ -350,35 +381,3 @@ def write_dot_graph(
         msg = f'Invalid extension found: {ext}. '
         msg += 'Valid extensions include: svg, dot, png.'
         raise ValueError(msg)
-
-
-# DIRECTORY-FUNCTIONS-----------------------------------------------------------
-def directory_to_dataframe(directory, include_regex='', exclude_regex=r'\.DS_Store'):
-    # type: (FilePath, str, str) -> pd.DataFrame
-    r'''
-    Recursively list files with in a given directory as rows in a pd.DataFrame.
-
-    Args:
-        directory (str or Path): Directory to walk.
-        include_regex (str, optional): Include filenames that match this regex.
-            Default: None.
-        exclude_regex (str, optional): Exclude filenames that match this regex.
-            Default: '\.DS_Store'.
-
-    Returns:
-        pd.DataFrame: pd.DataFrame with one file per row.
-    '''
-    files = list_all_files(
-        directory,
-        include_regex=include_regex,
-        exclude_regex=exclude_regex
-    )  # type: Any
-    files = sorted(list(files))
-
-    data = pd.DataFrame()
-    data['filepath'] = files
-    data['filename'] = data.filepath.apply(lambda x: x.name)
-    data['extension'] = data.filepath \
-        .apply(lambda x: Path(x).suffix.lstrip('.'))
-    data.filepath = data.filepath.apply(lambda x: x.absolute().as_posix())
-    return data
