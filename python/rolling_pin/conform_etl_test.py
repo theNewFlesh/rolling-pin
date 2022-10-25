@@ -22,16 +22,27 @@ class ConformETLTests(unittest.TestCase):
         shutil.copytree(repo, src)
         return src
 
-    def get_args(self, root):
+    def get_config(self, root):
         return dict(
             source_rules=[
                 dict(path=root, include='README|LICENSE'),
                 dict(path=root, include='pdm|pyproject'),
                 dict(path=root + '/python', include=r'\.py$', exclude=r'_test'),
             ],
-            rename_rules=[],
-            group_rules=[],
-            line_rules=[],
+            rename_rules=[
+                dict(regex='/home/ubuntu/lunchbox', replace='/tmp/repo'),
+                dict(regex='/docker', replace=''),
+                dict(regex='/python', replace=''),
+                dict(regex='/pdm.lock', replace='/.pdm.lock'),
+            ],
+            group_rules=[
+                dict(name='init', regex="__init__.py$"),
+                dict(name='test', regex="_test"),
+                dict(name='resource', regex="/resources"),
+            ],
+            line_rules=[
+                dict(group='init', include=None, exclude='test'),
+            ],
         )
 
     def get_expected_filepaths(self, source_dir, tests=False):
@@ -52,7 +63,7 @@ class ConformETLTests(unittest.TestCase):
     def test_init(self):
         with TemporaryDirectory() as root:
             source = self.create_source_dir(root)
-            args = self.get_args(source)
+            args = self.get_config(source)
             etl = ConformETL(source_rules=args['source_rules'])
             result = sorted(etl._data['source'].tolist())
             expected = self.get_expected_filepaths(source)
