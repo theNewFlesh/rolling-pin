@@ -1,16 +1,17 @@
 from typing import Any, Dict, Generator, Iterable, List, Optional, Union
 import pydot
 
+from collections import OrderedDict
+from pathlib import Path
 import logging
 import os
 import re
-from collections import OrderedDict
-from pathlib import Path
+import shutil
 
 from IPython.display import HTML, Image
 import pandas as pd
 
-FilePath = Union[str, Path]
+Filepath = Union[str, Path]
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'WARNING').upper()
 logging.basicConfig(level=LOG_LEVEL)
 LOGGER = logging.getLogger(__name__)
@@ -215,7 +216,7 @@ def unembed(item):
 
 # FILE-FUNCTIONS----------------------------------------------------------------
 def list_all_files(
-    directory,           # type: FilePath
+    directory,           # type: Filepath
     include_regex=None,  # type: Optional[str]
     exclude_regex=None   # type: Optional[str]
 ):
@@ -260,7 +261,7 @@ def list_all_files(
 
 
 def directory_to_dataframe(directory, include_regex='', exclude_regex=r'\.DS_Store'):
-    # type: (FilePath, str, str) -> pd.DataFrame
+    # type: (Filepath, str, str) -> pd.DataFrame
     r'''
     Recursively list files with in a given directory as rows in a pd.DataFrame.
 
@@ -308,6 +309,43 @@ def get_parent_fields(key, separator='/'):
     for i in range(len(fields) - 1):
         output.append(separator.join(fields[:i + 1]))
     return output
+
+
+def copy_file(source, target):
+    # type: (Filepath, Filepath) -> None
+    '''
+    Copy a source file to a target file. Creating directories as needed.
+
+    Args:
+        source (str or Path): Source filepath.
+        target (str or Path): Target filepath.
+
+    Raises:
+        AssertionError: If source is not a file.
+    '''
+    assert Path(source).is_file()
+    parent = Path(target).parent
+    os.makedirs(parent, exist_ok=True)
+    shutil.copy2(source, target)
+
+
+def move_file(source, target):
+    # type: (Filepath, Filepath) -> None
+    '''
+    Moves a source file to a target file. Creating directories as needed.
+
+    Args:
+        source (str or Path): Source filepath.
+        target (str or Path): Target filepath.
+
+    Raises:
+        AssertionError: If source is not a file.
+    '''
+    src = Path(source).as_posix()
+    assert Path(src).is_file()
+    parent = Path(target).parent
+    os.makedirs(parent, exist_ok=True)
+    shutil.move(src, target)
 
 
 # EXPORT-FUNCTIONS--------------------------------------------------------------

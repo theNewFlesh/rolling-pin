@@ -467,3 +467,45 @@ class ToolsTests(unittest.TestCase):
             cols = ['filepath', 'filename', 'extension']
             for col in cols:
                 self.assertEqual(result[col].tolist(), expected[col].tolist())
+
+    def test_copy_file(self):
+        with TemporaryDirectory() as root:
+            src = Path(root, 'src.txt')
+            tgt = Path(root, 'target', 'tgt.txt')
+            with open(src, 'w') as f:
+                f.write('foo\nbar')
+            tools.copy_file(src, tgt)
+
+            with open(src) as f:
+                expected = f.read()
+            with open(tgt) as f:
+                result = f.read()
+
+            self.assertEqual(result, expected)
+
+    def test_copy_file_error(self):
+        src = '/tmp/not-a-directory/src.txt'
+        tgt = '/tmp/foobar/tgt.txt'
+        with self.assertRaises(AssertionError):
+            tools.copy_file(src, tgt)
+
+    def test_move_file(self):
+        with TemporaryDirectory() as root:
+            src = Path(root, 'src.txt')
+            tgt = Path(root, 'target', 'tgt.txt')
+            expected = 'foo\nbar'
+            with open(src, 'w') as f:
+                f.write(expected)
+            tools.move_file(src, tgt)
+
+            with open(tgt) as f:
+                result = f.read()
+
+            self.assertEqual(result, expected)
+            self.assertFalse(src.is_file())
+
+    def test_move_file_error(self):
+        src = '/tmp/not-a-directory/src.txt'
+        tgt = '/tmp/foobar/tgt.txt'
+        with self.assertRaises(AssertionError):
+            tools.move_file(src, tgt)
