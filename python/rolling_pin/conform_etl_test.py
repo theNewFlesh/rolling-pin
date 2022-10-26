@@ -10,6 +10,7 @@ import pandas as pd
 
 from rolling_pin.blob_etl import BlobETL
 from rolling_pin.conform_etl import ConformETL
+import rolling_pin.tools as rpt
 # ------------------------------------------------------------------------------
 
 
@@ -58,7 +59,7 @@ class ConformETLTests(unittest.TestCase):
                 dict(name='resource', regex="/resources"),
             ],
             line_rules=[
-                dict(group='init', include=None, exclude='test'),
+                dict(group='init', include='baz', exclude='test|ignore'),
             ],
         )
 
@@ -113,7 +114,7 @@ class ConformETLTests(unittest.TestCase):
 
     def test_repr(self):
         with TemporaryDirectory() as root:
-            _, _, _, _, config = self.setup(root)
+            *_, config = self.setup(root)
             etl = ConformETL(**config)
             lines = etl.__repr__().split('\n')
 
@@ -124,17 +125,19 @@ class ConformETLTests(unittest.TestCase):
 
             # line
             result = lines[1]
-            expected = r' */tmp/.*?/source/FAKE-LICENSE +/tmp/.*?/target/LICENSE +\[base\] +'
+            expected = r' */tmp/.*?/source/FAKE-LICENSE'
+            expected += r' +/tmp/.*?/target/LICENSE +\[base\] +'
             self.assertRegex(result, expected)
 
             # line_rule
             result = lines[6]
-            expected = r' */tmp/.*?/python/bar/__init__.py +/tmp/.*?/target/bar/__init__.py +\[init\] +X'
+            expected = r' */tmp/.*?/python/bar/__init__.py'
+            expected += r' +/tmp/.*?/target/bar/__init__.py +\[init\] +X'
             self.assertRegex(result, expected)
 
     def test_groups(self):
         with TemporaryDirectory() as root:
-            _, _, _, _, config = self.setup(root)
+            *_, config = self.setup(root)
 
             # init
             result = ConformETL(**config).groups
@@ -149,7 +152,7 @@ class ConformETLTests(unittest.TestCase):
 
     def test_to_dataframe(self):
         with TemporaryDirectory() as root:
-            _, _, _, _, config = self.setup(root)
+            *_, config = self.setup(root)
 
             etl = ConformETL(**config)
             expected = etl._data
@@ -160,7 +163,7 @@ class ConformETLTests(unittest.TestCase):
 
     def test_to_blob(self):
         with TemporaryDirectory() as root:
-            _, _, _, _, config = self.setup(root)
+            *_, config = self.setup(root)
             etl = ConformETL(**config)
 
             # instance
@@ -179,6 +182,56 @@ class ConformETLTests(unittest.TestCase):
 
     def test_to_html(self):
         with TemporaryDirectory() as root:
-            _, _, _, _, config = self.setup(root)
+            *_, config = self.setup(root)
             result = ConformETL(**config).to_html()
             self.assertIsInstance(result, IPython.display.HTML)
+
+    def test_conform_all(self):
+        with TemporaryDirectory() as root:
+            _, _, target, _, config = self.setup(root)
+            etl = ConformETL(**config)
+
+            etl.conform(groups='all')
+            expected = sorted(etl._data['target'].tolist())
+            result = sorted([x.as_posix() for x in rpt.list_all_files(target)])
+            self.assertEqual(result, expected)
+
+    def test_conform_base(self):
+        with TemporaryDirectory() as root:
+            _, _, target, _, config = self.setup(root)
+            etl = ConformETL(**config)
+
+            etl.conform(groups='base')
+            data = etl.to_dataframe()
+            mask = data.groups.apply(lambda x: 'base' in x)
+            data = data[mask]
+            expected = sorted(data['target'].tolist())
+            result = sorted([x.as_posix() for x in rpt.list_all_files(target)])
+            self.assertEqual(result, expected)
+
+    def test_conform_init(self):
+        with TemporaryDirectory() as root:
+            _, _, target, _, config = self.setup(root)
+            etl = ConformETL(**config)
+
+            etl.conform(groups=['init'])
+            data = etl.to_dataframe()
+            mask = data.groups.apply(lambda x: 'init' in x)
+            data = data[mask]
+            expected = sorted(data['target'].tolist())
+            result = sorted([x.as_posix() for x in rpt.list_all_files(target)])
+            self.assertEqual(result, expected)
+
+    def test_conform_line_rule(self):
+        with TemporaryDirectory() as root:
+            *_, config = self.setup(root)
+            etl = ConformETL(**config)
+
+            etl.conform()
+            data = etl.to_dataframe()
+            target = data[data.line_rule].target.tolist()[0]
+            with open(target) as f:
+                result = f.read().split('\n')
+
+            expected = ['import baz']
+            self.assertEqual(result, expected)
