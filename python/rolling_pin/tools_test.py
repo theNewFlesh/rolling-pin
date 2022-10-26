@@ -468,51 +468,52 @@ class ToolsTests(unittest.TestCase):
             for col in cols:
                 self.assertEqual(result[col].tolist(), expected[col].tolist())
 
-    def copy_lines_setup(self, root):
-        src = Path(root, 'src.txt')
-        tgt = Path(root, 'target', 'tgt.txt')
-        with open(src, 'w') as f:
-            f.write('foo\nbar\nbaz')
-        return src, tgt
+    def test_filter_text(self):
+        text = 'foo\nbar\nbaz\nfoo'
 
-    def test_copy_lines(self):
+        # identity
+        result = rpt.filter_text(text)
+        self.assertEqual(result, text)
+
+        # include
+        expected = 'foo\nbar\nfoo'
+        result = rpt.filter_text(text, include_regex='bar|foo')
+        self.assertEqual(result, expected)
+
+        # exclude
+        expected = 'bar\nbaz'
+        result = rpt.filter_text(text, exclude_regex='foo')
+        self.assertEqual(result, expected)
+
+        # include exclude
+        expected = 'baz'
+        result = rpt.filter_text(text, include_regex='foo|baz', exclude_regex='foo')
+        self.assertEqual(result, expected)
+
+        # include exclude conflict
+        expected = ''
+        result = rpt.filter_text(text, include_regex='foo', exclude_regex='foo')
+        self.assertEqual(result, expected)
+
+    def test_read_text(self):
         with TemporaryDirectory() as root:
-            src, tgt = self.copy_lines_setup(root)
-            rpt.copy_lines(src, tgt)
+            src = Path(root, 'foo.txt')
+            with self.assertRaises(AssertionError):
+                rpt.read_text(src)
+
+            expected = 'a\nb\nc'
+            with open(src, 'w') as f:
+                f.write(expected)
+            result = rpt.read_text(src)
+            self.assertEqual(result, expected)
+
+    def test_write_text(self):
+        with TemporaryDirectory() as root:
+            src = Path(root, 'foo.txt')
+            expected = 'a\nb\nc'
+            rpt.write_text(expected, src)
 
             with open(src) as f:
-                expected = f.read()
-            with open(tgt) as f:
-                result = f.read()
-            self.assertEqual(result, expected)
-
-    def test_copy_lines_include(self):
-        with TemporaryDirectory() as root:
-            src, tgt = self.copy_lines_setup(root)
-            rpt.copy_lines(src, tgt, include_regex='foo|baz')
-
-            expected = 'foo\nbaz'
-            with open(tgt) as f:
-                result = f.read()
-            self.assertEqual(result, expected)
-
-    def test_copy_lines_exclude(self):
-        with TemporaryDirectory() as root:
-            src, tgt = self.copy_lines_setup(root)
-            rpt.copy_lines(src, tgt, exclude_regex='foo|baz')
-
-            expected = 'bar'
-            with open(tgt) as f:
-                result = f.read()
-            self.assertEqual(result, expected)
-
-    def test_copy_lines_include_exclude(self):
-        with TemporaryDirectory() as root:
-            src, tgt = self.copy_lines_setup(root)
-            rpt.copy_lines(src, tgt, include_regex='foo|baz', exclude_regex='baz')
-
-            expected = 'foo'
-            with open(tgt) as f:
                 result = f.read()
             self.assertEqual(result, expected)
 

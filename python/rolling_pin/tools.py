@@ -311,32 +311,64 @@ def get_parent_fields(key, separator='/'):
     return output
 
 
-def copy_lines(source, target, include_regex=None, exclude_regex=None):
-    # type: (Filepath, Filepath, Optional[str], Optional[str]) -> None
+def filter_text(text, include_regex=None, exclude_regex=None):
+    # type: (str, Optional[str], Optional[str]) -> str
     '''
-    Copy lines form a source file to a target file.
-
-    Creates directories as needed.
+    Filter given text by applying regular expressions to each line.
 
     Args:
-        source (str or Path): Source filepath.
-        target (str or Path): Target filepath.
+        text (str): Newline separated lines.
+        include_regex (str, optional): Keep lines that match given regex.
+            Default: None.
+        exclude_regex (str, optional): Remove lines that match given regex.
+            Default: None.
 
     Raises:
         AssertionError: If source is not a file.
-    '''
-    with open(source) as f:
-        lines = f.read().split('\n')  # type: Union[str, List[str]]
 
+    Returns:
+        str: Filtered text.
+    '''
+    lines = text.split('\n')
     if include_regex is not None:
         lines = list(filter(lambda x: re.search(include_regex, x), lines))
     if exclude_regex is not None:
-        lines = list(filter(lambda x: not re.search(exclude_regex, x), lines))
+        lines = list(filter(lambda x: not re.search(exclude_regex, x), lines))  # type: ignore
+    output = '\n'.join(lines)
+    return output
 
-    os.makedirs(Path(target).parent, exist_ok=True)
-    lines = '\n'.join(lines)
-    with open(target, 'w') as f:
-        f.write(lines)
+
+def read_text(filepath):
+    # type: (Filepath) -> str
+    '''
+    Convenience function for reading text from given file.
+
+    Args:
+        filepath (str or Path): File to be read.
+
+    Raises:
+        AssertionError: If source is not a file.
+
+    Returns:
+        str: text.
+    '''
+    assert Path(filepath).is_file()
+    with open(filepath) as f:
+        return f.read()
+
+
+def write_text(text, filepath):
+    # type: (str, Filepath) -> None
+    '''
+    Convenience function for writing text to given file.
+
+    Args:
+        text (str): Text to be written.
+        filepath (str or Path): File to be written.
+    '''
+    os.makedirs(Path(filepath).parent, exist_ok=True)
+    with open(filepath, 'w') as f:
+        f.write(text)
 
 
 def copy_file(source, target):
