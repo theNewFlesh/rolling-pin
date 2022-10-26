@@ -5,32 +5,47 @@ import shutil
 import unittest
 
 import lunchbox.tools as lbt
+import pandas as pd
 
 from rolling_pin.conform_etl import ConformETL
 # ------------------------------------------------------------------------------
 
 
 class ConformETLTests(unittest.TestCase):
-    def get_fake_repo(self):
+    def get_conform_repo_path(self):
         if 'REPO_ENV' in os.environ.keys():
             return lbt.relative_path(__file__, '../../resources/conform_repo')
         return lbt.relative_path(__file__, '../resources/conform_repo')
 
-    def create_source_dir(self, root):
-        repo = self.get_fake_repo()
-        src = Path(root, 'source').as_posix()
-        shutil.copytree(repo, src)
-        return src
+    def get_conform_data_path(self):
+        if 'REPO_ENV' in os.environ.keys():
+            return lbt.relative_path(__file__, '../../resources/conform_data.csv')
+        return lbt.relative_path(__file__, '../resources/conform_data.csv')
 
-    def get_config(self, root):
+    def get_data(self, root):
+        data = pd.read_csv(self.get_conform_data_path(), index_col=False)
+        data.source = data.source.apply(lambda x: x.format(root=root))
+        data.target = data.target.apply(lambda x: x.format(root=root))
+        data.groups = data.groups.apply(eval)
+        return data
+
+    def get_expected(self, data):
+        source = data.source.tolist()
+        target = data.target.tolist()
+        groups = data.groups.tolist()
+        lines = data.line_rule.tolist()
+        return source, target, groups, lines
+
+    def get_config(self, source_dir):
         return dict(
             source_rules=[
-                dict(path=root, include='README|LICENSE'),
-                dict(path=root, include='pdm|pyproject'),
-                dict(path=root + '/python', include=r'\.py$', exclude=r'_test'),
+                dict(path=source_dir, include='README|LICENSE'),
+                dict(path=source_dir, include='pdm|pyproject'),
+                dict(path=source_dir + '/python', include=r'\.py$', exclude=r'_test'),
             ],
             rename_rules=[
-                dict(regex='/home/ubuntu/lunchbox', replace='/tmp/repo'),
+                dict(regex='/source', replace='/target'),
+                dict(regex='FAKE-|fake-', replace=''),
                 dict(regex='/docker', replace=''),
                 dict(regex='/python', replace=''),
                 dict(regex='/pdm.lock', replace='/.pdm.lock'),
@@ -45,26 +60,40 @@ class ConformETLTests(unittest.TestCase):
             ],
         )
 
-    def get_expected_filepaths(self, source_dir, tests=False):
-        output = [
-            f'{source_dir}/FAKE-LICENSE',
-            f'{source_dir}/FAKE-README',
-            f'{source_dir}/docker/fake-pdm.lock',
-            f'{source_dir}/docker/fake-pdm.toml',
-            f'{source_dir}/docker/fake-pyproject.toml',
-            f'{source_dir}/python/bar/__init__.py',
-            f'{source_dir}/python/bar/baz.py',
-            f'{source_dir}/python/foo.py',
-        ]
-        if tests:
-            output.append(f'{source_dir}/python/bar/baz_testerooni.py')
-        return sorted(output)
+    def setup(self, root):
+        repo_path = self.get_conform_repo_path()
+        data = self.get_data(root)
+        source_dir = Path(root, 'source').as_posix()
+        target_dir = Path(root, 'target').as_posix()
+        shutil.copytree(repo_path, source_dir)
+        config = self.get_config(source_dir)
+        return root, source_dir, target_dir, data, config
 
     def test_init(self):
         with TemporaryDirectory() as root:
-            source = self.create_source_dir(root)
-            config = self.get_config(source)
-            etl = ConformETL(source_rules=config['source_rules'])
-            result = sorted(etl._data['source'].tolist())
-            expected = self.get_expected_filepaths(source)
-            self.assertEqual(result, expected)
+            root, src_dir, tgt_dir, data, config = self.setup(root)
+            exp_src, exp_tgt, exp_grp, exp_line = self.get_expected(data)
+            etl = ConformETL(**config)
+            data = etl._data
+
+            result = data.columns.tolist()
+            self.assertEqual(result, ['source', 'target', 'groups', 'line_rule'])
+
+            # source
+            result = data['source'].tolist()
+            self.assertEqual(result, exp_src)
+
+            # rename
+            result = data['target'].tolist()
+            self.assertEqual(result, exp_tgt)
+
+            # group
+            result = data['groups'].tolist()
+            self.assertEqual(result, exp_grp)
+
+            # line
+            result = data['line_rule'].tolist()
+            self.assertEqual(result, exp_line)
+
+            # line_rules
+            self.assertEqual(etl._line_rules, config['line_rules'])

@@ -52,6 +52,7 @@ class ConformETL:
             line_rules (Rules): A list of rules for peforming line copies on
                 files belonging to a given group. Default: [].
         '''
+        # source
         source = []
         for rule in source_rules:
             files = rpt.list_all_files(
@@ -65,10 +66,12 @@ class ConformETL:
         data['source'] = source
         data['target'] = source
 
+        # rename
         for rule in rename_rules:
             data.target = data.target \
                 .apply(lambda x: re.sub(rule['regex'], rule['replace'], x))
 
+        # group
         data['groups'] = data.source.apply(lambda x: [])
         for rule in group_rules:
             mask = data.source \
@@ -79,6 +82,11 @@ class ConformETL:
         mask = data.groups.apply(lambda x: x == [])
         data.loc[mask, 'groups'] = data.loc[mask, 'groups'] \
             .apply(lambda x: ['base'])
+
+        # line
+        groups = set([x['group'] for x in line_rules])
+        data['line_rule'] = data.groups \
+            .apply(lambda x: len(set(x).intersection(groups)) > 0)
 
         self._data = data
         self._line_rules = line_rules
@@ -91,9 +99,12 @@ class ConformETL:
         Returns:
             str: Table optimized for output to shell.
         '''
-        return self._data \
-            .rename(lambda x: x.upper(), axis=1) \
-            .to_string(index=False, max_colwidth=150, col_space=[50, 50, 20])
+        data = self._data.copy()
+        data.line_rule = data.line_rule.apply(lambda x: 'X' if x else '')
+        data.rename(lambda x: x.upper(), axis=1, inplace=True)
+        output = data \
+            .to_string(index=False, max_colwidth=150, col_space=[50, 50, 20, 10])
+        return output
 
     @property
     def groups(self):
