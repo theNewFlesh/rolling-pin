@@ -136,3 +136,14 @@ class ConformETLTests(unittest.TestCase):
             result = ConformETL(**config).groups
             expected = ['base']
             self.assertEqual(result, expected)
+
+    def test_to_dataframe(self):
+        with TemporaryDirectory() as root:
+            _, _, _, _, config = self.setup(root)
+
+            etl = ConformETL(**config)
+            expected = etl._data
+            result = etl.to_dataframe()
+
+            self.assertEqual(result.shape, expected.shape)
+            self.assertEqual(result.columns.tolist(), expected.columns.tolist())
