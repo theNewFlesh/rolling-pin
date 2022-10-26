@@ -3,11 +3,15 @@ from IPython.display import HTML, Image
 
 from copy import deepcopy
 from itertools import chain
+from pathlib import Path
 import re
 
+from lunchbox.enforce import Enforce
 from pandas import DataFrame
+import yaml
 
 from rolling_pin.blob_etl import BlobETL
+from rolling_pin.conform_config import ConformConfig
 import rolling_pin.tools as rpt
 
 Rules = List[Dict[str, str]]
@@ -94,6 +98,31 @@ class ConformETL:
 
         return data
 
+    @classmethod
+    def from_yaml(cls, filepath):
+        # type: (Union[str, Path]) -> ConformETL
+        '''
+        Construct ConformETL instance from given yaml file.
+
+        Args:
+            filepath (str or Path): YAML file.
+
+        Raises:
+            EnforceError: If file does not end in yml or yaml.
+
+        Returns:
+            ConformETL: ConformETL instance.
+        '''
+        filepath = Path(filepath).as_posix()
+        ext = Path(filepath).suffix[1:].lower()
+        msg = f'{filepath} does not end in yml or yaml.'
+        Enforce(ext, 'in', ['yml', 'yaml'], message=msg)
+        # ----------------------------------------------------------------------
+
+        with open(filepath) as f:
+            config = yaml.safe_load(f)
+        return cls(**config)
+
     def __init__(
         self, source_rules=[], rename_rules=[], group_rules=[], line_rules=[]
     ):
@@ -111,7 +140,20 @@ class ConformETL:
                 Default: [].
             line_rules (Rules): A list of rules for peforming line copies on
                 files belonging to a given group. Default: [].
+
+        Raises:
+            DataError: If configuration is invalid.
         '''
+        config = dict(
+            source_rules=source_rules,
+            rename_rules=rename_rules,
+            group_rules=group_rules,
+            line_rules=line_rules,
+        )
+        cfg = ConformConfig(config)
+        cfg.validate()
+        config = cfg.to_native()
+
         self._data = self._get_data(
             source_rules=source_rules,
             rename_rules=rename_rules,

@@ -4,9 +4,11 @@ import os
 import shutil
 import unittest
 
+from lunchbox.enforce import EnforceError
 import IPython
 import lunchbox.tools as lbt
 import pandas as pd
+import yaml
 
 from rolling_pin.blob_etl import BlobETL
 from rolling_pin.conform_etl import ConformETL
@@ -111,6 +113,20 @@ class ConformETLTests(unittest.TestCase):
             config['source_rules'] = [dict(path=root, include='foobar')]
             result = ConformETL(**config).to_dataframe().shape[0]
             self.assertEqual(result, 0)
+
+    def test_from_yaml(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config['source_rules'] = config['source_rules'][:2]
+            src = Path(root, 'config.YAML').as_posix()
+            with open(src, 'w') as f:
+                yaml.safe_dump(config, f)
+            ConformETL.from_yaml(src)
+
+    def test_from_yaml_error(self):
+        expected = '/foo/bar.taco does not end in yml or yaml.'
+        with self.assertRaisesRegexp(EnforceError, expected):
+            ConformETL.from_yaml('/foo/bar.taco')
 
     def test_repr(self):
         with TemporaryDirectory() as root:
