@@ -167,7 +167,7 @@
                     "find /tmp/$REPO",
                         "| grep -E '__pycache__|flask_monitor|cli.py|\\.mypy_cache|\\.pytest_cache|\\.coverage'",
                         "| parallel 'rm -rf {}' &&",
-                    "find /tmp/$REPO -type f",
+                    "find /tmp/$REPO/$REPO -type f",
                         "| grep __init__.py",
                         "| parallel 'rm -rf {}; touch {}'"
                 ],
