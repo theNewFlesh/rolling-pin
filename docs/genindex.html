@@ -28,7 +28,7 @@
             <a href="index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.4.4
+                0.6.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -45,12 +45,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#utils">utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html">app</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.conform_config">conform_config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.app">app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.tools">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">cli</a></li>
 </ul>
 
@@ -111,6 +113,8 @@
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.__dict__">__dict__ (rolling_pin.blob_etl.BlobETL attribute)</a>
 
       <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.__dict__">(rolling_pin.conform_etl.ConformETL attribute)</a>
+</li>
         <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.__dict__">(rolling_pin.radon_etl.RadonETL attribute)</a>
 </li>
         <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL.__dict__">(rolling_pin.repo_etl.RepoETL attribute)</a>
@@ -119,6 +123,8 @@
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.__init__">__init__() (rolling_pin.blob_etl.BlobETL method)</a>
 
       <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.__init__">(rolling_pin.conform_etl.ConformETL method)</a>
+</li>
         <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.__init__">(rolling_pin.radon_etl.RadonETL method)</a>
 </li>
         <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL.__init__">(rolling_pin.repo_etl.RepoETL method)</a>
@@ -127,14 +133,30 @@
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.__module__">__module__ (rolling_pin.blob_etl.BlobETL attribute)</a>
 
       <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.__module__">(rolling_pin.conform_config.ConformConfig attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.GroupRule.__module__">(rolling_pin.conform_config.ConformConfig.GroupRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule.__module__">(rolling_pin.conform_config.ConformConfig.LineRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule.__module__">(rolling_pin.conform_config.ConformConfig.RenameRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule.__module__">(rolling_pin.conform_config.ConformConfig.SourceRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.__module__">(rolling_pin.conform_etl.ConformETL attribute)</a>
+</li>
         <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.__module__">(rolling_pin.radon_etl.RadonETL attribute)</a>
 </li>
         <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL.__module__">(rolling_pin.repo_etl.RepoETL attribute)</a>
 </li>
       </ul></li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.__repr__">__repr__() (rolling_pin.conform_etl.ConformETL method)</a>
+</li>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.__weakref__">__weakref__ (rolling_pin.blob_etl.BlobETL attribute)</a>
 
       <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.__weakref__">(rolling_pin.conform_etl.ConformETL attribute)</a>
+</li>
         <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.__weakref__">(rolling_pin.radon_etl.RadonETL attribute)</a>
 </li>
         <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL.__weakref__">(rolling_pin.repo_etl.RepoETL attribute)</a>
@@ -150,8 +172,12 @@
 </li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">_get_cyclomatic_complexity_dataframe() (rolling_pin.radon_etl.RadonETL static method)</a>
 </li>
-      <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_data">_get_data() (rolling_pin.repo_etl.RepoETL static method)</a>
+      <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL._get_data">_get_data() (rolling_pin.conform_etl.ConformETL static method)</a>
+
+      <ul>
+        <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_data">(rolling_pin.repo_etl.RepoETL static method)</a>
 </li>
+      </ul></li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_halstead_dataframe">_get_halstead_dataframe() (rolling_pin.radon_etl.RadonETL static method)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_imports">_get_imports() (rolling_pin.repo_etl.RepoETL static method)</a>
@@ -164,6 +190,18 @@
 </li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe">_get_raw_metrics_dataframe() (rolling_pin.radon_etl.RadonETL static method)</a>
 </li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig._schema">_schema (rolling_pin.conform_config.ConformConfig attribute)</a>
+
+      <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.GroupRule._schema">(rolling_pin.conform_config.ConformConfig.GroupRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule._schema">(rolling_pin.conform_config.ConformConfig.LineRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule._schema">(rolling_pin.conform_config.ConformConfig.RenameRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule._schema">(rolling_pin.conform_config.ConformConfig.SourceRule attribute)</a>
+</li>
+      </ul></li>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._to_networkx_graph">_to_networkx_graph() (rolling_pin.repo_etl.RepoETL static method)</a>
 </li>
   </ul></td>
@@ -201,10 +239,28 @@
         <li><a href="cli.html#module-cli">module</a>
 </li>
       </ul></li>
-      <li><a href="cli.html#cli.container_id_command">container_id_command() (in module cli)</a>
+      <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.conform">conform() (rolling_pin.conform_etl.ConformETL method)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig">ConformConfig (class in rolling_pin.conform_config)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.GroupRule">ConformConfig.GroupRule (class in rolling_pin.conform_config)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule">ConformConfig.LineRule (class in rolling_pin.conform_config)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule">ConformConfig.RenameRule (class in rolling_pin.conform_config)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule">ConformConfig.SourceRule (class in rolling_pin.conform_config)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL">ConformETL (class in rolling_pin.conform_etl)</a>
+</li>
+      <li><a href="cli.html#cli.container_id_command">container_id_command() (in module cli)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.tools.copy_file">copy_file() (in module rolling_pin.tools)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.tools.copy_lines">copy_lines() (in module rolling_pin.tools)</a>
+</li>
       <li><a href="cli.html#cli.coverage">coverage() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.coverage_command">coverage_command() (in module cli)</a>
@@ -223,9 +279,11 @@
 </li>
       <li><a href="cli.html#cli.destroy_dev_command">destroy_dev_command() (in module cli)</a>
 </li>
+      <li><a href="cli.html#cli.destroy_prod_command">destroy_prod_command() (in module cli)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.destroy_prod_command">destroy_prod_command() (in module cli)</a>
+      <li><a href="rolling_pin.html#rolling_pin.tools.directory_to_dataframe">directory_to_dataframe() (in module rolling_pin.tools)</a>
 </li>
       <li><a href="cli.html#cli.docker_exec">docker_exec() (in module cli)</a>
 </li>
@@ -241,6 +299,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.enter_repo">enter_repo() (in module cli)</a>
 </li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule.exclude">exclude (rolling_pin.conform_config.ConformConfig.LineRule attribute)</a>
+
+      <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule.exclude">(rolling_pin.conform_config.ConformConfig.SourceRule attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.exit_repo">exit_repo() (in module cli)</a>
@@ -259,6 +323,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.tools.flatten">flatten() (in module rolling_pin.tools)</a>
 </li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.from_yaml">from_yaml() (rolling_pin.conform_etl.ConformETL class method)</a>
+</li>
       <li><a href="cli.html#cli.full_docs_command">full_docs_command() (in module cli)</a>
 </li>
   </ul></td>
@@ -271,11 +337,17 @@
 </li>
       <li><a href="cli.html#cli.get_info">get_info() (in module cli)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.tools.get_parent_fields">get_parent_fields() (in module rolling_pin.tools)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.app.get_svg">get_svg() (in module rolling_pin.app)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule.group">group (rolling_pin.conform_config.ConformConfig.LineRule attribute)</a>
+</li>
+      <li><a href="rolling_pin.html#id0">group_rules (rolling_pin.conform_config.ConformConfig attribute)</a>, <a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.group_rules">[1]</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.groups">groups (rolling_pin.conform_etl.ConformETL property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -293,11 +365,19 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.image_id_command">image_id_command() (in module cli)</a>
 </li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule.include">include (rolling_pin.conform_config.ConformConfig.LineRule attribute)</a>
+
+      <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule.include">(rolling_pin.conform_config.ConformConfig.SourceRule attribute)</a>
+</li>
+      </ul></li>
       <li><a href="rolling_pin.html#rolling_pin.app.index">index() (in module rolling_pin.app)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.tools.is_dictlike">is_dictlike() (in module rolling_pin.tools)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.is_dir">is_dir() (in module rolling_pin.conform_config)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.tools.is_iterable">is_iterable() (in module rolling_pin.tools)</a>
 </li>
@@ -312,6 +392,8 @@
       <li><a href="cli.html#cli.lab_command">lab_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.line">line() (in module cli)</a>
+</li>
+      <li><a href="rolling_pin.html#id1">line_rules (rolling_pin.conform_config.ConformConfig attribute)</a>, <a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.line_rules">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -343,6 +425,10 @@
 </li>
         <li><a href="rolling_pin.html#module-rolling_pin.blob_etl">rolling_pin.blob_etl</a>
 </li>
+        <li><a href="rolling_pin.html#module-rolling_pin.conform_config">rolling_pin.conform_config</a>
+</li>
+        <li><a href="rolling_pin.html#module-rolling_pin.conform_etl">rolling_pin.conform_etl</a>
+</li>
         <li><a href="rolling_pin.html#module-rolling_pin.radon_etl">rolling_pin.radon_etl</a>
 </li>
         <li><a href="rolling_pin.html#module-rolling_pin.repo_etl">rolling_pin.repo_etl</a>
@@ -351,10 +437,18 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.tools.move_file">move_file() (in module rolling_pin.tools)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.GroupRule.name">name (rolling_pin.conform_config.ConformConfig.GroupRule attribute)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.tools.nest">nest() (in module rolling_pin.tools)</a>
 </li>
@@ -367,6 +461,8 @@
       <li><a href="cli.html#cli.package_command">package_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.package_repo">package_repo() (in module cli)</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule.path">path (rolling_pin.conform_config.ConformConfig.SourceRule attribute)</a>
 </li>
       <li><a href="cli.html#cli.PORT">PORT (in module cli)</a>
 </li>
@@ -398,9 +494,19 @@
 </li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.raw_metrics">raw_metrics (rolling_pin.radon_etl.RadonETL property)</a>
 </li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.GroupRule.regex">regex (rolling_pin.conform_config.ConformConfig.GroupRule attribute)</a>
+
+      <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule.regex">(rolling_pin.conform_config.ConformConfig.RenameRule attribute)</a>
+</li>
+      </ul></li>
       <li><a href="cli.html#cli.remove_command">remove_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.remove_container">remove_container() (in module cli)</a>
+</li>
+      <li><a href="rolling_pin.html#id2">rename_rules (rolling_pin.conform_config.ConformConfig attribute)</a>, <a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.rename_rules">[1]</a>
+</li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule.replace">replace (rolling_pin.conform_config.ConformConfig.RenameRule attribute)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL">RepoETL (class in rolling_pin.repo_etl)</a>
 </li>
@@ -426,6 +532,20 @@
 
       <ul>
         <li><a href="rolling_pin.html#module-rolling_pin.blob_etl">module</a>
+</li>
+      </ul></li>
+      <li>
+    rolling_pin.conform_config
+
+      <ul>
+        <li><a href="rolling_pin.html#module-rolling_pin.conform_config">module</a>
+</li>
+      </ul></li>
+      <li>
+    rolling_pin.conform_etl
+
+      <ul>
+        <li><a href="rolling_pin.html#module-rolling_pin.conform_etl">module</a>
 </li>
       </ul></li>
       <li>
@@ -459,6 +579,8 @@
 </li>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.set_field">set_field() (rolling_pin.blob_etl.BlobETL method)</a>
 </li>
+      <li><a href="rolling_pin.html#id3">source_rules (rolling_pin.conform_config.ConformConfig attribute)</a>, <a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.source_rules">[1]</a>
+</li>
       <li><a href="cli.html#cli.start">start() (in module cli)</a>
 </li>
   </ul></td>
@@ -481,9 +603,13 @@
 </li>
       <li><a href="cli.html#cli.tmp_repo">tmp_repo() (in module cli)</a>
 </li>
+      <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_blob">to_blob() (rolling_pin.conform_etl.ConformETL method)</a>
+</li>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dataframe">to_dataframe() (rolling_pin.blob_etl.BlobETL method)</a>
 
       <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_dataframe">(rolling_pin.conform_etl.ConformETL method)</a>
+</li>
         <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_dataframe">(rolling_pin.repo_etl.RepoETL method)</a>
 </li>
       </ul></li>
@@ -502,6 +628,8 @@
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_html">to_html() (rolling_pin.blob_etl.BlobETL method)</a>
 
       <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_html">(rolling_pin.conform_etl.ConformETL method)</a>
+</li>
         <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_html">(rolling_pin.repo_etl.RepoETL method)</a>
 </li>
       </ul></li>

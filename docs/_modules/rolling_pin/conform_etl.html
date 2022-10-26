@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rolling_pin.conform_etl &mdash; rolling-pin  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> rolling-pin
+          </a>
+              <div class="version">
+                0.6.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Rolling-Pin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.conform_config">conform_config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">rolling-pin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>rolling_pin.conform_etl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for rolling_pin.conform_etl</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">lunchbox.enforce</span> <span class="kn">import</span> <span class="n">Enforce</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
+<span class="kn">from</span> <span class="nn">rolling_pin.conform_config</span> <span class="kn">import</span> <span class="n">ConformConfig</span>
+<span class="kn">import</span> <span class="nn">rolling_pin.tools</span> <span class="k">as</span> <span class="nn">rpt</span>
+
+<span class="n">Rules</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<span class="n">CONFORM_COLOR_SCHEME</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">rpt</span><span class="o">.</span><span class="n">COLOR_SCHEME</span><span class="p">)</span>
+<span class="n">CONFORM_COLOR_SCHEME</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;node_font&#39;</span><span class="p">:</span> <span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;node_value_font&#39;</span><span class="p">:</span> <span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;edge&#39;</span><span class="p">:</span> <span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;edge_value&#39;</span><span class="p">:</span> <span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;node_library_font&#39;</span><span class="p">:</span> <span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;node_module_font&#39;</span><span class="p">:</span> <span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;edge_library&#39;</span><span class="p">:</span> <span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;edge_module&#39;</span><span class="p">:</span> <span class="s1">&#39;#DE958E&#39;</span>
+<span class="p">})</span>
+
+
+<div class="viewcode-block" id="ConformETL"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL">[docs]</a><span class="k">class</span> <span class="nc">ConformETL</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    ConformETL creates a DataFrame from a given directory of source files.</span>
+<span class="sd">    Then it generates target paths given a set of rules.</span>
+<span class="sd">    Finally, the conform method is called and the source files are copied to</span>
+<span class="sd">    their target filepaths.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ConformETL._get_data"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL._get_data">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span>
+        <span class="n">source_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">rename_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">group_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">line_rules</span><span class="o">=</span><span class="p">[]</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (Rules, Rules, Rules, Rules) -&gt; DataFrame</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generates DataFrame from given source_rules and then generates target</span>
+<span class="sd">        paths for them given other rules.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            source_rules (Rules): A list of rules for parsing directories.</span>
+<span class="sd">                 Default: [].</span>
+<span class="sd">            rename_rules (Rules): A list of rules for renaming source filepath</span>
+<span class="sd">                to target filepaths. Default: [].</span>
+<span class="sd">            group_rules (Rules): A list of rules for grouping files.</span>
+<span class="sd">                Default: [].</span>
+<span class="sd">            line_rules (Rules): A list of rules for peforming line copies on</span>
+<span class="sd">                files belonging to a given group. Default: [].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: Conform DataFrame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># source</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">source_rules</span><span class="p">:</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="n">rpt</span><span class="o">.</span><span class="n">list_all_files</span><span class="p">(</span>
+                <span class="n">rule</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">],</span>
+                <span class="n">include_regex</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;include&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="n">exclude_regex</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;exclude&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">source</span><span class="p">])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+
+        <span class="c1"># rename</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rename_rules</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span> \
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">rule</span><span class="p">[</span><span class="s1">&#39;regex&#39;</span><span class="p">],</span> <span class="n">rule</span><span class="p">[</span><span class="s1">&#39;replace&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
+
+        <span class="c1"># group</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[])</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">group_rules</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">source</span> \
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">rule</span><span class="p">[</span><span class="s1">&#39;regex&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span> \
+                <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;groups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groups</span> \
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="p">[</span><span class="n">rule</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]])</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">==</span> <span class="p">[])</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;groups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;groups&#39;</span><span class="p">]</span> \
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">])</span>
+
+        <span class="c1"># line</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">line_rules</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;line_rule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groups</span> \
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="ConformETL.from_yaml"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.from_yaml">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="c1"># type: (Union[str, Path]) -&gt; ConformETL</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Construct ConformETL instance from given yaml file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (str or Path): YAML file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EnforceError: If file does not end in yml or yaml.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ConformETL: ConformETL instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1"> does not end in yml or yaml.&#39;</span>
+        <span class="n">Enforce</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;yml&#39;</span><span class="p">,</span> <span class="s1">&#39;yaml&#39;</span><span class="p">],</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConformETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">source_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">rename_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">group_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">line_rules</span><span class="o">=</span><span class="p">[]</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (Rules, Rules, Rules, Rules) -&gt; None</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generates DataFrame from given source_rules and then generates target</span>
+<span class="sd">        paths for them given other rules.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            source_rules (Rules): A list of rules for parsing directories.</span>
+<span class="sd">                 Default: [].</span>
+<span class="sd">            rename_rules (Rules): A list of rules for renaming source filepath</span>
+<span class="sd">                to target filepaths. Default: [].</span>
+<span class="sd">            group_rules (Rules): A list of rules for grouping files.</span>
+<span class="sd">                Default: [].</span>
+<span class="sd">            line_rules (Rules): A list of rules for peforming line copies on</span>
+<span class="sd">                files belonging to a given group. Default: [].</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DataError: If configuration is invalid.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">source_rules</span><span class="o">=</span><span class="n">source_rules</span><span class="p">,</span>
+            <span class="n">rename_rules</span><span class="o">=</span><span class="n">rename_rules</span><span class="p">,</span>
+            <span class="n">group_rules</span><span class="o">=</span><span class="n">group_rules</span><span class="p">,</span>
+            <span class="n">line_rules</span><span class="o">=</span><span class="n">line_rules</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="n">ConformConfig</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">to_native</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">(</span>
+            <span class="n">source_rules</span><span class="o">=</span><span class="n">source_rules</span><span class="p">,</span>
+            <span class="n">rename_rules</span><span class="o">=</span><span class="n">rename_rules</span><span class="p">,</span>
+            <span class="n">group_rules</span><span class="o">=</span><span class="n">group_rules</span><span class="p">,</span>
+            <span class="n">line_rules</span><span class="o">=</span><span class="n">line_rules</span><span class="p">,</span>
+        <span class="p">)</span>  <span class="c1"># type: DataFrame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line_rules</span> <span class="o">=</span> <span class="n">line_rules</span>  <span class="c1"># type: Rules</span></div>
+
+<div class="viewcode-block" id="ConformETL.__repr__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; str</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        String representation of conform DataFrame.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Table optimized for output to shell.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">line_rule</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">line_rule</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">data</span> \
+            <span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_colwidth</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">col_space</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; List[str]</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        list[str]: List of groups found with self._data.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">output</span><span class="p">))))</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;base&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+<div class="viewcode-block" id="ConformETL.to_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; DataFrame</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: Copy of internal data.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ConformETL.to_blob"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_blob">[docs]</a>    <span class="k">def</span> <span class="nf">to_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; BlobETL</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts self into a BlobETL object with target column as keys and</span>
+<span class="sd">        source columns as values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BlobETL: BlobETL of target and source filepaths.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">))</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="ConformETL.to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="n">CONFORM_COLOR_SCHEME</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (str, Dict[str, str], bool) -&gt; Union[Image, HTML]</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        For use in inline rendering of graph data in Jupyter Lab.</span>
+<span class="sd">        Graph from target to source filepath. Target is in red, source is in</span>
+<span class="sd">        cyan.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            orient (str, optional): Graph layout orientation. Default: lr.</span>
+<span class="sd">                Options include:</span>
+
+<span class="sd">                * tb - top to bottom</span>
+<span class="sd">                * bt - bottom to top</span>
+<span class="sd">                * lr - left to right</span>
+<span class="sd">                * rl - right to left</span>
+<span class="sd">            color_scheme: (dict, optional): Color scheme to be applied to graph.</span>
+<span class="sd">                Default: rolling_pin.conform_etl.CONFORM_COLOR_SCHEME</span>
+<span class="sd">            as_png (bool, optional): Display graph as a PNG image instead of</span>
+<span class="sd">                SVG. Useful for display on Github. Default: False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            IPython.display.HTML: HTML object for inline display.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_blob</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="n">as_png</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConformETL.conform"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.conform">[docs]</a>    <span class="k">def</span> <span class="nf">conform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+        <span class="c1"># type: (Union[str, List[str]]) -&gt; None</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Copies source files to target filepaths.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            groups (str or list[str]): Groups of files which are to be conformed.</span>
+<span class="sd">                &#39;all&#39; means all groups. Default: &#39;all&#39;.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">groups</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">groups</span><span class="p">]</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+        <span class="n">grps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groups</span> \
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">grps</span><span class="p">))</span> \
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rpt</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">target</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line_rules</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rule</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rpt</span><span class="o">.</span><span class="n">copy_lines</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+                    <span class="n">x</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                    <span class="n">include_regex</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;include&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                    <span class="n">exclude_regex</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;exclude&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
