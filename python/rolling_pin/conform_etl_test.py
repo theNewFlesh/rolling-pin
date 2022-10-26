@@ -4,6 +4,7 @@ import os
 import shutil
 import unittest
 
+import IPython
 import lunchbox.tools as lbt
 import pandas as pd
 
@@ -167,3 +168,9 @@ class ConformETLTests(unittest.TestCase):
             expected = sorted(etl._data.source.tolist())
             result = sorted(list(blob.to_flat_dict().values()))
             self.assertEqual(result, expected)
+
+    def test_to_html(self):
+        with TemporaryDirectory() as root:
+            _, _, _, _, config = self.setup(root)
+            result = ConformETL(**config).to_html()
+            self.assertIsInstance(result, IPython.display.HTML)
