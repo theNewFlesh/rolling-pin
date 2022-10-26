@@ -241,13 +241,81 @@ class ConformETLTests(unittest.TestCase):
     def test_conform_line_rule(self):
         with TemporaryDirectory() as root:
             *_, config = self.setup(root)
+            config['group_rules'] = [
+                dict(name='test', regex=r'__init__\.py'),
+                dict(name='not_test', regex=r'__init__\.py'),
+            ]
+            config['line_rules'] = [
+                dict(group='test', include='test'),
+                dict(group='not_test', exclude='test'),
+            ]
             etl = ConformETL(**config)
 
-            etl.conform()
+            # test
+            etl.conform(groups=['base', 'test'])
             data = etl.to_dataframe()
             target = data[data.line_rule].target.tolist()[0]
             with open(target) as f:
                 result = f.read().split('\n')
 
-            expected = ['import baz']
+            expected = ['import baz_testerooni']
+            self.assertEqual(result, expected)
+
+            # not_test
+            etl.conform(groups=['base', 'not_test'])
+            data = etl.to_dataframe()
+            target = data[data.line_rule].target.tolist()[0]
+            with open(target) as f:
+                result = f.read().split('\n')
+
+            expected = [
+                'import baz',
+                'import ignore',
+                'import taco',
+                '',
+            ]
+            self.assertEqual(result, expected)
+
+    def test_conform_line_rule_difference(self):
+        with TemporaryDirectory() as root:
+            *_, config = self.setup(root)
+            config['group_rules'] = [
+                dict(name='test', regex=r'__init__\.py'),
+                dict(name='not_test', regex=r'__init__\.py'),
+            ]
+            config['line_rules'] = [
+                dict(group='test', include='test'),
+                dict(group='not_test', exclude='test'),
+            ]
+            etl = ConformETL(**config)
+
+            etl.conform(groups=['base', 'test', 'not_test'])
+            data = etl.to_dataframe()
+            target = data[data.line_rule].target.tolist()[0]
+            with open(target) as f:
+                result = f.read()
+
+            expected = ''
+            self.assertEqual(result, expected)
+
+    def test_conform_line_rule_intersection(self):
+        with TemporaryDirectory() as root:
+            *_, config = self.setup(root)
+            config['group_rules'] = [
+                dict(name='foo', regex=r'__init__\.py'),
+                dict(name='bar', regex=r'__init__\.py'),
+            ]
+            config['line_rules'] = [
+                dict(group='foo', include='foo|baz'),
+                dict(group='bar', include='baz'),
+            ]
+            etl = ConformETL(**config)
+
+            etl.conform(groups=['base', 'foo', 'bar'])
+            data = etl.to_dataframe()
+            target = data[data.line_rule].target.tolist()[0]
+            with open(target) as f:
+                result = f.read().split('\n')
+
+            expected = ['import baz', 'import baz_testerooni']
             self.assertEqual(result, expected)

@@ -361,6 +361,7 @@ def write_text(text, filepath):
     # type: (str, Filepath) -> None
     '''
     Convenience function for writing text to given file.
+    Creates directories as needed.
 
     Args:
         text (str): Text to be written.

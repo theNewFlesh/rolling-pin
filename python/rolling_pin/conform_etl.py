@@ -256,7 +256,9 @@ class ConformETL:
             else:
                 groups = [groups]
 
-        data = self._data
+        data = self.to_dataframe()
+
+        # copy files
         grps = set(groups)
         mask = data.groups \
             .apply(lambda x: set(x).intersection(grps)) \
@@ -264,15 +266,16 @@ class ConformETL:
         data = data[mask]
         data.apply(lambda x: rpt.copy_file(x.source, x.target), axis=1)
 
-        for rule in self._line_rules:
+        # copy lines
+        data['text'] = data.source.apply(rpt.read_text)
+        rules = list(filter(lambda x: x['group'] in groups, self._line_rules))
+        for rule in rules:
             mask = data.groups.apply(lambda x: rule['group'] in x)
-            temp = data[mask]
-            temp.apply(
-                lambda x: rpt.copy_lines(
-                    x.source,
-                    x.target,
+            data.loc[mask, 'text'] = data.loc[mask, 'text'].apply(
+                lambda x: rpt.filter_text(
+                    x,
                     include_regex=rule.get('include', None),
                     exclude_regex=rule.get('exclude', None),
-                ),
-                axis=1
+                )
             )
+        data.apply(lambda x: rpt.write_text(x.text, x.target), axis=1)
