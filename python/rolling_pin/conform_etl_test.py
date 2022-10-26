@@ -100,3 +100,24 @@ class ConformETLTests(unittest.TestCase):
             etl = ConformETL(**config)
             self.assertEqual(etl._data.loc[0, 'line_rule'], False)
             self.assertEqual(etl._line_rules, config['line_rules'])
+
+    def test_repr(self):
+        with TemporaryDirectory() as root:
+            _, _, _, _, config = self.setup(root)
+            etl = ConformETL(**config)
+            lines = etl.__repr__().split('\n')
+
+            # header
+            result = lines[0]
+            expected = ' *SOURCE +TARGET +GROUPS +LINE_RULE$'
+            self.assertRegex(result, expected)
+
+            # line
+            result = lines[1]
+            expected = r' */tmp/.*?/source/FAKE-LICENSE +/tmp/.*?/target/LICENSE +\[base\] +'
+            self.assertRegex(result, expected)
+
+            # line_rule
+            result = lines[6]
+            expected = r' */tmp/.*?/python/bar/__init__.py +/tmp/.*?/target/bar/__init__.py +\[init\] +X'
+            self.assertRegex(result, expected)
