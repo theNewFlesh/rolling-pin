@@ -7,6 +7,7 @@ import unittest
 import lunchbox.tools as lbt
 import pandas as pd
 
+from rolling_pin.blob_etl import BlobETL
 from rolling_pin.conform_etl import ConformETL
 # ------------------------------------------------------------------------------
 
@@ -147,3 +148,22 @@ class ConformETLTests(unittest.TestCase):
 
             self.assertEqual(result.shape, expected.shape)
             self.assertEqual(result.columns.tolist(), expected.columns.tolist())
+
+    def test_to_blob(self):
+        with TemporaryDirectory() as root:
+            _, _, _, _, config = self.setup(root)
+            etl = ConformETL(**config)
+
+            # instance
+            blob = etl.to_blob()
+            self.assertIsInstance(blob, BlobETL)
+
+            # keys
+            expected = sorted(etl._data.target.tolist())
+            result = sorted(list(blob.to_flat_dict().keys()))
+            self.assertEqual(result, expected)
+
+            # values
+            expected = sorted(etl._data.source.tolist())
+            result = sorted(list(blob.to_flat_dict().values()))
+            self.assertEqual(result, expected)
