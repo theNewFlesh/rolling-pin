@@ -38,7 +38,7 @@ class ConformETL:
     def _get_data(
         source_rules=[], rename_rules=[], group_rules=[], line_rules=[]
     ):
-        # type: (Rules, Rules, Rules, Rules) -> None
+        # type: (Rules, Rules, Rules, Rules) -> DataFrame
         '''
         Generates DataFrame from given source_rules and then generates target
         paths for them given other rules.
@@ -52,6 +52,9 @@ class ConformETL:
                 Default: [].
             line_rules (Rules): A list of rules for peforming line copies on
                 files belonging to a given group. Default: [].
+
+        Returns:
+            DataFrame: Conform DataFrame.
         '''
         # source
         source = []
@@ -114,8 +117,8 @@ class ConformETL:
             rename_rules=rename_rules,
             group_rules=group_rules,
             line_rules=line_rules,
-        )
-        self._line_rules = line_rules
+        )  # type: DataFrame
+        self._line_rules = line_rules  # type: Rules
 
     def __repr__(self):
         # type: () -> str
