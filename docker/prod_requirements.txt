@@ -8,7 +8,7 @@ networkx
 numpy
 pandas>=1.3.5
 pydot
+pyyaml
 radon
 schematics
 wrapt
-yaml
