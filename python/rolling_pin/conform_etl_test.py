@@ -71,6 +71,7 @@ class ConformETLTests(unittest.TestCase):
         config = self.get_config(source_dir)
         return root, source_dir, target_dir, data, config
 
+    # TESTS---------------------------------------------------------------------
     def test_get_data(self):
         with TemporaryDirectory() as root:
             root, _, _, data, config = self.setup(root)
@@ -102,6 +103,13 @@ class ConformETLTests(unittest.TestCase):
             etl = ConformETL(**config)
             self.assertEqual(etl._data.loc[0, 'line_rule'], False)
             self.assertEqual(etl._line_rules, config['line_rules'])
+
+    def test_init_empty(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config['source_rules'] = [dict(path=root, include='foobar')]
+            result = ConformETL(**config).to_dataframe().shape[0]
+            self.assertEqual(result, 0)
 
     def test_repr(self):
         with TemporaryDirectory() as root:
