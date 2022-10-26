@@ -164,9 +164,9 @@ class ConformETL:
         Returns:
             BlobETL: BlobETL of target and source filepaths.
         '''
-        output = self._data
-        keys = output.target.tolist()
-        vals = output.source.tolist()
+        data = self._data
+        keys = data.target.tolist()
+        vals = data.source.tolist()
         output = dict(zip(keys, vals))
         output = BlobETL(output)
         return output
