@@ -121,3 +121,18 @@ class ConformETLTests(unittest.TestCase):
             result = lines[6]
             expected = r' */tmp/.*?/python/bar/__init__.py +/tmp/.*?/target/bar/__init__.py +\[init\] +X'
             self.assertRegex(result, expected)
+
+    def test_groups(self):
+        with TemporaryDirectory() as root:
+            _, _, _, _, config = self.setup(root)
+
+            # init
+            result = ConformETL(**config).groups
+            expected = ['base', 'init']
+            self.assertEqual(result, expected)
+
+            # no groups
+            config['group_rules'] = []
+            result = ConformETL(**config).groups
+            expected = ['base']
+            self.assertEqual(result, expected)
