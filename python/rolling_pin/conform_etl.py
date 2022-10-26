@@ -34,8 +34,9 @@ class ConformETL:
     Finally, the conform method is called and the source files are copied to
     their target filepaths.
     '''
-    def __init__(
-        self, source_rules=[], rename_rules=[], group_rules=[], line_rules=[]
+    @staticmethod
+    def _get_data(
+        source_rules=[], rename_rules=[], group_rules=[], line_rules=[]
     ):
         # type: (Rules, Rules, Rules, Rules) -> None
         '''
@@ -88,7 +89,32 @@ class ConformETL:
         data['line_rule'] = data.groups \
             .apply(lambda x: len(set(x).intersection(groups)) > 0)
 
-        self._data = data
+        return data
+
+    def __init__(
+        self, source_rules=[], rename_rules=[], group_rules=[], line_rules=[]
+    ):
+        # type: (Rules, Rules, Rules, Rules) -> None
+        '''
+        Generates DataFrame from given source_rules and then generates target
+        paths for them given other rules.
+
+        Args:
+            source_rules (Rules): A list of rules for parsing directories.
+                 Default: [].
+            rename_rules (Rules): A list of rules for renaming source filepath
+                to target filepaths. Default: [].
+            group_rules (Rules): A list of rules for grouping files.
+                Default: [].
+            line_rules (Rules): A list of rules for peforming line copies on
+                files belonging to a given group. Default: [].
+        '''
+        self._data = self._get_data(
+            source_rules=source_rules,
+            rename_rules=rename_rules,
+            group_rules=group_rules,
+            line_rules=line_rules,
+        )
         self._line_rules = line_rules
 
     def __repr__(self):
