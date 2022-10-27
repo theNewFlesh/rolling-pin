@@ -495,6 +495,17 @@ class ToolsTests(unittest.TestCase):
         result = rpt.filter_text(text, include_regex='foo', exclude_regex='foo')
         self.assertEqual(result, expected)
 
+    def test_filter_text_replace(self):
+        text = 'foo\nbar\nbaz\nfoo'
+
+        result = rpt.filter_text(text, replace_regex='foo', replace_value='taco')
+        expected = 'taco\nbar\nbaz\ntaco'
+        self.assertEqual(result, expected)
+
+        # identity
+        result = rpt.filter_text(text, replace_regex='(foo)', replace_value='\\1')
+        self.assertEqual(result, text)
+
     def test_read_text(self):
         with TemporaryDirectory() as root:
             src = Path(root, 'foo.txt')

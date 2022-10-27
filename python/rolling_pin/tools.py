@@ -311,8 +311,14 @@ def get_parent_fields(key, separator='/'):
     return output
 
 
-def filter_text(text, include_regex=None, exclude_regex=None):
-    # type: (str, Optional[str], Optional[str]) -> str
+def filter_text(
+    text,                # type: str
+    include_regex=None,  # type: Optional[str]
+    exclude_regex=None,  # type: Optional[str]
+    replace_regex=None,  # type: Optional[str]
+    replace_value='',    # type: str
+):
+    # type: (...) -> str
     '''
     Filter given text by applying regular expressions to each line.
 
@@ -322,6 +328,9 @@ def filter_text(text, include_regex=None, exclude_regex=None):
             Default: None.
         exclude_regex (str, optional): Remove lines that match given regex.
             Default: None.
+        replace_regex (str, optional): Substitutes regex matches in lines with
+            replace_value. Default: None.
+        replace_value (str, optional): Regex substitution value. Default: ''.
 
     Raises:
         AssertionError: If source is not a file.
@@ -334,6 +343,8 @@ def filter_text(text, include_regex=None, exclude_regex=None):
         lines = list(filter(lambda x: re.search(include_regex, x), lines))
     if exclude_regex is not None:
         lines = list(filter(lambda x: not re.search(exclude_regex, x), lines))  # type: ignore
+    if replace_regex is not None:
+        lines = [re.sub(replace_regex, replace_value, x) for x in lines]
     output = '\n'.join(lines)
     return output
 
