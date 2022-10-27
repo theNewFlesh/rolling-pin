@@ -28,7 +28,13 @@ class ConformETLTests(unittest.TestCase):
                 dict(name='resource', regex="/resources"),
             ],
             line_rules=[
-                dict(group='init', include='baz', exclude='test|ignore'),
+                dict(
+                    group='init',
+                    include='baz',
+                    exclude='test|ignore',
+                    regex='foo',
+                    replace='taco',
+                ),
             ],
         )
 

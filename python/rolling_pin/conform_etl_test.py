@@ -319,3 +319,25 @@ class ConformETLTests(unittest.TestCase):
 
             expected = ['import baz', 'import baz_testerooni']
             self.assertEqual(result, expected)
+
+    def test_conform_line_rule_replace(self):
+        with TemporaryDirectory() as root:
+            *_, config = self.setup(root)
+            config['group_rules'] = [
+                dict(name='foo', regex=r'__init__\.py'),
+                dict(name='bar', regex=r'__init__\.py'),
+            ]
+            config['line_rules'] = [
+                dict(group='foo', include='taco|baz'),
+                dict(group='bar', regex='baz', replace='taco'),
+            ]
+            etl = ConformETL(**config)
+
+            etl.conform(groups=['base', 'foo', 'bar'])
+            data = etl.to_dataframe()
+            target = data[data.line_rule].target.tolist()[0]
+            with open(target) as f:
+                result = f.read().split('\n')
+
+            expected = ['import taco', 'import taco_testerooni', 'import taco']
+            self.assertEqual(result, expected)

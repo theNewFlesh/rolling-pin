@@ -276,6 +276,8 @@ class ConformETL:
                     x,
                     include_regex=rule.get('include', None),
                     exclude_regex=rule.get('exclude', None),
+                    replace_regex=rule.get('regex', None),
+                    replace_value=rule.get('replace', None),
                 )
             )
         data.apply(lambda x: rpt.write_text(x.text, x.target), axis=1)
