@@ -31,7 +31,7 @@
             <a href="index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.6.4
+                0.6.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -587,8 +587,8 @@ Default: [].</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rolling_pin.conform_config.ConformConfig.line_rules">
 <span class="sig-name descname"><span class="pre">line_rules</span></span><a class="headerlink" href="#rolling_pin.conform_config.ConformConfig.line_rules" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of rules for peforming line copies on
-files belonging to a given group. Default: [].</p>
+<dd><p>A list of rules for peforming line copies and
+substitutions on files belonging to a given group. Default: [].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>Rules</p>
@@ -649,6 +649,16 @@ files belonging to a given group. Default: [].</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rolling_pin.conform_config.ConformConfig.LineRule.include">
 <span class="sig-name descname"><span class="pre">include</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">schematics.types.base.StringType</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LineRule</span> <span class="pre">as</span> <span class="pre">'include'&gt;</span></em><a class="headerlink" href="#rolling_pin.conform_config.ConformConfig.LineRule.include" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rolling_pin.conform_config.ConformConfig.LineRule.regex">
+<span class="sig-name descname"><span class="pre">regex</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">schematics.types.base.StringType</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LineRule</span> <span class="pre">as</span> <span class="pre">'regex'&gt;</span></em><a class="headerlink" href="#rolling_pin.conform_config.ConformConfig.LineRule.regex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rolling_pin.conform_config.ConformConfig.LineRule.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">schematics.types.base.StringType</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LineRule</span> <span class="pre">as</span> <span class="pre">'replace'&gt;</span></em><a class="headerlink" href="#rolling_pin.conform_config.ConformConfig.LineRule.replace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1587,7 +1597,7 @@ Useful for display on Github. Default: False.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rolling_pin.tools.filter_text">
-<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">filter_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#filter_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.filter_text" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">filter_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#filter_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.filter_text" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter given text by applying regular expressions to each line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1597,6 +1607,9 @@ Useful for display on Github. Default: False.</p></li>
 Default: None.</p></li>
 <li><p><strong>exclude_regex</strong> (<em>str</em><em>, </em><em>optional</em>) – Remove lines that match given regex.
 Default: None.</p></li>
+<li><p><strong>replace_regex</strong> (<em>str</em><em>, </em><em>optional</em>) – Substitutes regex matches in lines with
+replace_value. Default: None.</p></li>
+<li><p><strong>replace_value</strong> (<em>str</em><em>, </em><em>optional</em>) – Regex substitution value. Default: ‘’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>

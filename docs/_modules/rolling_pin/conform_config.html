@@ -28,7 +28,7 @@
             <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.6.3
+                0.6.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -120,8 +120,8 @@
 <span class="sd">            to target filepaths. Default: [].</span>
 <span class="sd">        group_rules (Rules): A list of rules for grouping files.</span>
 <span class="sd">            Default: [].</span>
-<span class="sd">        line_rules (Rules): A list of rules for peforming line copies on</span>
-<span class="sd">            files belonging to a given group. Default: [].</span>
+<span class="sd">        line_rules (Rules): A list of rules for peforming line copies and</span>
+<span class="sd">            substitutions on files belonging to a given group. Default: [].</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 <div class="viewcode-block" id="ConformConfig.SourceRule"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule">[docs]</a>    <span class="k">class</span> <span class="nc">SourceRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">is_dir</span><span class="p">])</span>  <span class="c1"># type: StringType</span>
@@ -139,7 +139,9 @@
 <div class="viewcode-block" id="ConformConfig.LineRule"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule">[docs]</a>    <span class="k">class</span> <span class="nc">LineRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
         <span class="n">group</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
         <span class="n">include</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serialize_when_none</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
-        <span class="n">exclude</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serialize_when_none</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span></div>
+        <span class="n">exclude</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serialize_when_none</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
+        <span class="n">replace</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span></div>
 
     <span class="n">source_rules</span> <span class="o">=</span> <span class="n">ListType</span><span class="p">(</span><span class="n">ModelType</span><span class="p">(</span><span class="n">SourceRule</span><span class="p">),</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ListType</span>
     <span class="n">rename_rules</span> <span class="o">=</span> <span class="n">ListType</span><span class="p">(</span><span class="n">ModelType</span><span class="p">(</span><span class="n">RenameRule</span><span class="p">),</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: ListType</span>

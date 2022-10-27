@@ -28,7 +28,7 @@
             <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.6.4
+                0.6.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -394,8 +394,14 @@
     <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="filter_text"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.filter_text">[docs]</a><span class="k">def</span> <span class="nf">filter_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">include_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1"># type: (str, Optional[str], Optional[str]) -&gt; str</span>
+<div class="viewcode-block" id="filter_text"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.filter_text">[docs]</a><span class="k">def</span> <span class="nf">filter_text</span><span class="p">(</span>
+    <span class="n">text</span><span class="p">,</span>                <span class="c1"># type: str</span>
+    <span class="n">include_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
+    <span class="n">exclude_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
+    <span class="n">replace_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
+    <span class="n">replace_value</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>    <span class="c1"># type: str</span>
+<span class="p">):</span>
+    <span class="c1"># type: (...) -&gt; str</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Filter given text by applying regular expressions to each line.</span>
 
@@ -405,6 +411,9 @@
 <span class="sd">            Default: None.</span>
 <span class="sd">        exclude_regex (str, optional): Remove lines that match given regex.</span>
 <span class="sd">            Default: None.</span>
+<span class="sd">        replace_regex (str, optional): Substitutes regex matches in lines with</span>
+<span class="sd">            replace_value. Default: None.</span>
+<span class="sd">        replace_value (str, optional): Regex substitution value. Default: &#39;&#39;.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If source is not a file.</span>
@@ -417,6 +426,8 @@
         <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">include_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">lines</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">exclude_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">exclude_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">lines</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="n">replace_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">replace_regex</span><span class="p">,</span> <span class="n">replace_value</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
     <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
