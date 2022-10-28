@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app &mdash; rolling-pin  documentation</title>
+  <title>blob_etl &mdash; rolling-pin  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/style.css" type="text/css" />
@@ -31,7 +31,7 @@
             <a href="index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.6.5
+                0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -48,8 +48,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">app</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">blob_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.conform_config">conform_config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.conform_etl">conform_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-rolling_pin.radon_etl">radon_etl</a></li>
@@ -74,7 +73,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="modules.html">&lt;no title&gt;</a> &raquo;</li>
-      <li>app</li>
+      <li>blob_etl</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/rolling_pin.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -84,57 +83,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-rolling_pin.app">
-<span id="app"></span><h1>app<a class="headerlink" href="#module-rolling_pin.app" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="rolling_pin.app.get_svg">
-<span class="sig-prename descclassname"><span class="pre">rolling_pin.app.</span></span><span class="sig-name descname"><span class="pre">get_svg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'&lt;required&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonal_edges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tb'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_scheme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rolling_pin/app.html#get_svg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.app.get_svg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a SVG string from a given JSON blob.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em><em> or </em><em>list</em>) – JSON blob.</p></li>
-<li><p><strong>layout</strong> (<em>str</em><em>, </em><em>optional</em>) – Graph layout style.
-Options include: circo, dot, fdp, neato, sfdp, twopi. Default: dot.</p></li>
-<li><p><strong>orthogonal_edges</strong> (<em>bool</em><em>, </em><em>optional</em>) – <dl class="simple">
-<dt>Whether graph edges should have</dt><dd><p>non-right angles. Default: False.</p>
-</dd>
-<dt>orient (str, optional): Graph layout orientation. Default: tb.</dt><dd><p>Options include:</p>
-<ul>
-<li><p>tb - top to bottom</p></li>
-<li><p>bt - bottom to top</p></li>
-<li><p>lr - left to right</p></li>
-<li><p>rl - right to left</p></li>
-</ul>
-</dd>
-<dt>color_scheme: (dict, optional): Color scheme to be applied to graph.</dt><dd><p>Default: rolling_pin.tools.COLOR_SCHEME</p>
-</dd>
-</dl>
-</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>SVG string.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rolling_pin.app.index">
-<span class="sig-prename descclassname"><span class="pre">rolling_pin.app.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/rolling_pin/app.html#index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.app.index" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rolling_pin.app.to_svg">
-<span class="sig-prename descclassname"><span class="pre">rolling_pin.app.</span></span><span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">flask.wrappers.Response</span></span></span><a class="reference internal" href="_modules/rolling_pin/app.html#to_svg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.app.to_svg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Endpoint for converting a given JSON blob into a SVG graph.</p>
-</dd></dl>
-
-</section>
-<section id="module-rolling_pin.blob_etl">
+  <section id="module-rolling_pin.blob_etl">
 <span id="blob-etl"></span><h1>blob_etl<a class="headerlink" href="#module-rolling_pin.blob_etl" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL">

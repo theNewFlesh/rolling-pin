@@ -1,12 +1,3 @@
-app
----
-.. automodule:: rolling_pin.app
-   :members:
-   :private-members:
-   :special-members:
-   :undoc-members:
-   :show-inheritance:
-
 blob_etl
 --------
 .. automodule:: rolling_pin.blob_etl

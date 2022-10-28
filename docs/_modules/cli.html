@@ -28,7 +28,7 @@
             <a href="../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.4.3
+                0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -45,12 +45,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#utils">utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.blob_etl">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.conform_config">conform_config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.app">app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#utils">utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">cli</a></li>
 </ul>
 
@@ -129,7 +130,6 @@
         <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;Command to run in </span><span class="si">{repo}</span><span class="s1"> app.</span>
-<span class="s1">    app          - Run app inside </span><span class="si">{repo}</span><span class="s1"> container</span>
 <span class="s1">    build        - Build image of </span><span class="si">{repo}</span><span class="s1"></span>
 <span class="s1">    build-prod   - Build production image of </span><span class="si">{repo}</span><span class="s1"></span>
 <span class="s1">    container    - Display the Docker container id of </span><span class="si">{repo}</span><span class="s1"></span>
@@ -1104,7 +1104,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">mode</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">get_info</span><span class="p">()</span>
     <span class="n">lut</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;app&#39;</span><span class="p">:</span> <span class="n">app_command</span><span class="p">(),</span>
+        <span class="c1"># &#39;app&#39;: app_command(),</span>
         <span class="s1">&#39;build&#39;</span><span class="p">:</span> <span class="n">build_dev_command</span><span class="p">(),</span>
         <span class="s1">&#39;build-prod&#39;</span><span class="p">:</span> <span class="n">build_prod_command</span><span class="p">(),</span>
         <span class="s1">&#39;container&#39;</span><span class="p">:</span> <span class="n">container_id_command</span><span class="p">(),</span>
