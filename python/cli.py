@@ -48,7 +48,6 @@ def get_info():
         nargs=1,
         action='store',
         help='''Command to run in {repo} app.
-    app          - Run app inside {repo} container
     build        - Build image of {repo}
     build-prod   - Build production image of {repo}
     container    - Display the Docker container id of {repo}
@@ -1023,7 +1022,7 @@ def main():
     '''
     mode, args = get_info()
     lut = {
-        'app': app_command(),
+        # 'app': app_command(),
         'build': build_dev_command(),
         'build-prod': build_prod_command(),
         'container': container_id_command(),

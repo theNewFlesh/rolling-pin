@@ -1,6 +1,4 @@
 cufflinks
-flasgger
-flask
 graphviz
 ipython
 lunchbox
