@@ -87,7 +87,7 @@ def bash_completion():
     '''
         BASH completion code to be written to a _rolling-pin completion file.
     '''
-    cmd = '_ROLLING-PIN_COMPLETE=bash_source rolling_pin'  # pragma: no cover
+    cmd = '_ROLLING-PIN_COMPLETE=bash_source rolling-pin'  # pragma: no cover
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)  # pragma: no cover
     result.wait()  # pragma: no cover
     click.echo(result.stdout.read())  # pragma: no cover
@@ -98,7 +98,7 @@ def zsh_completion():
     '''
         ZSH completion code to be written to a _rolling-pin completion file.
     '''
-    cmd = '_ROLLING-PIN_COMPLETE=zsh_source rolling_pin'  # pragma: no cover
+    cmd = '_ROLLING-PIN_COMPLETE=zsh_source rolling-pin'  # pragma: no cover
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)  # pragma: no cover
     result.wait()  # pragma: no cover
     click.echo(result.stdout.read())  # pragma: no cover
