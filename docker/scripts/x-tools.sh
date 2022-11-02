@@ -1,7 +1,6 @@
 # EXPORTS-----------------------------------------------------------------------
 export PATH=:/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ubuntu/.local/lib:/home/ubuntu/dev/__pypackages__/3.10/bin
 export PYTHONPATH=/home/ubuntu/rolling-pin/python:/home/ubuntu/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582:/home/ubuntu/.local/lib:/home/ubuntu/dev/__pypackages__/3.10/lib
-export REPO_ENV="True"
 export REPO="rolling-pin"
 export REPO_PATH="/home/ubuntu/$REPO"
 export BUILD_PATH="/home/ubuntu/build"
@@ -331,7 +330,6 @@ x-test-prod () {
     x-build-test;
     _x-link-prod;
     echo "${CYAN}TESTING PROD${CLEAR}\n";
-    unset REPO_ENV;
     cd $BUILD_PATH/repo;
     tox;
 }

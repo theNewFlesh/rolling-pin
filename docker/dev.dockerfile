@@ -149,5 +149,4 @@ RUN echo "\n${CYAN}CREATE SYMBOLIC LINK${CLEAR}"; \
     ln -s /home/ubuntu/dev/__pypackages__ /home/ubuntu/
 
 ENV REPO='rolling-pin'
-ENV REPO_ENV=True
 ENV PYTHONPATH ":/home/ubuntu/$REPO/python:/home/ubuntu/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582:/home/ubuntu/.local/lib"

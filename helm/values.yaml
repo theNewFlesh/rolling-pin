@@ -12,9 +12,6 @@ container:
       "python3.7",
       "/home/ubuntu/rolling-pin/python/rolling_pin/server/app.py",
     ]
-  env:
-    - name: REPO_ENV
-      value: "True"
 
 service:
   port: 80

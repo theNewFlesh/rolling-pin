@@ -7,7 +7,6 @@
         "terminal.integrated.cwd": "/home/ubuntu/${localWorkspaceFolderBasename}",
         "terminal.integrated.defaultProfile.linux": "zsh",
         "terminal.integrated.defaultProfile.osx": "zsh",
-        "terminal.integrated.env.linux": { "REPO_ENV": "True" },
         "mypy.dmypyExecutable": "/home/ubuntu/dev/__pypackages__/3.10/bin/dmypy",
         "python.analysis.extraPaths": ["/home/ubuntu/dev/__pypackages__/3.10/lib"],
         "python.autoComplete.extraPaths": ["/home/ubuntu/dev/__pypackages__/3.10/lib"],

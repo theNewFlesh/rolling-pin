@@ -592,7 +592,7 @@ def zsh_command():
     cmds = [
         enter_repo(),
         start(),
-        docker_exec() + ' -e REPO_ENV=True {repo} zsh',
+        docker_exec() + ' {repo} zsh',
         exit_repo(),
     ]
     return resolve(cmds)

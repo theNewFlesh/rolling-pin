@@ -18,13 +18,9 @@ import rolling_pin.tools as rpt
 
 class ConformETLTests(unittest.TestCase):
     def get_conform_repo_path(self):
-        if 'REPO_ENV' in os.environ.keys():
-            return lbt.relative_path(__file__, '../../resources/conform_repo')
         return lbt.relative_path(__file__, '../resources/conform_repo')
 
     def get_conform_data_path(self):
-        if 'REPO_ENV' in os.environ.keys():
-            return lbt.relative_path(__file__, '../../resources/conform_data.csv')
         return lbt.relative_path(__file__, '../resources/conform_data.csv')
 
     def get_data(self, root):
