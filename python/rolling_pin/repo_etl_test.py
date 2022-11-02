@@ -354,7 +354,7 @@ class RepoEtlTests(unittest.TestCase):
 
 class RepoEtlFuncTests(unittest.TestCase):
     def get_fake_repo(self):
-        return lbt.relative_path(__file__, '../resources/fake_repo')
+        return lbt.relative_path(__file__, '../../resources/fake_repo')
 
     def test_write_repo_plots_and_tables(self):
         with TemporaryDirectory() as root:

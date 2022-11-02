@@ -14,7 +14,7 @@ from rolling_pin.radon_etl import RadonETL
 
 class RadonEtlTests(unittest.TestCase):
     def get_fake_repo(self):
-        return lbt.relative_path(__file__, '../resources/fake_repo')
+        return lbt.relative_path(__file__, '../../resources/fake_repo')
 
     def get_fake_repo_data(self):
         data = [
