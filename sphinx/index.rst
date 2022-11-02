@@ -3,16 +3,16 @@
 Welcome to rolling-pin' documentation!
 ==================================
 .. toctree::
-   :maxdepth: 2
-   :caption: Documentation
-
-   intro
-
-.. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Python API
 
-   modules
+   rolling_pin
+
+.. toctree::
+   :maxdepth: 1
+   :caption: CLI
+
+   cli
 
 Indices and tables
 ==================
