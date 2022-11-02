@@ -1,5 +1,5 @@
 [project]
-name = "lunchbox<dev>"
+name = "rolling-pin<dev>"
 version = "0.3.0"
 description = "A library of various tools for common python tasks"
 authors = [
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-lunchbox = "lunchbox.command:main"
+rolling-pin = "rolling_pin.command:main"
 
 [tool.pdm.dev-dependencies]
 lab = [

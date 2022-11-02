@@ -1,8 +1,8 @@
 # EXPORTS-----------------------------------------------------------------------
 export PATH=:/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ubuntu/.local/lib:/home/ubuntu/dev/__pypackages__/3.10/bin
-export PYTHONPATH=/home/ubuntu/lunchbox/python:/home/ubuntu/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582:/home/ubuntu/.local/lib:/home/ubuntu/dev/__pypackages__/3.10/lib
+export PYTHONPATH=/home/ubuntu/rolling-pin/python:/home/ubuntu/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582:/home/ubuntu/.local/lib:/home/ubuntu/dev/__pypackages__/3.10/lib
 export REPO_ENV="True"
-export REPO="lunchbox"
+export REPO="rolling-pin"
 export REPO_PATH="/home/ubuntu/$REPO"
 export BUILD_PATH="/home/ubuntu/build"
 export DEV_SOURCE="$REPO_PATH/docker/dev"
@@ -38,22 +38,22 @@ _x-dir-copy () {
 }
 
 _x-from-dev-path () {
-    # Copy lunchbox/docker/dev to /home/ubuntu/dev
+    # Copy rolling-pin/docker/dev to /home/ubuntu/dev
     _x-dir-copy $DEV_SOURCE $DEV_TARGET;
 }
 
 _x-from-prod-path () {
-    # Copy lunchbox/docker/prod to /home/ubuntu/prod
+    # Copy rolling-pin/docker/prod to /home/ubuntu/prod
     _x-dir-copy $PROD_SOURCE $PROD_TARGET;
 }
 
 _x-to-dev-path () {
-    # Copy /home/ubuntu/dev to lunchbox/docker/dev
+    # Copy /home/ubuntu/dev to rolling-pin/docker/dev
     _x-dir-copy $DEV_TARGET $DEV_SOURCE;
 }
 
 _x-to-prod-path () {
-    # Copy /home/ubuntu/prod to lunchbox/docker/prod
+    # Copy /home/ubuntu/prod to rolling-pin/docker/prod
     _x-dir-copy $PROD_TARGET $PROD_SOURCE;
 }
 
@@ -265,7 +265,7 @@ x-library-update () {
 }
 
 x-session-app () {
-    # Run lunchbox app
+    # Run rolling-pin app
     echo "${CYAN}APP${CLEAR}\n";
     _x-link-dev;
     python3.10 python/$REPO/server/app.py;
