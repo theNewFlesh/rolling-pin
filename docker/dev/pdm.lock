@@ -1088,7 +1088,7 @@ summary = "Python for Window Extensions"
 name = "pywinpty"
 version = "2.0.9"
 requires_python = ">=3.7"
-summary = "Pseudo terminal support for Windows from Python."
+summary = ""
 
 [[package]]
 name = "pyyaml"
@@ -1444,7 +1444,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:f1900c5bfd77169544f95a7f7a9b736652d916f9bb1c6d0529b2951480cae44b"
+content_hash = "sha256:249e3b2596618188446cc754b4faa3a576d5997eae60a6051ddf8fec156f09c9"
 
 [metadata.files]
 "aiofiles 0.8.0" = [
