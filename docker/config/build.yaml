@@ -1,0 +1,28 @@
+source_rules:
+  - path: /home/ubuntu/rolling-pin
+    include: "LICENSE|README\\.md"
+    exclude: "/\\.|docker"
+  - path: /home/ubuntu/rolling-pin/python/rolling_pin
+    include: "\\.py$"
+  - path: /home/ubuntu/rolling-pin/docker/config
+    include: "pytest|tox|flake8|mypy"
+    exclude: "cache|__pypackages__"
+  - path: /home/ubuntu/rolling-pin/docker/prod
+    exclude: "__pypackages__"
+  - path: /home/ubuntu/rolling-pin/resources
+    include: ".*"
+rename_rules:
+  - regex: "/home/ubuntu/rolling-pin"
+    replace: /home/ubuntu/build/repo
+  - regex: ".*/resources"
+    replace: "/home/ubuntu/build/resources"
+  - regex: "/python|/docker|/prod|/config"
+    replace: ""
+group_rules:
+  - name: test
+    regex: "(__init__|_test)\\.py$|(mypy|flake8|tox|pytest)\\.ini|resources"
+  - name: prod
+    regex: "__init__\\.py$"
+line_rules:
+  - group: prod
+    exclude: test

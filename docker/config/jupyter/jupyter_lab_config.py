@@ -1,9 +1,10 @@
 c = get_config()
-c.NotebookApp.iopub_data_rate_limit = 10000000
-c.NotebookApp.notebook_dir = '/home/ubuntu/rolling-pin/notebooks'
-c.NotebookApp.disable_check_xsrf = True
-c.NotebookApp.password_required = False
-c.NotebookApp.port = 9000
-c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
-c.NotebookApp.token = ''
+c.ServerApp.iopub_data_rate_limit = 10000000
+c.ServerApp.root_dir = '/home/ubuntu/rolling-pin/notebooks'
+c.ServerApp.disable_check_xsrf = True
+c.ServerApp.password_required = False
+c.ServerApp.port = 9000
+c.ServerApp.terminado_settings = {'shell_command': ['/bin/bash']}
+c.ServerApp.token = ''
+c.LabApp.app_dir = "/home/ubuntu/dev/__pypackages__/3.10/share/jupyter/lab"
 c.IPCompleter.use_jedi = False

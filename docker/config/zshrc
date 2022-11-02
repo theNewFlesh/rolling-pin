@@ -1,5 +1,6 @@
 ZSH_THEME="henanigans"
 export ZSH="/home/ubuntu/.oh-my-zsh"
+fpath=(~/.oh-my-zsh/custom/completions $fpath)
 DISABLE_UPDATE_PROMPT=true
 plugins=(
     aws
@@ -18,3 +19,4 @@ source $ZSH/oh-my-zsh.sh
 echo 'will cite' | parallel --citation >> /dev/null 2>&1
 alias ll='ls -hlA'
 alias tree='tree -Ca'
+source /home/ubuntu/rolling-pin/docker/scripts/x-tools.sh
