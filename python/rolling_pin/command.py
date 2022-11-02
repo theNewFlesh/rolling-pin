@@ -20,15 +20,25 @@ def main():
 @click.argument('source', type=str, nargs=1)
 @click.argument('target', type=str, nargs=1)
 @click.option(
-    '--exclude', type=str, nargs=1, default='test|mock',
+    '--include',
+    type=str,
+    nargs=1,
+    default=r'.*\.py$',
+    help="include files that match this regex pattern. default: '.*\.py$'"
+)
+@click.option(
+    '--exclude',
+    type=str,
+    nargs=1,
+    default='test|mock',
     help="exclude files that match this regex pattern. default: 'test|mock'"
 )
 @click.option(
     '--orient', type=str, nargs=1, default='lr',
     help='graph orientation. default: lr.',
 )
-def graph(source, target, exclude, orient):
-    # type: (str, str, str, str) -> None
+def graph(source, target, include, exclude, orient):
+    # type: (str, str, str, str, str) -> None
     '''
     Generate a dependency graph of a source repository and write it to a given
     filepath
@@ -39,7 +49,7 @@ def graph(source, target, exclude, orient):
     '''
     if exclude == '':
         exclude = None
-    RepoETL(source, exclude_regex=exclude).write(target, orient=orient)
+    RepoETL(source, include, exclude).write(target, orient=orient)
 
 
 @main.command()
