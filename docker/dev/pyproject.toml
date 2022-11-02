@@ -16,7 +16,7 @@ dependencies = [
     "lunchbox",
     "networkx",
     "numpy",
-    "pandas>=1.3.5",
+    "pandas>=1.1.5",
     "pydot",
     "pyyaml",
     "radon",
@@ -33,7 +33,7 @@ lab = [
     "jupyterlab-git",
     "jupyterlab-henanigans>=0.2.2",
     "jupyterlab-sublime",
-    "jupyterlab>=3.5.0rc0",
+    "jupyterlab>=3.0.0",
 ]
 dev = [
     "flake8",
