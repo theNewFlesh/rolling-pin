@@ -2,7 +2,8 @@ import subprocess
 
 import click
 
-from  rolling_pin import repo_etl
+from rolling_pin.radon_etl import RadonETL
+from rolling_pin.repo_etl import RepoETL
 # ------------------------------------------------------------------------------
 
 '''
@@ -30,31 +31,45 @@ def graph(source, target, exclude, orient):
     # type: (str, str, str, str) -> None
     '''
     Generate a dependency graph of a source repository and write it to a given
-    target
+    filepath
 
     SOURCE - repository path
 
     TARGET - target filepath
     '''
-    repo_etl.write_repo_architecture(source, target, exclude, orient)
+    if exclude == '':
+        exclude = None
+    RepoETL(source, exclude_regex=exclude).write(target, orient=orient)
 
 
 @main.command()
 @click.argument('source', type=str, nargs=1)
-@click.argument('plot-path', type=str, nargs=1)
-@click.argument('table-dir', type=str, nargs=1)
-def plot(source, plot_path, table_dir):
-    # type: (str, str, str) -> None
+@click.argument('target', type=str, nargs=1)
+def plot(source, target):
+    # type: (str, str) -> None
     '''
-    Write repository plots and tables to given paths
+    Write radon metrics plots of given repository to given filepath 
 
-    SOURCE    - repository path
+    SOURCE - repository path
 
-    PLOT-PATH - plot filepath
-
-    TABLE-DIR - table parent directory
+    TARGET - plot filepath
     '''
-    repo_etl.write_repo_plots_and_tables()
+    RadonETL(source).write_plots(target)
+
+
+@main.command()
+@click.argument('source', type=str, nargs=1)
+@click.argument('target', type=str, nargs=1)
+def table(source, target):
+    # type: (str, str) -> None
+    '''
+    Write radon metrics tables of given repository to given directory
+
+    SOURCE - repository path
+
+    TARGET - table directory
+    '''
+    RadonETL(source).write_tables(target)
 
 
 @main.command()
