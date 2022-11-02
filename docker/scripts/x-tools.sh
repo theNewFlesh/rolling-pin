@@ -177,6 +177,7 @@ x-library-add () {
 
 x-library-graph-dev () {
     # Graph dependencies in dev environment
+    _x-from-dev-path;
     echo "${CYAN}DEV DEPENDENCY GRAPH${CLEAR}\n";
     cd $DEV_TARGET;
     pdm list --graph;
@@ -184,6 +185,7 @@ x-library-graph-dev () {
 
 x-library-graph-prod () {
     # Graph dependencies in prod environment
+    _x-from-prod-path;
     echo "${CYAN}PROD DEPENDENCY GRAPH${CLEAR}\n";
     cd $PROD_TARGET;
     pdm list --graph;
@@ -213,6 +215,7 @@ x-library-install-prod () {
 
 x-library-list-dev () {
     # List packages in dev environment
+    _x-from-dev-path;
     echo "${CYAN}DEV DEPENDENCIES${CLEAR}\n";
     cd $DEV_TARGET;
     pdm list;
@@ -220,6 +223,7 @@ x-library-list-dev () {
 
 x-library-list-prod () {
     # List packages in prod environment
+    _x-from-prod-path;
     echo "${CYAN}PROD DEPENDENCIES${CLEAR}\n";
     cd $PROD_TARGET;
     pdm list;
