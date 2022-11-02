@@ -349,36 +349,3 @@ class RepoEtlTests(unittest.TestCase):
         data.sort_values('fullpath', inplace=True)
         data.reset_index(drop=True, inplace=True)
         return data
-# ------------------------------------------------------------------------------
-
-
-class RepoEtlFuncTests(unittest.TestCase):
-    def get_fake_repo(self):
-        return lbt.relative_path(__file__, '../../resources/fake_repo')
-
-    def test_write_repo_plots_and_tables(self):
-        with TemporaryDirectory() as root:
-            repo = self.get_fake_repo()
-            tables = Path(root, 'tables')
-            os.makedirs(tables)
-            plot = Path(root, 'plot.html')
-
-            # write plots
-            rpo.write_repo_plots_and_tables(repo, plot, tables)
-            result = sorted(os.listdir(tables))
-            expected = [
-                'all_metrics.html',
-                'cyclomatic_complexity_metrics.html',
-                'halstead_metrics.html',
-                'maintainability_metrics.html',
-                'raw_metrics.html',
-            ]
-            self.assertEqual(result, expected)
-            self.assertTrue(plot.is_file())
-
-    def test_write_repo_architecture(self):
-        with TemporaryDirectory() as root:
-            source = self.get_fake_repo()
-            target = Path(root, 'architecture.svg')
-            rpo.write_repo_architecture(source, target)
-            self.assertTrue(target.is_file())
