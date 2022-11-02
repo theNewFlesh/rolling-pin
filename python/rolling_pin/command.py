@@ -18,38 +18,41 @@ def main():
 @main.command()
 @click.argument('source', type=str, nargs=1)
 @click.argument('target', type=str, nargs=1)
-@click.option('exclude_regex', type=str, nargs=1, default='test|mock')
-@click.option('orient', type=str, nargs=1, default='lr')
-def graph(source, target, exclude_regex, orient):
+@click.option(
+    '--exclude', type=str, nargs=1, default='test|mock',
+    help="exclude files that match this regex pattern. default: 'test|mock'"
+)
+@click.option(
+    '--orient', type=str, nargs=1, default='lr',
+    help='graph orientation. default: lr.',
+)
+def graph(source, target, exclude, orient):
     # type: (str, str, str, str) -> None
     '''
-        Generate a dependency graph of a source repository and write it to a gven target.
+    Generate a dependency graph of a source repository and write it to a given
+    target
 
-        SOURCE        - repository path
+    SOURCE - repository path
 
-        TARGET        - target filepath
-
-        EXCLUDE_REGEX - exclude files that match this regex pattern. Default: 'test|mock'
-
-        ORIENT        - graph orientation. Default: lr.
+    TARGET - target filepath
     '''
-    repo_etl.write_repo_architecture(source, target, exclude_regex, orient)
+    repo_etl.write_repo_architecture(source, target, exclude, orient)
 
 
 @main.command()
 @click.argument('source', type=str, nargs=1)
-@click.argument('plot_path', type=str, nargs=1)
-@click.argument('table_dir', type=str, nargs=1)
+@click.argument('plot-path', type=str, nargs=1)
+@click.argument('table-dir', type=str, nargs=1)
 def plot(source, plot_path, table_dir):
     # type: (str, str, str) -> None
     '''
-    Write repository plots and tablea to given paths.
+    Write repository plots and tables to given paths
 
-        SOURCE    - repository path
+    SOURCE    - repository path
 
-        PLOT_PATH - plot filepath
+    PLOT-PATH - plot filepath
 
-        TABLE_DIR - table parent directory
+    TABLE-DIR - table parent directory
     '''
     repo_etl.write_repo_plots_and_tables()
 
