@@ -17,14 +17,9 @@ import rolling_pin.tools as rpt
 
 
 class ConformETLTests(unittest.TestCase):
-    def get_conform_repo_path(self):
-        return lbt.relative_path(__file__, '../../resources/conform_repo')
-
-    def get_conform_data_path(self):
-        return lbt.relative_path(__file__, '../../resources/conform_data.csv')
-
     def get_data(self, root):
-        data = pd.read_csv(self.get_conform_data_path(), index_col=False)
+        src = lbt.relative_path(__file__, '../../resources/conform_data.csv')
+        data = pd.read_csv(src, index_col=False)
         data.source = data.source.apply(lambda x: x.format(root=root))
         data.target = data.target.apply(lambda x: x.format(root=root))
         data.groups = data.groups.apply(eval)
@@ -62,7 +57,7 @@ class ConformETLTests(unittest.TestCase):
         )
 
     def setup(self, root):
-        repo_path = self.get_conform_repo_path()
+        repo_path = lbt.relative_path(__file__, '../../resources/conform_repo')
         data = self.get_data(root)
         source_dir = Path(root, 'source').as_posix()
         target_dir = Path(root, 'target').as_posix()
