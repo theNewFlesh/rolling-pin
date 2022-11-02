@@ -11,6 +11,7 @@ source_rules:
     exclude: "__pypackages__"
   - path: /home/ubuntu/rolling-pin/resources
     include: ".*"
+    exclude: "__pycache__"
 rename_rules:
   - regex: "/home/ubuntu/rolling-pin"
     replace: /home/ubuntu/build/repo
