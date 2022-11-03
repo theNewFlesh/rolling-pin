@@ -15,7 +15,7 @@
         "python.linting.flake8Args": ["--config=docker/config/flake8.ini"],
         "python.linting.flake8Enabled": true,
         "python.linting.flake8Path": "/usr/local/bin/flake8",
-        "python.linting.mypyArgs": ["--config-file=docker/config/mypy.ini"],
+        "python.linting.mypyArgs": ["--config-file=docker/dev/pyproject.toml"],
         "python.linting.mypyEnabled": true,
         "python.linting.mypyPath": "/usr/local/bin/mypy",
         "python.linting.pycodestylePath": "/usr/local/bin/pycodestyle",

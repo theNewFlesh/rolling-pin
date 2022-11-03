@@ -343,7 +343,7 @@ x-test-lint () {
     echo "${CYAN}LINTING${CLEAR}\n";
     flake8 python --config docker/config/flake8.ini;
     echo "${CYAN}TYPE CHECKING${CLEAR}\n";
-    mypy python --config-file docker/config/mypy.ini;
+    mypy python --config-file docker/dev/pyproject.toml;
 }
 
 x-test-prod () {

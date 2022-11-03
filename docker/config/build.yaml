@@ -5,7 +5,7 @@ source_rules:
   - path: /home/ubuntu/rolling-pin/python/rolling_pin
     include: "\\.py$"
   - path: /home/ubuntu/rolling-pin/docker/config
-    include: "pytest|tox|flake8|mypy"
+    include: "flake8"
     exclude: "cache|__pypackages__"
   - path: /home/ubuntu/rolling-pin/docker/prod
     exclude: "__pypackages__"
@@ -29,7 +29,7 @@ rename_rules:
     replace: "/repo"
 group_rules:
   - name: test
-    regex: "(__init__|_test)\\.py$|(mypy|flake8|tox)\\.ini|resources"
+    regex: "(__init__|_test)\\.py$|flake8\\.ini|resources"
   - name: prod
     regex: "__init__\\.py$"
 line_rules:

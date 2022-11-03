@@ -96,6 +96,13 @@ groups = test
 commands = pytest rolling_pin -c pyproject.toml
 """
 
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+no_warn_no_return = true
+pretty = true
+warn_unused_ignores = true
+
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
