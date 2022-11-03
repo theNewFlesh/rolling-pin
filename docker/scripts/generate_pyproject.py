@@ -33,58 +33,46 @@ def main():
         help='python version',
     )
 
-    parser.add_argument(
-        '--groups',
-        metavar='groups',
-        type=str,
-        nargs=1,
-        default='all',
-        action='store',
-        help='python version',
-    )
-
     args = parser.parse_args()
-    temp, ver, grp = args.template[0], args.version[0], args.groups[0].split(',')
-    text = generate_pyproject(temp, ver, grp)
+    text = generate_pyproject(args.template[0], args.version[0])
     print(text)
 
 
-def generate_pyproject(source_path, version, groups):
-    # type: (str, str, List[str]) -> str
+def generate_pyproject(template_file):
+    # type: (str) -> str
     '''
-    Generate pyproject.toml file given a source_path and python version.
+    Generate pyproject.toml file given a template file.
     Removes dev dependecies.
 
     Args:
-        source_path (str): Path to base pyproject.toml file.
-        target_path (str): Path to write generated pyproject.toml file.
-        version (str): Python version.
-        groups (list[str]): Dependency groups.
+        template_file (str): Path to base pyproject.toml template file.
 
     Returns:
         str: pyproject.toml content.
     '''
-    proj = toml.load(source_path)
+    with open(template_file) as f:
+        text = f.read()
 
     # remove arbitrary tag
     # if your project has a dependency that depends on an earlier version of
     # your project, you need to add an arbitrary tag to disrupt its namespace in
     # order for pdm to resolve
-    proj['project']['name'] = re.sub('<.*>', '', proj['project']['name'])
+    text = re.sub('<drop>', '', text)
 
     # fix python version
-    proj['project']['requires-python'] = f'{version}'
+    regex = '.*<replace>(.|\n)*</replace>'
+    version = re.search(regex, text).group(0).split('\n')[1:-1]
+    for line in version:
+        if re.search('^#', line):
+            version = line
+            break
+    version = re.sub('# *', '', version)
+    text = re.sub(regex, version, text)
 
-    deps = deepcopy(proj['tool']['pdm']['dev-dependencies'])
-    proj['tool']['pdm']['dev-dependencies'] = {}
+    # remove group section
+    text = re.sub('\n.*<remove>(.|\n)*</remove>', '', text)
 
-    if groups == ['all']:
-        groups = ['dev', 'test']
-    for group in groups:
-        if group in deps.keys():
-            proj['tool']['pdm']['dev-dependencies'][group] = deps[group]
-
-    return toml.dumps(proj)
+    return text
 
 
 if __name__ == '__main__':
