@@ -68,7 +68,7 @@ _x-build () {
 }
 
 _x-workflow-dev () {
-    # Copies docker/dev to ~/dev, run a given command, and copies ~/dev bask to
+    # Copies docker/dev to ~/dev, run a given command, and copies ~/dev back to
     # docker/dev
     # args: command string
     local CWD=`pwd`;
@@ -80,16 +80,26 @@ _x-workflow-dev () {
     cd $CWD;
 }
 
+_x-workflow-prod () {
+    # Copies docker/prod to ~/prod, run a given command, and copies ~/prod back
+    # to docker/prod
+    # args: command string
+    local CWD=`pwd`;
+    _x-link-dev;
+    _x-generate-prod;
+    _x-dir-copy $PROD_SOURCE $PROD_TARGET;
+    cd $PROD_TARGET;
+    eval "$1";
+    _x-dir-copy $PROD_TARGET $PROD_SOURCE;
+    cd $CWD;
+}
+
 _x-generate-prod () {
     # Generate prod/pyproject.toml from dev/pyproject.toml
     _x-link-dev;
     _x-from-prod-path;
-    python3 \
-        docker/scripts/generate_pyproject.py \
-            docker/dev/pyproject.toml \
-            "$PROD_PYTHON_VERSION" \
-            --groups test \
-        > $PROD_TARGET/pyproject.toml;
+    python3 docker/scripts/generate_pyproject.py docker/dev/pyproject.toml \
+    > $PROD_TARGET/pyproject.toml;
     _x-to-prod-path;
 }
 
