@@ -80,6 +80,19 @@ _x-dev-workflow () {
     cd $CWD;
 }
 
+_x-generate-prod () {
+    # Generate prod/pyproject.toml from dev/pyproject.toml
+    _x-link-dev;
+    _x-from-prod-path;
+    python3 \
+        docker/scripts/generate_pyproject.py \
+            docker/dev/pyproject.toml \
+            "$PROD_PYTHON_VERSION" \
+            --groups test \
+        > $PROD_TARGET/pyproject.toml;
+    _x-to-prod-path;
+}
+
 # TASK-FUNCTIONS----------------------------------------------------------------
 x-build-pip-package () {
     # Generate pip package of repo in /home/ubuntu/build/repo
@@ -200,13 +213,7 @@ x-library-install-dev () {
 x-library-install-prod () {
     # Install all dependencies of prod/pyproject.toml into /home/ubuntu/prod
     echo "${CYAN}INSTALL PROD${CLEAR}\n";
-    _x-link-dev;
-    python3 \
-        docker/scripts/generate_pyproject.py \
-            docker/dev/pyproject.toml \
-            "$PROD_PYTHON_VERSION" \
-            --groups test \
-        > $PROD_TARGET/pyproject.toml;
+    _x-generate-prod;
     cd $PROD_TARGET;
     _x-from-prod-path;
     pdm install --no-self --dev -v;
@@ -331,6 +338,7 @@ x-test-lint () {
 
 x-test-prod () {
     # Run tests across all support python versions
+    _x-generate-prod;
     x-build-test;
     _x-link-prod;
     echo "${CYAN}TESTING PROD${CLEAR}\n";
