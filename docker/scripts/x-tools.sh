@@ -67,7 +67,7 @@ _x-build () {
         --groups base,$1;
 }
 
-_x-dev-workflow () {
+_x-workflow-dev () {
     # Copies docker/dev to ~/dev, run a given command, and copies ~/dev bask to
     # docker/dev
     # args: command string
@@ -207,7 +207,7 @@ x-library-graph-prod () {
 x-library-install-dev () {
     # Install all dependencies of dev/pyproject.toml into /home/ubuntu/dev
     echo "${CYAN}INSTALL DEV${CLEAR}\n";
-    _x-dev-workflow "pdm install --no-self --dev -v";
+    _x-workflow-dev "pdm install --no-self --dev -v";
 }
 
 x-library-install-prod () {
@@ -239,7 +239,7 @@ x-library-list-prod () {
 x-library-lock () {
     # Update /home/ubuntu/dev/pdm.lock file
     echo "${CYAN}DEV DEPENDENCY LOCK${CLEAR}\n";
-    _x-dev-workflow "pdm lock -v";
+    _x-workflow-dev "pdm lock -v";
 }
 
 x-library-remove () {
@@ -265,13 +265,13 @@ x-library-search () {
 x-library-sync () {
     # Sync dev dependencies
     echo "${CYAN}SYNCING DEV DEPENDENCIES${CLEAR}\n";
-    _x-dev-workflow "pdm sync --no-self --dev -v";
+    _x-workflow-dev "pdm sync --no-self --dev -v";
 }
 
 x-library-update () {
     # Update dev dependencies
     echo "${CYAN}UPDATING DEV DEPENDENCIES${CLEAR}\n";
-    _x-dev-workflow "pdm update --no-self --dev -v";
+    _x-workflow-dev "pdm update --no-self --dev -v";
 }
 
 x-session-app () {
@@ -357,17 +357,17 @@ x-version () {
 x-version-bump-major () {
     # Bump repo's major version
     echo "${CYAN}BUMPING MAJOR VERSION${CLEAR}\n";
-    _x-dev-workflow "pdm bump major";
+    _x-workflow-dev "pdm bump major";
 }
 
 x-version-bump-minor () {
     # Bump repo's minor version
     echo "${CYAN}BUMPING MINOR VERSION${CLEAR}\n";
-    _x-dev-workflow "pdm bump minor";
+    _x-workflow-dev "pdm bump minor";
 }
 
 x-version-bump-patch () {
     # Bump repo's patch version
     echo "${CYAN}BUMPING PATCH VERSION${CLEAR}\n";
-    _x-dev-workflow "pdm bump patch";
+    _x-workflow-dev "pdm bump patch";
 }
