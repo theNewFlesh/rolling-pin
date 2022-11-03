@@ -80,6 +80,22 @@ omit = [
     "*/conftest.py",
 ]
 
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py3{10,9,8,7}
+distdir = /home/ubuntu/build/dist
+setupdir = /home/ubuntu/build/repo
+toxworkdir = /home/ubuntu/build/tox
+isolated_build = True
+
+[testenv]
+setenv =
+    PYTHONPATH = ''
+groups = test
+commands = pytest rolling_pin -c pyproject.toml
+"""
+
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
