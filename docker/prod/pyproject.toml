@@ -41,4 +41,3 @@ test = [
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
 
-[project.optional-dependencies]
