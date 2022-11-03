@@ -1,6 +1,5 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import os
 import shutil
 import unittest
 

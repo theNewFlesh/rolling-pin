@@ -12,7 +12,6 @@ import networkx
 import numpy as np
 import pandas as pd
 
-from rolling_pin.radon_etl import RadonETL
 import rolling_pin.tools as rpt
 # ------------------------------------------------------------------------------
 

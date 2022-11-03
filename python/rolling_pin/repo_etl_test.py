@@ -5,7 +5,6 @@ import unittest
 
 from pandas import DataFrame
 import IPython
-import lunchbox.tools as lbt
 import numpy as np
 import pytest
 

@@ -24,7 +24,7 @@ def main():
     type=str,
     nargs=1,
     default=r'.*\.py$',
-    help="include files that match this regex pattern. default: '.*\.py$'"
+    help=r"include files that match this regex pattern. default: '.*\.py$'"
 )
 @click.option(
     '--exclude',
@@ -58,7 +58,7 @@ def graph(source, target, include, exclude, orient):
 def plot(source, target):
     # type: (str, str) -> None
     '''
-    Write radon metrics plots of given repository to given filepath 
+    Write radon metrics plots of given repository to given filepath
 
     SOURCE - repository path
 
