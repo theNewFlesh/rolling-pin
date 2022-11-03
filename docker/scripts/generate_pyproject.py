@@ -24,17 +24,8 @@ def main():
         help='pyrpoject.toml filepath',
     )
 
-    parser.add_argument(
-        'version',
-        metavar='version',
-        type=str,
-        nargs=1,
-        action='store',
-        help='python version',
-    )
-
     args = parser.parse_args()
-    text = generate_pyproject(args.template[0], args.version[0])
+    text = generate_pyproject(args.template[0])
     print(text)
 
 
