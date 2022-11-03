@@ -16,7 +16,8 @@ export X_TOOLS_PATH="$REPO_PATH/docker/scripts/x-tools.sh"
 _x-link () {
     # Link given __pypackages__ directory to /home/ubuntu/__pypackages__
     # args: pypackages directory
-    ln -sf $1 /home/ubuntu/__pypackages__;
+    rm -f /home/ubuntu/__pypackages__;
+    ln -s $1 /home/ubuntu/__pypackages__;
 }
 
 _x-link-dev () {
