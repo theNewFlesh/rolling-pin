@@ -29,7 +29,7 @@ rename_rules:
     replace: "/repo"
 group_rules:
   - name: test
-    regex: "(__init__|_test)\\.py$|(mypy|flake8|tox|pytest)\\.ini|resources"
+    regex: "(__init__|_test)\\.py$|(mypy|flake8|tox)\\.ini|resources"
   - name: prod
     regex: "__init__\\.py$"
 line_rules:

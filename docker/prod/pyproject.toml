@@ -37,6 +37,28 @@ test = [
     "tox>=3.26.0",
 ]
 
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+markers = [
+    "flaky:Flaky test",
+]
+
+[tool.pytest.ini_options.report]
+show_missing = true
+omit = [
+    "*/__init__.py",
+    "*/*_test_base.py",
+    "*/*_test.py",
+    "*/*_tests.py",
+    "*/cli.py",
+    "*/mock_*.py",
+    "*/conftest.py",
+]
+
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"

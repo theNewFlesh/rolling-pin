@@ -311,10 +311,10 @@ x-test-coverage () {
     cd $REPO_PATH;
     mkdir -p docs;
     pytest \
-        -c docker/config/pytest.ini \
+        -c docker/dev/pyproject.toml \
         --numprocesses $PROCS \
         --cov=python \
-        --cov-config=docker/config/pytest.ini \
+        --cov-config=docker/dev/pyproject.toml \
         --cov-report=html:docs/htmlcov \
         python;
 }
@@ -324,7 +324,7 @@ x-test-dev () {
     echo "${CYAN}TESTING DEV${CLEAR}\n";
     _x-link-dev;
     cd $REPO_PATH;
-    pytest -c docker/config/pytest.ini --numprocesses $PROCS python;
+    pytest -c docker/dev/pyproject.toml --numprocesses $PROCS python;
 }
 
 x-test-fast () {
@@ -333,7 +333,7 @@ x-test-fast () {
     _x-link-dev;
     cd $REPO_PATH;
     SKIP_SLOW_TESTS=true \
-    pytest -c docker/config/pytest.ini --numprocesses $PROCS python;
+    pytest -c docker/dev/pyproject.toml --numprocesses $PROCS python;
 }
 
 x-test-lint () {
