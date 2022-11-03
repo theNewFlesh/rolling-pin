@@ -95,12 +95,11 @@ _x-workflow-prod () {
 }
 
 _x-generate-prod () {
-    # Generate prod/pyproject.toml from dev/pyproject.toml
+    # Generate docker/prod/pyproject.toml from docker/dev/pyproject.toml
     _x-link-dev;
-    _x-from-prod-path;
     python3 docker/scripts/generate_pyproject.py docker/dev/pyproject.toml \
-    > $PROD_TARGET/pyproject.toml;
-    _x-to-prod-path;
+    > $PROD_SOURCE/pyproject.toml;
+    _x-from-prod-path;
 }
 
 # TASK-FUNCTIONS----------------------------------------------------------------
