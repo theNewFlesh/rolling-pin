@@ -47,9 +47,9 @@ def graph(source, target, include, exclude, orient):
 
     TARGET - target filepath
     '''
-    if exclude == '':
-        exclude = None
-    RepoETL(source, include, exclude).write(target, orient=orient)
+    include_ = None if include == '' else include
+    exclude_ = None if exclude == '' else exclude
+    RepoETL(source, include_, exclude_).write(target, orient=orient)
 
 
 @main.command()
