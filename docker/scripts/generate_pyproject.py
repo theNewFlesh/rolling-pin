@@ -63,6 +63,9 @@ def generate_pyproject(template_file):
     # remove group section
     text = re.sub('\n.*<remove>(.|\n)*</remove>', '', text)
 
+    # remove trailing newlines
+    text = text.rstrip('\n')
+
     return text
 
 
