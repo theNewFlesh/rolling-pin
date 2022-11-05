@@ -71,7 +71,7 @@ isolated_build = True
 [testenv]
 setenv =
     PYTHONPATH = ''
-groups = test
+deps = -rdeps.txt
 commands = pytest rolling_pin -c pyproject.toml
 """
 
