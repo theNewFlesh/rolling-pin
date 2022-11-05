@@ -353,7 +353,7 @@ x-test-prod () {
     _x-link-prod;
     echo "${CYAN}TESTING PROD${CLEAR}\n";
     cd $BUILD_PATH/repo;
-    pdm export --format requirements --dev --no-default --output deps.txt;
+    pdm export --format requirements --without-hashes --dev --output deps.txt;
     tox --parallel -v;
 }
 
