@@ -1,3 +1,4 @@
+export SHELL=`which zsh`
 ZSH_THEME="henanigans"
 export ZSH="/home/ubuntu/.oh-my-zsh"
 fpath=(~/.oh-my-zsh/custom/completions $fpath)
@@ -17,6 +18,9 @@ plugins=(
 )
 source $ZSH/oh-my-zsh.sh
 echo 'will cite' | parallel --citation >> /dev/null 2>&1
+alias l='ls -hl'
 alias ll='ls -hlA'
 alias tree='tree -Ca'
-source /home/ubuntu/rolling-pin/docker/scripts/x-tools.sh
+git config --global --add safe.directory /home/ubuntu/rolling-pin
+source /home/ubuntu/rolling-pin/docker/scripts/x_tools.sh
+x_env_activate_dev;

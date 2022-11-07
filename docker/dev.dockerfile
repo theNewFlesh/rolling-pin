@@ -103,50 +103,30 @@ FROM base AS dev
 USER ubuntu
 WORKDIR /home/ubuntu
 
-RUN echo "\n${CYAN}INSTALL PDM${CLEAR}"; \
+RUN echo "\n${CYAN}INSTALL PDM AND TOML${CLEAR}"; \
     curl -sSL \
         https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py \
     | python3.10 - && \
-    pip3.10 install --upgrade pdm && \
+    pip3.10 install --upgrade --user pdm toml && \
     mkdir -p /home/ubuntu/.oh-my-zsh/custom/completions && \
     pdm completion zsh > /home/ubuntu/.oh-my-zsh/custom/completions/_pdm
 
-USER root
-RUN echo "\n${CYAN}CREATE DEV AND PROD DIRECTORIES${CLEAR}"; \
-    mkdir dev prod && \
-    chown ubuntu:ubuntu dev prod
-USER ubuntu
-
 # install python dependencies
-COPY --chown=ubuntu:ubuntu dev/pyproject.toml /home/ubuntu/dev/
-COPY --chown=ubuntu:ubuntu dev/pdm.lock /home/ubuntu/dev/
-COPY --chown=ubuntu:ubuntu dev/.pdm.toml /home/ubuntu/dev/.pdm.toml
-RUN echo "\n${CYAN}INSTALL PYTHON DEV ENVIRONMENT${CLEAR}"; \
-    cd dev && \
-    pdm install --no-self --dev -v && \
-    pdm export \
-        --no-default \
-        -dG lab \
-        --without-hashes \
-        --format requirements \
-        --output lab_requirements.txt && \
-    pip3.10 install --user -r lab_requirements.txt
-
-# install prod dependencies
-COPY --chown=ubuntu:ubuntu prod/pyproject.toml /home/ubuntu/prod/
-COPY --chown=ubuntu:ubuntu prod/pdm.lock /home/ubuntu/prod/
-COPY --chown=ubuntu:ubuntu prod/.pdm.toml /home/ubuntu/prod/.pdm.toml
-RUN echo "\n${CYAN}INSTALL PYTHON PROD ENVIRONMENT${CLEAR}"; \
-    cd prod && \
-    pdm use /usr/bin/python3.7  && pdm install --no-self --dev -v && \
-    pdm use /usr/bin/python3.8  && pdm install --no-self --dev -v && \
-    pdm use /usr/bin/python3.9  && pdm install --no-self --dev -v && \
-    pdm use /usr/bin/python3.10 && pdm install --no-self --dev -v
-
-RUN echo "\n${CYAN}CREATE SYMBOLIC LINK${CLEAR}"; \
-    find /home/ubuntu/dev  -type f -maxdepth 1 | parallel 'rm -rf {}' && \
-    find /home/ubuntu/prod -type f -maxdepth 1 | parallel 'rm -rf {}' && \
-    ln -s /home/ubuntu/dev/__pypackages__ /home/ubuntu/
+COPY --chown=ubuntu:ubuntu config/* /home/ubuntu/config/
+COPY --chown=ubuntu:ubuntu scripts/* /home/ubuntu/scripts/
+RUN echo "\n${CYAN}INSTALL PYTHON ENVIRONMENTS${CLEAR}"; \
+    mkdir pdm && \
+    cd pdm && \
+    . /home/ubuntu/scripts/x_tools.sh && \
+    export CONFIG_DIR=/home/ubuntu/config && \
+    export SCRIPT_DIR=/home/ubuntu/scripts && \
+    x_env_init dev 3.10 && \
+    x_env_init prod 3.10 && \
+    x_env_init prod 3.9 && \
+    x_env_init prod 3.8 && \
+    x_env_init prod 3.7 && \
+    cd /home/ubuntu && \
+    rm -rf config scripts
 
 ENV REPO='rolling-pin'
-ENV PYTHONPATH ":/home/ubuntu/$REPO/python:/home/ubuntu/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582:/home/ubuntu/.local/lib"
+ENV PYTHONPATH ":/home/ubuntu/$REPO/python:/home/ubuntu/.local/lib"

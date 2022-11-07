@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('../python'))
 project = 'rolling-pin'
 copyright = '2022, Alex Braun <alexander.g.braun@gmail.com>'
 author = 'Alex Braun <alexander.g.braun@gmail.com>'
-version = toml.load('../docker/dev/pyproject.toml')['project']['version']
+version = toml.load('../docker/config/pyproject.toml')['project']['version']
 # release = ''
 
 # -- General configuration ---------------------------------------------------

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-from typing import List
+from typing import Any, List
 
-from copy import deepcopy
 import argparse
-import re
 
 import toml
 # ------------------------------------------------------------------------------
@@ -11,62 +9,94 @@ import toml
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
-        description='Generates a pyproject.toml file for specific python version',
-        usage='\ngenerate_pyproject [template] [python-version] [-h --help]'
+        description='Generate TOML content using a given TOML file',
+        usage='\ntoml_gen [filepath] [-h --help]'
     )
 
     parser.add_argument(
-        'template',
-        metavar='template',
+        'filepath',
+        metavar='filepath',
         type=str,
         nargs=1,
         action='store',
-        help='pyrpoject.toml filepath',
+        help='TOML file',
+    )
+
+    parser.add_argument(
+        '--replace',
+        metavar='replace',
+        type=str,
+        nargs='+',
+        default=[],
+        action='append',
+        help='replace key with value in comma separated pair',
+    )
+
+    parser.add_argument(
+        '--delete',
+        metavar='delete',
+        type=str,
+        nargs='+',
+        default=[],
+        action='append',
+        help='key to be deleted',
     )
 
     args = parser.parse_args()
-    text = generate_pyproject(args.template[0])
+    filepath, repls, dels = args.filepath[0], args.replace, args.delete
+    repls = [x[0].split(',') for x in repls]
+    dels = [x[0] for x in dels]
+    text = generate(filepath, repls, dels)
     print(text)
 
 
-def generate_pyproject(template_file):
-    # type: (str) -> str
+class PrettyEncoder(toml.TomlArraySeparatorEncoder):
+    def __init__(self, _dict=dict, preserve=False, separator=','):
+        super().__init__(_dict, preserve, ',\n   ')
+
+    def dump_list(self, v):
+        if len(v) == 0:
+            return '[]'
+        if len(v) == 1:
+            return '["' + v[0] + '"]'
+        output = super().dump_list(v)[1:-1].rstrip('    \n')
+        return '[\n   ' + output + '\n]'
+
+
+def generate(filepath, replacements, deletions):
+    # type: (str, List[List[str, Any]], List[str]) -> str
     '''
-    Generate pyproject.toml file given a template file.
-    Removes dev dependecies.
+    Generate TOML from a given TOML file and a list of replacements and
+    deletions.
 
     Args:
-        template_file (str): Path to base pyproject.toml template file.
+        filepath (str): pyproject.toml filepath.
+        replacements (List[List[str, object]]): LIst of key value pairs.
+            Key is replaced with value.
+        deletions (List[str]): Keys to be deleted.
 
     Returns:
         str: pyproject.toml content.
     '''
-    with open(template_file) as f:
-        text = f.read()
+    data = toml.load(filepath)
 
-    # remove arbitrary tag
-    # if your project has a dependency that depends on an earlier version of
-    # your project, you need to add an arbitrary tag to disrupt its namespace in
-    # order for pdm to resolve
-    text = re.sub('<drop>', '', text)
+    def lookup(key, data):
+        keys = key.split('.')
+        last_key = keys.pop()
+        temp = data
+        for k in keys:
+            temp = temp[k]
+        return temp, last_key
 
-    # fix python version
-    regex = '.*<replace>(.|\n)*</replace>'
-    version = re.search(regex, text).group(0).split('\n')[1:-1]
-    for line in version:
-        if re.search('^#', line):
-            version = line
-            break
-    version = re.sub('# *', '', version)
-    text = re.sub(regex, version, text)
+    for key, val in replacements:
+        temp, k = lookup(key, data)
+        temp[k]= val
 
-    # remove group section
-    text = re.sub('\n.*<remove>(.|\n)*</remove>', '', text)
+    for key in deletions:
+        temp, k = lookup(key, data)
+        del temp[k]
 
-    # remove trailing newlines
-    text = text.rstrip('\n')
-
-    return text
+    return toml.dumps(data, encoder=PrettyEncoder())
 
 
 if __name__ == '__main__':

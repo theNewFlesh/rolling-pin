@@ -2,12 +2,14 @@
     "folders": [{"path": "./"}],
     "settings": {
         "debug.allowBreakpointsEverywhere": true,
+        "forbeslindesay-taskrunner.prefix": "[",
+        "forbeslindesay-taskrunner.separator": "] ",
         "python.languageServer": "Pylance",
         "python.linting.enabled": true,
         "python.linting.flake8Args": ["--config=docker/config/flake8.ini"],
         "python.linting.flake8Enabled": true,
         "python.linting.flake8Path": "/home/ubuntu/.local/bin/flake8",
-        "python.linting.mypyArgs": ["--config=docker/dev/pyproject.toml"],
+        "python.linting.mypyArgs": ["--config=docker/config/mypy.ini"],
         "python.linting.mypyEnabled": true,
         "python.linting.mypyPath": "/home/ubuntu/.local/bin/mypy",
         "python.linting.pycodestylePath": "/home/ubuntu/.local/bin/pycodestyle",
@@ -45,303 +47,319 @@
     },
     "tasks": {
         "version": "2.0.0",
+        "type": "shell",
+        "dependsOrder": "sequence",
         "options": {
             "cwd": "${workspaceFolder}",
             "env": {
-                "X_TOOLS_PATH": "${workspaceFolder}/docker/scripts/x-tools.sh",
+                "X_TOOLS_PATH": "${workspaceFolder}/docker/scripts/x_tools.sh",
             }
+        },
+        "presentation": {
+            "focus": true,
+            "panel": "new",
+            "showReuseMessage": false
         },
         "tasks": [
             {
-                "label": "[build]-pip-package",
-                "detail": "Generate pip package of repo in ~/build/repo",
+                "label": "[build] package",
+                "detail": "Generate pip package of repo in $HOME/build/repo",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-build-pip-package"
+                    "x_build_package"
                 ],
-                "type": "shell"
             },
             {
-                "label": "[build]-prod",
+                "label": "[build] prod",
                 "detail": "Build production version of repo for publishing",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-build-prod"
-                ],
-                "type": "shell"
+                    "x_build_prod"
+                ]
             },
             {
-                "label": "[build]-publish",
+                "label": "[build] publish",
                 "detail": "Publish pip package of repo to PyPi",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-build-publish",
+                    "_x_build_publish",
                     "'${input:pypi_user}'",
                     "'${input:pypi_password}'",
                     "'${input:pypi_comment}'"
                 ],
-                "type": "shell"
+                "dependsOn": [
+                    "[test] prod"
+                ]
             },
             {
-                "label": "[build]-test",
-                "detail": "Build test version of repo for tox testing",
+                "label": "[build] test",
+                "detail": "Build test version of repo for prod testing",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-build-test"
-                ],
-                "type": "shell"
+                    "x_build_test"
+                ]
             },
             {
-                "label": "[docs]",
+                "label": "[docs] docs",
                 "detail": "Generate sphinx documentation",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-docs"
-                ],
-                "type": "shell"
+                    "x_docs"
+                ]
             },
             {
-                "label": "[docs]-architecture",
+                "label": "[docs] architecture",
                 "detail": "Generate architecture.svg diagram from all import statements",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-docs-architecture"
-                ],
-                "type": "shell"
+                    "x_docs_architecture"
+                ]
             },
             {
-                "label": "[docs]-full",
-                "detail": "Generate documentation, coverage report, architecture diagram and code metrics",
+                "label": "[docs] full",
+                "detail": "Generate documentation, coverage report, architecture diagram and code",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-docs-full"
-                ],
-                "type": "shell"
+                    "x_docs_full"
+                ]
             },
             {
-                "label": "[docs]-metrics",
+                "label": "[docs] metrics",
                 "detail": "Generate code metrics report, plots and tables",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-docs-metrics"
-                ],
-                "type": "shell"
+                    "x_docs_metrics"
+                ]
             },
             {
-                "label": "[library]-add",
+                "label": "[library] add",
                 "detail": "Add a given package to a given dependency group",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-add ${input:pdm_package} ${input:pdm_group}"
-                ],
-                "type": "shell"
+                    "x_library_add ${input:pdm_package} ${input:pdm_group}"
+                ]
             },
             {
-                "label": "[library]-graph-dev",
+                "label": "[library] graph-dev",
                 "detail": "Graph dependencies in dev environment",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-graph-dev"
-                ],
-                "type": "shell"
+                    "x_library_graph_dev"
+                ]
             },
             {
-                "label": "[library]-graph-prod",
+                "label": "[library] graph-prod",
                 "detail": "Graph dependencies in prod environment",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-graph-prod"
-                ],
-                "type": "shell"
+                    "x_library_graph_prod"
+                ]
             },
             {
-                "label": "[library]-install-dev",
-                "detail": "Install all dependencies of dev/pyproject.toml into ~/dev",
+                "label": "[library] install-dev",
+                "detail": "Install all dependencies into dev environment",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-install-dev"
-                ],
-                "type": "shell"
+                    "x_library_install_dev"
+                ]
             },
             {
-                "label": "[library]-install-prod",
-                "detail": "Install all dependencies of prod/pyproject.toml into ~/prod",
+                "label": "[library] install-prod",
+                "detail": "Install all dependencies into prod environment",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-install-prod"
-                ],
-                "type": "shell"
+                    "x_library_install_prod"
+                ]
             },
             {
-                "label": "[library]-list-dev",
+                "label": "[library] list-dev",
                 "detail": "List packages in dev environment",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-list-dev"
-                ],
-                "type": "shell"
+                    "x_library_list_dev"
+                ]
             },
             {
-                "label": "[library]-list-prod",
+                "label": "[library] list-prod",
                 "detail": "List packages in prod environment",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-list-prod"
-                ],
-                "type": "shell"
+                    "x_library_list_prod"
+                ]
             },
             {
-                "label": "[library]-lock",
-                "detail": "Update ~/dev/pdm.lock file",
-                "command": [
-                    "source $X_TOOLS_PATH &&",
-                    "x-library-lock"
-                ],
-                "type": "shell"
-            },
-            {
-                "label": "[library]-remove",
+                "label": "[library] remove",
                 "detail": "Remove a given package from a given dependency group",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-remove ${input:pdm_package} ${input:pdm_group}"
-                ],
-                "type": "shell"
+                    "x_library_remove ${input:pdm_package} ${input:pdm_group}"
+                ]
             },
             {
-                "label": "[library]-search",
+                "label": "[library] search",
                 "detail": "Search for pip packages",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-search ${input:pdm_package}"
-                ],
-                "type": "shell"
+                    "x_library_search ${input:pdm_package}"
+                ]
             },
             {
-                "label": "[library]-sync",
-                "detail": "Sync dev dependencies",
-                "command": [
-                    "source $X_TOOLS_PATH &&",
-                    "x-library-sync"
-                ],
-                "type": "shell"
-            },
-            {
-                "label": "[library]-update",
+                "label": "[library] update",
                 "detail": "Update dev dependencies",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-library-update"
-                ],
-                "type": "shell"
+                    "x_library_update"
+                ]
             },
             // {
-            //     "label": "[session]-app",
-            //     "detail": "Run app server",
+            //     "label": "[session] app",
+            //     "detail": "Run app",
             //     "command": [
             //         "source $X_TOOLS_PATH &&",
-            //         "x-session-app"
+            //         "x_session_app"
             //     ],
-            //     "type": "shell"
             // },
             {
-                "label": "[session]-lab",
+                "label": "[session] lab",
                 "detail": "Run jupyter lab server",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-session-lab"
-                ],
-                "type": "shell"
+                    "x_session_lab"
+                ]
             },
             {
-                "label": "[session]-python",
+                "label": "[session] python",
                 "detail": "Run python session with dev dependencies",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-session-python"
-                ],
-                "type": "shell"
+                    "x_session_python"
+                ]
             },
             {
-                "label": "[test]-coverage",
+                "label": "[test] coverage",
                 "detail": "Generate test coverage report",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-test-coverage"
-                ],
-                "type": "shell"
+                    "x_test_coverage"
+                ]
             },
             {
-                "label": "[test]-dev",
+                "label": "[test] dev",
                 "detail": "Run all tests",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-test-dev"
-                ],
-                "type": "shell"
+                    "x_test_dev"
+                ]
             },
             {
-                "label": "[test]-fast",
+                "label": "[test] fast",
                 "detail": "Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-test-fast"
-                ],
-                "type": "shell"
+                    "x_test_fast"
+                ]
             },
             {
-                "label": "[test]-lint",
+                "label": "[test] lint",
                 "detail": "Run linting and type checking",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-test-lint"
-                ],
-                "type": "shell"
+                    "x_test_lint"
+                ]
             },
             {
-                "label": "[test]-prod",
-                "detail": "Run tests across all support python versions",
+                "label": "_[test] prod-3.7",
+                "detail": "Run tests in prod-3.7 environment",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-test-prod"
+                    "x_test_run prod 3.7"
                 ],
-                "type": "shell"
+                "hide": true,
+                "presentation": {
+                    "group": "test"
+                }
             },
             {
-                "label": "[version]",
+                "label": "_[test] prod-3.8",
+                "detail": "Run tests in prod-3.8 environment",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_test_run prod 3.8"
+                ],
+                "hide": true,
+                "presentation": {
+                    "group": "test"
+                }
+            },
+            {
+                "label": "_[test] prod-3.9",
+                "detail": "Run tests in prod-3.9 environment",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_test_run prod 3.9"
+                ],
+                "hide": true,
+                "presentation": {
+                    "group": "test"
+                }
+            },
+            {
+                "label": "_[test] prod-3.10",
+                "detail": "Run tests in prod-3.10 environment",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_test_run prod 3.10"
+                ],
+                "hide": true,
+                "presentation": {
+                    "group": "test"
+                }
+            },
+            {
+                "label": "[test] prod",
+                "detail": "Run tests across all support python versions",
+                "dependsOn": [
+                    "_[test] prod-3.7",
+                    "_[test] prod-3.8",
+                    "_[test] prod-3.9",
+                    "_[test] prod-3.10"
+                ],
+                "dependsOrder": "parallel",
+                "presentation": {
+                    "group": "test"
+                }
+            },
+            {
+                "label": "[version] version",
                 "detail": "Full resolution of repo: dependencies, linting, tests, docs, etc",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-version"
-                ],
-                "type": "shell"
+                    "x_version"
+                ]
             },
             {
-                "label": "[version]-bump-major",
+                "label": "[version] bump-major",
                 "detail": "Bump repo's major version",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-version-bump-major"
-                ],
-                "type": "shell"
+                    "x_version_bump_major"
+                ]
             },
             {
-                "label": "[version]-bump-minor",
+                "label": "[version] bump-minor",
                 "detail": "Bump repo's minor version",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-version-bump-minor"
-                ],
-                "type": "shell"
+                    "x_version_bump_minor"
+                ]
             },
             {
-                "label": "[version]-bump-patch",
+                "label": "[version] bump-patch",
                 "detail": "Bump repo's patch version",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x-version-bump-patch"
-                ],
-                "type": "shell"
+                    "x_version_bump_patch"
+                ]
             }
         ],
     "inputs": [
