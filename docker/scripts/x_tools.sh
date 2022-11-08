@@ -2,7 +2,8 @@
 export HOME="/home/ubuntu"
 export REPO="rolling-pin"
 export REPO_DIR="$HOME/$REPO"
-export REPO_APP_FILE="$REPO_DIR/python/rolling_pin/server/app.py"
+export REPO_MODULE="rolling_pin"
+export REPO_APP_FILE="$REPO_DIR/python/$REPO_MODULE/server/app.py"
 export PATH=":$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.local/lib"
 export PYTHONPATH="$REPO_DIR/python:$HOME/.local/lib"
 export BUILD_DIR="$HOME/build"
@@ -548,15 +549,15 @@ x_test_run () {
     local exit_code=$?;
 
     echo "${CYAN2}LINTING $1-$2${CLEAR}\n";
-    flake8 $REPO --config flake8.ini;
+    flake8 $REPO_MODULE --config flake8.ini;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     echo "${CYAN2}TYPE CHECKING $1-$2${CLEAR}\n";
-    mypy $REPO --config-file pyproject.toml;
+    mypy $REPO_MODULE --config-file pyproject.toml;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     echo "${CYAN2}TESTING $1-$2${CLEAR}\n";
-    pytest $REPO -c pyproject.toml;
+    pytest $REPO_MODULE -c pyproject.toml;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     deactivate;
