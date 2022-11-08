@@ -12,7 +12,6 @@
         "python.linting.mypyArgs": ["--config=docker/config/mypy.ini"],
         "python.linting.mypyEnabled": true,
         "python.linting.mypyPath": "/home/ubuntu/.local/bin/mypy",
-        "python.linting.pycodestylePath": "/home/ubuntu/.local/bin/pycodestyle",
         "python.linting.pylintEnabled": false,
         "python.defaultInterpreterPath": "/usr/bin/python3.10",
         "python.testing.pytestArgs": [],
