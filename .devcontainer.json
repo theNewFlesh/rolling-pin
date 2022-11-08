@@ -2,7 +2,7 @@
     "name": "${localWorkspaceFolderBasename}",
     "dockerComposeFile": "docker/docker-compose.yml",
     "service": "${localWorkspaceFolderBasename}",
-    "workspaceFolder": "${localWorkspaceFolder}",
+    "workspaceFolder": "/home/ubuntu/${localWorkspaceFolderBasename}",
     "settings": {
         "forbeslindesay-taskrunner.prefix": "[",
         "forbeslindesay-taskrunner.separator": "] ",
