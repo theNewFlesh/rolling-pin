@@ -3,10 +3,26 @@ name = "rolling-pin"
 version = "0.7.0"
 description = "A library of generic tools for ETL work and visualization of JSON blobs and python repositories"
 authors = [
-    {name = "Alex Braun", email = "alexander.g.braun@gmail.com"},
+    {name = "Alex Braun"},
+    {email = "alexander.g.braun@gmail.com"},
 ]
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
+keywords = [
+    "ETL", "blob", "dependency", "graph", "svg", "networkx", "transform" ,
+    "code metrics", "dependency diagram", "build system"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Typing :: Typed",
+]
 requires-python = ">=3.10"
 dependencies = [
     "click>=8.1.3",
@@ -24,6 +40,10 @@ dependencies = [
     "wrapt",
 ]
 
+[project.urls]
+repository = "https://github.com/theNewFlesh/rolling-pin"
+documentation = "https://thenewflesh.github.io/rolling-pin"
+
 [project.scripts]
 rolling-pin = "rolling_pin.command:main"
 
@@ -40,6 +60,7 @@ lab = [
 dev = [
     "pdm-bump",
     "pdm",
+    "pip>=22.3.1",
     "sphinx-rtd-theme",
     "sphinx>=5.3.0",
 ]
