@@ -1,4 +1,4 @@
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Union
 from IPython.display import HTML, Image
 
 from copy import deepcopy
@@ -61,7 +61,7 @@ class ConformETL:
             DataFrame: Conform DataFrame.
         '''
         # source
-        source = []
+        source = []  # type: List[Any]
         for rule in source_rules:
             files = rpt.list_all_files(
                 rule['path'],
@@ -210,8 +210,7 @@ class ConformETL:
         keys = data.target.tolist()
         vals = data.source.tolist()
         output = dict(zip(keys, vals))
-        output = BlobETL(output)
-        return output
+        return BlobETL(output)
 
     def to_html(
         self, orient='lr', color_scheme=CONFORM_COLOR_SCHEME, as_png=False
