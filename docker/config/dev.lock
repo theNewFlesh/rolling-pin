@@ -907,6 +907,12 @@ version = "0.7.5"
 summary = "Tiny 'shelve'-like database with concurrency support"
 
 [[package]]
+name = "pip"
+version = "22.3.1"
+requires_python = ">=3.7"
+summary = "The PyPA recommended tool for installing Python packages."
+
+[[package]]
 name = "platformdirs"
 version = "2.5.3"
 requires_python = ">=3.7"
@@ -1418,7 +1424,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:94e99386e93daa57b75135dbc63e4ebfb27b1df2841a5aea1e08b5d5d6fe8aae"
+content_hash = "sha256:781b2f9ca393537f75e2407e5da7ee15bfb2929bb3eb18cefa63b14cbdd6cfc5"
 
 [metadata.files]
 "aiofiles 0.8.0" = [
@@ -2121,6 +2127,10 @@ content_hash = "sha256:94e99386e93daa57b75135dbc63e4ebfb27b1df2841a5aea1e08b5d5d
 "pickleshare 0.7.5" = [
     {url = "https://files.pythonhosted.org/packages/9a/41/220f49aaea88bc6fa6cba8d05ecf24676326156c23b991e80b3f2fc24c77/pickleshare-0.7.5-py2.py3-none-any.whl", hash = "sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56"},
     {url = "https://files.pythonhosted.org/packages/d8/b6/df3c1c9b616e9c0edbc4fbab6ddd09df9535849c64ba51fcb6531c32d4d8/pickleshare-0.7.5.tar.gz", hash = "sha256:87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca"},
+]
+"pip 22.3.1" = [
+    {url = "https://files.pythonhosted.org/packages/09/bd/2410905c76ee14c62baf69e3f4aa780226c1bbfc9485731ad018e35b0cb5/pip-22.3.1-py3-none-any.whl", hash = "sha256:908c78e6bc29b676ede1c4d57981d490cb892eb45cd8c214ab6298125119e077"},
+    {url = "https://files.pythonhosted.org/packages/a3/50/c4d2727b99052780aad92c7297465af5fe6eec2dbae490aa9763273ffdc1/pip-22.3.1.tar.gz", hash = "sha256:65fd48317359f3af8e593943e6ae1506b66325085ea64b706a998c6e83eeaf38"},
 ]
 "platformdirs 2.5.3" = [
     {url = "https://files.pythonhosted.org/packages/2b/65/6750814157aba2e560993260d0a5a802536b3bf64bad7e54afc4334eddcc/platformdirs-2.5.3-py3-none-any.whl", hash = "sha256:0cb405749187a194f444c25c82ef7225232f11564721eabffc6ec70df83b11cb"},
