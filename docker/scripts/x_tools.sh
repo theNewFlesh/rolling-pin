@@ -320,8 +320,10 @@ x_docs_metrics () {
     echo "${CYAN2}GENERATING METRICS${CLEAR}\n";
     x_env_activate_dev;
     cd $REPO_DIR;
-    python3 -c "import rolling_pin.repo_etl as rpo; \
-rpo.write_repo_plots_and_tables('python', 'docs/plots.html', 'docs')"
+    python3 $REPO_SUBPACKAGE/command.py plot \
+        $REPO_DIR/python $REPO_DIR/docs/plots.html;
+    python3 $REPO_SUBPACKAGE/command.py table \
+        $REPO_DIR/python $REPO_DIR/docs;
 }
 
 # LIBRARY-FUNCTIONS-------------------------------------------------------------
