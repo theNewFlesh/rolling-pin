@@ -265,18 +265,18 @@
                     "x_test_lint"
                 ]
             },
-            {
-                "label": "_[test] prod-3.7",
-                "detail": "Run tests in prod-3.7 environment",
-                "command": [
-                    "source $X_TOOLS_PATH &&",
-                    "x_test_run prod 3.7"
-                ],
-                "hide": true,
-                "presentation": {
-                    "group": "test"
-                }
-            },
+            // {
+            //     "label": "_[test] prod-3.7",
+            //     "detail": "Run tests in prod-3.7 environment",
+            //     "command": [
+            //         "source $X_TOOLS_PATH &&",
+            //         "x_test_run prod 3.7"
+            //     ],
+            //     "hide": true,
+            //     "presentation": {
+            //         "group": "test"
+            //     }
+            // },
             {
                 "label": "_[test] prod-3.8",
                 "detail": "Run tests in prod-3.8 environment",
@@ -317,7 +317,7 @@
                 "label": "[test] prod",
                 "detail": "Run tests across all support python versions",
                 "dependsOn": [
-                    "_[test] prod-3.7",
+                    // "_[test] prod-3.7",
                     "_[test] prod-3.8",
                     "_[test] prod-3.9",
                     "_[test] prod-3.10"

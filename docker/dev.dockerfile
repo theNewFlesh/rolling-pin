@@ -116,9 +116,11 @@ RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
 # install python dependencies
 COPY --chown=ubuntu:ubuntu config/* /home/ubuntu/config/
 COPY --chown=ubuntu:ubuntu scripts/* /home/ubuntu/scripts/
+RUN echo "\n${CYAN}SETUP DIRECTORIES${CLEAR}"; \
+    mkdir pdm
+
+WORKDIR /home/ubuntu/pdm
 RUN echo "\n${CYAN}INSTALL DEV ENVIRONMENT${CLEAR}"; \
-    mkdir pdm && \
-    cd pdm && \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
@@ -133,9 +135,11 @@ RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
     x_env_init prod 3.10 && \
     x_env_init prod 3.9 && \
-    x_env_init prod 3.8 && \
-    x_env_init prod 3.7 && \
-    cd /home/ubuntu && \
+    x_env_init prod 3.8
+#     x_env_init prod 3.7
+
+WORKDIR /home/ubuntu
+RUN echo "\n${CYAN}REMOVE DIRECTORIES${CLEAR}"; \
     rm -rf config scripts
 
 ENV REPO='rolling-pin'
