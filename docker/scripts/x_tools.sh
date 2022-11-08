@@ -126,7 +126,7 @@ _x_gen_pdm_files () {
     cp -f $CONFIG_DIR/$1.lock $PDM_DIR/pdm.lock;
 
     # get python path
-    local pypath=`_x_get_env_python $1 $2`;
+    local pypath=`_x_env_get_python $1 $2`;
 
     # .pdm.toml
     python3 $SCRIPT_DIR/toml_gen.py $CONFIG_DIR/pdm.toml \
@@ -136,13 +136,6 @@ _x_gen_pdm_files () {
 }
 
 # ENV-FUNCTIONS-----------------------------------------------------------------
-_x_get_env_path () {
-    # gets path of given environment
-    # args: environment name
-    cd $PDM_DIR;
-    pdm venv list | grep $1 | awk '{print $3}';
-}
-
 _x_env_exists () {
     # determines if given env exists
     # args: environment name
@@ -155,10 +148,17 @@ _x_env_exists () {
     fi;
 }
 
-_x_get_env_python () {
+_x_env_get_path () {
+    # gets path of given environment
+    # args: environment name
+    cd $PDM_DIR;
+    pdm venv list | grep $1 | awk '{print $3}';
+}
+
+_x_env_get_python () {
     # gets python interpreter path of given environment
     # args: mode, python version
-    local penv=`_x_get_env_path $1-$2`;
+    local penv=`_x_env_get_path $1-$2`;
     if [ -n "$penv" ]; then
         echo $penv;
     else
