@@ -114,13 +114,18 @@ RUN echo "\n${CYAN}INSTALL PDM AND TOML${CLEAR}"; \
 # install python dependencies
 COPY --chown=ubuntu:ubuntu config/* /home/ubuntu/config/
 COPY --chown=ubuntu:ubuntu scripts/* /home/ubuntu/scripts/
-RUN echo "\n${CYAN}INSTALL PYTHON ENVIRONMENTS${CLEAR}"; \
+RUN echo "\n${CYAN}INSTALL DEV ENVIRONMENT${CLEAR}"; \
     mkdir pdm && \
     cd pdm && \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init dev 3.10 && \
+    x_env_init dev 3.10
+
+RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
+    . /home/ubuntu/scripts/x_tools.sh && \
+    export CONFIG_DIR=/home/ubuntu/config && \
+    export SCRIPT_DIR=/home/ubuntu/scripts && \
     x_env_init prod 3.10 && \
     x_env_init prod 3.9 && \
     x_env_init prod 3.8 && \
