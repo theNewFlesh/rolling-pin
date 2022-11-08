@@ -2,17 +2,20 @@
     "name": "${localWorkspaceFolderBasename}",
     "dockerComposeFile": "docker/docker-compose.yml",
     "service": "${localWorkspaceFolderBasename}",
-    "workspaceFolder": "/home/ubuntu/${localWorkspaceFolderBasename}",
+    "workspaceFolder": "${localWorkspaceFolder}",
     "settings": {
         "forbeslindesay-taskrunner.prefix": "[",
         "forbeslindesay-taskrunner.separator": "] ",
-        "mypy.dmypyExecutable": "/home/ubuntu/.dev-packages",
+        "mypy.configFile": "${localWorkspaceFolder}/docker/config/pyproject.toml",
+        "mypy.dmypyExecutable": "/home/ubuntu/.dev-env/bin/dmypy",
+        "mypy.targets": ["${localWorkspaceFolder}/python"],
         "python.analysis.extraPaths": ["/home/ubuntu/.dev-packages"],
         "python.autoComplete.extraPaths": ["/home/ubuntu/.dev-packages"],
         "python.defaultInterpreterPath": "/home/ubuntu/.dev-env/bin/python3",
         "python.linting.flake8Path": "/home/ubuntu/.dev-env/bin/flake8",
         "python.linting.mypyPath": "/home/ubuntu/.dev-env/bin/mypy",
-        "terminal.integrated.cwd": "/home/ubuntu/${localWorkspaceFolderBasename}"
+        "python.pythonPath": "/home/ubuntu/.dev-env/bin/python3",
+        "terminal.integrated.cwd": "/home/ubuntu"
     },
     "extensions": [
         "arturock.gitstash",
