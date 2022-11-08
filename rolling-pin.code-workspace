@@ -2,6 +2,7 @@
     "folders": [{"path": "./"}],
     "settings": {
         "debug.allowBreakpointsEverywhere": true,
+        "python.analysis.autoImportCompletions": true,
         "python.languageServer": "Pylance",
         "python.linting.enabled": true,
         "python.linting.flake8Args": ["--config=docker/config/flake8.ini"],

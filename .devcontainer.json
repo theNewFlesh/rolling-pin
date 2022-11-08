@@ -9,9 +9,9 @@
         "mypy.dmypyExecutable": "/home/ubuntu/.dev-packages",
         "python.analysis.extraPaths": ["/home/ubuntu/.dev-packages"],
         "python.autoComplete.extraPaths": ["/home/ubuntu/.dev-packages"],
-        "python.defaultInterpreterPath": "/usr/bin/python3.10",
-        "python.linting.flake8Path": "/home/ubuntu/.dev-bin/flake8",
-        "python.linting.mypyPath": "/home/ubuntu/.dev-bin/mypy",
+        "python.defaultInterpreterPath": "/home/ubuntu/.dev-env/bin/python3",
+        "python.linting.flake8Path": "/home/ubuntu/.dev-env/bin/flake8",
+        "python.linting.mypyPath": "/home/ubuntu/.dev-env/bin/mypy",
         "terminal.integrated.cwd": "/home/ubuntu/${localWorkspaceFolderBasename}"
     },
     "extensions": [

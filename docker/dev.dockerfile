@@ -103,11 +103,13 @@ FROM base AS dev
 USER ubuntu
 WORKDIR /home/ubuntu
 
-RUN echo "\n${CYAN}INSTALL PDM AND TOML${CLEAR}"; \
+RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     curl -sSL \
         https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py \
     | python3.10 - && \
-    pip3.10 install --upgrade --user pdm toml && \
+    pip3.10 install --upgrade --user \
+        pdm \
+        toml && \
     mkdir -p /home/ubuntu/.oh-my-zsh/custom/completions && \
     pdm completion zsh > /home/ubuntu/.oh-my-zsh/custom/completions/_pdm
 
@@ -120,7 +122,10 @@ RUN echo "\n${CYAN}INSTALL DEV ENVIRONMENT${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init dev 3.10
+    x_env_init dev 3.10 && \
+    cd /home/ubuntu && \
+    ln -s `_x_env_get_path dev 3.10` .dev-env && \
+    ln -s `_x_env_get_path dev 3.10`/lib/python3.10/site-packages .dev-packages
 
 RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
