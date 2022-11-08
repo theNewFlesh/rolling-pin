@@ -134,7 +134,7 @@
                 "detail": "Add a given package to a given dependency group",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x_library_add ${input:pdm_package} ${input:pdm_group}"
+                    "x_library_add '${input:pdm_package}' '${input:pdm_group}'"
                 ]
             },
             {
