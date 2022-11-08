@@ -549,7 +549,7 @@ class BlobETL():
         orient='tb',
         color_scheme=None
     ):
-        # type: (Union[str, Path], str, bool, str, Dict[str, str]) -> BlobETL
+        # type: (Union[str, Path], str, bool, str, Optional[Dict[str, str]]) -> BlobETL
         '''
         Writes internal dictionary to a given filepath.
         Formats supported: svg, dot, png, json.
