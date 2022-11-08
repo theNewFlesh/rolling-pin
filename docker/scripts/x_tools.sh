@@ -548,15 +548,16 @@ x_test_run () {
 
     cd $BUILD_DIR/repo;
     echo "${CYAN2}LINTING $1-$2${CLEAR}\n";
-    flake8 $REPO_SUBPACKAGE --config flake8.ini;
+    flake8 --config flake8.ini $REPO_SUBPACKAGE;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     echo "${CYAN2}TYPE CHECKING $1-$2${CLEAR}\n";
-    mypy $REPO_SUBPACKAGE --config-file pyproject.toml;
+    mypy --config-file pyproject.toml $REPO_SUBPACKAGE;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     echo "${CYAN2}TESTING $1-$2${CLEAR}\n";
-    pytest $REPO_SUBPACKAGE -c pyproject.toml;
+    local num_procs=`python3 -c 'import os; x = int(os.cpu_count() / 3); print(x)'`
+    pytest -c pyproject.toml --numprocesses $num_procs $REPO_SUBPACKAGE;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     deactivate;
