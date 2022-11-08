@@ -60,7 +60,6 @@ lab = [
 dev = [
     "pdm-bump",
     "pdm",
-    "pip>=22.3.1",
     "sphinx-rtd-theme",
     "sphinx>=5.3.0",
 ]
@@ -72,6 +71,7 @@ test = [
     "pytest-xdist",
     "pytest",
     "toml>=0.10.2",
+    "types-pyyaml>=6.0.12.1",
 ]
 
 [tool.pytest.ini_options]
