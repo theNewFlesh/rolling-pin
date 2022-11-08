@@ -388,9 +388,9 @@ x_library_add () {
     echo "${CYAN2}ADDING PACKAGE TO DEV DEPENDENCIES${CLEAR}\n";
     cd $PDM_DIR;
     if [ "$2" = '' ] || [ "$2" = 'none' ]; then
-        pdm add $1 -v;
+        pdm add --no-self $1 -v;
     else
-        pdm add -dG $2 $1 -v;
+        pdm add --no-self -dG $2 $1 -v;
     fi;
     _x_library_pdm_to_repo_dev;
 }
@@ -544,10 +544,10 @@ x_test_run () {
     # Run test in given environment
     # args: mode, python_version
     x_build_test;
-    cd $BUILD_DIR/repo;
     x_env_activate $1 $2;
     local exit_code=$?;
 
+    cd $BUILD_DIR/repo;
     echo "${CYAN2}LINTING $1-$2${CLEAR}\n";
     flake8 $REPO_MODULE --config flake8.ini;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
