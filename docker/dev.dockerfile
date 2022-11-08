@@ -140,3 +140,4 @@ RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
 
 ENV REPO='rolling-pin'
 ENV PYTHONPATH ":/home/ubuntu/$REPO/python:/home/ubuntu/.local/lib"
+ENV PYTHONPYCACHEPREFIX "/home/ubuntu/.python_cache"
