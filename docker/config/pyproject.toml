@@ -120,7 +120,7 @@ isolated_build = True
 setenv =
     PYTHONPATH = ''
 groups = test
-commands = pytest -c pyproject.toml --parallel rolling_pin
+commands = pytest -c pyproject.toml --numprocesses 4 rolling_pin
 """
 
 [build-system]
