@@ -232,6 +232,7 @@ _x_build () {
         $CONFIG_DIR/build.yaml \
         --groups base,$1;
     _x_gen_pyproject $1 > $BUILD_DIR/repo/pyproject.toml;
+    touch $BUILD_DIR/repo/py.typed
 }
 
 x_build_package () {
