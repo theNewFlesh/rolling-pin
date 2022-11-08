@@ -15,10 +15,14 @@ rename_rules:
     replace: "/home/ubuntu/build/repo"
   - regex: ".*/resources"
     replace: "/home/ubuntu/build/resources"
-  - regex: "/python|/docker|/config"
-    replace: ""
   - regex: "prod.lock"
     replace: "pdm.lock"
+  - regex: "/repo/python"
+    replace: "/repo"
+  - regex: "/repo/docker"
+    replace: "/repo"
+  - regex: "/repo/config"
+    replace: "/repo"
 group_rules:
   - name: test
     regex: "(__init__|_test)\\.py$|flake8\\.ini$|resources|\\.lock$"
