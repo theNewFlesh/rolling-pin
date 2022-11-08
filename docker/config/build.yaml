@@ -1,7 +1,7 @@
 source_rules:
   - path: /home/ubuntu/rolling-pin
     include: "LICENSE|README\\.md"
-    exclude: "/\\.|docker"
+    exclude: "/\\.|docker|resources"
   - path: /home/ubuntu/rolling-pin/python/rolling_pin
     include: "\\.py$"
   - path: /home/ubuntu/rolling-pin/docker/config
@@ -27,7 +27,7 @@ group_rules:
   - name: test
     regex: "(__init__|_test)\\.py$|flake8\\.ini$|resources|\\.lock$"
   - name: prod
-    regex: "__init__\\.py$"
+    regex: "rolling_pin/.*__init__\\.py$"
 line_rules:
   - group: prod
     exclude: test
