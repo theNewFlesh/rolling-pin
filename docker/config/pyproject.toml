@@ -1,5 +1,5 @@
 [project]
-name = "rolling-pin<drop>"
+name = "rolling-pin"
 version = "0.7.0"
 description = "A library of generic tools for ETL work and visualization of JSON blobs and python repositories"
 authors = [
