@@ -5,7 +5,7 @@ source_rules:
   - path: /home/ubuntu/rolling-pin/python/rolling_pin
     include: "\\.py$"
   - path: /home/ubuntu/rolling-pin/docker/config
-    include: "flake8|prod.lock"
+    include: "flake8|prod\\.lock|pyproject"
     exclude: "cache|__pypackages__"
   - path: /home/ubuntu/rolling-pin/resources
     include: ".*"
