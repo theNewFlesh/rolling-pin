@@ -75,6 +75,7 @@ test = [
 ]
 
 [tool.pytest.ini_options]
+cache_dir = "/home/ubuntu/.pytest_cache"
 filterwarnings = [
     "ignore::UserWarning",
     "ignore::DeprecationWarning",
@@ -97,9 +98,10 @@ omit = [
 ]
 
 [tool.mypy]
+cache_dir = "/home/ubuntu/.mypy_cache"
 python_version = "3.10"
 ignore_missing_imports = true
-no_warn_no_return = true
+warn_no_return = false
 pretty = true
 warn_unused_ignores = true
 
