@@ -2,6 +2,10 @@
     "folders": [{"path": "./"}],
     "settings": {
         "debug.allowBreakpointsEverywhere": true,
+        "forbeslindesay-taskrunner.prefix": "[",
+        "forbeslindesay-taskrunner.separator": "] ",
+        "mypy.configFile": "docker/config/pyproject.toml",
+        "mypy.targets": ["python"],
         "python.analysis.autoImportCompletions": true,
         "python.languageServer": "Pylance",
         "python.linting.enabled": true,

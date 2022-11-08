@@ -4,11 +4,7 @@
     "service": "${localWorkspaceFolderBasename}",
     "workspaceFolder": "/home/ubuntu/${localWorkspaceFolderBasename}",
     "settings": {
-        "forbeslindesay-taskrunner.prefix": "[",
-        "forbeslindesay-taskrunner.separator": "] ",
-        "mypy.configFile": "${localWorkspaceFolder}/docker/config/pyproject.toml",
         "mypy.dmypyExecutable": "/home/ubuntu/.dev-env/bin/dmypy",
-        "mypy.targets": ["${localWorkspaceFolder}/python"],
         "python.analysis.extraPaths": ["/home/ubuntu/.dev-packages"],
         "python.autoComplete.extraPaths": ["/home/ubuntu/.dev-packages"],
         "python.defaultInterpreterPath": "/home/ubuntu/.dev-env/bin/python3",
