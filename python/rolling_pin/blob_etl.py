@@ -27,7 +27,7 @@ class BlobETL():
     '''
     Converts blob data internally into a flat dictionary that is universally
     searchable, editable and convertable back to the data's original structure,
-    new blob structures or dircted graphs.
+    new blob structures or directed graphs.
     '''
     def __init__(self, blob, separator='/'):
         # type: (Any, str) -> None
