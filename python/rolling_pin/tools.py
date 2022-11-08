@@ -316,7 +316,7 @@ def filter_text(
     include_regex=None,  # type: Optional[str]
     exclude_regex=None,  # type: Optional[str]
     replace_regex=None,  # type: Optional[str]
-    replace_value='',    # type: str
+    replace_value=None,  # type: Optional[str]
 ):
     # type: (...) -> str
     '''
@@ -344,7 +344,8 @@ def filter_text(
     if exclude_regex is not None:
         lines = list(filter(lambda x: not re.search(exclude_regex, x), lines))  # type: ignore
     if replace_regex is not None:
-        lines = [re.sub(replace_regex, replace_value, x) for x in lines]
+        rep_val = replace_value or ''
+        lines = [re.sub(replace_regex, rep_val, x) for x in lines]
     output = '\n'.join(lines)
     return output
 
