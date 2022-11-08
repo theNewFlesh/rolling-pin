@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 AS base
+FROM ubuntu:22.04 AS base
 
 USER root
 
@@ -26,14 +26,13 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         software-properties-common \
         wget
 
-# install python3.7 and pip
-RUN echo "\n${CYAN}SETUP PYTHON3.7${CLEAR}"; \
+# install python3.10 and pip
+RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y \
-        python3.7 && \
+    apt install --fix-missing -y python3.10 && \
     wget https://bootstrap.pypa.io/get-pip.py && \
-    python3.7 get-pip.py && \
+    python3.10 get-pip.py && \
     rm -rf /home/ubuntu/get-pip.py
 
 # install rolling-pin
@@ -41,9 +40,4 @@ USER ubuntu
 ENV REPO='rolling-pin'
 ENV PYTHONPATH "${PYTHONPATH}:/home/ubuntu/$REPO/python"
 RUN echo "\n${CYAN}INSTALL ROLLING-PIN{CLEAR}"; \
-    pip3.7 install rolling-pin
-
-ENTRYPOINT [\
-    "python3.7", \
-    "/home/ubuntu/.local/lib/python3.7/site-packages/rolling-pin/server/app.py" \
-]
+    pip3.10 install --user --upgrade rolling-pin
