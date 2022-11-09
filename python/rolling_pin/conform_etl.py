@@ -250,10 +250,9 @@ class ConformETL:
                 'all' means all groups. Default: 'all'.
         '''
         if isinstance(groups, str):
-            if groups == 'all':
-                groups = self.groups
-            else:
-                groups = [groups]
+            groups = [groups]
+        if groups == ['all']:
+            groups = self.groups
 
         data = self.to_dataframe()
 
