@@ -3,6 +3,7 @@ export HOME="/home/ubuntu"
 export REPO="rolling-pin"
 export REPO_DIR="$HOME/$REPO"
 export REPO_SUBPACKAGE=$REPO_DIR/python/`echo $REPO | sed 's/-/_/g'`
+export REPO_COMMAND_FILE="$REPO_SUBPACKAGE/command.py"
 export PATH=":$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.local/lib"
 export PYTHONPATH="$REPO_DIR/python:$HOME/.local/lib"
 export BUILD_DIR="$HOME/build"
@@ -225,7 +226,7 @@ _x_build () {
     # args: type (test or prod)
     x_env_activate_dev;
     rm -rf $BUILD_DIR;
-    python3 $REPO_SUBPACKAGE/command.py conform \
+    python3 $REPO_COMMAND_FILE conform \
         $CONFIG_DIR/build.yaml \
         --groups base,$1;
     _x_gen_pyproject $1 > $BUILD_DIR/repo/pyproject.toml;
@@ -301,7 +302,7 @@ x_docs_architecture () {
     # Generate architecture.svg diagram from all import statements
     echo "${CYAN2}GENERATING ARCHITECTURE DIAGRAM${CLEAR}\n";
     x_env_activate_dev;
-    python3 $REPO_SUBPACKAGE/command.py graph \
+    python3 $REPO_COMMAND_FILE graph \
         $REPO_DIR/python $REPO_DIR/docs/architecture.svg \
         --exclude 'test|mock' \
         --orient 'lr';
@@ -318,9 +319,9 @@ x_docs_metrics () {
     echo "${CYAN2}GENERATING METRICS${CLEAR}\n";
     x_env_activate_dev;
     cd $REPO_DIR;
-    python3 $REPO_SUBPACKAGE/command.py plot \
+    python3 $REPO_COMMAND_FILE plot \
         $REPO_DIR/python $REPO_DIR/docs/plots.html;
-    python3 $REPO_SUBPACKAGE/command.py table \
+    python3 $REPO_COMMAND_FILE table \
         $REPO_DIR/python $REPO_DIR/docs;
 }
 
