@@ -113,7 +113,6 @@ RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     mkdir -p /home/ubuntu/.oh-my-zsh/custom/completions && \
     pdm completion zsh > /home/ubuntu/.oh-my-zsh/custom/completions/_pdm
 
-# install python dependencies
 COPY --chown=ubuntu:ubuntu config/* /home/ubuntu/config/
 COPY --chown=ubuntu:ubuntu scripts/* /home/ubuntu/scripts/
 RUN echo "\n${CYAN}SETUP DIRECTORIES${CLEAR}"; \
