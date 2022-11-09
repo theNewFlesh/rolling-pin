@@ -59,7 +59,7 @@
         },
         "presentation": {
             "focus": true,
-            "panel": "dedicated",
+            "panel": "new",
             "showReuseMessage": false
         },
         "tasks": [
