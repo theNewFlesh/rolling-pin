@@ -9,7 +9,6 @@ export BUILD_DIR="$HOME/build"
 export CONFIG_DIR="$REPO_DIR/docker/config"
 export PDM_DIR="$HOME/pdm"
 export SCRIPT_DIR="$REPO_DIR/docker/scripts"
-export PROCS=`python3 -c 'import os; print(os.cpu_count())'`
 export MIN_PYTHON_VERSION="3.8"
 export MAX_PYTHON_VERSION="3.10"
 alias cp=cp  # "cp -i" default alias asks you if you want to clobber files
@@ -503,7 +502,7 @@ x_test_coverage () {
     mkdir -p docs;
     pytest \
         -c $CONFIG_DIR/pyproject.toml \
-        --numprocesses $PROCS \
+        --numprocesses auto \
         --cov=python \
         --cov-config=$CONFIG_DIR/pyproject.toml \
         --cov-report=html:docs/htmlcov \
@@ -515,7 +514,10 @@ x_test_dev () {
     x_env_activate_dev;
     echo "${CYAN2}TESTING DEV${CLEAR}\n";
     cd $REPO_DIR;
-    pytest -c $CONFIG_DIR/pyproject.toml --numprocesses $PROCS $REPO_DIR/python;
+    pytest \
+        -c $CONFIG_DIR/pyproject.toml \
+        --numprocesses auto \
+        $REPO_DIR/python;
 }
 
 x_test_fast () {
@@ -524,7 +526,10 @@ x_test_fast () {
     echo "${CYAN2}FAST TESTING DEV${CLEAR}\n";
     cd $REPO_DIR;
     SKIP_SLOW_TESTS=true \
-    pytest -c $CONFIG_DIR/pyproject.toml --numprocesses $PROCS $REPO_DIR/python;
+    pytest \
+        -c $CONFIG_DIR/pyproject.toml \
+        --numprocesses auto \
+        $REPO_DIR/python;
 }
 
 x_test_lint () {
@@ -554,8 +559,10 @@ x_test_run () {
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     echo "${CYAN2}TESTING $1-$2${CLEAR}\n";
-    local num_procs=`python3 -c 'import os; x = int(os.cpu_count() / 3); print(x)'`
-    pytest -c pyproject.toml --numprocesses $num_procs $REPO_SUBPACKAGE;
+    pytest \
+        -c pyproject.toml \
+        --numprocesses auto \
+        $REPO_SUBPACKAGE;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     deactivate;
@@ -582,7 +589,6 @@ x_test_tox () {
     mypy --config-file pyproject.toml $REPO_SUBPACKAGE;
 
     echo "${CYAN2}TOX TESTING PROD${CLEAR}\n";
-    export TOX_PROCS=`python3 -c 'import os; print(int(os.cpu_count() / 3))'`;
     tox -c pyproject.toml --parallel -v $REPO_SUBPACKAGE;
 
     deactivate;
