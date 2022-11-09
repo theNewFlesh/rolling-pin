@@ -12,7 +12,6 @@ export SCRIPT_DIR="$REPO_DIR/docker/scripts"
 export PROCS=`python3 -c 'import os; print(os.cpu_count())'`
 export MIN_PYTHON_VERSION="3.8"
 export MAX_PYTHON_VERSION="3.10"
-export X_TOOLS_PATH="$SCRIPT_DIR/x_tools.sh"
 alias cp=cp  # "cp -i" default alias asks you if you want to clobber files
 
 # COLORS------------------------------------------------------------------------
