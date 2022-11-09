@@ -200,6 +200,10 @@ _x_env_sync () {
     # args: mode, python_version
     cd $PDM_DIR;
     x_env_activate $1 $2 && \
+    # run `pdm lock`` if lock file is empty
+    if [ `cat pdm.lock | wc -l` = 0]; then
+        pdm lock -v
+    fi && \
     pdm sync --no-self --dev --clean -v && \
     deactivate;
 }
