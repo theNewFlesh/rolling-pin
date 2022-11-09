@@ -278,7 +278,8 @@
             //     ],
             //     "hide": true,
             //     "presentation": {
-            //         "group": "test"
+            //         "group": "test",
+            //         "panel": "dedicated"
             //     }
             // },
             {
@@ -290,7 +291,8 @@
                 ],
                 "hide": true,
                 "presentation": {
-                    "group": "test"
+                    "group": "test",
+                    "panel": "dedicated"
                 }
             },
             {
@@ -302,7 +304,8 @@
                 ],
                 "hide": true,
                 "presentation": {
-                    "group": "test"
+                    "group": "test",
+                    "panel": "dedicated"
                 }
             },
             {
@@ -314,7 +317,8 @@
                 ],
                 "hide": true,
                 "presentation": {
-                    "group": "test"
+                    "group": "test",
+                    "panel": "dedicated"
                 }
             },
             {
@@ -328,7 +332,8 @@
                 ],
                 "dependsOrder": "parallel",
                 "presentation": {
-                    "group": "test"
+                    "group": "test",
+                    "panel": "dedicated"
                 }
             },
             {
