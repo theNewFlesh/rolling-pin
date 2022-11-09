@@ -82,6 +82,9 @@ filterwarnings = [
     # "ignore::UserWarning",
     # "ignore::DeprecationWarning",
     # "ignore::PendingDeprecationWarning",
+    "ignore:Call to deprecated function",
+    "ignore:nx.nx_pydot.to_pydot depends",
+    "ignore:distutils Version classes are deprecated"
 ]
 markers = [
     "flaky:Flaky test",
