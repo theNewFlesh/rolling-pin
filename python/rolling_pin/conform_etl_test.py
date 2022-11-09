@@ -115,7 +115,7 @@ class ConformETLTests(unittest.TestCase):
 
     def test_from_yaml_error(self):
         expected = '/foo/bar.taco does not end in yml or yaml.'
-        with self.assertRaisesRegexp(EnforceError, expected):
+        with self.assertRaisesRegex(EnforceError, expected):
             ConformETL.from_yaml('/foo/bar.taco')
 
     def test_repr(self):
