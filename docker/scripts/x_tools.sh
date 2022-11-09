@@ -226,8 +226,7 @@ _x_build () {
     # args: type (test or prod)
     x_env_activate_dev;
     rm -rf $BUILD_DIR;
-    python3 \
-        $SCRIPT_DIR/rolling_pin_command.py \
+    python3 $REPO_SUBPACKAGE/command.py conform \
         $CONFIG_DIR/build.yaml \
         --groups base,$1;
     _x_gen_pyproject $1 > $BUILD_DIR/repo/pyproject.toml;
