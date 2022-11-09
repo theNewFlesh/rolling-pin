@@ -138,7 +138,7 @@
                 "detail": "Add a given package to a given dependency group",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x_library_add '${input:pdm_package}' '${input:pdm_group}'"
+                    "x_library_add '${input:add_pdm_package}' '${input:pdm_group}'"
                 ]
             },
             {
@@ -194,7 +194,7 @@
                 "detail": "Remove a given package from a given dependency group",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x_library_remove ${input:pdm_package} ${input:pdm_group}"
+                    "x_library_remove ${input:remove_pdm_package} ${input:pdm_group}"
                 ]
             },
             {
@@ -202,7 +202,7 @@
                 "detail": "Search for pip packages",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x_library_search ${input:pdm_package}"
+                    "x_library_search ${input:search_pdm_package}"
                 ]
             },
             {
@@ -381,9 +381,19 @@
                 "default": "none"
             },
             {
-                "id": "pdm_package",
+                "id": "add_pdm_package",
                 "type": "promptString",
-                "description": "Package name:"
+                "description": "[ADD] Package name:"
+            },
+            {
+                "id": "remove_pdm_package",
+                "type": "promptString",
+                "description": "[REMOVE] Package name:"
+            },
+            {
+                "id": "search_pdm_package",
+                "type": "promptString",
+                "description": "[SEARCH] Package name:"
             },
             {
                 "id": "pypi_user",
