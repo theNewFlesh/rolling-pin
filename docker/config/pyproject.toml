@@ -83,7 +83,8 @@ filterwarnings = [
     # "ignore::PendingDeprecationWarning",
     "ignore:Call to deprecated function",
     "ignore:nx.nx_pydot.to_pydot depends",
-    "ignore:distutils Version classes are deprecated"
+    "ignore:distutils Version classes are deprecated",
+    "ignore:The --rsyncdir command line"
 ]
 markers = [
     "flaky:Flaky test",

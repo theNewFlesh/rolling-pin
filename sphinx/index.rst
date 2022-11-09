@@ -1,7 +1,13 @@
 .. rolling-pin documentation master file
 
-Welcome to rolling-pin' documentation!
-==================================
+Welcome to rolling-pin's documentation!
+=======================================
+.. toctree::
+   :maxdepth: 1
+   :caption: Getting Started
+
+   intro
+
 .. toctree::
    :maxdepth: 1
    :caption: Python API
@@ -10,7 +16,7 @@ Welcome to rolling-pin' documentation!
 
 .. toctree::
    :maxdepth: 1
-   :caption: CLI
+   :caption: Developer CLI
 
    cli
 
