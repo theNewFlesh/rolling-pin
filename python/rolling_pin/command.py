@@ -2,6 +2,7 @@ import subprocess
 
 import click
 
+from rolling_pin.conform_etl import ConformETL
 from rolling_pin.radon_etl import RadonETL
 from rolling_pin.repo_etl import RepoETL
 # ------------------------------------------------------------------------------
@@ -13,7 +14,35 @@ Command line interface to rolling-pin library
 
 @click.group()
 def main():
-    pass  # pragma: no cover
+    pass
+
+
+@main.command()
+@click.argument('source', type=str, nargs=1)
+@click.option(
+    '--groups',
+    type=str,
+    nargs=1,
+    default='all',
+    help="Comma separated list of groups to be conformed. Default: 'all'"
+)
+@click.option(
+    '--dryrun',
+    is_flag=True,
+    help="Print out conform table instead of run conform."
+)
+def conform(source, groups, dryrun):
+    # type: (str, str, bool) -> None
+    '''
+    Copies source files to target filepaths according to given conform file.
+
+    SOURCE - conform YAML filepath
+    '''
+    etl = ConformETL.from_yaml(source)
+    if dryrun:
+        print(etl)
+    else:
+        etl.conform(groups=groups.split(','))
 
 
 @main.command()
@@ -87,10 +116,10 @@ def bash_completion():
     '''
         BASH completion code to be written to a _rolling-pin completion file.
     '''
-    cmd = '_ROLLING-PIN_COMPLETE=bash_source rolling-pin'  # pragma: no cover
-    result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)  # pragma: no cover
-    result.wait()  # pragma: no cover
-    click.echo(result.stdout.read())  # pragma: no cover
+    cmd = '_ROLLING-PIN_COMPLETE=bash_source rolling-pin'
+    result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    result.wait()
+    click.echo(result.stdout.read())
 
 
 @main.command()
@@ -98,11 +127,11 @@ def zsh_completion():
     '''
         ZSH completion code to be written to a _rolling-pin completion file.
     '''
-    cmd = '_ROLLING-PIN_COMPLETE=zsh_source rolling-pin'  # pragma: no cover
-    result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)  # pragma: no cover
-    result.wait()  # pragma: no cover
-    click.echo(result.stdout.read())  # pragma: no cover
+    cmd = '_ROLLING-PIN_COMPLETE=zsh_source rolling-pin'
+    result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    result.wait()
+    click.echo(result.stdout.read())
 
 
 if __name__ == '__main__':
-    main()  # pragma: no cover
+    main()
