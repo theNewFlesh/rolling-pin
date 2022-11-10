@@ -24,7 +24,7 @@ for a taste of what rolling-pin can do.
 2. `docker pull thenewflesh/rolling-pin:latest`
 
 ### Docker For Developers
-1. 1. Install [docker-desktop](https://docs.docker.com/desktop/)
+1. Install [docker-desktop](https://docs.docker.com/desktop/)
 2. Ensure docker-machine has at least 4 GB of memory allocated to it.
 3. `git clone git@github.com:theNewFlesh/rolling-pin.git`
 4. `cd rolling-pin`
