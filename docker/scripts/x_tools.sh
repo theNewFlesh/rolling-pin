@@ -464,11 +464,16 @@ x_library_search () {
 }
 
 x_library_update () {
-    # Update dev dependencies
+    # Update a given package, or all packages, from a given dependency group
+    # args: package, group
     x_env_activate_dev;
     echo "${CYAN2}UPDATING DEV DEPENDENCIES${CLEAR}\n";
     cd $PDM_DIR;
-    pdm update --no-self --dev -v;
+    if [ "$2" = '' ] || [ "$2" = 'none' ]; then
+        pdm update --no-self --dev $1 -v;
+    else
+        pdm update --no-self --dev -dG $2 $1 -v;
+    fi;
     _x_library_pdm_to_repo_dev;
 }
 

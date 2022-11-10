@@ -210,7 +210,7 @@
                 "detail": "Update dev dependencies",
                 "command": [
                     "source $X_TOOLS_PATH &&",
-                    "x_library_update"
+                    "x_library_update ${input:update_pdm_package} ${input:pdm_group}"
                 ]
             },
             // {
@@ -388,6 +388,11 @@
                 "id": "search_pdm_package",
                 "type": "promptString",
                 "description": "[SEARCH] Package name:"
+            },
+            {
+                "id": "update_pdm_package",
+                "type": "promptString",
+                "description": "[UPDATE] Package name:"
             },
             {
                 "id": "pypi_user",
