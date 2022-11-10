@@ -116,7 +116,7 @@ def bash_completion():
     '''
         BASH completion code to be written to a _rolling-pin completion file.
     '''
-    cmd = '_ROLLING-PIN_COMPLETE=bash_source rolling-pin'
+    cmd = '_ROLLING_PIN_COMPLETE=bash_source rolling-pin'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     result.wait()
     click.echo(result.stdout.read())
@@ -127,7 +127,7 @@ def zsh_completion():
     '''
         ZSH completion code to be written to a _rolling-pin completion file.
     '''
-    cmd = '_ROLLING-PIN_COMPLETE=zsh_source rolling-pin'
+    cmd = '_ROLLING_PIN_COMPLETE=zsh_source rolling-pin'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     result.wait()
     click.echo(result.stdout.read())
