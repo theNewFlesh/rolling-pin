@@ -51,7 +51,7 @@ def get_info():
     build-pip-package    - Generate pip package of repo in ~/build/repo
     build-prod           - Build production version of repo for publishing
     build-publish        - Publish pip package of repo to PyPi
-    build-test           - Build test version of repo for tox testing
+    build-test           - Build test version of repo for production testing
     docker-build         - Build image of {repo}
     docker-build-prod    - Build production image of {repo}
     docker-container     - Display the Docker container id of {repo}
@@ -90,7 +90,6 @@ def get_info():
     test-fast            - Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator
     test-lint            - Run linting and type checking
     test-prod            - Run tests across all support python versions
-    test-prod-tox        - Run tox testing on prod environment
     version              - Full resolution of repo: dependencies, linting, tests, docs, etc
     version-bump-major   - Bump pyproject major version
     version-bump-minor   - Bump pyproject minor version
@@ -713,7 +712,6 @@ def main():
         'test-fast': x_tools_command('x-test-fast', args),
         'test-lint': x_tools_command('x-test-lint', args),
         'test-prod': x_tools_command('x-test-prod', args),
-        'test-prod-tox': x_tools_command('x-test-tox', args),
         'version': x_tools_command('x-version', args),
         'version-bump-major': x_tools_command('x-version-bump-major', args),
         'version-bump-minor': x_tools_command('x-version-bump-minor', args),

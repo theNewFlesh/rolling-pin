@@ -587,25 +587,6 @@ x_test_prod () {
     _x_for_each_version 'x_test_run prod $VERSION';
 }
 
-x_test_tox () {
-    # Run tox testing on prod environment
-    x_build_test;
-    x_env_activate_prod;
-    cd $BUILD_DIR/repo;
-
-    echo "${CYAN2}LINTING PROD${CLEAR}\n";
-    flake8 --config flake8.ini $REPO_SUBPACKAGE;
-
-    echo "${CYAN2}TYPE CHECKING PROD${CLEAR}\n";
-    mypy --config-file pyproject.toml $REPO_SUBPACKAGE;
-
-    echo "${CYAN2}TOX TESTING PROD${CLEAR}\n";
-    tox -c pyproject.toml --parallel -v $REPO_SUBPACKAGE;
-
-    deactivate;
-    x_env_activate_dev;
-}
-
 # VERSION-FUNCTIONS-------------------------------------------------------------
 x_version () {
     # Full resolution of repo: dependencies, linting, tests, docs, etc

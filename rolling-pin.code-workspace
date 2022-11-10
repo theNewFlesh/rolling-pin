@@ -337,14 +337,6 @@
                 }
             },
             {
-                "label": "[test] prod-tox",
-                "detail": "Run tox testing on prod environment",
-                "command": [
-                    "source $X_TOOLS_PATH &&",
-                    "x_test_tox"
-                ],
-            },
-            {
                 "label": "[version] version",
                 "detail": "Full resolution of repo: dependencies, linting, tests, docs, etc",
                 "command": [
