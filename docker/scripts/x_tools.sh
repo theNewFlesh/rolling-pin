@@ -2,7 +2,8 @@
 export HOME="/home/ubuntu"
 export REPO="rolling-pin"
 export REPO_DIR="$HOME/$REPO"
-export REPO_SUBPACKAGE=$REPO_DIR/python/`echo $REPO | sed 's/-/_/g'`
+export REPO_SNAKE_CASE=`echo $REPO | sed 's/-/_/g'`
+export REPO_SUBPACKAGE=$REPO_DIR/python/$REPO_SNAKE_CASE
 export REPO_COMMAND_FILE="$REPO_SUBPACKAGE/command.py"
 export PATH=":$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.local/lib"
 export PYTHONPATH="$REPO_DIR/python:$HOME/.local/lib"
@@ -238,7 +239,7 @@ _x_build () {
         $CONFIG_DIR/build.yaml \
         --groups base,$1;
     _x_gen_pyproject $1 > $BUILD_DIR/repo/pyproject.toml;
-    touch $BUILD_DIR/repo/py.typed;
+    touch $BUILD_DIR/repo/$REPO_SNAKE_CASE/py.typed;
 }
 
 _x_build_show_package () {
