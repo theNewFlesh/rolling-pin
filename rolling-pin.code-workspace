@@ -371,8 +371,8 @@
                 "id": "pdm_group",
                 "type": "pickString",
                 "description": "Dependency group:",
-                "options": ["none", "dev", "test", "lab"],
-                "default": "none"
+                "options": ["default", "dev", "test", "lab"],
+                "default": "default"
             },
             {
                 "id": "add_pdm_package",

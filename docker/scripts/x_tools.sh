@@ -399,7 +399,7 @@ x_library_add () {
     x_env_activate_dev;
     echo "${CYAN2}ADDING PACKAGE TO DEV DEPENDENCIES${CLEAR}\n";
     cd $PDM_DIR;
-    if [ "$2" = '' ] || [ "$2" = 'none' ]; then
+    if [ "$2" = '' ] || [ "$2" = 'default' ]; then
         pdm add --no-self $1 -v;
     else
         pdm add --no-self -dG $2 $1 -v;
@@ -463,7 +463,7 @@ x_library_remove () {
     x_env_activate_dev;
     echo "${CYAN2}REMOVING PACKAGE FROM DEV DEPENDENCIES${CLEAR}\n";
     cd $PDM_DIR;
-    if [ "$2" = '' ] || [ "$2" = 'none' ]; then
+    if [ "$2" = '' ] || [ "$2" = 'default' ]; then
         pdm remove $1 -v;
     else
         pdm remove -dG $2 $1 -v;
@@ -485,10 +485,10 @@ x_library_update () {
     x_env_activate_dev;
     echo "${CYAN2}UPDATING DEV DEPENDENCIES${CLEAR}\n";
     cd $PDM_DIR;
-    if [ "$2" = '' ] || [ "$2" = 'none' ]; then
-        pdm update --no-self --dev $1 -v;
+    if [ "$2" = '' ] || [ "$2" = 'default' ]; then
+        pdm update --no-self $1 -v;
     else
-        pdm update --no-self --dev -dG $2 $1 -v;
+        pdm update --no-self -dG $2 $1 -v;
     fi;
     _x_library_pdm_to_repo_dev;
 }
