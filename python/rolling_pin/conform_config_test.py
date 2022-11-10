@@ -43,7 +43,7 @@ class ConformETLTests(unittest.TestCase):
             rpc.is_dir(root)
 
         expected = '/foo/bar is not a directory or does not exist.'
-        with self.assertRaisesRegexp(ValidationError, expected):
+        with self.assertRaisesRegex(ValidationError, expected):
             rpc.is_dir('/foo/bar')
 
     def test_valid(self):
@@ -54,13 +54,13 @@ class ConformETLTests(unittest.TestCase):
     def test_source_rule(self):
         with TemporaryDirectory() as root:
             expected = r'source_rules.*This field is required'
-            with self.assertRaisesRegexp(DataError, expected):
+            with self.assertRaisesRegex(DataError, expected):
                 rpc.ConformConfig({}).validate()
 
             config = self.get_config(root)
             config['source_rules'][1]['path'] = '/foobar'
             expected = '/foobar.*is not a directory'
-            with self.assertRaisesRegexp(DataError, expected):
+            with self.assertRaisesRegex(DataError, expected):
                 rpc.ConformConfig(config).validate()
 
     def test_rename_rule(self):
@@ -70,13 +70,13 @@ class ConformETLTests(unittest.TestCase):
             # regex
             config['rename_rules'][0] = dict(replace='bar')
             expected = 'regex.*This field is required'
-            with self.assertRaisesRegexp(DataError, expected):
+            with self.assertRaisesRegex(DataError, expected):
                 rpc.ConformConfig(config).validate()
 
             # replace
             config['rename_rules'][0] = dict(regex='foo')
             expected = 'replace.*This field is required'
-            with self.assertRaisesRegexp(DataError, expected):
+            with self.assertRaisesRegex(DataError, expected):
                 rpc.ConformConfig(config).validate()
 
     def test_group_rule(self):
@@ -86,13 +86,13 @@ class ConformETLTests(unittest.TestCase):
             # name
             config['group_rules'][0] = dict(regex='bar')
             expected = 'name.*This field is required'
-            with self.assertRaisesRegexp(DataError, expected):
+            with self.assertRaisesRegex(DataError, expected):
                 rpc.ConformConfig(config).validate()
 
             # regex
             config['group_rules'][0] = dict(name='foo')
             expected = 'regex.*This field is required'
-            with self.assertRaisesRegexp(DataError, expected):
+            with self.assertRaisesRegex(DataError, expected):
                 rpc.ConformConfig(config).validate()
 
     def test_line_rule(self):
@@ -102,5 +102,5 @@ class ConformETLTests(unittest.TestCase):
             # group
             config['line_rules'][0] = dict(include='foo', exclude='bar')
             expected = 'group.*This field is required'
-            with self.assertRaisesRegexp(DataError, expected):
+            with self.assertRaisesRegex(DataError, expected):
                 rpc.ConformConfig(config).validate()

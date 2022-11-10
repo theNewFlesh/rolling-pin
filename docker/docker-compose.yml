@@ -1,10 +1,8 @@
-version: "3.4"
-volumes:
-  cache:
+version: "3.8"
 services:
   rolling-pin:
     container_name: rolling-pin
-    image: rolling-pin
+    image: rolling-pin:dev
     build:
       context: .
       dockerfile: dev.dockerfile
@@ -15,7 +13,8 @@ services:
     user: ubuntu
     volumes:
       - ../:/home/ubuntu/rolling-pin
-      - ./jupyter:/home/ubuntu/.jupyter
       - ~/.ssh:/home/ubuntu/.ssh:ro
+      - ./config/jupyter:/home/ubuntu/.jupyter
+      - ./config/zshrc:/home/ubuntu/.zshrc
     working_dir: "/home/ubuntu"
     command: "tail -f /dev/null"

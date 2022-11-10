@@ -1,0 +1,33 @@
+source_rules:
+  - path: /home/ubuntu/rolling-pin
+    include: "LICENSE|README\\.md"
+    exclude: "/\\.|docker|resources"
+  - path: /home/ubuntu/rolling-pin/python/rolling_pin
+    include: "\\.py$"
+  - path: /home/ubuntu/rolling-pin/docker/config
+    include: "flake8|prod\\.lock|pyproject"
+    exclude: "cache|__pypackages__"
+  - path: /home/ubuntu/rolling-pin/resources
+    include: ".*"
+    exclude: "__pycache__"
+rename_rules:
+  - regex: "/home/ubuntu/rolling-pin"
+    replace: "/home/ubuntu/build/repo"
+  - regex: ".*/resources"
+    replace: "/home/ubuntu/build/resources"
+  - regex: "prod.lock"
+    replace: "pdm.lock"
+  - regex: "/repo/python"
+    replace: "/repo"
+  - regex: "/repo/docker"
+    replace: "/repo"
+  - regex: "/repo/config"
+    replace: "/repo"
+group_rules:
+  - name: test
+    regex: "(__init__|_test)\\.py$|flake8\\.ini$|resources|\\.lock$"
+  - name: prod
+    regex: "rolling_pin/.*__init__\\.py$"
+line_rules:
+  - group: prod
+    exclude: test

@@ -353,11 +353,11 @@ class ToolsTests(unittest.TestCase):
 
     def test_list_all_files_errors(self):
         expected = '/foo/bar is not a directory or does not exist.'
-        with self.assertRaisesRegexp(FileNotFoundError, expected):
+        with self.assertRaisesRegex(FileNotFoundError, expected):
             next(rpt.list_all_files('/foo/bar'))
 
         expected = '/foo.bar is not a directory or does not exist.'
-        with self.assertRaisesRegexp(FileNotFoundError, expected):
+        with self.assertRaisesRegex(FileNotFoundError, expected):
             next(rpt.list_all_files('/foo.bar'))
 
         with TemporaryDirectory() as root:

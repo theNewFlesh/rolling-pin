@@ -1,0 +1,114 @@
+[project]
+name = "rolling-pin"
+version = "0.7.0"
+description = "A library of generic tools for ETL work and visualization of JSON blobs and python repositories"
+authors = [
+    {name = "Alex Braun", email = "alexander.g.braun@gmail.com"},
+]
+readme = "README.md"
+license = "MIT"
+keywords = [
+    "ETL", "blob", "dependency", "graph", "svg", "networkx", "transform" ,
+    "code metrics", "dependency diagram", "build system"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Typing :: Typed",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.1.3",
+    "cufflinks",
+    "graphviz",
+    "ipython",
+    "lunchbox",
+    "networkx",
+    "numpy>=1.23.4",
+    "pandas>=1.1.5",
+    "pydot",
+    "pyyaml",
+    "radon",
+    "schematics",
+    "wrapt",
+]
+
+[project.urls]
+repository = "https://github.com/theNewFlesh/rolling-pin"
+documentation = "https://thenewflesh.github.io/rolling-pin"
+
+[project.scripts]
+rolling-pin = "rolling_pin.command:main"
+
+[project.optional-dependencies]
+
+[tool.pdm.dev-dependencies]
+lab = [
+    "cufflinks",
+    "jupyterlab-git>=0.39.3",
+    "jupyterlab-henanigans>=0.2.2",
+    "jupyterlab-sublime",
+    "jupyterlab",
+]
+dev = [
+    "pdm-bump",
+    "pdm",
+    "sphinx-rtd-theme",
+    "sphinx>=5.3.0",
+]
+test = [
+    "flake8",
+    "mypy",
+    "pytest-cov",
+    "pytest-forked",
+    "pytest-xdist",
+    "pytest",
+    "toml>=0.10.2",
+    "types-pyyaml>=6.0.12.1",
+]
+
+[tool.pytest.ini_options]
+cache_dir = "/home/ubuntu/.pytest_cache"
+filterwarnings = [
+    # "ignore::UserWarning",
+    # "ignore::DeprecationWarning",
+    # "ignore::PendingDeprecationWarning",
+    "ignore:Call to deprecated function",
+    "ignore:nx.nx_pydot.to_pydot depends",
+    "ignore:distutils Version classes are deprecated",
+    "ignore:The --rsyncdir command line",
+    "ignore:Jupyter is migrating its paths to use standard platformdirs",
+]
+markers = [
+    "flaky:Flaky test",
+]
+
+[tool.coverage.report]
+show_missing = true
+omit = [
+    "*/__init__.py",
+    "*/*_test_base.py",
+    "*/*_test.py",
+    "*/*_tests.py",
+    "*/cli.py",
+    "*/command.py",
+    "*/mock_*.py",
+    "*/conftest.py",
+]
+
+[tool.mypy]
+cache_dir = "/home/ubuntu/.mypy_cache"
+python_version = "3.10"
+ignore_missing_imports = true
+warn_no_return = false
+pretty = true
+warn_unused_ignores = true
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
