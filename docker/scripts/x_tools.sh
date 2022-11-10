@@ -14,6 +14,7 @@ export MIN_PYTHON_VERSION="3.8"
 export MAX_PYTHON_VERSION="3.10"
 export TEST_VERBOSITY=0
 export TEST_PROCS="auto"
+export JUPYTER_PLATFORM_DIRS=1
 alias cp=cp  # "cp -i" default alias asks you if you want to clobber files
 
 # COLORS------------------------------------------------------------------------
@@ -489,7 +490,11 @@ x_session_lab () {
     # Run jupyter lab server
     x_env_activate_dev;
     echo "${CYAN2}JUPYTER LAB${CLEAR}\n";
-    jupyter lab --allow-root --ip=0.0.0.0 --no-browser;
+    jupyter lab \
+        --allow-root \
+        --ip=0.0.0.0 \
+        --no-browser \
+        --config /home/ubuntu/.jupyter/jupyter_lab_config.py;
 }
 
 x_session_python () {
