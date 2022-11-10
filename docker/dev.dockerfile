@@ -134,8 +134,8 @@ RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
     x_env_init prod 3.10 && \
     x_env_init prod 3.9 && \
-    x_env_init prod 3.8
-#     x_env_init prod 3.7
+    x_env_init prod 3.8 && \
+    x_env_init prod 3.7
 
 WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}REMOVE DIRECTORIES${CLEAR}"; \
