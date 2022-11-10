@@ -36,18 +36,11 @@ Docker
 Docker For Developers
 ~~~~~~~~~~~~~~~~~~~~~
 
-1. 
-
-   1. Install `docker-desktop <https://docs.docker.com/desktop/>`__
-
+1. Install `docker-desktop <https://docs.docker.com/desktop/>`__
 2. Ensure docker-machine has at least 4 GB of memory allocated to it.
-
 3. ``git clone git@github.com:theNewFlesh/rolling-pin.git``
-
 4. ``cd rolling-pin``
-
 5. ``chmod +x bin/rolling-pin``
-
 6. ``bin/rolling-pin start``
 
 The service should take a few minutes to start up.

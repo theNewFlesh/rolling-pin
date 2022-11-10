@@ -51,12 +51,3 @@ tools
    :special-members:
    :undoc-members:
    :show-inheritance:
-
-utils
------
-.. automodule:: rolling_pin.utils
-   :members:
-   :private-members:
-   :special-members:
-   :undoc-members:
-   :show-inheritance:

@@ -14,7 +14,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -28,7 +30,7 @@
             <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.7.0
+                0.8.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -38,9 +40,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Rolling-Pin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation">Installation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
@@ -51,7 +53,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#utils">utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
 </ul>
 
@@ -68,9 +72,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>rolling_pin.blob_etl</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">rolling_pin.blob_etl</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -109,7 +113,7 @@
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Converts blob data internally into a flat dictionary that is universally</span>
 <span class="sd">    searchable, editable and convertable back to the data&#39;s original structure,</span>
-<span class="sd">    new blob structures or dircted graphs.</span>
+<span class="sd">    new blob structures or directed graphs.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 <div class="viewcode-block" id="BlobETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
         <span class="c1"># type: (Any, str) -&gt; None</span>
@@ -631,7 +635,7 @@
         <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span>
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
-        <span class="c1"># type: (Union[str, Path], str, bool, str, Dict[str, str]) -&gt; BlobETL</span>
+        <span class="c1"># type: (Union[str, Path], str, bool, str, Optional[Dict[str, str]]) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Writes internal dictionary to a given filepath.</span>
 <span class="sd">        Formats supported: svg, dot, png, json.</span>
@@ -693,7 +697,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;.</p>
+    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

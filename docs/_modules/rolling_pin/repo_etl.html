@@ -14,7 +14,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -28,7 +30,7 @@
             <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.7.0
+                0.8.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -38,9 +40,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Rolling-Pin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation">Installation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
@@ -51,7 +53,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#utils">utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
 </ul>
 
@@ -68,9 +72,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>rolling_pin.repo_etl</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">rolling_pin.repo_etl</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -94,7 +98,6 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">rolling_pin.radon_etl</span> <span class="kn">import</span> <span class="n">RadonETL</span>
 <span class="kn">import</span> <span class="nn">rolling_pin.tools</span> <span class="k">as</span> <span class="nn">rpt</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
@@ -653,47 +656,6 @@
             <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;Valid extensions include: svg, dot, png, json.&#39;</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div></div>
-<span class="c1"># ------------------------------------------------------------------------------</span>
-
-
-<div class="viewcode-block" id="write_repo_architecture"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.write_repo_architecture">[docs]</a><span class="k">def</span> <span class="nf">write_repo_architecture</span><span class="p">(</span>
-    <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="o">=</span><span class="s1">&#39;test|mock&#39;</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;lr&#39;</span>
-<span class="p">):</span>
-    <span class="c1"># type: (Union[str, Path], Union[str, Path], str, str) -&gt; None</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Convenience function for writing a repo architecture graph.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        source (str or Path): Repo directory.</span>
-<span class="sd">        target (str or Path): Target filepath.</span>
-<span class="sd">        exclude_regex (str, optional): Exclude files that match this regex pattern.</span>
-<span class="sd">            Default: &#39;test|mock&#39;.</span>
-<span class="sd">        orient (str, optional): Graph orientation. Default: lr.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">etl</span> <span class="o">=</span> <span class="n">RepoETL</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">etl</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">exclude_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">node_name</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
-    <span class="n">etl</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
-    <span class="n">etl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="write_repo_plots_and_tables"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.write_repo_plots_and_tables">[docs]</a><span class="k">def</span> <span class="nf">write_repo_plots_and_tables</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">plot_path</span><span class="p">,</span> <span class="n">table_dir</span><span class="p">):</span>
-    <span class="c1"># type: (Union[str, Path], Union[str, Path], Union[str, Path]) -&gt; None</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Convenience function for writing repo plot and table files.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        source (str or Path): Repo directory.</span>
-<span class="sd">        plot_path (str or Path): Plot filepath.</span>
-<span class="sd">        table_dir (str or Path): Table parent directory.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">etl</span> <span class="o">=</span> <span class="n">RadonETL</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
-    <span class="n">etl</span><span class="o">.</span><span class="n">write_plots</span><span class="p">(</span><span class="n">plot_path</span><span class="p">)</span>
-    <span class="n">etl</span><span class="o">.</span><span class="n">write_tables</span><span class="p">(</span><span class="n">table_dir</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -703,7 +665,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;.</p>
+    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

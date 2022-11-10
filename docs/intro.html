@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rolling-Pin &mdash; rolling-pin  documentation</title>
+  <title>Introduction &mdash; rolling-pin  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/style.css" type="text/css" />
@@ -15,12 +15,14 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="modules.html" />
-    <link rel="prev" title="Welcome to rolling-pin’ documentation!" href="index.html" /> 
+    <link rel="next" title="blob_etl" href="rolling_pin.html" />
+    <link rel="prev" title="Welcome to rolling-pin’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -31,7 +33,7 @@
             <a href="index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.7.0
+                0.8.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -41,9 +43,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Rolling-Pin</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#python">Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a></li>
@@ -59,7 +61,9 @@
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.tools">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#utils">utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">cli</a></li>
 </ul>
 
@@ -76,8 +80,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Rolling-Pin</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Introduction</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/intro.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -87,46 +91,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="rolling-pin">
-<h1>Rolling-Pin<a class="headerlink" href="#rolling-pin" title="Permalink to this headline">¶</a></h1>
-<p>A library of generic tools for ETL work and visualization of JSON blobs
-and python repositories</p>
-<p><strong>`Documentation &lt;https://thenewflesh.github.io/rolling-pin/&gt;`__</strong></p>
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<p>Rolling-pin is a library of generic tools for ETL work and visualization
+of JSON blobs and python repositories</p>
+<p>See <a class="reference external" href="https://thenewflesh.github.io/rolling-pin/">documentation</a> for
+details.</p>
 <p>On the documentation main page, under the <em>Architecture</em> section, is a
 dynamically generated dependency graph of rolling-pin’s current
 architecture. It is generated using the RepoETL class.</p>
 <p>If you look under the <em>Metrics</em> section you will find Radon code metric
 plots and data of the rolling-pin source code, generated by the RadonETL
 class.</p>
-<p><strong>`Jupyter Notebook
-Demo &lt;https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/prototype_demo.ipynb&gt;`__</strong></p>
+<p>Also have a look at this <a class="reference external" href="https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/prototype_demo.ipynb">Jupyter notebook
+demo</a>
+for a taste of what rolling-pin can do.</p>
 </section>
 <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
 <section id="python">
-<h2>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<h2>Python<a class="headerlink" href="#python" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rolling-pin</span></code></p>
 </section>
 <section id="docker">
-<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h2>
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
-<li><p>Install
-<a class="reference external" href="https://docs.docker.com/v17.09/engine/installation">docker</a></p></li>
-<li><p>Install
-<a class="reference external" href="https://docs.docker.com/machine/install-machine">docker-machine</a>
-(if running on macOS or Windows)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">theNewFlesh/rolling-pin:[version]</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">--name</span> <span class="pre">rolling-pin-prod</span> <span class="pre">--publish</span> <span class="pre">5180:80</span> <span class="pre">theNewFlesh/rolling-pin:[version]</span></code></p></li>
+<li><p>Install <a class="reference external" href="https://docs.docker.com/desktop/">docker-desktop</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">thenewflesh/rolling-pin:latest</span></code></p></li>
 </ol>
 </section>
 <section id="docker-for-developers">
-<h2>Docker For Developers<a class="headerlink" href="#docker-for-developers" title="Permalink to this headline">¶</a></h2>
+<h2>Docker For Developers<a class="headerlink" href="#docker-for-developers" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
-<li><p>Install
-<a class="reference external" href="https://docs.docker.com/v17.09/engine/installation">docker</a></p></li>
-<li><p>Install
-<a class="reference external" href="https://docs.docker.com/machine/install-machine">docker-machine</a>
-(if running on macOS or Windows)</p></li>
+<li><p>Install <a class="reference external" href="https://docs.docker.com/desktop/">docker-desktop</a></p></li>
 <li><p>Ensure docker-machine has at least 4 GB of memory allocated to it.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:theNewFlesh/rolling-pin.git</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">rolling-pin</span></code></p></li>
@@ -142,14 +139,14 @@ Demo &lt;https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/protot
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to rolling-pin’ documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="modules.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to rolling-pin’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rolling_pin.html" class="btn btn-neutral float-right" title="blob_etl" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;.</p>
+    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -14,7 +14,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -28,7 +30,7 @@
             <a href="index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.7.0
+                0.8.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -38,9 +40,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Rolling-Pin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html#installation">Installation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
@@ -51,7 +53,9 @@
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#module-rolling_pin.tools">tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rolling_pin.html#utils">utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">cli</a></li>
 </ul>
 
@@ -68,8 +72,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Index</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -83,7 +87,6 @@
 
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
- | <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
@@ -103,12 +106,23 @@
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.GroupRule.__annotations__">__annotations__ (rolling_pin.conform_config.ConformConfig.GroupRule attribute)</a>
+
+      <ul>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule.__annotations__">(rolling_pin.conform_config.ConformConfig.LineRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule.__annotations__">(rolling_pin.conform_config.ConformConfig.RenameRule attribute)</a>
+</li>
+        <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule.__annotations__">(rolling_pin.conform_config.ConformConfig.SourceRule attribute)</a>
+</li>
+      </ul></li>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.__dict__">__dict__ (rolling_pin.blob_etl.BlobETL attribute)</a>
 
       <ul>
@@ -151,6 +165,8 @@
       </ul></li>
       <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.__repr__">__repr__() (rolling_pin.conform_etl.ConformETL method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.__weakref__">__weakref__ (rolling_pin.blob_etl.BlobETL attribute)</a>
 
       <ul>
@@ -161,8 +177,6 @@
         <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL.__weakref__">(rolling_pin.repo_etl.RepoETL attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._anneal_coordinate">_anneal_coordinate() (rolling_pin.repo_etl.RepoETL static method)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL._calculate_coordinates">_calculate_coordinates() (rolling_pin.repo_etl.RepoETL static method)</a>
@@ -206,14 +220,6 @@
   </ul></td>
 </tr></table>
 
-<h2 id="A">A</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.app_command">app_command() (in module cli)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -246,10 +252,10 @@
 </li>
       <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.LineRule">ConformConfig.LineRule (class in rolling_pin.conform_config)</a>
 </li>
-      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule">ConformConfig.RenameRule (class in rolling_pin.conform_config)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.RenameRule">ConformConfig.RenameRule (class in rolling_pin.conform_config)</a>
+</li>
       <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule">ConformConfig.SourceRule (class in rolling_pin.conform_config)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL">ConformETL (class in rolling_pin.conform_etl)</a>
@@ -257,10 +263,6 @@
       <li><a href="cli.html#cli.container_id_command">container_id_command() (in module cli)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.tools.copy_file">copy_file() (in module rolling_pin.tools)</a>
-</li>
-      <li><a href="cli.html#cli.coverage">coverage() (in module cli)</a>
-</li>
-      <li><a href="cli.html#cli.coverage_command">coverage_command() (in module cli)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.cyclomatic_complexity_metrics">cyclomatic_complexity_metrics (rolling_pin.radon_etl.RadonETL property)</a>
 </li>
@@ -276,15 +278,13 @@
 </li>
       <li><a href="cli.html#cli.destroy_dev_command">destroy_dev_command() (in module cli)</a>
 </li>
-      <li><a href="cli.html#cli.destroy_prod_command">destroy_prod_command() (in module cli)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.destroy_prod_command">destroy_prod_command() (in module cli)</a>
+</li>
       <li><a href="rolling_pin.html#rolling_pin.tools.directory_to_dataframe">directory_to_dataframe() (in module rolling_pin.tools)</a>
 </li>
       <li><a href="cli.html#cli.docker_exec">docker_exec() (in module cli)</a>
-</li>
-      <li><a href="cli.html#cli.docs_command">docs_command() (in module cli)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.tools.dot_to_html">dot_to_html() (in module rolling_pin.tools)</a>
 </li>
@@ -312,8 +312,6 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.fast_test_command">fast_test_command() (in module cli)</a>
-</li>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.filter">filter() (rolling_pin.blob_etl.BlobETL method)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.tools.filter_text">filter_text() (in module rolling_pin.tools)</a>
@@ -323,8 +321,6 @@
       <li><a href="rolling_pin.html#rolling_pin.tools.flatten">flatten() (in module rolling_pin.tools)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.from_yaml">from_yaml() (rolling_pin.conform_etl.ConformETL class method)</a>
-</li>
-      <li><a href="cli.html#cli.full_docs_command">full_docs_command() (in module cli)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -384,16 +380,12 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.lab_command">lab_command() (in module cli)</a>
-</li>
       <li><a href="cli.html#cli.line">line() (in module cli)</a>
 </li>
       <li><a href="rolling_pin.html#id1">line_rules (rolling_pin.conform_config.ConformConfig attribute)</a>, <a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.line_rules">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.lint_command">lint_command() (in module cli)</a>
-</li>
       <li><a href="rolling_pin.html#rolling_pin.tools.list_all_files">list_all_files() (in module rolling_pin.tools)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.tools.LOGGER">LOGGER (in module rolling_pin.tools)</a>
@@ -407,8 +399,6 @@
       <li><a href="cli.html#cli.main">main() (in module cli)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.maintainability_index">maintainability_index (rolling_pin.radon_etl.RadonETL property)</a>
-</li>
-      <li><a href="cli.html#cli.make_docs_dir">make_docs_dir() (in module cli)</a>
 </li>
       <li>
     module
@@ -451,10 +441,6 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.package_command">package_command() (in module cli)</a>
-</li>
-      <li><a href="cli.html#cli.package_repo">package_repo() (in module cli)</a>
-</li>
       <li><a href="rolling_pin.html#rolling_pin.conform_config.ConformConfig.SourceRule.path">path (rolling_pin.conform_config.ConformConfig.SourceRule attribute)</a>
 </li>
       <li><a href="cli.html#cli.PORT">PORT (in module cli)</a>
@@ -463,11 +449,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.prod_command">prod_command() (in module cli)</a>
 </li>
-      <li><a href="cli.html#cli.publish_command">publish_command() (in module cli)</a>
-</li>
       <li><a href="cli.html#cli.push_command">push_command() (in module cli)</a>
-</li>
-      <li><a href="cli.html#cli.python_command">python_command() (in module cli)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -512,8 +494,6 @@
       <li><a href="rolling_pin.html#rolling_pin.repo_etl.RepoETL">RepoETL (class in rolling_pin.repo_etl)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.report">report (rolling_pin.radon_etl.RadonETL property)</a>
-</li>
-      <li><a href="cli.html#cli.requirements_command">requirements_command() (in module cli)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -593,10 +573,6 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.test_command">test_command() (in module cli)</a>
-</li>
-      <li><a href="cli.html#cli.tmp_repo">tmp_repo() (in module cli)</a>
-</li>
       <li><a href="rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_blob">to_blob() (rolling_pin.conform_etl.ConformETL method)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_dataframe">to_dataframe() (rolling_pin.blob_etl.BlobETL method)</a>
@@ -637,10 +613,6 @@
 </li>
       <li><a href="rolling_pin.html#rolling_pin.blob_etl.BlobETL.to_records">to_records() (rolling_pin.blob_etl.BlobETL method)</a>
 </li>
-      <li><a href="cli.html#cli.tox_command">tox_command() (in module cli)</a>
-</li>
-      <li><a href="cli.html#cli.tox_repo">tox_repo() (in module cli)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -659,10 +631,6 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.version_up_command">version_up_command() (in module cli)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.version_variable">version_variable() (in module cli)</a>
 </li>
   </ul></td>
@@ -679,17 +647,25 @@
       </ul></li>
       <li><a href="rolling_pin.html#rolling_pin.tools.write_dot_graph">write_dot_graph() (in module rolling_pin.tools)</a>
 </li>
-      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.write_plots">write_plots() (rolling_pin.radon_etl.RadonETL method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rolling_pin.html#rolling_pin.repo_etl.write_repo_architecture">write_repo_architecture() (in module rolling_pin.repo_etl)</a>
-</li>
-      <li><a href="rolling_pin.html#rolling_pin.repo_etl.write_repo_plots_and_tables">write_repo_plots_and_tables() (in module rolling_pin.repo_etl)</a>
+      <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.write_plots">write_plots() (rolling_pin.radon_etl.RadonETL method)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.radon_etl.RadonETL.write_tables">write_tables() (rolling_pin.radon_etl.RadonETL method)</a>
 </li>
       <li><a href="rolling_pin.html#rolling_pin.tools.write_text">write_text() (in module rolling_pin.tools)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.x_tools">x_tools() (in module cli)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.x_tools_command">x_tools_command() (in module cli)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -717,7 +693,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019, Alex Braun &lt;TheNewFlesh@github.com&gt;.</p>
+    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
