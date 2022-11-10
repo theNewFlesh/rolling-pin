@@ -2,7 +2,7 @@ version: "3.8"
 services:
   rolling-pin:
     container_name: rolling-pin
-    image: rolling-pin
+    image: rolling-pin:dev
     build:
       context: .
       dockerfile: dev.dockerfile
