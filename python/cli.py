@@ -313,7 +313,7 @@ def build_dev_command():
             cd docker;
             docker build
                 --file dev.dockerfile
-                --tag {repo}:latest .;
+                --tag {repo}:dev .;
             cd ..
         '''),
         exit_repo(),
