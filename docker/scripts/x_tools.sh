@@ -14,7 +14,7 @@ export MIN_PYTHON_VERSION="3.8"
 export MAX_PYTHON_VERSION="3.10"
 export TEST_VERBOSITY=0
 export TEST_PROCS="auto"
-export JUPYTER_PLATFORM_DIRS=1
+export JUPYTER_PLATFORM_DIRS=0
 export JUPYTER_CONFIG_PATH=/home/ubuntu/.jupyter
 alias cp=cp  # "cp -i" default alias asks you if you want to clobber files
 
