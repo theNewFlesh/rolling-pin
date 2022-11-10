@@ -368,6 +368,7 @@ _x_library_lock_prod () {
 
 _x_library_sync () {
     # Sync lock with given environment
+    # args: mode, python_version
     x_env_activate $1 $2;
     echo "${CYAN2}DEPENDENCY SYNC $1-$2${CLEAR}\n";
     cd $PDM_DIR;
