@@ -48,10 +48,10 @@ def get_info():
         nargs=1,
         action='store',
         help='''Command to run in {repo} app.
-    build-pip-package    - Generate pip package of repo in ~/build/repo
-    build-prod           - Build production version of repo for publishing
-    build-publish        - Publish pip package of repo to PyPi
-    build-test           - Build test version of repo for production testing
+    build-package        - Build production version of repo for publishing
+    build-prod           - Publish pip package of repo to PyPi
+    build-publish        - Run production tests first then publish pip package of repo to PyPi
+    build-test           - Build test version of repo for prod testing
     docker-build         - Build image of {repo}
     docker-build-prod    - Build production image of {repo}
     docker-container     - Display the Docker container id of {repo}
@@ -67,21 +67,19 @@ def get_info():
     docker-stop          - Stop {repo} container
     docs                 - Generate sphinx documentation
     docs-architecture    - Generate architecture.svg diagram from all import statements
-    docs-full            - Generate documentation, coverage report, diagram and code metrics
+    docs-full            - Generate documentation, coverage report, diagram and code
     docs-metrics         - Generate code metrics report, plots and tables
     library-add          - Add a given package to a given dependency group
     library-graph-dev    - Graph dependencies in dev environment
     library-graph-prod   - Graph dependencies in prod environment
-    library-install-dev  - Install all dependencies of dev/pyproject.toml into ~/dev
-    library-install-prod - Install all dependencies of prod/pyproject.toml into ~/prod
+    library-install-dev  - Install all dependencies into dev environment
+    library-install-prod - Install all dependencies into prod environment
     library-list-dev     - List packages in dev environment
     library-list-prod    - List packages in prod environment
-    library-lock         - Update ~/dev/pdm.lock file
     library-remove       - Remove a given package from a given dependency group
     library-search       - Search for pip packages
-    library-sync         - Sync dev dependencies
     library-update       - Update dev dependencies
-    session-app          - Run app server
+    session-app          - Run app
     session-lab          - Run jupyter lab server
     session-python       - Run python session with dev dependencies
     state                - State of {repo}
@@ -271,11 +269,11 @@ def version_variable():
     # type: () -> str
     '''
     Returns:
-        str: Command to set version variable from dev/pyproject.toml.
+        str: Command to set version variable from pyproject.toml.
     '''
     return line('''
-        export VERSION=`cat docker/dev/pyproject.toml
-            | grep version
+        export VERSION=`cat docker/config/pyproject.toml
+            | grep -E '^version *='
             | awk '{{print $3}}'
             | sed 's/\"//g'`
     ''')
@@ -284,15 +282,15 @@ def version_variable():
 def x_tools(command, args=[]):
     # type: (str, list[str]) -> str
     '''
-    Creates a x-tools command string.
+    Creates a x_tools command string.
 
     Args:
-        command (str): x-tools command
+        command (str): x_tools command
         args (list, optional): List of arguments to be passed to the command.
             Default: []
 
     Returns:
-        str: x-tools command.
+        str: x_tools command.
     '''
 
     cmd = 'source /home/ubuntu/.zshrc && {cmd}'.format(cmd=command)
@@ -564,15 +562,15 @@ def stop_command():
 def x_tools_command(command, args=[]):
     # type: (str, list[str]) -> str
     '''
-    Runs a x-tools command.
+    Runs a x_tools command.
 
     Args:
-        command (str): x-tools command
+        command (str): x_tools command
         args (list, optional): List of arguments to be passed to the command.
             Default: []
 
     Returns:
-        str: x-tools command.
+        str: x_tools command.
     '''
     cmds = [
         enter_repo(),
@@ -671,10 +669,10 @@ def main():
     '''
     mode, args = get_info()
     lut = {
-        'build-pip-package': x_tools_command('x-build-pip-package', args),
-        'build-prod': x_tools_command('x-build-prod', args),
-        'build-publish': x_tools_command('x-build-publish', args),
-        'build-test': x_tools_command('x-build-test', args),
+        'build-package': x_tools_command('x_build_package', args),
+        'build-prod': x_tools_command('x_build_prod', args),
+        'build-publish': x_tools_command('x_build_publish', args),
+        'build-test': x_tools_command('x_build_test', args),
         'docker-build': build_dev_command(),
         'docker-build-prod': build_prod_command(),
         'docker-container': container_id_command(),
@@ -687,35 +685,33 @@ def main():
         'docker-restart': restart_command(),
         'docker-start': start_command(),
         'docker-stop': stop_command(),
-        'docs': x_tools_command('x-docs', args),
-        'docs-architecture': x_tools_command('x-docs-architecture', args),
-        'docs-full': x_tools_command('x-docs-full', args),
-        'docs-metrics': x_tools_command('x-docs-metrics', args),
-        'library-add': x_tools_command('x-library-add', args),
-        'library-graph-dev': x_tools_command('x-library-graph-dev', args),
-        'library-graph-prod': x_tools_command('x-library-graph-prod', args),
-        'library-install-dev': x_tools_command('x-library-install-dev', args),
-        'library-install-prod': x_tools_command('x-library-install-prod', args),
-        'library-list-dev': x_tools_command('x-library-list-dev', args),
-        'library-list-prod': x_tools_command('x-library-list-prod', args),
-        'library-lock': x_tools_command('x-library-lock', args),
-        'library-remove': x_tools_command('x-library-remove', args),
-        'library-search': x_tools_command('x-library-search', args),
-        'library-sync': x_tools_command('x-library-sync', args),
-        'library-update': x_tools_command('x-library-update', args),
-        'session-app': x_tools_command('x-session-app', args),
-        'session-lab': x_tools_command('x-session-lab', args),
-        'session-python': x_tools_command('x-session-python', args),
+        'docs': x_tools_command('x_docs', args),
+        'docs-architecture': x_tools_command('x_docs_architecture', args),
+        'docs-full': x_tools_command('x_docs_full', args),
+        'docs-metrics': x_tools_command('x_docs_metrics', args),
+        'library-add': x_tools_command('x_library_add', args),
+        'library-graph-dev': x_tools_command('x_library_graph_dev', args),
+        'library-graph-prod': x_tools_command('x_library_graph_prod', args),
+        'library-install-dev': x_tools_command('x_library_install_dev', args),
+        'library-install-prod': x_tools_command('x_library_install_prod', args),
+        'library-list-dev': x_tools_command('x_library_list_dev', args),
+        'library-list-prod': x_tools_command('x_library_list_prod', args),
+        'library-remove': x_tools_command('x_library_remove', args),
+        'library-search': x_tools_command('x_library_search', args),
+        'library-update': x_tools_command('x_library_update', args),
+        'session-app': x_tools_command('x_session_app', args),
+        'session-lab': x_tools_command('x_session_lab', args),
+        'session-python': x_tools_command('x_session_python', args),
         'state': state_command(),
-        'test-coverage': x_tools_command('x-test-coverage', args),
-        'test-dev': x_tools_command('x-test-dev', args),
-        'test-fast': x_tools_command('x-test-fast', args),
-        'test-lint': x_tools_command('x-test-lint', args),
-        'test-prod': x_tools_command('x-test-prod', args),
-        'version': x_tools_command('x-version', args),
-        'version-bump-major': x_tools_command('x-version-bump-major', args),
-        'version-bump-minor': x_tools_command('x-version-bump-minor', args),
-        'version-bump-patch': x_tools_command('x-version-bump-patch', args),
+        'test-coverage': x_tools_command('x_test_coverage', args),
+        'test-dev': x_tools_command('x_test_dev', args),
+        'test-fast': x_tools_command('x_test_fast', args),
+        'test-lint': x_tools_command('x_test_lint', args),
+        'test-prod': x_tools_command('x_test_prod', args),
+        'version': x_tools_command('x_version', args),
+        'version-bump-major': x_tools_command('x_version_bump_major', args),
+        'version-bump-minor': x_tools_command('x_version_bump_minor', args),
+        'version-bump-patch': x_tools_command('x_version_bump_patch', args),
         'zsh': zsh_command(),
         'zsh-complete': zsh_complete_command(),
         'zsh-root': zsh_root_command(),
