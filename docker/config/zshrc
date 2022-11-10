@@ -33,11 +33,11 @@ if [[ `which exa` != "* not found" ]]; then
     alias tree='exa --tree --all';
 fi;
 
-# bat aliases
+# batcat aliases
 if [[ `which batcat` != "* not found" ]]; then
-    alias cat='bat';
-    alias pcat='bat --plain --color never';
-    alias xcat='bat --show-all';
+    alias cat='batcat';
+    alias pcat='batcat --plain --color never';
+    alias xcat='batcat --show-all';
 fi;
 
 # MISC--------------------------------------------------------------------------
