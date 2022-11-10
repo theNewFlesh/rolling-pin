@@ -249,8 +249,9 @@ _x_build_show_package () {
     local package=`ls | grep tar.gz`;
     tar xvf $package -C /tmp/dist;
     echo "\n${CYAN2}$package${CLEAR}";
-    tree -C /tmp/dist;
+    exa --tree --all /tmp/dist;
     rm -rf /tmp/dist;
+    echo;
 }
 
 x_build_package () {
@@ -275,7 +276,7 @@ _x_build_publish () {
     # Publish pip package of repo to PyPi
     # args: user, password, comment
     x_build_package;
-    cd $BUILD_DIR/repo;
+    cd $BUILD_DIR;
     echo "${CYAN2}PUBLISHING PIP PACKAGE TO PYPI${CLEAR}\n";
     pdm publish \
         --no-build \
