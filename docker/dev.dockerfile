@@ -33,14 +33,16 @@ WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
     apt update && \
     apt install -y \
+        bat \
         curl \
+        exa \
         git \
         graphviz \
         npm \
         pandoc \
         parallel \
+        ripgrep \
         software-properties-common \
-        tree \
         vim \
         wget && \
     rm -rf /var/lib/apt/lists/*
