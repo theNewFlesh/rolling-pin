@@ -238,7 +238,18 @@ _x_build () {
         $CONFIG_DIR/build.yaml \
         --groups base,$1;
     _x_gen_pyproject $1 > $BUILD_DIR/repo/pyproject.toml;
-    touch $BUILD_DIR/repo/py.typed
+    touch $BUILD_DIR/repo/py.typed;
+}
+
+_x_build_show_package () {
+    # Run tree command on untarred pip package
+    cd $BUILD_DIR/dist;
+    mkdir /tmp/dist;
+    local package=`ls | grep tar.gz`;
+    tar xvf $package -C /tmp/dist;
+    echo "\n${CYAN2}$package${CLEAR}";
+    tree -C /tmp/dist;
+    rm -rf /tmp/dist;
 }
 
 x_build_package () {
@@ -249,6 +260,7 @@ x_build_package () {
     echo "${CYAN2}BUILDING PIP PACKAGE${CLEAR}\n";
     pdm build --dest $BUILD_DIR/dist -v;
     rm -rf $BUILD_DIR/repo/build;
+    _x_build_show_package;
 }
 
 x_build_prod () {
