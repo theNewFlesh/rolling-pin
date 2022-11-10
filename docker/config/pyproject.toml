@@ -81,7 +81,8 @@ filterwarnings = [
     "ignore:Call to deprecated function",
     "ignore:nx.nx_pydot.to_pydot depends",
     "ignore:distutils Version classes are deprecated",
-    "ignore:The --rsyncdir command line"
+    "ignore:The --rsyncdir command line",
+    "ignore:Jupyter is migrating its paths to use standard platformdirs",
 ]
 markers = [
     "flaky:Flaky test",
