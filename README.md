@@ -25,7 +25,7 @@ for a taste of what rolling-pin can do.
 
 ### Docker For Developers
 1. Install [docker-desktop](https://docs.docker.com/desktop/)
-2. Ensure docker-machine has at least 4 GB of memory allocated to it.
+2. Ensure docker-desktop has at least 4 GB of memory allocated to it.
 3. `git clone git@github.com:theNewFlesh/rolling-pin.git`
 4. `cd rolling-pin`
 6. `chmod +x bin/rolling-pin`
