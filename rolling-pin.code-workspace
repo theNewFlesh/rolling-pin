@@ -190,6 +190,22 @@
                 ]
             },
             {
+                "label": "[library] lock-dev",
+                "detail": "Resolve dev.lock file",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_library_lock_dev"
+                ]
+            },
+            {
+                "label": "[library] lock-prod",
+                "detail": "Resolve prod.lock file",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_library_lock_prod"
+                ]
+            },
+            {
                 "label": "[library] remove",
                 "detail": "Remove a given package from a given dependency group",
                 "command": [
@@ -203,6 +219,22 @@
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_search ${input:search_pdm_package}"
+                ]
+            },
+            {
+                "label": "[library] sync-dev",
+                "detail": "Sync dev environment with packages listed in dev.lock",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_library_sync_dev"
+                ]
+            },
+            {
+                "label": "[library] sync-prod",
+                "detail": "Sync prod environment with packages listed in prod.lock",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_library_sync_prod"
                 ]
             },
             {
