@@ -132,7 +132,7 @@ class TomlETL:
             AssertionError: If '=' not found in patch.
 
         Returns:
-            dict: Dictionary copy of instance.
+            TomlETL: New TomlETL instance with edits.
         '''
         toml.loads(patch)
         assert '=' in patch
@@ -146,4 +146,20 @@ class TomlETL:
         else:
             data[key] = val
         data = BlobETL(data, separator='.').to_dict()
+        return TomlETL(data)
+
+    def search(self, regex):
+        # type: (str) -> TomlETL
+        '''
+        Returns portion of data whose keys match a given regular expression.
+
+        Args:
+            regex (str): Regular expression applied to keys.
+
+        Returns:
+            TomlETL: New TomlETL instance.
+        '''
+        data = BlobETL(self._data, separator='.') \
+            .query(regex, ignore_case=False) \
+            .to_dict()
         return TomlETL(data)

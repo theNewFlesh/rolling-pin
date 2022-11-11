@@ -124,10 +124,16 @@ def table(source, target):
     type=str,
     nargs=1,
     multiple=True,
-    help='edit key with value in equals separated pair',
+    help='"=" separated key value pair in TOML format',
 )
-def toml(source, edit):
-    # type: (str, tuple[str]) -> None
+@click.option(
+    '--search',
+    type=str,
+    nargs=1,
+    help='Search TOML data for keys that match this regular expression',
+)
+def toml(source, edit, search):
+    # type: (str, tuple[str], str) -> None
     '''
     Generate a copy of a given TOML file with given edits
 
@@ -145,6 +151,8 @@ def toml(source, edit):
     etl = TomlETL.from_file(source)
     for e in edit:
         etl = etl.edit(e)
+    if search is not None:
+        etl = etl.search(search)
     print(etl.to_string())
 
 
