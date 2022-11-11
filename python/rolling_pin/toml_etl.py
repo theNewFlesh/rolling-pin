@@ -57,12 +57,14 @@ class TomlETL:
         with open(filepath, 'w') as f:
             toml.dump(self._data, f, encoder=TomlEtlEncoder())
 
-    def edit(self, key, value):
-        # type: (str, str) -> TomlETL
+    def edit(self, patch):
+        # type: (str) -> TomlETL
+        key, val = patch.split('=', maxsplit=1)
+        val = toml.loads(f'x={val}')['x']
         data = BlobETL(self._data, separator='.').to_flat_dict()
-        if value == ':DELETE:':
+        if val == ':DELETE:':
             del data[key]
         else:
-            data[key] = value
+            data[key] = val
         data = BlobETL(data, separator='.').to_dict()
         return TomlETL(data)
