@@ -122,7 +122,7 @@ def table(source, target):
     help='edit key with value in comma separated pair',
 )
 def toml(source, edit):
-    # type: (str, tuple[str]) -> str
+    # type: (str, tuple[str]) -> None
     '''
     Generate a copy of a given TOML file with given edits
 
