@@ -70,6 +70,7 @@ test = [
     "pytest",
     "toml>=0.10.2",
     "types-pyyaml>=6.0.12.1",
+    "types-toml>=0.10.8",
 ]
 
 [tool.pytest.ini_options]

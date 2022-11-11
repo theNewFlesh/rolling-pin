@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, Dict, Type, TypeVar, Union
 
 from copy import deepcopy
 from pathlib import Path
@@ -7,16 +7,18 @@ import os
 import toml
 
 from rolling_pin.blob_etl import BlobETL
+
+T = TypeVar('T', bound='TomlETL')
 # ------------------------------------------------------------------------------
 
 
 class TomlEtlEncoder(toml.TomlArraySeparatorEncoder):
     def __init__(self, _dict=dict, preserve=False, separator=','):
-        # type: (dict, bool, str) -> None
+        # type: (Type[Dict[Any, Any]], bool, str) -> None
         super().__init__(_dict, preserve, ',\n   ')
 
     def dump_list(self, v):
-        # type: (list) -> str
+        # type: (Any) -> str
         if len(v) == 0:
             return '[]'
         if len(v) == 1:
@@ -25,16 +27,20 @@ class TomlEtlEncoder(toml.TomlArraySeparatorEncoder):
         return '[\n   ' + output + '\n]'
 
 
-class TomlEtl:
+class TomlETL:
     @classmethod
     def from_string(cls, text):
-        # type: (TomlEtl, str) -> TomlEtl
+        # type: (Type[T], str) -> T
         return cls(toml.loads(text))
 
     @classmethod
     def from_file(cls, filepath):
-        # type: (TomlEtl, Union[str, Path]) -> TomlEtl
+        # type: (Type[T], Union[str, Path]) -> T
         return cls(toml.load(filepath))
+
+    def __init__(self, data):
+        # type: (dict[str, Any]) -> None
+        self._data = data
 
     def to_dict(self):
         # type: () -> dict
@@ -51,16 +57,12 @@ class TomlEtl:
         with open(filepath, 'w') as f:
             toml.dump(self._data, f, encoder=TomlEtlEncoder())
 
-    def __init__(self, data):
-        # type: (dict[str, Any]) -> None
-        self._data = data
-
     def edit(self, key, value):
-        # type: (str, str) -> TomlEtl
+        # type: (str, str) -> TomlETL
         data = BlobETL(self._data, separator='.').to_flat_dict()
         if value == ':DELETE:':
             del data[key]
         else:
             data[key] = value
         data = BlobETL(data, separator='.').to_dict()
-        return TomlEtl(data)
+        return TomlETL(data)

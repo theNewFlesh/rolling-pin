@@ -1310,6 +1310,11 @@ version = "6.0.12.2"
 summary = "Typing stubs for PyYAML"
 
 [[package]]
+name = "types-toml"
+version = "0.10.8"
+summary = "Typing stubs for toml"
+
+[[package]]
 name = "typing-extensions"
 version = "4.4.0"
 requires_python = ">=3.7"
@@ -1372,7 +1377,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:7fae1ae767c3a3e8febccbb1bb8a4a9e365494651d435e3f86fbdee20a25328c"
+content_hash = "sha256:9c9c5b3112c1414cb8e5552059accdb51ff4435b19e6aae72d1029768d8dc4ca"
 
 [metadata.files]
 "alabaster 0.7.12" = [
@@ -2466,6 +2471,10 @@ content_hash = "sha256:7fae1ae767c3a3e8febccbb1bb8a4a9e365494651d435e3f86fbdee20
 "types-pyyaml 6.0.12.2" = [
     {url = "https://files.pythonhosted.org/packages/13/c2/aff0c123a4a8e4b360a52bb62019949fa691d02ca0fda1ac5010171d9d42/types_PyYAML-6.0.12.2-py3-none-any.whl", hash = "sha256:1e94e80aafee07a7e798addb2a320e32956a373f376655128ae20637adb2655b"},
     {url = "https://files.pythonhosted.org/packages/98/f1/b811af145690f4585e5ef03ce961b9ed3e361ace950416bd577dfa6c4918/types-PyYAML-6.0.12.2.tar.gz", hash = "sha256:6840819871c92deebe6a2067fb800c11b8a063632eb4e3e755914e7ab3604e83"},
+]
+"types-toml 0.10.8" = [
+    {url = "https://files.pythonhosted.org/packages/76/d0/11897ab7b3b2211be5c733e241d83401f5d37473c961ea5c9460393c6f45/types-toml-0.10.8.tar.gz", hash = "sha256:b7e7ea572308b1030dc86c3ba825c5210814c2825612ec679eb7814f8dd9295a"},
+    {url = "https://files.pythonhosted.org/packages/ae/2c/a642f8cfa7f9e67c29316bf04b7675db292d006275c67ec07f0c0069cf91/types_toml-0.10.8-py3-none-any.whl", hash = "sha256:8300fd093e5829eb9c1fba69cee38130347d4b74ddf32d0a7df650ae55c2b599"},
 ]
 "typing-extensions 4.4.0" = [
     {url = "https://files.pythonhosted.org/packages/0b/8e/f1a0a5a76cfef77e1eb6004cb49e5f8d72634da638420b9ea492ce8305e8/typing_extensions-4.4.0-py3-none-any.whl", hash = "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"},
