@@ -137,9 +137,9 @@ def toml(source, edit):
 
     \b
     Example:
-        rolling-pin toml foobar.toml \\
-            --edit 'project.foo="bar"' \\
-            --edit 'project.bar.x=["a", "b", "c"]' \
+        rolling-pin toml foobar.toml               \\
+            --edit 'project.foo="bar"'             \\
+            --edit 'project.bar.x=["a", "b", "c"]' \\
             --edit 'project.pizza="<DELETE>"'
     '''
     etl = TomlETL.from_file(source)
