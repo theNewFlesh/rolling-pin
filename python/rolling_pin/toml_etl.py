@@ -103,7 +103,7 @@ class TomlETL:
         '''
         return toml.dumps(self._data, encoder=TomlEtlEncoder())
 
-    def to_file(self, filepath):
+    def write(self, filepath):
         # type: (Union[str, Path]) -> None
         '''
         Writes instance to given TOML file.
