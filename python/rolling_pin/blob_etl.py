@@ -51,7 +51,7 @@ class BlobETL():
 
         Args:
             regex (str): Regular expression.
-            ignore_casd (bool, optional): Whether to consider case in the
+            ignore_case (bool, optional): Whether to consider case in the
                 regular expression search. Default: False.
 
         Returns:
