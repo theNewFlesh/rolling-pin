@@ -5,7 +5,7 @@ import click
 from rolling_pin.conform_etl import ConformETL
 from rolling_pin.radon_etl import RadonETL
 from rolling_pin.repo_etl import RepoETL
-from rolling_pin.toml_etl import TomlEtl
+from rolling_pin.toml_etl import TomlETL
 # ------------------------------------------------------------------------------
 
 '''
@@ -37,7 +37,9 @@ def conform(source, groups, dryrun):
     '''
     Copies source files to target filepaths according to given conform file.
 
-    SOURCE - conform YAML filepath
+    \b
+    Arguments:
+        SOURCE - conform YAML filepath
     '''
     etl = ConformETL.from_yaml(source)
     if dryrun:
@@ -73,9 +75,10 @@ def graph(source, target, include, exclude, orient):
     Generate a dependency graph of a source repository and write it to a given
     filepath
 
-    SOURCE - repository path
-
-    TARGET - target filepath
+    \b
+    Arguments:
+        SOURCE - repository path
+        TARGET - target filepath
     '''
     include_ = None if include == '' else include
     exclude_ = None if exclude == '' else exclude
@@ -90,9 +93,10 @@ def plot(source, target):
     '''
     Write radon metrics plots of given repository to given filepath
 
-    SOURCE - repository path
-
-    TARGET - plot filepath
+    \b
+    Arguments:
+        SOURCE - repository path
+        TARGET - plot filepath
     '''
     RadonETL(source).write_plots(target)
 
@@ -105,9 +109,10 @@ def table(source, target):
     '''
     Write radon metrics tables of given repository to given directory
 
-    SOURCE - repository path
-
-    TARGET - table directory
+    \b
+    Arguments:
+        SOURCE - repository path
+        TARGET - table directory
     '''
     RadonETL(source).write_tables(target)
 
@@ -119,19 +124,26 @@ def table(source, target):
     type=str,
     nargs=1,
     multiple=True,
-    help='edit key with value in comma separated pair',
+    help='edit key with value in equals separated pair',
 )
 def toml(source, edit):
     # type: (str, tuple[str]) -> None
     '''
     Generate a copy of a given TOML file with given edits
 
-    SOURCE - TOML filepath
+    \b
+    Arguments:
+        SOURCE  - TOML filepath
+
+    \b
+    Example:
+        rolling-pin toml foobar.toml \\
+            --edit 'project.foo="bar"' \\
+            --edit 'project.bar.x=["a", "b", "c"]'
     '''
-    edits = [x.split('=', maxsplit=1) for x in edit]
-    etl = TomlEtl.from_file(source)
-    for key, value in edits:
-        etl = etl.edit(key, value)
+    etl = TomlETL.from_file(source)
+    for e in edit:
+        etl = etl.edit(e)
     print(etl.to_string())
 
 
