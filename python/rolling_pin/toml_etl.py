@@ -62,7 +62,7 @@ class TomlETL:
         key, val = patch.split('=', maxsplit=1)
         val = toml.loads(f'x={val}')['x']
         data = BlobETL(self._data, separator='.').to_flat_dict()
-        if val == ':DELETE:':
+        if val == '<DELETE>':
             del data[key]
         else:
             data[key] = val

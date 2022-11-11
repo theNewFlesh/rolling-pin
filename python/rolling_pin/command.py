@@ -139,7 +139,8 @@ def toml(source, edit):
     Example:
         rolling-pin toml foobar.toml \\
             --edit 'project.foo="bar"' \\
-            --edit 'project.bar.x=["a", "b", "c"]'
+            --edit 'project.bar.x=["a", "b", "c"]' \
+            --edit 'project.pizza="<DELETE>"'
     '''
     etl = TomlETL.from_file(source)
     for e in edit:
