@@ -149,18 +149,74 @@ value pair in TOML format''',
 def toml(source, edit, delete, search, target):
     # type: (str, tuple[str], tuple[str], str, str) -> None
     '''
-    Generate a copy of a given TOML file with given edits
+    Generate a copy of a given TOML file with given edits indicated by flags.
+    Flags are evalauted in the following order: edit, delete, search.
+    Flags may be arbitrarily combined.
+    Edit and delete flags may appear multiple times.
 
     \b
     Arguments:
         SOURCE  - TOML filepath
 
     \b
-    Example:
-        rolling-pin toml foobar.toml              \\
-            --edit   'root.foo="bar"'             \\
-            --edit   'root.bar.x=["a", "b", "c"]' \\
-            --delete 'root.pizza'
+    EXAMPLES
+        EXAMPLE-FILE------------------------------------------------------------
+            >>>cat example.toml
+            [root]
+            a = 1
+            b = 2
+    \b
+            [root.foo.bar]
+            x = "y"
+    \b
+            [world]
+            hello = true
+
+    \b
+        EDIT-FLAG---------------------------------------------------------------
+            >>>rolling-pin toml foobar.toml --edit 'root.a=999'
+            [root]
+            a = 999
+            b = 2...
+    \b
+            --------------------------------------------------------------------
+            >>>rolling-pin toml foobar.toml \\
+                   --edit 'root.a=[1, 2]'   \\
+                   --edit 'root.b="xxx"'
+            [root]
+            a = [
+                1,
+                2,
+            ]
+            b = "xxx"...
+    \b
+            --------------------------------------------------------------------
+            >>>rolling-pin toml foobar.toml --edit 'root.foo.bar="baz"'
+            ...
+            hello = true
+    \b
+            [root.foo]
+            bar = "baz"...
+
+    \b
+        DELETE-FLAG-------------------------------------------------------------
+            >>>rolling-pin toml foobar.toml \\
+                   --delete 'root.foo.bar'  \\
+                   --delete 'root.a'
+            [root]
+            b = 2
+    \b
+            [world]
+            hello = true
+
+    \b
+        SEARCH-FLAG-------------------------------------------------------------
+            >>>rolling-pin toml foobar.toml --search 'root.foo|world'
+            [world]
+            hello = true
+    \b
+            [root.foo.bar]
+            x = "y"
     '''
     etl = TomlETL.from_toml(source)
     for e in edit:
