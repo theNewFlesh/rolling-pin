@@ -362,26 +362,6 @@ _x_library_pdm_to_repo_prod () {
     cp -f $PDM_DIR/pdm.lock $CONFIG_DIR/prod.lock;
 }
 
-x_library_lock_dev () {
-    # Resolve dev.lock file
-    x_env_activate_dev;
-    echo "${CYAN2}DEV DEPENDENCY LOCK${CLEAR}\n";
-    cd $PDM_DIR;
-    pdm lock -v;
-    _x_library_pdm_to_repo_dev;
-}
-
-x_library_lock_prod () {
-    # Resolve prod.lock file
-    x_env_activate_prod;
-    echo "${CYAN2}PROD DEPENDENCY LOCK${CLEAR}\n";
-    cd $PDM_DIR;
-    pdm lock -v;
-    _x_library_pdm_to_repo_prod;
-    deactivate;
-    x_env_activate_dev;
-}
-
 _x_library_sync () {
     # Sync lock with given environment
     # args: mode, python_version
@@ -451,6 +431,26 @@ x_library_list_prod () {
     echo "${CYAN2}PROD DEPENDENCIES${CLEAR}\n";
     cd $PDM_DIR;
     pdm list --sort name --fields name,version,groups;
+    deactivate;
+    x_env_activate_dev;
+}
+
+x_library_lock_dev () {
+    # Resolve dev.lock file
+    x_env_activate_dev;
+    echo "${CYAN2}DEV DEPENDENCY LOCK${CLEAR}\n";
+    cd $PDM_DIR;
+    pdm lock -v;
+    _x_library_pdm_to_repo_dev;
+}
+
+x_library_lock_prod () {
+    # Resolve prod.lock file
+    x_env_activate_prod;
+    echo "${CYAN2}PROD DEPENDENCY LOCK${CLEAR}\n";
+    cd $PDM_DIR;
+    pdm lock -v;
+    _x_library_pdm_to_repo_prod;
     deactivate;
     x_env_activate_dev;
 }
