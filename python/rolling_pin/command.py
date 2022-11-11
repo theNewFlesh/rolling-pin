@@ -148,7 +148,7 @@ def toml(source, edit, search):
             --edit 'project.bar.x=["a", "b", "c"]' \\
             --edit 'project.pizza="<DELETE>"'
     '''
-    etl = TomlETL.from_file(source)
+    etl = TomlETL.from_toml(source)
     for e in edit:
         etl = etl.edit(e)
     if search is not None:

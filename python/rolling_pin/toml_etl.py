@@ -60,7 +60,7 @@ class TomlETL:
         return cls(toml.loads(text))
 
     @classmethod
-    def from_file(cls, filepath):
+    def from_toml(cls, filepath):
         # type: (Type[T], Union[str, Path]) -> T
         '''
         Creates a TomlETL instance from a given TOML file.
