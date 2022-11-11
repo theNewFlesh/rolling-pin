@@ -140,8 +140,14 @@ value pair in TOML format''',
     nargs=1,
     help='Search for keys that match this regular expression',
 )
-def toml(source, edit, delete, search):
-    # type: (str, tuple[str], tuple[str], str) -> None
+@click.option(
+    '--target',
+    type=str,
+    nargs=1,
+    help='Target filepath to write to',
+)
+def toml(source, edit, delete, search, target):
+    # type: (str, tuple[str], tuple[str], str, str) -> None
     '''
     Generate a copy of a given TOML file with given edits
 
@@ -163,7 +169,10 @@ def toml(source, edit, delete, search):
         etl = etl.delete(d)
     if search is not None:
         etl = etl.search(search)
-    print(etl.to_string())
+    if target is not None:
+        etl.write(target)
+    else:
+        print(etl.to_string())
 
 
 @main.command()
