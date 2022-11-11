@@ -124,6 +124,9 @@ class TomlETL:
         If value is "<DELETE>" the given key will be deleted, otherwise it will
         be replaced with the given value.
 
+        Args:
+            patch (str): TOML patch to be applied.
+
         Raises:
             TomlDecoderError: If patch cannot be decoded.
             AssertionError: If '=' not found in patch.
