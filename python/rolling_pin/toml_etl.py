@@ -121,8 +121,6 @@ class TomlETL:
         '''
         Apply edit to internal data given TOML patch.
         Patch is always of the form '[key]=[value]' and in TOML format.
-        If value is "<DELETE>" the given key will be deleted, otherwise it will
-        be replaced with the given value.
 
         Args:
             patch (str): TOML patch to be applied.
