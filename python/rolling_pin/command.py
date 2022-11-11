@@ -5,6 +5,7 @@ import click
 from rolling_pin.conform_etl import ConformETL
 from rolling_pin.radon_etl import RadonETL
 from rolling_pin.repo_etl import RepoETL
+from rolling_pin.toml_etl import TomlEtl
 # ------------------------------------------------------------------------------
 
 '''
@@ -109,6 +110,29 @@ def table(source, target):
     TARGET - table directory
     '''
     RadonETL(source).write_tables(target)
+
+
+@main.command()
+@click.argument('source', type=str, nargs=1)
+@click.option(
+    '--edit',
+    type=str,
+    nargs=1,
+    multiple=True,
+    help='edit key with value in comma separated pair',
+)
+def toml(source, edit):
+    # type: (str, tuple[str]) -> str
+    '''
+    Generate a copy of a given TOML file with given edits
+
+    SOURCE - TOML filepath
+    '''
+    edits = [x.split('=', maxsplit=1) for x in edit]
+    etl = TomlEtl.from_file(source)
+    for key, value in edits:
+        etl = etl.edit(key, value)
+    print(etl.to_string())
 
 
 @main.command()
