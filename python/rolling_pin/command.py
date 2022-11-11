@@ -178,7 +178,7 @@ def toml(source, edit, delete, search, target):
 @main.command()
 def bash_completion():
     '''
-        BASH completion code to be written to a _rolling-pin completion file.
+    BASH completion code to be written to a _rolling-pin completion file.
     '''
     cmd = '_ROLLING_PIN_COMPLETE=bash_source rolling-pin'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
@@ -189,7 +189,7 @@ def bash_completion():
 @main.command()
 def zsh_completion():
     '''
-        ZSH completion code to be written to a _rolling-pin completion file.
+    ZSH completion code to be written to a _rolling-pin completion file.
     '''
     cmd = '_ROLLING_PIN_COMPLETE=zsh_source rolling-pin'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
