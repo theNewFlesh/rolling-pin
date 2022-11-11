@@ -362,8 +362,8 @@ _x_library_pdm_to_repo_prod () {
     cp -f $PDM_DIR/pdm.lock $CONFIG_DIR/prod.lock;
 }
 
-_x_library_lock_dev () {
-    # Update dev.lock
+x_library_lock_dev () {
+    # Resolve dev.lock file
     x_env_activate_dev;
     echo "${CYAN2}DEV DEPENDENCY LOCK${CLEAR}\n";
     cd $PDM_DIR;
@@ -371,8 +371,8 @@ _x_library_lock_dev () {
     _x_library_pdm_to_repo_dev;
 }
 
-_x_library_lock_prod () {
-    # Update prod.lock
+x_library_lock_prod () {
+    # Resolve prod.lock file
     x_env_activate_prod;
     echo "${CYAN2}PROD DEPENDENCY LOCK${CLEAR}\n";
     cd $PDM_DIR;
@@ -427,16 +427,14 @@ x_library_graph_prod () {
 
 x_library_install_dev () {
     # Install all dependencies into dev environment
-    echo "${CYAN2}INSTALL DEV DEPENDENCIES${CLEAR}\n";
-    _x_library_lock_dev;
-    _x_library_sync dev $MAX_PYTHON_VERSION;
+    x_library_lock_dev;
+    x_library_sync_dev;
 }
 
 x_library_install_prod () {
     # Install all dependencies into prod environment
-    echo "${CYAN2}INSTALL PROD DEPENDENCIES${CLEAR}\n";
-    _x_library_lock_prod;
-    _x_for_each_version '_x_library_sync prod $VERSION';
+    x_library_lock_prod;
+    x_library_sync_prod;
 }
 
 x_library_list_dev () {
@@ -477,6 +475,18 @@ x_library_search () {
     x_env_activate_dev;
     cd $PDM_DIR;
     pdm search $1;
+}
+
+x_library_sync_dev () {
+    # Sync dev environment with packages listed in dev.lock
+    echo "${CYAN2}SYNC DEV DEPENDENCIES${CLEAR}\n";
+    _x_library_sync dev $MAX_PYTHON_VERSION;
+}
+
+x_library_sync_prod () {
+    # Sync prod environment with packages listed in prod.lock
+    echo "${CYAN2}SYNC PROD DEPENDENCIES${CLEAR}\n";
+    _x_for_each_version '_x_library_sync prod $VERSION';
 }
 
 x_library_update () {

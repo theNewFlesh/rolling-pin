@@ -90,7 +90,7 @@ def generate(filepath, replacements, deletions):
 
     for key, val in replacements:
         temp, k = lookup(key, data)
-        temp[k]= val
+        temp[k] = val
 
     for key in deletions:
         temp, k = lookup(key, data)

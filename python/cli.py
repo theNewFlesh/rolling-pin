@@ -76,8 +76,12 @@ def get_info():
     library-install-prod - Install all dependencies into prod environment
     library-list-dev     - List packages in dev environment
     library-list-prod    - List packages in prod environment
+    library-lock-dev     - Resolve dev.lock file
+    library-lock-prod    - Resolve prod.lock file
     library-remove       - Remove a given package from a given dependency group
     library-search       - Search for pip packages
+    library-sync-dev     - Sync dev environment with packages listed in dev.lock
+    library-sync-prod    - Sync prod environment with packages listed in prod.lock
     library-update       - Update dev dependencies
     session-app          - Run app
     session-lab          - Run jupyter lab server
@@ -696,8 +700,12 @@ def main():
         'library-install-prod': x_tools_command('x_library_install_prod', args),
         'library-list-dev': x_tools_command('x_library_list_dev', args),
         'library-list-prod': x_tools_command('x_library_list_prod', args),
+        'library-lock-dev': x_tools_command('x_library_lock_dev', args),
+        'library-lock-prod': x_tools_command('x_library_lock_prod', args),
         'library-remove': x_tools_command('x_library_remove', args),
         'library-search': x_tools_command('x_library_search', args),
+        'library-sync-dev': x_tools_command('x_library_sync_dev', args),
+        'library-sync-prod': x_tools_command('x_library_sync_prod', args),
         'library-update': x_tools_command('x_library_update', args),
         'session-app': x_tools_command('x_session_app', args),
         'session-lab': x_tools_command('x_session_lab', args),
