@@ -141,11 +141,24 @@ class TomlETL:
         key, val = patch.split('=', maxsplit=1)
         val = toml.loads(f'x={val}')['x']
         data = BlobETL(self._data, separator='.').to_flat_dict()
-        if val == '<DELETE>':
-            del data[key]
-        else:
-            data[key] = val
+        data[key] = val
         data = BlobETL(data, separator='.').to_dict()
+        return TomlETL(data)
+
+    def delete(self, regex):
+        # type: (str) -> TomlETL
+        '''
+        Returns portion of data whose keys fo not match a given regular expression.
+
+        Args:
+            regex (str): Regular expression applied to keys.
+
+        Returns:
+            TomlETL: New TomlETL instance.
+        '''
+        data = BlobETL(self._data, separator='.') \
+            .query(regex, ignore_case=False, invert=True) \
+            .to_dict()
         return TomlETL(data)
 
     def search(self, regex):

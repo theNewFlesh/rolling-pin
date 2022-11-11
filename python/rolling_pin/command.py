@@ -124,16 +124,24 @@ def table(source, target):
     type=str,
     nargs=1,
     multiple=True,
-    help='"=" separated key value pair in TOML format',
+    help='''Replace key\'s value with given value. TEXT is "=" separated key
+value pair in TOML format''',
+)
+@click.option(
+    '--delete',
+    type=str,
+    nargs=1,
+    multiple=True,
+    help='Delete keys that match this regular expression',
 )
 @click.option(
     '--search',
     type=str,
     nargs=1,
-    help='Search TOML data for keys that match this regular expression',
+    help='Search for keys that match this regular expression',
 )
-def toml(source, edit, search):
-    # type: (str, tuple[str], str) -> None
+def toml(source, edit, delete, search):
+    # type: (str, tuple[str], tuple[str], str) -> None
     '''
     Generate a copy of a given TOML file with given edits
 
@@ -143,14 +151,16 @@ def toml(source, edit, search):
 
     \b
     Example:
-        rolling-pin toml foobar.toml               \\
-            --edit 'project.foo="bar"'             \\
-            --edit 'project.bar.x=["a", "b", "c"]' \\
-            --edit 'project.pizza="<DELETE>"'
+        rolling-pin toml foobar.toml              \\
+            --edit   'root.foo="bar"'             \\
+            --edit   'root.bar.x=["a", "b", "c"]' \\
+            --delete 'root.pizza'
     '''
     etl = TomlETL.from_toml(source)
     for e in edit:
         etl = etl.edit(e)
+    for d in delete:
+        etl = etl.delete(d)
     if search is not None:
         etl = etl.search(search)
     print(etl.to_string())
