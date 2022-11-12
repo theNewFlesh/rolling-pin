@@ -6,25 +6,8 @@ from lunchbox.enforce import EnforceError
 from toml.decoder import TomlDecodeError
 import toml
 
-from rolling_pin.toml_etl import TomlETL, TomlEtlEncoder
+from rolling_pin.toml_etl import TomlETL
 # ------------------------------------------------------------------------------
-
-
-class TomlEtlEncoderTests(unittest.TestCase):
-    def test_init(self):
-        result = TomlEtlEncoder().separator
-        self.assertEqual(result, ',\n   ')
-
-    def test_dump_list(self):
-        result = TomlEtlEncoder().dump_list([])
-        self.assertEqual(result, '[]')
-
-        result = TomlEtlEncoder().dump_list([1])
-        self.assertEqual(result, '[1]')
-
-        result = TomlEtlEncoder().dump_list(list('abc'))
-        expected = '[\n    "a",\n    "b",\n    "c",\n]'
-        self.assertEqual(result, expected)
 
 
 class TomlEtlTests(unittest.TestCase):

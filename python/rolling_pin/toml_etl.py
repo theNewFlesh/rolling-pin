@@ -1,4 +1,4 @@
-from typing import Any, Dict, Type, TypeVar, Union
+from typing import Any, Type, TypeVar, Union
 
 from copy import deepcopy
 from pathlib import Path
@@ -12,38 +12,6 @@ from toml.decoder import TomlDecodeError
 
 T = TypeVar('T', bound='TomlETL')
 # ------------------------------------------------------------------------------
-
-
-class TomlEtlEncoder(toml.TomlArraySeparatorEncoder):
-    def __init__(self, _dict=dict, preserve=False, separator=','):
-        # type: (Type[Dict[Any, Any]], bool, str) -> None
-        '''
-        Creates a TomlEtlEncoder instance.
-
-        Args:
-            _dict (type, optional): Object type. Default: dict.
-            preserve (bool, optional): Preserve inline tables. Default: False.
-            separator (str, optional): List item separator. Default: ','.
-        '''
-        super().__init__(_dict, preserve, ',\n   ')
-
-    def dump_list(self, v):
-        # type: (Any) -> str
-        '''
-        Converts list of items to TOML formatted string.
-
-        Args:
-            v (list): List to be converted.
-
-        Returns:
-            str: TOML formatted list.
-        '''
-        if len(v) == 0:
-            return '[]'
-        if len(v) == 1:
-            return f'[{v[0]}]'
-        output = super().dump_list(v)[1:-1].rstrip('    \n')
-        return '[\n   ' + output + '\n]'
 
 
 class TomlETL:
@@ -103,7 +71,9 @@ class TomlETL:
         Returns:
             str: TOML string.
         '''
-        return toml.dumps(self._data, encoder=TomlEtlEncoder())
+        return toml.dumps(
+            self._data, encoder=toml.TomlArraySeparatorEncoder(separator=',')
+        )
 
     def write(self, filepath):
         # type: (Union[str, Path]) -> None
@@ -116,7 +86,11 @@ class TomlETL:
         filepath = Path(filepath)
         os.makedirs(filepath.parent, exist_ok=True)
         with open(filepath, 'w') as f:
-            toml.dump(self._data, f, encoder=TomlEtlEncoder())
+            toml.dump(
+                self._data,
+                f,
+                encoder=toml.TomlArraySeparatorEncoder(separator=',')
+            )
 
     def edit(self, patch):
         # type: (str) -> TomlETL
