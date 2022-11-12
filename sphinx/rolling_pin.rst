@@ -43,6 +43,15 @@ repo_etl
    :undoc-members:
    :show-inheritance:
 
+toml_etl
+--------
+.. automodule:: rolling_pin.toml_etl
+   :members:
+   :private-members:
+   :special-members:
+   :undoc-members:
+   :show-inheritance:
+
 tools
 -----
 .. automodule:: rolling_pin.tools
