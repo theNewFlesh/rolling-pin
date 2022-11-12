@@ -90,27 +90,26 @@ _x_gen_pyproject () {
     # Generates pyproject.toml content given a mode
     # args: mode (dev, test or prod)
     if [ "$1" = "dev" ]; then
-        # toml_gen mangles formatting so use sed
+        # rolling-pin mangles formatting so use sed
         # add -dev to project.name to avoid circular and ambiguous dependencies
         cat $CONFIG_DIR/pyproject.toml \
-            |  sed -E "s/name.*$REPO.*/name = \"$REPO-dev\"/" \
-            > $PDM_DIR/pyproject.toml;
+            |  sed -E "s/name.*$REPO.*/name = \"$REPO-dev\"/";
 
     elif [ "$1" = "test" ]; then
-        python3 $SCRIPT_DIR/toml_gen.py $CONFIG_DIR/pyproject.toml \
-            --replace "project.requires-python,>=$MIN_PYTHON_VERSION" \
+        rolling-pin toml $CONFIG_DIR/pyproject.toml \
+            --edit "project.requires-python=\">=$MIN_PYTHON_VERSION\"" \
             --delete "tool.pdm.dev-dependencies.lab" \
             --delete "tool.pdm.dev-dependencies.dev";
 
     elif [ "$1" = "prod" ]; then
-        python3 $SCRIPT_DIR/toml_gen.py $CONFIG_DIR/pyproject.toml \
-            --replace "project.requires-python,>=$MIN_PYTHON_VERSION" \
+        rolling-pin toml $CONFIG_DIR/pyproject.toml \
+            --edit "project.requires-python=\">=$MIN_PYTHON_VERSION\"" \
             --delete "tool.pdm.dev-dependencies.lab" \
             --delete "tool.pdm.dev-dependencies.dev";
 
     elif [ "$1" = "package" ]; then
-        python3 $SCRIPT_DIR/toml_gen.py $CONFIG_DIR/pyproject.toml \
-            --replace "project.requires-python,>=$MIN_PYTHON_VERSION" \
+        rolling-pin toml $CONFIG_DIR/pyproject.toml \
+            --edit "project.requires-python=\">=$MIN_PYTHON_VERSION\"" \
             --delete "tool.pdm.dev-dependencies" \
             --delete "tool.mypy" \
             --delete "tool.pdm" \
@@ -133,10 +132,10 @@ _x_gen_pdm_files () {
     local pypath=`_x_env_get_python $1 $2`;
 
     # .pdm.toml
-    python3 $SCRIPT_DIR/toml_gen.py $CONFIG_DIR/pdm.toml \
-        --replace "venv.prompt,$1-{python_version}" \
-        --replace "python.path,$pypath" \
-        > $PDM_DIR/.pdm.toml;
+    rolling-pin toml $CONFIG_DIR/pdm.toml \
+        --edit "venv.prompt=\"$1-{python_version}\"" \
+        --edit "python.path=\"$pypath\"" \
+        --target $PDM_DIR/.pdm.toml;
 }
 
 # ENV-FUNCTIONS-----------------------------------------------------------------
@@ -235,9 +234,7 @@ _x_build () {
     # args: type (test or prod)
     x_env_activate_dev;
     rm -rf $BUILD_DIR;
-    python3 $REPO_COMMAND_FILE conform \
-        $CONFIG_DIR/build.yaml \
-        --groups base,$1;
+    rolling-pin conform $CONFIG_DIR/build.yaml --groups base,$1;
     _x_gen_pyproject $1 > $BUILD_DIR/repo/pyproject.toml;
     touch $BUILD_DIR/repo/$REPO_SNAKE_CASE/py.typed;
 }
@@ -332,7 +329,7 @@ x_docs_architecture () {
     # Generate architecture.svg diagram from all import statements
     echo "${CYAN2}GENERATING ARCHITECTURE DIAGRAM${CLEAR}\n";
     x_env_activate_dev;
-    python3 $REPO_COMMAND_FILE graph \
+    rolling-pin graph \
         $REPO_DIR/python $REPO_DIR/docs/architecture.svg \
         --exclude 'test|mock' \
         --orient 'lr';
@@ -349,10 +346,8 @@ x_docs_metrics () {
     echo "${CYAN2}GENERATING METRICS${CLEAR}\n";
     x_env_activate_dev;
     cd $REPO_DIR;
-    python3 $REPO_COMMAND_FILE plot \
-        $REPO_DIR/python $REPO_DIR/docs/plots.html;
-    python3 $REPO_COMMAND_FILE table \
-        $REPO_DIR/python $REPO_DIR/docs;
+    rolling-pin plot $REPO_DIR/python $REPO_DIR/docs/plots.html;
+    rolling-pin table $REPO_DIR/python $REPO_DIR/docs;
 }
 
 # LIBRARY-FUNCTIONS-------------------------------------------------------------
