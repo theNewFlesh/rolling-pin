@@ -337,7 +337,7 @@ x_docs_architecture () {
     x_env_activate_dev;
     rolling-pin graph \
         $REPO_DIR/python $REPO_DIR/docs/architecture.svg \
-        --exclude 'test|mock' \
+        --exclude 'test|mock|__init__' \
         --orient 'lr';
 }
 
