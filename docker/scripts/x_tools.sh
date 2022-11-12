@@ -242,6 +242,12 @@ _x_build () {
     touch $BUILD_DIR/repo/$REPO_SNAKE_CASE/py.typed;
 }
 
+_x_build_show_dir () {
+    # Run tree command on build directory
+    exa --tree --all $BUILD_DIR;
+    echo;
+}
+
 _x_build_show_package () {
     # Run tree command on untarred pip package
     cd $BUILD_DIR/dist;
@@ -270,6 +276,7 @@ x_build_prod () {
     echo "${CYAN2}BUILDING PROD REPO${CLEAR}\n";
     _x_build prod;
     _x_gen_pyproject package > $BUILD_DIR/repo/pyproject.toml;
+    _x_build_show_dir;
 }
 
 _x_build_publish () {
@@ -304,6 +311,7 @@ x_build_test () {
     # Build test version of repo for prod testing
     echo "${CYAN2}BUILDING TEST REPO${CLEAR}\n";
     _x_build test;
+    _x_build_show_dir;
 }
 
 # DOCS-FUNCTIONS----------------------------------------------------------------
