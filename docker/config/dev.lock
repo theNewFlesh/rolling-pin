@@ -1377,7 +1377,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:6a241007eeae8f3b9880aca368439c524fcaaa7a37115d5b59cffef831781cc0"
+content_hash = "sha256:aa5d516802c5fbcea737b4c6c6579c6f7eed5efb8d5968d17a74a468af1910c1"
 
 [metadata.files]
 "alabaster 0.7.12" = [
