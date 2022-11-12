@@ -44,25 +44,26 @@ class BlobETL():
         self._separator = separator  # type: str
 
     # EDIT_METHODS--------------------------------------------------------------
-    def query(self, regex, ignore_case=True):
-        # type: (str, bool) -> BlobETL
+    def query(self, regex, ignore_case=True, invert=False):
+        # type: (str, bool, bool) -> BlobETL
         '''
         Filter data items by key according to given regular expression.
 
         Args:
             regex (str): Regular expression.
-            ignore_casd (bool, optional): Whether to consider case in the
+            ignore_case (bool, optional): Whether to consider case in the
                 regular expression search. Default: False.
+            invert (bool, optional): Whether to invert the predicate.
+                Default: False.
 
         Returns:
             BlobETL: New BlobETL instance.
         '''
-        if ignore_case:
-            return self.filter(lambda x: bool(re.search(regex, x, re.I)), by='key')
-        return self.filter(lambda x: bool(re.search(regex, x)), by='key')
+        r = re.compile(regex, re.IGNORECASE) if ignore_case else re.compile(regex)
+        return self.filter(lambda x: bool(r.search(x)), by='key', invert=invert)
 
-    def filter(self, predicate, by='key'):
-        # type: (Callable[[Any], bool], str) -> BlobETL
+    def filter(self, predicate, by='key', invert=False):
+        # type: (Callable[[Any], bool], str, bool) -> BlobETL
         '''
         Filter data items by key, value or key + value, according to a given
         predicate.
@@ -71,6 +72,8 @@ class BlobETL():
             predicate: Function that returns a boolean value.
             by (str, optional): Value handed to predicate.
                 Options include: key, value, key+value. Default: key.
+            invert (bool, optional): Whether to invert the predicate.
+                Default: False.
 
         Raises:
             ValueError: If by keyword is not key, value, or key+value.
@@ -78,6 +81,10 @@ class BlobETL():
         Returns:
             BlobETL: New BlobETL instance.
         '''
+        pred = lambda items: predicate(*items)
+        if invert:
+            pred = lambda items: not predicate(*items)
+
         data = {}
         if by not in ['key', 'value', 'key+value']:
             msg = f'Invalid by argument: {by}. Needs to be one of: '
@@ -93,7 +100,7 @@ class BlobETL():
             else:
                 item = [key, val]
 
-            if predicate(*item):
+            if pred(item):
                 data[key] = val
 
         return BlobETL(data, separator=self._separator)
