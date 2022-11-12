@@ -617,9 +617,8 @@ x_test_prod () {
 # VERSION-FUNCTIONS-------------------------------------------------------------
 x_version () {
     # Full resolution of repo: dependencies, linting, tests, docs, etc
-    _x_link_dev;
-    x_test_lint;
     x_library_install_dev;
+    x_test_lint;
     x_docs_full;
 }
 
