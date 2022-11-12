@@ -51,6 +51,7 @@
         "version": "2.0.0",
         "type": "shell",
         "dependsOrder": "sequence",
+        "problemMatcher": [],
         "options": {
             "cwd": "${workspaceFolder}",
             "env": {
