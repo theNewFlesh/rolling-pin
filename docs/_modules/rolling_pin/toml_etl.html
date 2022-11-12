@@ -30,7 +30,7 @@
             <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.9.0
+                0.9.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -85,7 +85,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.toml_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -99,38 +99,6 @@
 
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;TomlETL&#39;</span><span class="p">)</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
-
-
-<div class="viewcode-block" id="TomlEtlEncoder"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.toml_etl.TomlEtlEncoder">[docs]</a><span class="k">class</span> <span class="nc">TomlEtlEncoder</span><span class="p">(</span><span class="n">toml</span><span class="o">.</span><span class="n">TomlArraySeparatorEncoder</span><span class="p">):</span>
-<div class="viewcode-block" id="TomlEtlEncoder.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.toml_etl.TomlEtlEncoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_dict</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">preserve</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
-        <span class="c1"># type: (Type[Dict[Any, Any]], bool, str) -&gt; None</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Creates a TomlEtlEncoder instance.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            _dict (type, optional): Object type. Default: dict.</span>
-<span class="sd">            preserve (bool, optional): Preserve inline tables. Default: False.</span>
-<span class="sd">            separator (str, optional): List item separator. Default: &#39;,&#39;.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_dict</span><span class="p">,</span> <span class="n">preserve</span><span class="p">,</span> <span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">   &#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TomlEtlEncoder.dump_list"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.toml_etl.TomlEtlEncoder.dump_list">[docs]</a>    <span class="k">def</span> <span class="nf">dump_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="c1"># type: (Any) -&gt; str</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Converts list of items to TOML formatted string.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            v (list): List to be converted.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: TOML formatted list.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;[]&#39;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;[</span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">]&#39;</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dump_list</span><span class="p">(</span><span class="n">v</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;    </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s1">&#39;[</span><span class="se">\n</span><span class="s1">   &#39;</span> <span class="o">+</span> <span class="n">output</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">]&#39;</span></div></div>
 
 
 <div class="viewcode-block" id="TomlETL"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.toml_etl.TomlETL">[docs]</a><span class="k">class</span> <span class="nc">TomlETL</span><span class="p">:</span>
@@ -190,7 +158,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            str: TOML string.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">toml</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">TomlEtlEncoder</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">toml</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">toml</span><span class="o">.</span><span class="n">TomlArraySeparatorEncoder</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="TomlETL.write"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.toml_etl.TomlETL.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; None</span>
@@ -203,7 +173,11 @@
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">toml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">TomlEtlEncoder</span><span class="p">())</span></div>
+            <span class="n">toml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span>
+                <span class="n">f</span><span class="p">,</span>
+                <span class="n">encoder</span><span class="o">=</span><span class="n">toml</span><span class="o">.</span><span class="n">TomlArraySeparatorEncoder</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="TomlETL.edit"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.toml_etl.TomlETL.edit">[docs]</a>    <span class="k">def</span> <span class="nf">edit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
         <span class="c1"># type: (str) -&gt; TomlETL</span>

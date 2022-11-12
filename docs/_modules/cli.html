@@ -30,7 +30,7 @@
             <a href="../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.8.0
+                0.9.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -52,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.toml_etl">toml_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
@@ -162,8 +163,12 @@
 <span class="s1">    library-install-prod - Install all dependencies into prod environment</span>
 <span class="s1">    library-list-dev     - List packages in dev environment</span>
 <span class="s1">    library-list-prod    - List packages in prod environment</span>
+<span class="s1">    library-lock-dev     - Resolve dev.lock file</span>
+<span class="s1">    library-lock-prod    - Resolve prod.lock file</span>
 <span class="s1">    library-remove       - Remove a given package from a given dependency group</span>
 <span class="s1">    library-search       - Search for pip packages</span>
+<span class="s1">    library-sync-dev     - Sync dev environment with packages listed in dev.lock</span>
+<span class="s1">    library-sync-prod    - Sync prod environment with packages listed in prod.lock</span>
 <span class="s1">    library-update       - Update dev dependencies</span>
 <span class="s1">    session-app          - Run app</span>
 <span class="s1">    session-lab          - Run jupyter lab server</span>
@@ -452,7 +457,7 @@
         <span class="n">enter_repo</span><span class="p">(),</span>
         <span class="n">stop</span><span class="p">(),</span>
         <span class="n">remove_container</span><span class="p">(),</span>
-        <span class="s1">&#39;docker image rm --force </span><span class="si">{repo}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;docker image rm --force </span><span class="si">{repo}</span><span class="s1">:dev&#39;</span><span class="p">,</span>
         <span class="n">exit_repo</span><span class="p">(),</span>
     <span class="p">]</span>
     <span class="k">return</span> <span class="n">resolve</span><span class="p">(</span><span class="n">cmds</span><span class="p">)</span></div>
@@ -782,8 +787,12 @@
         <span class="s1">&#39;library-install-prod&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_install_prod&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;library-list-dev&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_list_dev&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;library-list-prod&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_list_prod&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+        <span class="s1">&#39;library-lock-dev&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_lock_dev&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+        <span class="s1">&#39;library-lock-prod&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_lock_prod&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;library-remove&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_remove&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;library-search&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_search&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+        <span class="s1">&#39;library-sync-dev&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_sync_dev&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+        <span class="s1">&#39;library-sync-prod&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_sync_prod&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;library-update&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_update&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;session-app&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_session_app&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;session-lab&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_session_lab&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>

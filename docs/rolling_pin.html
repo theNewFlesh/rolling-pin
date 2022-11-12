@@ -33,7 +33,7 @@
             <a href="index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.9.0
+                0.9.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -205,12 +205,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#rolling_pin.toml_etl.TomlETL.to_dict"><code class="docutils literal notranslate"><span class="pre">TomlETL.to_dict()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#rolling_pin.toml_etl.TomlETL.to_string"><code class="docutils literal notranslate"><span class="pre">TomlETL.to_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#rolling_pin.toml_etl.TomlETL.write"><code class="docutils literal notranslate"><span class="pre">TomlETL.write()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#rolling_pin.toml_etl.TomlEtlEncoder"><code class="docutils literal notranslate"><span class="pre">TomlEtlEncoder</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#rolling_pin.toml_etl.TomlEtlEncoder.__init__"><code class="docutils literal notranslate"><span class="pre">TomlEtlEncoder.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rolling_pin.toml_etl.TomlEtlEncoder.__module__"><code class="docutils literal notranslate"><span class="pre">TomlEtlEncoder.__module__</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rolling_pin.toml_etl.TomlEtlEncoder.dump_list"><code class="docutils literal notranslate"><span class="pre">TomlEtlEncoder.dump_list()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1837,49 +1831,6 @@ Patch is always of the form ‘[key]=[value]’ and in TOML format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filepath</strong> (<em>str</em><em> or </em><em>Path</em>) – Target filepath.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="rolling_pin.toml_etl.TomlEtlEncoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rolling_pin.toml_etl.</span></span><span class="sig-name descname"><span class="pre">TomlEtlEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_dict:</span> <span class="pre">~typing.Type[~typing.Dict[~typing.Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'dict'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/toml_etl.html#TomlEtlEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.toml_etl.TomlEtlEncoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TomlArraySeparatorEncoder</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="rolling_pin.toml_etl.TomlEtlEncoder.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_dict:</span> <span class="pre">~typing.Type[~typing.Dict[~typing.Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'dict'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rolling_pin/toml_etl.html#TomlEtlEncoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.toml_etl.TomlEtlEncoder.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a TomlEtlEncoder instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>_dict</strong> (<em>type</em><em>, </em><em>optional</em>) – Object type. Default: dict.</p></li>
-<li><p><strong>preserve</strong> (<em>bool</em><em>, </em><em>optional</em>) – Preserve inline tables. Default: False.</p></li>
-<li><p><strong>separator</strong> (<em>str</em><em>, </em><em>optional</em>) – List item separator. Default: ‘,’.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rolling_pin.toml_etl.TomlEtlEncoder.__module__">
-<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rolling_pin.toml_etl'</span></em><a class="headerlink" href="#rolling_pin.toml_etl.TomlEtlEncoder.__module__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rolling_pin.toml_etl.TomlEtlEncoder.dump_list">
-<span class="sig-name descname"><span class="pre">dump_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rolling_pin/toml_etl.html#TomlEtlEncoder.dump_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.toml_etl.TomlEtlEncoder.dump_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts list of items to TOML formatted string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>list</em>) – List to be converted.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>TOML formatted list.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
