@@ -4,9 +4,11 @@ from copy import deepcopy
 from pathlib import Path
 import os
 
+from lunchbox.enforce import Enforce
 import toml
 
 from rolling_pin.blob_etl import BlobETL
+from toml.decoder import TomlDecodeError
 
 T = TypeVar('T', bound='TomlETL')
 # ------------------------------------------------------------------------------
@@ -126,14 +128,20 @@ class TomlETL:
             patch (str): TOML patch to be applied.
 
         Raises:
-            TomlDecoderError: If patch cannot be decoded.
-            AssertionError: If '=' not found in patch.
+            TOMLDecoderError: If patch cannot be decoded.
+            EnforceError: If '=' not found in patch.
 
         Returns:
             TomlETL: New TomlETL instance with edits.
         '''
-        toml.loads(patch)
-        assert '=' in patch
+        msg = 'Edit patch must be a TOML parsable key value snippet with a "=" '
+        msg += 'character.'
+        try:
+            toml.loads(patch)
+        except TomlDecodeError as e:
+            msg += ' ' + e.msg
+            raise TomlDecodeError(msg, e.doc, e.pos)
+        Enforce('=', 'in', patch, message=msg)
         # ----------------------------------------------------------------------
 
         key, val = patch.split('=', maxsplit=1)
