@@ -370,7 +370,7 @@ def destroy_dev_command():
         enter_repo(),
         stop(),
         remove_container(),
-        'docker image rm --force {repo}',
+        'docker image rm --force {repo}:dev',
         exit_repo(),
     ]
     return resolve(cmds)
