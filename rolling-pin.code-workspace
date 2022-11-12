@@ -66,14 +66,16 @@
             {
                 "label": "[build] package",
                 "detail": "Generate pip package of repo in $HOME/build/repo",
+                "icon": {"id": "tools", "color": "terminal.ansiBlue"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_build_package"
-                ],
+                ]
             },
             {
                 "label": "[build] prod",
                 "detail": "Build production version of repo for publishing",
+                "icon": {"id": "tools", "color": "terminal.ansiBlue"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_build_prod"
@@ -82,6 +84,7 @@
             {
                 "label": "[build] publish",
                 "detail": "Publish pip package of repo to PyPi",
+                "icon": {"id": "tools", "color": "terminal.ansiBlue"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "_x_build_publish",
@@ -96,6 +99,7 @@
             {
                 "label": "[build] test",
                 "detail": "Build test version of repo for prod testing",
+                "icon": {"id": "tools", "color": "terminal.ansiBlue"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_build_test"
@@ -104,6 +108,7 @@
             {
                 "label": "[docs] docs",
                 "detail": "Generate sphinx documentation",
+                "icon": {"id": "book", "color": "terminal.ansiYellow"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_docs"
@@ -112,6 +117,7 @@
             {
                 "label": "[docs] architecture",
                 "detail": "Generate architecture.svg diagram from all import statements",
+                "icon": {"id": "book", "color": "terminal.ansiYellow"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_docs_architecture"
@@ -120,6 +126,7 @@
             {
                 "label": "[docs] full",
                 "detail": "Generate documentation, coverage report, architecture diagram and code",
+                "icon": {"id": "book", "color": "terminal.ansiYellow"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_docs_full"
@@ -128,6 +135,7 @@
             {
                 "label": "[docs] metrics",
                 "detail": "Generate code metrics report, plots and tables",
+                "icon": {"id": "book", "color": "terminal.ansiYellow"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_docs_metrics"
@@ -136,6 +144,7 @@
             {
                 "label": "[library] add",
                 "detail": "Add a given package to a given dependency group",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_add '${input:add_pdm_package}' '${input:pdm_group}'"
@@ -144,6 +153,7 @@
             {
                 "label": "[library] graph-dev",
                 "detail": "Graph dependencies in dev environment",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_graph_dev"
@@ -152,6 +162,7 @@
             {
                 "label": "[library] graph-prod",
                 "detail": "Graph dependencies in prod environment",
+                "icon": {"id": "package", "color": "terminal.ansiMagenta"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_graph_prod"
@@ -160,6 +171,7 @@
             {
                 "label": "[library] install-dev",
                 "detail": "Install all dependencies into dev environment",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_install_dev"
@@ -168,6 +180,7 @@
             {
                 "label": "[library] install-prod",
                 "detail": "Install all dependencies into prod environment",
+                "icon": {"id": "package", "color": "terminal.ansiMagenta"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_install_prod"
@@ -176,6 +189,7 @@
             {
                 "label": "[library] list-dev",
                 "detail": "List packages in dev environment",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_list_dev"
@@ -184,6 +198,7 @@
             {
                 "label": "[library] list-prod",
                 "detail": "List packages in prod environment",
+                "icon": {"id": "package", "color": "terminal.ansiMagenta"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_list_prod"
@@ -192,6 +207,7 @@
             {
                 "label": "[library] lock-dev",
                 "detail": "Resolve dev.lock file",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_lock_dev"
@@ -200,6 +216,7 @@
             {
                 "label": "[library] lock-prod",
                 "detail": "Resolve prod.lock file",
+                "icon": {"id": "package", "color": "terminal.ansiMagenta"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_lock_prod"
@@ -208,6 +225,7 @@
             {
                 "label": "[library] remove",
                 "detail": "Remove a given package from a given dependency group",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_remove ${input:remove_pdm_package} ${input:pdm_group}"
@@ -216,6 +234,7 @@
             {
                 "label": "[library] search",
                 "detail": "Search for pip packages",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_search ${input:search_pdm_package}"
@@ -224,6 +243,7 @@
             {
                 "label": "[library] sync-dev",
                 "detail": "Sync dev environment with packages listed in dev.lock",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_sync_dev"
@@ -232,6 +252,7 @@
             {
                 "label": "[library] sync-prod",
                 "detail": "Sync prod environment with packages listed in prod.lock",
+                "icon": {"id": "package", "color": "terminal.ansiMagenta"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_sync_prod"
@@ -240,6 +261,7 @@
             {
                 "label": "[library] update",
                 "detail": "Update dev dependencies",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_library_update ${input:update_pdm_package} ${input:pdm_group}"
@@ -248,6 +270,7 @@
             // {
             //     "label": "[session] app",
             //     "detail": "Run app",
+            //     "icon": {"id": "beaker", "color": "terminal.ansiWhite"},
             //     "command": [
             //         "source $X_TOOLS_PATH &&",
             //         "x_session_app"
@@ -256,6 +279,7 @@
             {
                 "label": "[session] lab",
                 "detail": "Run jupyter lab server",
+                "icon": {"id": "beaker", "color": "terminal.ansiWhite"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_session_lab"
@@ -264,6 +288,7 @@
             {
                 "label": "[session] python",
                 "detail": "Run python session with dev dependencies",
+                "icon": {"id": "beaker", "color": "terminal.ansiWhite"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_session_python"
@@ -272,6 +297,7 @@
             {
                 "label": "[test] coverage",
                 "detail": "Generate test coverage report",
+                "icon": {"id": "check", "color": "terminal.ansiGreen"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_test_coverage"
@@ -280,6 +306,7 @@
             {
                 "label": "[test] dev",
                 "detail": "Run all tests",
+                "icon": {"id": "check", "color": "terminal.ansiGreen"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_test_dev"
@@ -288,6 +315,7 @@
             {
                 "label": "[test] fast",
                 "detail": "Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator",
+                "icon": {"id": "check", "color": "terminal.ansiGreen"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_test_fast"
@@ -296,6 +324,7 @@
             {
                 "label": "[test] lint",
                 "detail": "Run linting and type checking",
+                "icon": {"id": "check", "color": "terminal.ansiGreen"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_test_lint"
@@ -351,6 +380,7 @@
                     "_[test] prod-3.9",
                     "_[test] prod-3.10"
                 ],
+                "hide": true,
                 "dependsOrder": "parallel",
                 "presentation": {
                     "group": "test"
@@ -359,6 +389,7 @@
             {
                 "label": "[test] prod",
                 "detail": "Run tests across all support python versions",
+                "icon": {"id": "check", "color": "terminal.ansiMagenta"},
                 "dependsOn": [
                     "[build] test",
                     "_[test] prod"
@@ -368,6 +399,7 @@
             {
                 "label": "[version] version",
                 "detail": "Full resolution of repo: dependencies, linting, tests, docs, etc",
+                "icon": {"id": "plus", "color": "terminal.ansiRed"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_version"
@@ -376,6 +408,7 @@
             {
                 "label": "[version] bump-major",
                 "detail": "Bump repo's major version",
+                "icon": {"id": "plus", "color": "terminal.ansiRed"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_version_bump_major"
@@ -384,6 +417,7 @@
             {
                 "label": "[version] bump-minor",
                 "detail": "Bump repo's minor version",
+                "icon": {"id": "plus", "color": "terminal.ansiRed"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_version_bump_minor"
@@ -392,6 +426,7 @@
             {
                 "label": "[version] bump-patch",
                 "detail": "Bump repo's patch version",
+                "icon": {"id": "plus", "color": "terminal.ansiRed"},
                 "command": [
                     "source $X_TOOLS_PATH &&",
                     "x_version_bump_patch"

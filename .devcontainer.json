@@ -11,7 +11,7 @@
         "python.linting.flake8Path": "/home/ubuntu/.dev-env/bin/flake8",
         "python.linting.mypyPath": "/home/ubuntu/.dev-env/bin/mypy",
         "python.pythonPath": "/home/ubuntu/.dev-env/bin/python3",
-        "terminal.integrated.cwd": "/home/ubuntu"
+        "terminal.integrated.cwd": "/home/ubuntu/${localWorkspaceFolderBasename}"
     },
     "extensions": [
         "arturock.gitstash",
