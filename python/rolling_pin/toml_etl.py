@@ -41,7 +41,7 @@ class TomlEtlEncoder(toml.TomlArraySeparatorEncoder):
         if len(v) == 0:
             return '[]'
         if len(v) == 1:
-            return '["' + v[0] + '"]'
+            return f'[{v[0]}]'
         output = super().dump_list(v)[1:-1].rstrip('    \n')
         return '[\n   ' + output + '\n]'
 
