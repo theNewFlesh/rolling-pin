@@ -137,7 +137,6 @@ RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
 
 WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}REMOVE DIRECTORIES${CLEAR}"; \
-    pip3.10 uninstall -y rolling-pin && \
     rm -rf config scripts
 
 ENV REPO='rolling-pin'

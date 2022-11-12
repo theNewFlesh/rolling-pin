@@ -37,6 +37,12 @@ export YELLOW1='\033[0;33m'
 export YELLOW2='\033[0;93m'
 export CLEAR='\033[0m'
 
+# ROLLING-PIN-------------------------------------------------------------------
+# If command.py is available use it, otherwise expect pip installed rolling-pin
+if [ -f "$REPO_COMMAND_FILE" ]; then
+    alias rolling-pin="python3 $REPO_COMMAND_FILE";
+fi;
+
 # GENERATE-FUNCTIONS------------------------------------------------------------
 _x_repeat () {
     # Echo a given character until it reaches the width of the current terminal
