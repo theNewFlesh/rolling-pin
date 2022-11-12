@@ -30,7 +30,7 @@
             <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.8.0
+                0.9.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -130,25 +130,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span>  <span class="c1"># type: str</span></div>
 
     <span class="c1"># EDIT_METHODS--------------------------------------------------------------</span>
-<div class="viewcode-block" id="BlobETL.query"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">ignore_case</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="c1"># type: (str, bool) -&gt; BlobETL</span>
+<div class="viewcode-block" id="BlobETL.query"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">ignore_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># type: (str, bool, bool) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Filter data items by key according to given regular expression.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            regex (str): Regular expression.</span>
-<span class="sd">            ignore_casd (bool, optional): Whether to consider case in the</span>
+<span class="sd">            ignore_case (bool, optional): Whether to consider case in the</span>
 <span class="sd">                regular expression search. Default: False.</span>
+<span class="sd">            invert (bool, optional): Whether to invert the predicate.</span>
+<span class="sd">                Default: False.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            BlobETL: New BlobETL instance.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">ignore_case</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">)</span></div>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span> <span class="k">if</span> <span class="n">ignore_case</span> <span class="k">else</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="n">invert</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BlobETL.filter"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
-        <span class="c1"># type: (Callable[[Any], bool], str) -&gt; BlobETL</span>
+<div class="viewcode-block" id="BlobETL.filter"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.blob_etl.BlobETL.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># type: (Callable[[Any], bool], str, bool) -&gt; BlobETL</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Filter data items by key, value or key + value, according to a given</span>
 <span class="sd">        predicate.</span>
@@ -157,6 +158,8 @@
 <span class="sd">            predicate: Function that returns a boolean value.</span>
 <span class="sd">            by (str, optional): Value handed to predicate.</span>
 <span class="sd">                Options include: key, value, key+value. Default: key.</span>
+<span class="sd">            invert (bool, optional): Whether to invert the predicate.</span>
+<span class="sd">                Default: False.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If by keyword is not key, value, or key+value.</span>
@@ -164,6 +167,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            BlobETL: New BlobETL instance.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">items</span><span class="p">:</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">invert</span><span class="p">:</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">items</span><span class="p">:</span> <span class="ow">not</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">)</span>
+
         <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">by</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;key+value&#39;</span><span class="p">]:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid by argument: </span><span class="si">{</span><span class="n">by</span><span class="si">}</span><span class="s1">. Needs to be one of: &#39;</span>
@@ -179,7 +186,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">pred</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
                 <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div>
