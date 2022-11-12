@@ -4,6 +4,7 @@ from tempfile import TemporaryDirectory
 
 from lunchbox.enforce import EnforceError
 from toml.decoder import TomlDecodeError
+import lunchbox.tools as lbt
 import toml
 
 from rolling_pin.toml_etl import TomlETL
@@ -150,3 +151,10 @@ hello = true
         # non key
         result = etl.search('root.a.not-a-key').to_dict()
         self.assertEqual(result, {})
+
+    def test_pyproject(self):
+        src = lbt.relative_path(
+            __file__, '../../resources/conform_repo/docker/fake-pyproject.toml'
+        )
+        temp = TomlETL.from_toml(src).to_string()
+        TomlETL.from_string(temp)
