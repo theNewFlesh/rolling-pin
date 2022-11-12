@@ -156,7 +156,7 @@ def toml(source, edit, delete, search, target):
 
     \b
     Arguments:
-        SOURCE  - TOML filepath
+        SOURCE - TOML filepath
 
     \b
     EXAMPLES
