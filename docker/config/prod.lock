@@ -217,7 +217,7 @@ dependencies = [
 
 [[package]]
 name = "jupyter-client"
-version = "7.4.4"
+version = "7.4.5"
 requires_python = ">=3.7"
 summary = "Jupyter protocol implementation and client libraries"
 dependencies = [
@@ -249,7 +249,7 @@ summary = "Jupyter interactive widgets for JupyterLab"
 
 [[package]]
 name = "lunchbox"
-version = "0.3.0"
+version = "0.3.1"
 requires_python = ">=3.7"
 summary = "A library of various tools for common python tasks"
 dependencies = [
@@ -604,6 +604,11 @@ version = "6.0.12.2"
 summary = "Typing stubs for PyYAML"
 
 [[package]]
+name = "types-toml"
+version = "0.10.8"
+summary = "Typing stubs for toml"
+
+[[package]]
 name = "typing-extensions"
 version = "4.4.0"
 requires_python = ">=3.7"
@@ -628,7 +633,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:025cde60add79c8bf3ced19f9a03d43b1f1a14446eaebd1061bd6a8585e0abd3"
+content_hash = "sha256:201f31ffef260c8878c57711161077c88abd8d5a5ee7e71c1d07ca0abfb10628"
 
 [metadata.files]
 "appnope 0.1.3" = [
@@ -855,9 +860,9 @@ content_hash = "sha256:025cde60add79c8bf3ced19f9a03d43b1f1a14446eaebd1061bd6a858
     {url = "https://files.pythonhosted.org/packages/b3/0e/836f12ec50075161e365131f13f5758451645af75c2becf61c6351ecec39/jedi-0.18.1-py2.py3-none-any.whl", hash = "sha256:637c9635fcf47945ceb91cd7f320234a7be540ded6f3e99a50cb6febdfd1ba8d"},
     {url = "https://files.pythonhosted.org/packages/c2/25/273288df952e07e3190446efbbb30b0e4871a0d63b4246475f3019d4f55e/jedi-0.18.1.tar.gz", hash = "sha256:74137626a64a99c8eb6ae5832d99b3bdd7d29a3850fe2aa80a4126b2a7d949ab"},
 ]
-"jupyter-client 7.4.4" = [
-    {url = "https://files.pythonhosted.org/packages/7b/31/2d74aee388c124b5b833f99817bf4b57784ea1b1a828a342c052c48a4f64/jupyter_client-7.4.4-py3-none-any.whl", hash = "sha256:1c1d418ef32a45a1fae0b243e6f01cc9bf65fa8ddbd491a034b9ba6ac6502951"},
-    {url = "https://files.pythonhosted.org/packages/fc/26/809f5025845c84fd88553a5d0be505553c69ee4fd7e95d8efe803446c721/jupyter_client-7.4.4.tar.gz", hash = "sha256:5616db609ac720422e6a4b893d6572b8d655ff41e058367f4459a0d2c0726832"},
+"jupyter-client 7.4.5" = [
+    {url = "https://files.pythonhosted.org/packages/44/7e/66ddb15931e90d13097446a19d550e894a8f869ef4185d46aa6d719654ab/jupyter_client-7.4.5.tar.gz", hash = "sha256:63eae06c40e1f2d9afa14447511fddc065c95dea3f2491fda2acccf91221954a"},
+    {url = "https://files.pythonhosted.org/packages/7c/2c/9a15fa5ea373c05a8deea126bac17043f33186e28db38a72291724f21b05/jupyter_client-7.4.5-py3-none-any.whl", hash = "sha256:feaad9c04871254067d3b8c41192b7aba8e9bbbf9df9830ecf2673939510c5b7"},
 ]
 "jupyter-core 5.0.0" = [
     {url = "https://files.pythonhosted.org/packages/62/0c/c48e8ae6c87548b066a5d968efa1a4376814eb61fec188ccaa4eb321579f/jupyter_core-5.0.0.tar.gz", hash = "sha256:4ed68b7c606197c7e344a24b7195eef57898157075a69655a886074b6beb7043"},
@@ -867,9 +872,9 @@ content_hash = "sha256:025cde60add79c8bf3ced19f9a03d43b1f1a14446eaebd1061bd6a858
     {url = "https://files.pythonhosted.org/packages/19/99/66292214fa2f920ceec0a8a6f6d1844016e2e7a9b6c498bda380fa945015/jupyterlab_widgets-3.0.3.tar.gz", hash = "sha256:c767181399b4ca8b647befe2d913b1260f51bf9d8ef9b7a14632d4c1a7b536bd"},
     {url = "https://files.pythonhosted.org/packages/d8/52/2f4b8f5975312fb58f4eacab2e6f6cfd2efd05704514a60a151a4e69d608/jupyterlab_widgets-3.0.3-py3-none-any.whl", hash = "sha256:6aa1bc0045470d54d76b9c0b7609a8f8f0087573bae25700a370c11f82cb38c8"},
 ]
-"lunchbox 0.3.0" = [
-    {url = "https://files.pythonhosted.org/packages/17/11/34cc762023b9e5f318f10e8ad7be3d31b4beb2324309fc18bb1cdce82c34/lunchbox-0.3.0-py3-none-any.whl", hash = "sha256:923eac7d7345d1463e79831d03b64dbc6fbf1b4fa0d5da1a4fd3e00748bd265b"},
-    {url = "https://files.pythonhosted.org/packages/a3/1a/70649e9a13a040bb570d099486b52d7c9e3013ae883c380cac40b8bcf298/lunchbox-0.3.0.tar.gz", hash = "sha256:b0d24c1674f4436b5ecfab21d1d3d6667941c240dd94276ca42dec76ae3032e2"},
+"lunchbox 0.3.1" = [
+    {url = "https://files.pythonhosted.org/packages/60/24/bf388ba9baa8d1d70f6a7d571d1a5fefceea06017c5570d905eac8d8115a/lunchbox-0.3.1.tar.gz", hash = "sha256:966fbcfd10e0917851af22d7c5d0f24471e2f236d6b719e497c175c7aef167ed"},
+    {url = "https://files.pythonhosted.org/packages/65/40/ef7f893a0d8647223fee121e97b8b0ed564cc58fd278283608ce74b6a034/lunchbox-0.3.1-py3-none-any.whl", hash = "sha256:565a6b66526fe54107bf696cb234a716b37e34016577e5948d69864be56fed95"},
 ]
 "mando 0.6.4" = [
     {url = "https://files.pythonhosted.org/packages/8a/fe/1b94ddd9c89c8be761c0b5ca01498029f1253f059a59f03f7be369255e75/mando-0.6.4.tar.gz", hash = "sha256:79feb19dc0f097daa64a1243db578e7674909b75f88ac2220f1c065c10a0d960"},
@@ -1284,6 +1289,10 @@ content_hash = "sha256:025cde60add79c8bf3ced19f9a03d43b1f1a14446eaebd1061bd6a858
 "types-pyyaml 6.0.12.2" = [
     {url = "https://files.pythonhosted.org/packages/13/c2/aff0c123a4a8e4b360a52bb62019949fa691d02ca0fda1ac5010171d9d42/types_PyYAML-6.0.12.2-py3-none-any.whl", hash = "sha256:1e94e80aafee07a7e798addb2a320e32956a373f376655128ae20637adb2655b"},
     {url = "https://files.pythonhosted.org/packages/98/f1/b811af145690f4585e5ef03ce961b9ed3e361ace950416bd577dfa6c4918/types-PyYAML-6.0.12.2.tar.gz", hash = "sha256:6840819871c92deebe6a2067fb800c11b8a063632eb4e3e755914e7ab3604e83"},
+]
+"types-toml 0.10.8" = [
+    {url = "https://files.pythonhosted.org/packages/76/d0/11897ab7b3b2211be5c733e241d83401f5d37473c961ea5c9460393c6f45/types-toml-0.10.8.tar.gz", hash = "sha256:b7e7ea572308b1030dc86c3ba825c5210814c2825612ec679eb7814f8dd9295a"},
+    {url = "https://files.pythonhosted.org/packages/ae/2c/a642f8cfa7f9e67c29316bf04b7675db292d006275c67ec07f0c0069cf91/types_toml-0.10.8-py3-none-any.whl", hash = "sha256:8300fd093e5829eb9c1fba69cee38130347d4b74ddf32d0a7df650ae55c2b599"},
 ]
 "typing-extensions 4.4.0" = [
     {url = "https://files.pythonhosted.org/packages/0b/8e/f1a0a5a76cfef77e1eb6004cb49e5f8d72634da638420b9ea492ce8305e8/typing_extensions-4.4.0-py3-none-any.whl", hash = "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"},
