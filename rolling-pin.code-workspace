@@ -20,6 +20,7 @@
         "pythonTestExplorer.testFramework": "pytest",
         "terminal.integrated.defaultProfile.linux": "zsh",
         "terminal.integrated.defaultProfile.osx": "zsh",
+        "testExplorer.codeLens": false,
         "todo-tree.filtering.excludeGlobs": ["**/docs/**/*.*"],
         "terminal.integrated.profiles.linux": {
             "zsh": {"path": "/bin/zsh"}
