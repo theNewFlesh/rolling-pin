@@ -297,38 +297,38 @@ class BlobETL():
         Convert data to prototypical representation.
 
         Example:
-
-        >>> data = {
-        'users': [
-                {
-                    'name': {
-                        'first': 'tom',
-                        'last': 'smith',
-                    }
-                },{
-                    'name': {
-                        'first': 'dick',
-                        'last': 'smith',
-                    }
-                },{
-                    'name': {
-                        'first': 'jane',
-                        'last': 'doe',
-                    }
-                },
-            ]
-        }
-        >>> BlobETL(data).to_prototype().to_dict()
-        {
-            '^users': {
-                '<list_[0-9]+>': {
-                    'name': {
-                        'first$': Counter({'dick': 1, 'jane': 1, 'tom': 1}),
-                        'last$': Counter({'doe': 1, 'smith': 2})
+        ========
+            >>> data = {
+            'users': [
+                    {
+                        'name': {
+                            'first': 'tom',
+                            'last': 'smith',
+                        }
+                    },{
+                        'name': {
+                            'first': 'dick',
+                            'last': 'smith',
+                        }
+                    },{
+                        'name': {
+                            'first': 'jane',
+                            'last': 'doe',
+                        }
+                    },
+                ]
+            }
+            >>> BlobETL(data).to_prototype().to_dict()
+            {
+                '^users': {
+                    '<list_[0-9]+>': {
+                        'name': {
+                            'first$': Counter({'dick': 1, 'jane': 1, 'tom': 1}),
+                            'last$': Counter({'doe': 1, 'smith': 2})
+                        }
                     }
                 }
             }
-        }
 
         Returns:
             BlobETL: New BlobETL instance.

@@ -501,41 +501,50 @@ def replace_and_format(regex, replace, string, flags=0):
     with 'i' will be converted to integers. Groups beggining with 'f' will be
     converted to floats.
 
+    ----------------------------------------------------------------------------
+
     Named group anatomy:
-        (?P<NAME>PATTERN)
-        NAME becomes a key and whatever matches PATTERN becomes its value.
+    ====================
+        * (?P<NAME>PATTERN)
+        * NAME becomes a key and whatever matches PATTERN becomes its value.
         >>> re.search('(?P<i>\d+)', 'foobar123').groupdict()
         {'i': '123'}
 
-    Examples of special groups:
-        (?P<i>\d)     - string matched by '\d' will be converted to an integer
-        (?P<f>\d)     - string matched by '\d' will be converted to an float
-        (?P<i_foo>\d) - string matched by '\d' will be converted to an integer
-        (?P<f_bar>\d) - string matched by '\d' will be converted to an float
+    ----------------------------------------------------------------------------
 
     Examples:
-        >>> proj = '(?P<p>[a-z0-9]+)'
-        >>> spec = '(?P<s>[a-z0-9]+)'
-        >>> desc = '(?P<d>[a-z0-9\-]+)'
-        >>> ver = '(?P<iv>\d+)\.'
-        >>> frame = '(?P<i_f>\d+)'
-        >>> regex = f'{proj}\.{spec}\.{desc}\.v{ver}\.{frame}.*'
-        >>> replace = 'p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg'
-        >>> string = 'proj.spec.desc.v1.25.png'
-        >>> replace_and_format(regex, replace, string, flags=re.IGNORECASE)
-        p-proj_s-spec_d-desc_v001_f0025.jpeg
+    =========
+        Special groups:
+            * (?P<i>\d)     - string matched by '\d' will be converted to an integer
+            * (?P<f>\d)     - string matched by '\d' will be converted to an float
+            * (?P<i_foo>\d) - string matched by '\d' will be converted to an integer
+            * (?P<f_bar>\d) - string matched by '\d' will be converted to an float
 
-        >>> # or more compactly
-        >>> replace_and_format(
-            '(?P<p>[a-z0-9]+)\.(?P<s>[a-z0-9]+)\.(?P<d>[a-z0-9\-]+)\.v(?P<iv>\d+)\.(?P<i_f>\d+).*',
-            'p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg',
-            'proj.spec.desc.v1.25.png',
-        )
-        p-proj_s-spec_d-desc_v001_f0025.jpeg
+        Named groups (long):
+            >>> proj = '(?P<p>[a-z0-9]+)'
+            >>> spec = '(?P<s>[a-z0-9]+)'
+            >>> desc = '(?P<d>[a-z0-9\-]+)'
+            >>> ver = '(?P<iv>\d+)\.'
+            >>> frame = '(?P<i_f>\d+)'
+            >>> regex = f'{proj}\.{spec}\.{desc}\.v{ver}\.{frame}.*'
+            >>> replace = 'p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg'
+            >>> string = 'proj.spec.desc.v1.25.png'
+            >>> replace_and_format(regex, replace, string, flags=re.IGNORECASE)
+            p-proj_s-spec_d-desc_v001_f0025.jpeg
 
-        >>> # no groups
-        >>> replace_and_format('foo', 'bar', 'foobar')
-        barbar
+        Named groups (short):
+            >>> replace_and_format(
+                '(?P<p>[a-z0-9]+)\.(?P<s>[a-z0-9]+)\.(?P<d>[a-z0-9\-]+)\.v(?P<iv>\d+)\.(?P<i_f>\d+).*',
+                'p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg',
+                'proj.spec.desc.v1.25.png',
+            )
+            p-proj_s-spec_d-desc_v001_f0025.jpeg
+
+        No groups:
+            >>> replace_and_format('foo', 'bar', 'foobar')
+            barbar
+
+    ----------------------------------------------------------------------------
 
     Args:
         regex (str): Regex pattern to search string with.
