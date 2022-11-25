@@ -560,5 +560,6 @@ def replace_and_format(regex, replace, string, flags=0):
 
     output = re.sub(regex, replace, string, flags=flags)
     # .format won't evaluate math expressions so do this
-    output = eval(f"f'{output}'", None, grp)
+    if grp != {}:
+        output = eval(f"f'{output}'", None, grp)
     return output
