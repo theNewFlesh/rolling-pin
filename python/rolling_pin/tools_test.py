@@ -1,9 +1,10 @@
-import json
-import os
-import unittest
 from collections import OrderedDict
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import json
+import os
+import re
+import unittest
 
 from pandas import DataFrame
 import pydot
@@ -569,3 +570,47 @@ class ToolsTests(unittest.TestCase):
         tgt = '/tmp/foobar/tgt.txt'
         with self.assertRaises(AssertionError):
             rpt.move_file(src, tgt)
+
+    def test_replace_and_format(self):
+        proj = '(?P<p>[a-z0-9]+)'
+        spec = '(?P<s>[a-z0-9]+)'
+        desc = r'(?P<d>[a-z0-9\-]+)'
+        ver = r'(?P<iv>\d+)'
+        frame = r'(?P<i_f>\d+)'
+        regex = f'{proj}\\.{spec}\\.{desc}\\.v{ver}\\.{frame}.*'
+        replace = 'p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg'
+        string = 'proj.spec.desc.v1.25.png'
+
+        result = rpt.replace_and_format(regex, replace, string)
+        expected = 'p-proj_s-spec_d-desc_v001_f0025.jpeg'
+        self.assertEqual(result, expected)
+
+    def test_replace_and_format_flags(self):
+        result = rpt.replace_and_format(
+            'bar', 'foo', 'fooBAR', flags=re.IGNORECASE
+        )
+        self.assertEqual(result, 'foofoo')
+
+    def test_replace_and_format_integer(self):
+        regex = r'(?P<i>\d+)'
+        replace = '{i:04d}'
+        string = 'foo-14'
+        result = rpt.replace_and_format(regex, replace, string)
+        self.assertEqual(result, 'foo-0014')
+
+        # math
+        replace = '{i*2:03d}'
+        result = rpt.replace_and_format(regex, replace, string)
+        self.assertEqual(result, 'foo-028')
+
+    def test_replace_and_format_float(self):
+        regex = 'foo-(?P<f>.*)'
+        replace = '{f:.3f}'
+        string = 'foo-1.23499'
+        result = rpt.replace_and_format(regex, replace, string)
+        self.assertEqual(result, '1.235')
+
+        # math
+        replace = '{f+2.1:.3f}'
+        result = rpt.replace_and_format(regex, replace, string)
+        self.assertEqual(result, '3.335')
