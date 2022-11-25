@@ -1,4 +1,4 @@
-from typing import Any, Type, TypeVar, Union
+from typing import Any, Type, TypeVar, Union  # noqa: F401
 
 from copy import deepcopy
 from pathlib import Path

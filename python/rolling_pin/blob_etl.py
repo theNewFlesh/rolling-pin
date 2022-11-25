@@ -1,6 +1,6 @@
-from typing import Any, Callable, Dict, Iterator, List, Optional, Union
-from IPython.display import HTML, Image
-import pydot
+from typing import Any, Callable, Dict, Iterator, List, Optional, Union  # noqa: F401
+from IPython.display import HTML, Image  # noqa: F401
+import pydot  # noqa: F401
 
 from collections import Counter
 import json

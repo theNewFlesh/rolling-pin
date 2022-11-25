@@ -1,5 +1,5 @@
-from typing import Any, Dict, List, Union
-from IPython.display import HTML, Image
+from typing import Any, Dict, List, Union  # noqa: F401
+from IPython.display import HTML, Image  # noqa: F401
 
 from copy import deepcopy
 from itertools import chain

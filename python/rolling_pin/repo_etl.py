@@ -1,11 +1,11 @@
-from typing import Any, Dict, Iterator, List, Optional, Union
+from typing import Any, Dict, Iterator, List, Optional, Union  # noqa: F401
+from IPython.display import HTML  # noqa: F401
 
 from itertools import chain
 from pathlib import Path
 import os
 import re
 
-from IPython.display import HTML
 from pandas import DataFrame, Series
 import lunchbox.tools as lbt
 import networkx

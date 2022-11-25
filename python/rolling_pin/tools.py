@@ -1,5 +1,5 @@
-from typing import Any, Dict, Generator, Iterable, List, Optional, Union
-import pydot
+from typing import Any, Dict, Generator, Iterable, List, Optional, Union  # noqa: F401
+import pydot  # noqa: F401
 
 from collections import OrderedDict
 from pathlib import Path
