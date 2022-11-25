@@ -33,7 +33,7 @@
             <a href="index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.9.2
+                0.9.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -224,6 +224,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#rolling_pin.tools.move_file"><code class="docutils literal notranslate"><span class="pre">move_file()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rolling_pin.tools.nest"><code class="docutils literal notranslate"><span class="pre">nest()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rolling_pin.tools.read_text"><code class="docutils literal notranslate"><span class="pre">read_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rolling_pin.tools.replace_and_format"><code class="docutils literal notranslate"><span class="pre">replace_and_format()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rolling_pin.tools.unembed"><code class="docutils literal notranslate"><span class="pre">unembed()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rolling_pin.tools.write_dot_graph"><code class="docutils literal notranslate"><span class="pre">write_dot_graph()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rolling_pin.tools.write_text"><code class="docutils literal notranslate"><span class="pre">write_text()</span></code></a></li>
@@ -553,7 +554,8 @@ SVG. Useful for display on Github. Default: False.</p></li>
 <dt class="sig sig-object py" id="rolling_pin.blob_etl.BlobETL.to_prototype">
 <span class="sig-name descname"><span class="pre">to_prototype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL"><span class="pre">BlobETL</span></a></span></span><a class="reference internal" href="_modules/rolling_pin/blob_etl.html#BlobETL.to_prototype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.blob_etl.BlobETL.to_prototype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert data to prototypical representation.</p>
-<p>Example:</p>
+<section id="example">
+<h2>Example:<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
 <span class="go">&#39;users&#39;: [</span>
 <span class="go">        {</span>
@@ -588,13 +590,14 @@ SVG. Useful for display on Github. Default: False.</p></li>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">returns</dt>
 <dd class="field-odd"><p>New BlobETL instance.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#rolling_pin.blob_etl.BlobETL" title="rolling_pin.blob_etl.BlobETL">BlobETL</a></p>
+<dt class="field-even">rtype</dt>
+<dd class="field-even"><p>BlobETL</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
@@ -2115,6 +2118,105 @@ keys. Default: ‘/’.</p></li>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rolling_pin.tools.replace_and_format">
+<span class="sig-prename descclassname"><span class="pre">rolling_pin.tools.</span></span><span class="sig-name descname"><span class="pre">replace_and_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rolling_pin/tools.html#replace_and_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.tools.replace_and_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a regex substitution on a given string and format any named group
+found in the result with groupdict data from the pattern. Group beggining
+with ‘i’ will be converted to integers. Groups beggining with ‘f’ will be
+converted to floats.</p>
+<hr class="docutils" />
+<section id="named-group-anatomy">
+<h2>Named group anatomy:<a class="headerlink" href="#named-group-anatomy" title="Permalink to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>(?P&lt;NAME&gt;PATTERN)</p></li>
+<li><p>NAME becomes a key and whatever matches PATTERN becomes its value.</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;(?P&lt;i&gt;\d+)&#39;</span><span class="p">,</span> <span class="s1">&#39;foobar123&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+<span class="go">{&#39;i&#39;: &#39;123&#39;}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="examples">
+<h2>Examples:<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<blockquote>
+<div><dl>
+<dt>Special groups:</dt><dd><ul class="simple">
+<li><p>(?P&lt;i&gt;d)     - string matched by ‘d’ will be converted to an integer</p></li>
+<li><p>(?P&lt;f&gt;d)     - string matched by ‘d’ will be converted to an float</p></li>
+<li><p>(?P&lt;i_foo&gt;d) - string matched by ‘d’ will be converted to an integer</p></li>
+<li><p>(?P&lt;f_bar&gt;d) - string matched by ‘d’ will be converted to an float</p></li>
+</ul>
+</dd>
+<dt>Named groups (long):</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="s1">&#39;(?P&lt;p&gt;[a-z0-9]+)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;(?P&lt;s&gt;[a-z0-9]+)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;(?P&lt;d&gt;[a-z0-9\-]+)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ver</span> <span class="o">=</span> <span class="s1">&#39;(?P&lt;iv&gt;\d+)\.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="s1">&#39;(?P&lt;i_f&gt;\d+)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regex</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">proj</span><span class="si">}</span><span class="s1">\.</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s1">\.</span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s1">\.v</span><span class="si">{</span><span class="n">ver</span><span class="si">}</span><span class="s1">\.</span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s1">.*&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace</span> <span class="o">=</span> <span class="s1">&#39;p-</span><span class="si">{p}</span><span class="s1">_s-</span><span class="si">{s}</span><span class="s1">_d-</span><span class="si">{d}</span><span class="s1">_v</span><span class="si">{iv:03d}</span><span class="s1">_f</span><span class="si">{i_f:04d}</span><span class="s1">.jpeg&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;proj.spec.desc.v1.25.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace_and_format</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+<span class="go">p-proj_s-spec_d-desc_v001_f0025.jpeg</span>
+</pre></div>
+</div>
+</dd>
+<dt>Named groups (short):</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">replace_and_format</span><span class="p">(</span>
+<span class="go">    &#39;(?P&lt;p&gt;[a-z0-9]+)\.(?P&lt;s&gt;[a-z0-9]+)\.(?P&lt;d&gt;[a-z0-9\-]+)\.v(?P&lt;iv&gt;\d+)\.(?P&lt;i_f&gt;\d+).*&#39;,</span>
+<span class="go">    &#39;p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg&#39;,</span>
+<span class="go">    &#39;proj.spec.desc.v1.25.png&#39;,</span>
+<span class="go">)</span>
+<span class="go">p-proj_s-spec_d-desc_v001_f0025.jpeg</span>
+</pre></div>
+</div>
+</dd>
+<dt>No groups:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">replace_and_format</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;foobar&#39;</span><span class="p">)</span>
+<span class="go">barbar</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="field-list simple">
+<dt class="field-odd">param regex</dt>
+<dd class="field-odd"><p>Regex pattern to search string with.</p>
+</dd>
+<dt class="field-even">type regex</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param replace</dt>
+<dd class="field-odd"><p>Replacement string which may contain formart variables
+ie ‘{variable}’.</p>
+</dd>
+<dt class="field-even">type replace</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param string</dt>
+<dd class="field-odd"><p>String to be converted.</p>
+</dd>
+<dt class="field-even">type string</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param flags</dt>
+<dd class="field-odd"><p>re.sub flags. Default: 0.</p>
+</dd>
+<dt class="field-even">type flags</dt>
+<dd class="field-even"><p>object, optional</p>
+</dd>
+<dt class="field-odd">returns</dt>
+<dd class="field-odd"><p>Converted string.</p>
+</dd>
+<dt class="field-even">rtype</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">

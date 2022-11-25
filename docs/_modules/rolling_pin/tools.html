@@ -30,7 +30,7 @@
             <a href="../../index.html" class="icon icon-home"> rolling-pin
           </a>
               <div class="version">
-                0.8.0
+                0.9.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -52,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.toml_etl">toml_etl</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
@@ -84,8 +85,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.tools</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">import</span> <span class="nn">pydot</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">import</span> <span class="nn">pydot</span>  <span class="c1"># noqa: F401</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -576,6 +577,88 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid extension found: </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">. &#39;</span>
         <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;Valid extensions include: svg, dot, png.&#39;</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<span class="c1"># MISC-FUNCTIONS----------------------------------------------------------------</span>
+<div class="viewcode-block" id="replace_and_format"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.tools.replace_and_format">[docs]</a><span class="k">def</span> <span class="nf">replace_and_format</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="c1"># type: (str, str, str, Any) -&gt; str</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Perform a regex substitution on a given string and format any named group</span>
+<span class="sd">    found in the result with groupdict data from the pattern. Group beggining</span>
+<span class="sd">    with &#39;i&#39; will be converted to integers. Groups beggining with &#39;f&#39; will be</span>
+<span class="sd">    converted to floats.</span>
+
+<span class="sd">    ----------------------------------------------------------------------------</span>
+
+<span class="sd">    Named group anatomy:</span>
+<span class="sd">    ====================</span>
+<span class="sd">        * (?P&lt;NAME&gt;PATTERN)</span>
+<span class="sd">        * NAME becomes a key and whatever matches PATTERN becomes its value.</span>
+<span class="sd">        &gt;&gt;&gt; re.search(&#39;(?P&lt;i&gt;\d+)&#39;, &#39;foobar123&#39;).groupdict()</span>
+<span class="sd">        {&#39;i&#39;: &#39;123&#39;}</span>
+
+<span class="sd">    ----------------------------------------------------------------------------</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    =========</span>
+<span class="sd">        Special groups:</span>
+<span class="sd">            * (?P&lt;i&gt;\d)     - string matched by &#39;\d&#39; will be converted to an integer</span>
+<span class="sd">            * (?P&lt;f&gt;\d)     - string matched by &#39;\d&#39; will be converted to an float</span>
+<span class="sd">            * (?P&lt;i_foo&gt;\d) - string matched by &#39;\d&#39; will be converted to an integer</span>
+<span class="sd">            * (?P&lt;f_bar&gt;\d) - string matched by &#39;\d&#39; will be converted to an float</span>
+
+<span class="sd">        Named groups (long):</span>
+<span class="sd">            &gt;&gt;&gt; proj = &#39;(?P&lt;p&gt;[a-z0-9]+)&#39;</span>
+<span class="sd">            &gt;&gt;&gt; spec = &#39;(?P&lt;s&gt;[a-z0-9]+)&#39;</span>
+<span class="sd">            &gt;&gt;&gt; desc = &#39;(?P&lt;d&gt;[a-z0-9\-]+)&#39;</span>
+<span class="sd">            &gt;&gt;&gt; ver = &#39;(?P&lt;iv&gt;\d+)\.&#39;</span>
+<span class="sd">            &gt;&gt;&gt; frame = &#39;(?P&lt;i_f&gt;\d+)&#39;</span>
+<span class="sd">            &gt;&gt;&gt; regex = f&#39;{proj}\.{spec}\.{desc}\.v{ver}\.{frame}.*&#39;</span>
+<span class="sd">            &gt;&gt;&gt; replace = &#39;p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg&#39;</span>
+<span class="sd">            &gt;&gt;&gt; string = &#39;proj.spec.desc.v1.25.png&#39;</span>
+<span class="sd">            &gt;&gt;&gt; replace_and_format(regex, replace, string, flags=re.IGNORECASE)</span>
+<span class="sd">            p-proj_s-spec_d-desc_v001_f0025.jpeg</span>
+
+<span class="sd">        Named groups (short):</span>
+<span class="sd">            &gt;&gt;&gt; replace_and_format(</span>
+<span class="sd">                &#39;(?P&lt;p&gt;[a-z0-9]+)\.(?P&lt;s&gt;[a-z0-9]+)\.(?P&lt;d&gt;[a-z0-9\-]+)\.v(?P&lt;iv&gt;\d+)\.(?P&lt;i_f&gt;\d+).*&#39;,</span>
+<span class="sd">                &#39;p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg&#39;,</span>
+<span class="sd">                &#39;proj.spec.desc.v1.25.png&#39;,</span>
+<span class="sd">            )</span>
+<span class="sd">            p-proj_s-spec_d-desc_v001_f0025.jpeg</span>
+
+<span class="sd">        No groups:</span>
+<span class="sd">            &gt;&gt;&gt; replace_and_format(&#39;foo&#39;, &#39;bar&#39;, &#39;foobar&#39;)</span>
+<span class="sd">            barbar</span>
+
+<span class="sd">    ----------------------------------------------------------------------------</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        regex (str): Regex pattern to search string with.</span>
+<span class="sd">        replace (str): Replacement string which may contain formart variables</span>
+<span class="sd">            ie &#39;{variable}&#39;.</span>
+<span class="sd">        string (str): String to be converted.</span>
+<span class="sd">        flags (object, optional): re.sub flags. Default: 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Converted string.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">)</span>
+    <span class="n">grp</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+        <span class="n">grp</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">grp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">):</span>
+            <span class="n">grp</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">):</span>
+            <span class="n">grp</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">)</span>
+    <span class="c1"># .format won&#39;t evaluate math expressions so do this</span>
+    <span class="k">if</span> <span class="n">grp</span> <span class="o">!=</span> <span class="p">{}:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;f&#39;</span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">grp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
 </pre></div>
 
            </div>
