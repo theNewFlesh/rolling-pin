@@ -1,5 +1,6 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import os
 import shutil
 import unittest
 
@@ -89,6 +90,36 @@ class ConformETLTests(unittest.TestCase):
             # line
             result = data['line_rule'].tolist()
             self.assertEqual(result, exp_line)
+
+    def test_get_data_rename_groups(self):
+        with TemporaryDirectory() as root:
+            # setup source dir
+            src = Path(root, 'source')
+            os.makedirs(src)
+            seq = []
+            for i in range(3):
+                x = Path(src, f'taco-{i}.bar')
+                x.touch()
+                seq.append(x)
+
+            config = dict(
+                source_rules=[
+                    dict(path=src.as_posix())
+                ],
+                rename_rules=[
+                    dict(regex=r'taco-(?P<i>\d)', replace='taco-{i+2:04d}'),
+                    dict(regex=r'\.(?P<e>.*)$', replace='.foo{e}'),
+                ]
+            )
+            data = ConformETL._get_data(**config)
+
+            result = data['target'].tolist()
+            expected = [
+                Path(src, 'taco-0002.foobar').as_posix(),
+                Path(src, 'taco-0003.foobar').as_posix(),
+                Path(src, 'taco-0004.foobar').as_posix(),
+            ]
+            self.assertEqual(result, expected)
 
     def test_init(self):
         with TemporaryDirectory() as root:

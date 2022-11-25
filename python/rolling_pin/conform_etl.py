@@ -76,8 +76,11 @@ class ConformETL:
 
         # rename
         for rule in rename_rules:
-            data.target = data.target \
-                .apply(lambda x: re.sub(rule['regex'], rule['replace'], x))
+            data.target = data.target.apply(
+                lambda x: rpt.replace_and_format(
+                    rule['regex'], rule['replace'], x
+                )
+            )
 
         # group
         data['groups'] = data.source.apply(lambda x: [])
