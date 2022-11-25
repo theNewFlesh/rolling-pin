@@ -490,3 +490,76 @@ def write_dot_graph(
         msg = f'Invalid extension found: {ext}. '
         msg += 'Valid extensions include: svg, dot, png.'
         raise ValueError(msg)
+
+
+# MISC-FUNCTIONS----------------------------------------------------------------
+def replace_and_format(regex, replace, string, flags=0):
+    # type: (str, str, str, Any) -> str
+    r'''
+    Perform a regex substitution on a given string and format any named group
+    found in the result with groupdict data from the pattern. Group beggining
+    with 'i' will be converted to integers. Groups beggining with 'f' will be
+    converted to floats.
+
+    Named group anatomy:
+        (?P<NAME>PATTERN)
+        NAME becomes a key and whatever matches PATTERN becomes its value.
+        >>> re.search('(?P<i>\d+)', 'foobar123').groupdict()
+        {'i': '123'}
+
+    Examples of special groups:
+        (?P<i>\d)     - string matched by '\d' will be converted to an integer
+        (?P<f>\d)     - string matched by '\d' will be converted to an float
+        (?P<i_foo>\d) - string matched by '\d' will be converted to an integer
+        (?P<f_bar>\d) - string matched by '\d' will be converted to an float
+
+    Examples:
+        >>> proj = '(?P<p>[a-z0-9]+)'
+        >>> spec = '(?P<s>[a-z0-9]+)'
+        >>> desc = '(?P<d>[a-z0-9\-]+)'
+        >>> ver = '(?P<iv>\d+)\.'
+        >>> frame = '(?P<i_f>\d+)'
+        >>> regex = f'{proj}\.{spec}\.{desc}\.v{ver}\.{frame}.*'
+        >>> replace = 'p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg'
+        >>> string = 'proj.spec.desc.v1.25.png'
+        >>> replace_and_format(regex, replace, string, flags=re.IGNORECASE)
+        p-proj_s-spec_d-desc_v001_f0025.jpeg
+
+        >>> # or more compactly
+        >>> replace_and_format(
+            '(?P<p>[a-z0-9]+)\.(?P<s>[a-z0-9]+)\.(?P<d>[a-z0-9\-]+)\.v(?P<iv>\d+)\.(?P<i_f>\d+).*',
+            'p-{p}_s-{s}_d-{d}_v{iv:03d}_f{i_f:04d}.jpeg',
+            'proj.spec.desc.v1.25.png',
+        )
+        p-proj_s-spec_d-desc_v001_f0025.jpeg
+
+        >>> # no groups
+        >>> replace_and_format('foo', 'bar', 'foobar')
+        barbar
+
+    Args:
+        regex (str): Regex pattern to search string with.
+        replace (str): Replacement string which may contain formart variables
+            ie '{variable}'.
+        string (str): String to be converted.
+        flags (object, optional): re.sub flags. Default: 0.
+
+    Returns:
+        str: Converted string.
+    '''
+    match = re.search(regex, string, flags=flags)
+    grp = {}
+    if match:
+        grp = match.groupdict()
+
+    for key, val in grp.items():
+        if key.startswith('f'):
+            grp[key] = float(val)
+        elif key.startswith('i'):
+            grp[key] = int(val)
+
+    output = re.sub(regex, replace, string, flags=flags)
+    # .format won't evaluate math expressions so do this
+    if grp != {}:
+        output = eval(f"f'{output}'", None, grp)
+    return output
