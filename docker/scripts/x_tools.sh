@@ -541,16 +541,17 @@ x_test_coverage () {
     # Generate test coverage report
     x_env_activate_dev;
     echo "${CYAN2}GENERATING TEST COVERAGE REPORT${CLEAR}\n";
-    cd $REPO_DIR;
-    mkdir -p docs;
+    rm -rf /tmp/coverage;
+    mkdir /tmp/coverage;
+    cd /tmp/coverage;
     pytest \
         -c $CONFIG_DIR/pyproject.toml \
         --numprocesses $TEST_PROCS \
         --verbosity $TEST_VERBOSITY \
-        --cov=python \
+        --cov=$REPO_DIR/python \
         --cov-config=$CONFIG_DIR/pyproject.toml \
-        --cov-report=html:docs/htmlcov \
-        $REPO_DIR/python;
+        --cov-report=html:$REPO_DIR/docs/htmlcov \
+        $REPO_SUBPACKAGE;
 }
 
 x_test_dev () {
@@ -562,7 +563,8 @@ x_test_dev () {
         -c $CONFIG_DIR/pyproject.toml \
         --numprocesses $TEST_PROCS \
         --verbosity $TEST_VERBOSITY \
-        $REPO_DIR/python;
+        --durations 20 \
+        $REPO_SUBPACKAGE;
 }
 
 x_test_fast () {
@@ -570,12 +572,12 @@ x_test_fast () {
     x_env_activate_dev;
     echo "${CYAN2}FAST TESTING DEV${CLEAR}\n";
     cd $REPO_DIR;
-    SKIP_SLOW_TESTS=true && \
+    SKIP_SLOW_TESTS=true \
     pytest \
         -c $CONFIG_DIR/pyproject.toml \
         --numprocesses $TEST_PROCS \
         --verbosity $TEST_VERBOSITY \
-        $REPO_DIR/python;
+        $REPO_SUBPACKAGE;
 }
 
 x_test_lint () {
