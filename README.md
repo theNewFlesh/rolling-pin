@@ -15,6 +15,8 @@ Also have a look at this
 **[Jupyter notebook demo](https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/prototype_demo.ipynb)**
 for a taste of what rolling-pin can do.
 
+---
+
 # Installation
 ### Python
 `pip install rolling-pin`
@@ -34,3 +36,249 @@ for a taste of what rolling-pin can do.
 The service should take a few minutes to start up.
 
 Run `bin/rolling-pin --help` for more help on the command line tool.
+
+---
+
+# Production CLI
+
+Rolling-pin comes with a command line interface defined in command.py.
+
+Its usage pattern is: `rolling-pin COMMAND [ARGS] [FLAGS] [-h --help]`
+
+## Commands
+
+---
+
+### bash-completion
+Prints BASH completion code to be written to a _rolling-pin completion file
+
+Usage: `rolling-pin bash-completion`
+
+---
+
+### zsh-completion
+Prints ZSH completion code to be written to a _rolling-pin completion file
+
+Usage: `rolling-pin zsh-completion`
+
+---
+
+### conform
+Copies source files to target filepaths according to given conform file.
+
+Usage: `rolling-pin conform [OPTIONS] SOURCE`
+
+| Argument | Description           |
+| -------- | --------------------- |
+| source   | conform YAML filepath |
+
+| Flag      | Argument | Description                                    | Default |
+| --------- | -------- | ---------------------------------------------- | ------- |
+| --groups  | text     | comma separated list of groups to be conformed | all     |
+| --dryrun  |          | Print out conform table instead of run conform |         |
+| --help    |          | print help message                             |         |
+
+---
+
+### graph
+Generate a dependency graph of a source repository and write it to a given filepath
+
+Usage: `rolling-pin graph [OPTIONS] SOURCE TARGET`
+
+| Argument | Description     |
+| -------- | --------------- |
+| source   | repository path |
+| target   | target filepath |
+
+| Flag      | Argument | Description                                 | Default   |
+| --------- | -------- | ------------------------------------------- | --------- |
+| --include | text     | include files that match this regex pattern | .*\.py$'  |
+| --exclude | text     | exclude files that match this regex pattern | test|mock |
+| --orient  | text     | graph orientation                           | lr        |
+| --help    |          | print help message                          |           |
+
+---
+
+### plot
+Write radon metrics plots of given repository to given filepath.
+
+Usage: `rolling-pin plot [OPTIONS] SOURCE TARGET`
+
+| Argument | Description     |
+| -------- | --------------- |
+| source   | repository path |
+| target   | plot filepath   |
+
+| Flag   | Description        |
+| ------ | ------------------ |
+| --help | print help message |
+
+---
+
+### table
+Write radon metrics tables of given repository to given directory.
+
+Usage: `rolling-pin table [OPTIONS] SOURCE TARGET`
+
+| Argument | Description     |
+| -------- | --------------- |
+| source   | repository path |
+| target   | table directory |
+
+| Flag   | Description        |
+| ------ | ------------------ |
+| --help | print help message |
+
+---
+
+### toml
+Generate a copy of a given TOML file with given edits indicated by flags. Flags
+are evalauted in the following order: edit, delete, search. Flags may be
+arbitrarily combined. Edit and delete flags may appear multiple times.
+
+Usage: `rolling-pin toml [OPTIONS] SOURCE`
+
+| Argument | Description   |
+| -------- | ------------- |
+| source   | TOML filepath |
+
+| Flag      | Argument | Description                                                                               |
+| --------- | -------- | ----------------------------------------------------------------------------------------- |
+| --edit    | text     | replace key's value with given value, text is "=" separated key value pair in TOML format |
+| --delete  | text     | delete keys that match this regular expression                                            |
+| --search  | text     | search for keys that match this regular expression                                        |
+| --target  | text     | target filepath to write to                                                               |
+| --help    |          | print help message                                                                        |
+
+#### *Example Usage*
+**example file**
+```
+>>>cat example.toml
+[root]
+a = 1
+b = 2
+
+[root.foo.bar]
+x = "y"
+
+[world]
+hello = true
+```
+
+**edit flag**
+```
+>>>rolling-pin toml foobar.toml --edit 'root.a=999'
+[root]
+a = 999
+b = 2...
+
+>>>rolling-pin toml foobar.toml \
+        --edit 'root.a=[1, 2]'   \
+        --edit 'root.b="xxx"'
+[root]
+a = [
+    1,
+    2,
+]
+b = "xxx"...
+
+>>>rolling-pin toml foobar.toml --edit 'root.foo.bar="baz"'
+...
+hello = true
+
+[root.foo]
+bar = "baz"...
+```
+
+**delete flag**
+```
+>>>rolling-pin toml foobar.toml \
+        --delete 'root.foo.bar'  \
+        --delete 'root.a'
+[root]
+b = 2
+
+[world]
+hello = true
+```
+
+**search flag**
+```
+>>>rolling-pin toml foobar.toml --search 'root.foo|world'
+[world]
+hello = true
+
+[root.foo.bar]
+x = "y"
+```
+
+---
+
+# Development CLI
+bin/rolling-pin is a command line interface (defined in cli.py) that works with
+any version of python 2.7 and above, as it has no dependencies.
+
+Its usage pattern is: `bin/rolling-pin COMMAND [-a --args]=ARGS [-h --help] [--dryrun]`
+
+### Commands
+
+| Command              | Description                                                         |
+| -------------------- | ------------------------------------------------------------------- |
+| build-package        | Build production version of repo for publishing                     |
+| build-prod           | Publish pip package of repo to PyPi                                 |
+| build-publish        | Run production tests first then publish pip package of repo to PyPi |
+| build-test           | Build test version of repo for prod testing                         |
+| docker-build         | Build image of rolling-pin                                          |
+| docker-build-prod    | Build production image of rolling-pin                               |
+| docker-container     | Display the Docker container id of rolling-pin                      |
+| docker-coverage      | Generate coverage report for rolling-pin                            |
+| docker-destroy       | Shutdown rolling-pin container and destroy its image                |
+| docker-destroy-prod  | Shutdown rolling-pin production container and destroy its image     |
+| docker-image         | Display the Docker image id of rolling-pin                          |
+| docker-prod          | Start rolling-pin production container                              |
+| docker-push          | Push rolling-pin production image to Dockerhub                      |
+| docker-remove        | Remove rolling-pin Docker image                                     |
+| docker-restart       | Restart rolling-pin container                                       |
+| docker-start         | Start rolling-pin container                                         |
+| docker-stop          | Stop rolling-pin container                                          |
+| docs                 | Generate sphinx documentation                                       |
+| docs-architecture    | Generate architecture.svg diagram from all import statements        |
+| docs-full            | Generate documentation, coverage report, diagram and code           |
+| docs-metrics         | Generate code metrics report, plots and tables                      |
+| library-add          | Add a given package to a given dependency group                     |
+| library-graph-dev    | Graph dependencies in dev environment                               |
+| library-graph-prod   | Graph dependencies in prod environment                              |
+| library-install-dev  | Install all dependencies into dev environment                       |
+| library-install-prod | Install all dependencies into prod environment                      |
+| library-list-dev     | List packages in dev environment                                    |
+| library-list-prod    | List packages in prod environment                                   |
+| library-lock-dev     | Resolve dev.lock file                                               |
+| library-lock-prod    | Resolve prod.lock file                                              |
+| library-remove       | Remove a given package from a given dependency group                |
+| library-search       | Search for pip packages                                             |
+| library-sync-dev     | Sync dev environment with packages listed in dev.lock               |
+| library-sync-prod    | Sync prod environment with packages listed in prod.lock             |
+| library-update       | Update dev dependencies                                             |
+| session-lab          | Run jupyter lab server                                              |
+| session-python       | Run python session with dev dependencies                            |
+| state                | State of rolling-pin                                                |
+| test-coverage        | Generate test coverage report                                       |
+| test-dev             | Run all tests                                                       |
+| test-fast            | Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator  |
+| test-lint            | Run linting and type checking                                       |
+| test-prod            | Run tests across all support python versions                        |
+| version              | Full resolution of repo: dependencies, linting, tests, docs, etc    |
+| version-bump-major   | Bump pyproject major version                                        |
+| version-bump-minor   | Bump pyproject minor version                                        |
+| version-bump-patch   | Bump pyproject patch version                                        |
+| zsh                  | Run ZSH session inside rolling-pin container                        |
+| zsh-complete         | Generate oh-my-zsh completions                                      |
+| zsh-root             | Run ZSH session as root inside rolling-pin container                |
+
+### Flags
+
+| Short | Long      | Description                                          |
+| ----- | --------- | ---------------------------------------------------- |
+| -a    | --args    | Additional arguments, this can generally be ignored  |
+| -h    | --help    | Prints command help message to stdout                |
+|       | --dryrun  | Prints command that would otherwise be run to stdout |
