@@ -2,7 +2,7 @@
 
 try:
     # python2.7 doesn't have typing module
-    from typing import Any, List, Tuple  # noqa: F401
+    from typing import Any, List, Tuple  # noqa F401
 except ImportError:
     pass
 
@@ -83,6 +83,7 @@ def get_info():
     library-sync-dev     - Sync dev environment with packages listed in dev.lock
     library-sync-prod    - Sync prod environment with packages listed in prod.lock
     library-update       - Update dev dependencies
+    library-update-pdm   - Update PDM
     session-app          - Run app
     session-lab          - Run jupyter lab server
     session-python       - Run python session with dev dependencies
@@ -708,6 +709,7 @@ def main():
         'library-sync-prod': x_tools_command('x_library_sync_prod', args),
         'library-update': x_tools_command('x_library_update', args),
         'session-app': x_tools_command('x_session_app', args),
+        'library-update-pdm': x_tools_command('x_library_update_pdm', args),
         'session-lab': x_tools_command('x_session_lab', args),
         'session-python': x_tools_command('x_session_python', args),
         'state': state_command(),

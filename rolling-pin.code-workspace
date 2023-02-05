@@ -269,6 +269,15 @@
                     "x_library_update ${input:update_pdm_package} ${input:pdm_group}"
                 ]
             },
+            {
+                "label": "[library] update-pdm",
+                "detail": "Update PDM",
+                "icon": {"id": "package", "color": "terminal.ansiCyan"},
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_library_update_pdm"
+                ]
+            },
             // {
             //     "label": "[session] app",
             //     "detail": "Run app",
