@@ -59,6 +59,3 @@ git config --global --add safe.directory $REPO_DIR
 
 # activate dev env
 x_env_activate_dev;
-
-# remove zsh_cache
-rm -rf $REPO_DIR/.zsh_cache
