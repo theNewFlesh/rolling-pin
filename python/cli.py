@@ -84,7 +84,6 @@ def get_info():
     library-sync-prod    - Sync prod environment with packages listed in prod.lock
     library-update       - Update dev dependencies
     library-update-pdm   - Update PDM
-    session-app          - Run app
     session-lab          - Run jupyter lab server
     session-python       - Run python session with dev dependencies
     state                - State of {repo}
