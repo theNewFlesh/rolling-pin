@@ -104,8 +104,8 @@ Usage: `rolling-pin conform [OPTIONS] SOURCE`
 | Flag      | Argument | Description                                    | Default |
 | --------- | -------- | ---------------------------------------------- | ------- |
 | --groups  | text     | comma separated list of groups to be conformed | all     |
-| --dryrun  |          | Print out conform table instead of run conform |         |
-| --help    |          | print help message                             |         |
+| --dryrun  | -        | Print out conform table instead of run conform | -       |
+| --help    | -        | print help message                             | -       |
 
 ---
 
@@ -124,7 +124,7 @@ Usage: `rolling-pin graph [OPTIONS] SOURCE TARGET`
 | --include | text     | include files that match this regex pattern | .*\.py$'  |
 | --exclude | text     | exclude files that match this regex pattern | test|mock |
 | --orient  | text     | graph orientation                           | lr        |
-| --help    |          | print help message                          |           |
+| --help    | -        | print help message                          | -         |
 
 ---
 
@@ -177,7 +177,7 @@ Usage: `rolling-pin toml [OPTIONS] SOURCE`
 | --delete  | text     | delete keys that match this regular expression                                            |
 | --search  | text     | search for keys that match this regular expression                                        |
 | --target  | text     | target filepath to write to                                                               |
-| --help    |          | print help message                                                                        |
+| --help    | -        | print help message                                                                        |
 
 #### *Example Usage*
 **example file**
@@ -310,4 +310,4 @@ Its usage pattern is: `bin/rolling-pin COMMAND [-a --args]=ARGS [-h --help] [--d
 | ----- | --------- | ---------------------------------------------------- |
 | -a    | --args    | Additional arguments, this can generally be ignored  |
 | -h    | --help    | Prints command help message to stdout                |
-|       | --dryrun  | Prints command that would otherwise be run to stdout |
+| -     | --dryrun  | Prints command that would otherwise be run to stdout |
