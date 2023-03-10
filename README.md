@@ -26,6 +26,7 @@
     </a>
 </p>
 
+[![PyPI version](https://badge.fury.io/py/rolling-pin.svg)](https://badge.fury.io/py/rolling-pin)
 
 # Introduction
 Rolling-pin is a library of generic tools for ETL work and visualization of JSON
