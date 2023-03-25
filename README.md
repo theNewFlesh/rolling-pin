@@ -15,7 +15,7 @@
         >
     </a>
     <a href="http://vimeo.com/user3965452" rel="nofollow noreferrer">
-        <img src="https://cdn1.iconfinder.com/data/icons/somacro___dpi_social_media_icons_by_vervex-dfjq/500/vimeo.png"
+        <img src="https://cdn.iconscout.com/icon/free/png-512/movie-52-151107.png?f=avif&w=512"
              alt="vimeo" width="30px" height="30px"
         >
     </a>
@@ -26,7 +26,12 @@
     </a>
 </p>
 
-[![PyPI version](https://badge.fury.io/py/rolling-pin.svg)](https://badge.fury.io/py/rolling-pin)
+<!-- <img id="logo" src="resources/logo.png" style="max-width: 717px"> -->
+
+[![](https://img.shields.io/badge/License-MIT-F77E70.svg?style=for-the-badge)](https://github.com/theNewFlesh/rolling-pin/blob/master/LICENSE)
+[![](https://img.shields.io/pypi/pyversions/rolling-pin?style=for-the-badge&label=Python&color=A0D17B&logo=python&logoColor=A0D17B)](https://github.com/theNewFlesh/rolling-pin/blob/master/docker/config/pyproject.toml)
+[![](https://img.shields.io/pypi/v/rolling-pin?style=for-the-badge&label=PyPI&color=5F95DE&logo=pypi&logoColor=5F95DE)](https://pypi.org/project/rolling-pin/)
+[![](https://img.shields.io/pypi/dm/rolling-pin?style=for-the-badge&label=Downloads&color=5F95DE)](https://pepy.tech/project/rolling-pin)
 
 # Introduction
 Rolling-pin is a library of generic tools for ETL work and visualization of JSON
