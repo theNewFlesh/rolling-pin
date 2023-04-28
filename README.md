@@ -66,7 +66,7 @@ for a taste of what rolling-pin can do.
 3. `git clone git@github.com:theNewFlesh/rolling-pin.git`
 4. `cd rolling-pin`
 6. `chmod +x bin/rolling-pin`
-7. `bin/rolling-pin start`
+7. `bin/rolling-pin docker-start`
 
 The service should take a few minutes to start up.
 
