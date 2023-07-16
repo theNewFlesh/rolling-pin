@@ -266,7 +266,6 @@ Its usage pattern is: `bin/rolling-pin COMMAND [-a --args]=ARGS [-h --help] [--d
 | docker-build         | Build image of rolling-pin                                          |
 | docker-build-prod    | Build production image of rolling-pin                               |
 | docker-container     | Display the Docker container id of rolling-pin                      |
-| docker-coverage      | Generate coverage report for rolling-pin                            |
 | docker-destroy       | Shutdown rolling-pin container and destroy its image                |
 | docker-destroy-prod  | Shutdown rolling-pin production container and destroy its image     |
 | docker-image         | Display the Docker image id of rolling-pin                          |
