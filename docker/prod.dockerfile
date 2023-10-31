@@ -27,14 +27,14 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         wget && \
     rm -rf /var/lib/apt/lists/*
 
-# install python3.10 and pip
-RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
+# install python3.11 and pip
+RUN echo "\n${CYAN}SETUP PYTHON3.11${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y python3.10 && \
+    apt install --fix-missing -y python3.11 && \
     rm -rf /var/lib/apt/lists/* && \
     wget https://bootstrap.pypa.io/get-pip.py && \
-    python3.10 get-pip.py && \
+    python3.11 get-pip.py && \
     rm -rf /home/ubuntu/get-pip.py
 
 # install rolling-pin
@@ -42,4 +42,4 @@ USER ubuntu
 ENV REPO='rolling-pin'
 ENV PYTHONPATH "${PYTHONPATH}:/home/ubuntu/$REPO/python"
 RUN echo "\n${CYAN}INSTALL ROLLING-PIN{CLEAR}"; \
-    pip3.10 install --user --upgrade rolling-pin
+    pip3.11 install --user --upgrade rolling-pin

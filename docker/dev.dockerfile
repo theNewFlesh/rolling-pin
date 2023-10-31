@@ -51,22 +51,22 @@ RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
     apt update && \
     apt install -y \
         python3-pydot \
+        python3.11-dev \
+        python3.11-venv \
+        python3.11-distutils \
         python3.10-dev \
         python3.10-venv \
         python3.10-distutils \
         python3.9-dev \
         python3.9-venv \
-        python3.9-distutils \
-        python3.8-dev \
-        python3.8-venv \
-        python3.8-distutils && \
+        python3.9-distutils && \
     rm -rf /var/lib/apt/lists/*
 
 # install pip
 RUN echo "\n${CYAN}INSTALL PIP${CLEAR}"; \
     wget https://bootstrap.pypa.io/get-pip.py && \
-    python3.10 get-pip.py && \
-    pip3.10 install --upgrade pip && \
+    python3.11 get-pip.py && \
+    pip3.11 install --upgrade pip && \
     rm -rf get-pip.py
 
 # install and setup zsh
@@ -106,8 +106,8 @@ WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     curl -sSL \
         https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py \
-    | python3.10 - && \
-    pip3.10 install --upgrade --user \
+    | python3.11 - && \
+    pip3.11 install --upgrade --user \
         pdm \
         'pdm-bump<0.7.0' \
         'rolling-pin>=0.9.2' && \
@@ -127,19 +127,19 @@ RUN echo "\n${CYAN}INSTALL DEV ENVIRONMENT${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init dev 3.10 && \
+    x_env_init dev 3.11 && \
     cd /home/ubuntu && \
-    ln -s `_x_env_get_path dev 3.10` .dev-env && \
-    ln -s `_x_env_get_path dev 3.10`/lib/python3.10/site-packages .dev-packages
+    ln -s `_x_env_get_path dev 3.11` .dev-env && \
+    ln -s `_x_env_get_path dev 3.11`/lib/python3.11/site-packages .dev-packages
 
 # create prod envs
 RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
+    x_env_init prod 3.11 && \
     x_env_init prod 3.10 && \
-    x_env_init prod 3.9 && \
-    x_env_init prod 3.8
+    x_env_init prod 3.10
 
 # cleanup dirs
 WORKDIR /home/ubuntu

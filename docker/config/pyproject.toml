@@ -16,12 +16,12 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Typing :: Typed",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "click>=8.1.3",
     "cufflinks",
@@ -104,7 +104,7 @@ omit = [
 
 [tool.mypy]
 cache_dir = "/home/ubuntu/.mypy_cache"
-python_version = "3.10"
+python_version = "3.11"
 ignore_missing_imports = true
 warn_no_return = false
 pretty = true

@@ -9,7 +9,7 @@ container:
   image_pull_policy: IfNotPresent
   command:
     [
-      "python3.10",
+      "python3.11",
       "/home/ubuntu/rolling-pin/python/rolling_pin/server/app.py",
     ]
 
