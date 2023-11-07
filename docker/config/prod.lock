@@ -5,7 +5,7 @@
 groups = ["default", "test"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:948533b91f384bc8ddc1bd3153d2bd57d6abdc06fcc8b59d476fab39435787e3"
+content_hash = "sha256:31fd0d9cccbc3bba9c9330fc7fb8f1696c3d3f2bc00749f7badf44c38e011b20"
 
 [[package]]
 name = "appnope"
@@ -281,6 +281,15 @@ files = [
 ]
 
 [[package]]
+name = "future"
+version = "0.18.3"
+requires_python = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+summary = "Clean single-source support for Python 3 and 2"
+files = [
+    {file = "future-0.18.3.tar.gz", hash = "sha256:34a17436ed1e96697a86f9de3d15a3b0be01d8bc8de9c1dffd59fb8234ed5307"},
+]
+
+[[package]]
 name = "graphviz"
 version = "0.20.1"
 requires_python = ">=3.7"
@@ -395,14 +404,14 @@ files = [
 
 [[package]]
 name = "mando"
-version = "0.7.1"
+version = "0.6.4"
 summary = "Create Python CLI apps with little to no effort at all!"
 dependencies = [
     "six",
 ]
 files = [
-    {file = "mando-0.7.1-py2.py3-none-any.whl", hash = "sha256:26ef1d70928b6057ee3ca12583d73c63e05c49de8972d620c278a7b206581a8a"},
-    {file = "mando-0.7.1.tar.gz", hash = "sha256:18baa999b4b613faefb00eac4efadcf14f510b59b924b66e08289aa1de8c3500"},
+    {file = "mando-0.6.4-py2.py3-none-any.whl", hash = "sha256:4ce09faec7e5192ffc3c57830e26acba0fd6cd11e1ee81af0d4df0657463bd1c"},
+    {file = "mando-0.6.4.tar.gz", hash = "sha256:79feb19dc0f097daa64a1243db578e7674909b75f88ac2220f1c065c10a0d960"},
 ]
 
 [[package]]
@@ -863,15 +872,16 @@ files = [
 
 [[package]]
 name = "radon"
-version = "6.0.1"
+version = "5.1.0"
 summary = "Code Metrics in Python"
 dependencies = [
     "colorama>=0.4.1; python_version > \"3.4\"",
-    "mando<0.8,>=0.6",
+    "future",
+    "mando<0.7,>=0.6",
 ]
 files = [
-    {file = "radon-6.0.1-py2.py3-none-any.whl", hash = "sha256:632cc032364a6f8bb1010a2f6a12d0f14bc7e5ede76585ef29dc0cecf4cd8859"},
-    {file = "radon-6.0.1.tar.gz", hash = "sha256:d1ac0053943a893878940fedc8b19ace70386fc9c9bf0a09229a44125ebf45b5"},
+    {file = "radon-5.1.0-py2.py3-none-any.whl", hash = "sha256:fa74e018197f1fcb54578af0f675d8b8e2342bd8e0b72bef8197bc4c9e645f36"},
+    {file = "radon-5.1.0.tar.gz", hash = "sha256:cb1d8752e5f862fb9e20d82b5f758cbc4fb1237c92c9a66450ea0ea7bf29aeee"},
 ]
 
 [[package]]
