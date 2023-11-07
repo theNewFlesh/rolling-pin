@@ -1,15 +1,23 @@
 [project]
 name = "rolling-pin"
-version = "0.9.3"
+version = "0.9.4"
 description = "A library of generic tools for ETL work and visualization of JSON blobs and python repositories"
 authors = [
-    {name = "Alex Braun", email = "alexander.g.braun@gmail.com"},
+    { name = "Alex Braun", email = "alexander.g.braun@gmail.com" },
 ]
 readme = "README.md"
 license = "MIT"
 keywords = [
-    "ETL", "blob", "dependency", "graph", "svg", "networkx", "transform" ,
-    "code metrics", "dependency diagram", "build system"
+    "ETL",
+    "blob",
+    "dependency",
+    "graph",
+    "svg",
+    "networkx",
+    "transform",
+    "code metrics",
+    "dependency diagram",
+    "build system",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -76,9 +84,6 @@ test = [
 [tool.pytest.ini_options]
 cache_dir = "/home/ubuntu/.pytest_cache"
 filterwarnings = [
-    # "ignore::UserWarning",
-    # "ignore::DeprecationWarning",
-    # "ignore::PendingDeprecationWarning",
     "ignore:Call to deprecated function",
     "ignore:nx.nx_pydot.to_pydot depends",
     "ignore:distutils Version classes are deprecated",
@@ -111,5 +116,7 @@ pretty = true
 warn_unused_ignores = true
 
 [build-system]
-requires = ["pdm-pep517>=1.0.0"]
+requires = [
+    "pdm-pep517>=1.0.0",
+]
 build-backend = "pdm.pep517.api"
