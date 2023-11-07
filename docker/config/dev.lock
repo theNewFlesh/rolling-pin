@@ -5,7 +5,7 @@
 groups = ["default", "lab", "test", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:722641e46c15990b0ca3953f453adae6fcefbbe763060a42daa981e2a72c12d7"
+content_hash = "sha256:43a08f7f7d30ac02a61e1e01cb149bb2e6d2efb52418b56d9bacecb6fa376e5e"
 
 [[package]]
 name = "aiofiles"
@@ -559,6 +559,15 @@ summary = "Validates fully-qualified domain names against RFC 1123, so that they
 files = [
     {file = "fqdn-1.5.1-py3-none-any.whl", hash = "sha256:3a179af3761e4df6eb2e026ff9e1a3033d3587bf980a0b1b2e1e5d08d7358014"},
     {file = "fqdn-1.5.1.tar.gz", hash = "sha256:105ed3677e767fb5ca086a0c1f4bb66ebc3c100be518f0e0d755d9eae164d89f"},
+]
+
+[[package]]
+name = "future"
+version = "0.18.3"
+requires_python = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+summary = "Clean single-source support for Python 3 and 2"
+files = [
+    {file = "future-0.18.3.tar.gz", hash = "sha256:34a17436ed1e96697a86f9de3d15a3b0be01d8bc8de9c1dffd59fb8234ed5307"},
 ]
 
 [[package]]
@@ -1143,14 +1152,14 @@ files = [
 
 [[package]]
 name = "mando"
-version = "0.7.1"
+version = "0.6.4"
 summary = "Create Python CLI apps with little to no effort at all!"
 dependencies = [
     "six",
 ]
 files = [
-    {file = "mando-0.7.1-py2.py3-none-any.whl", hash = "sha256:26ef1d70928b6057ee3ca12583d73c63e05c49de8972d620c278a7b206581a8a"},
-    {file = "mando-0.7.1.tar.gz", hash = "sha256:18baa999b4b613faefb00eac4efadcf14f510b59b924b66e08289aa1de8c3500"},
+    {file = "mando-0.6.4-py2.py3-none-any.whl", hash = "sha256:4ce09faec7e5192ffc3c57830e26acba0fd6cd11e1ee81af0d4df0657463bd1c"},
+    {file = "mando-0.6.4.tar.gz", hash = "sha256:79feb19dc0f097daa64a1243db578e7674909b75f88ac2220f1c065c10a0d960"},
 ]
 
 [[package]]
@@ -1902,15 +1911,16 @@ files = [
 
 [[package]]
 name = "radon"
-version = "6.0.1"
+version = "5.1.0"
 summary = "Code Metrics in Python"
 dependencies = [
     "colorama>=0.4.1; python_version > \"3.4\"",
-    "mando<0.8,>=0.6",
+    "future",
+    "mando<0.7,>=0.6",
 ]
 files = [
-    {file = "radon-6.0.1-py2.py3-none-any.whl", hash = "sha256:632cc032364a6f8bb1010a2f6a12d0f14bc7e5ede76585ef29dc0cecf4cd8859"},
-    {file = "radon-6.0.1.tar.gz", hash = "sha256:d1ac0053943a893878940fedc8b19ace70386fc9c9bf0a09229a44125ebf45b5"},
+    {file = "radon-5.1.0-py2.py3-none-any.whl", hash = "sha256:fa74e018197f1fcb54578af0f675d8b8e2342bd8e0b72bef8197bc4c9e645f36"},
+    {file = "radon-5.1.0.tar.gz", hash = "sha256:cb1d8752e5f862fb9e20d82b5f758cbc4fb1237c92c9a66450ea0ea7bf29aeee"},
 ]
 
 [[package]]

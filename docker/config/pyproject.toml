@@ -41,7 +41,7 @@ dependencies = [
     "pandas>=1.1.5",
     "pydot",
     "pyyaml",
-    "radon",
+    "radon<6.0.0",
     "schematics",
     "toml>=0.10.2",
     "wrapt",
