@@ -1,5 +1,5 @@
 from typing import Any, Dict, Iterator, List, Optional, Union  # noqa: F401
-from IPython.display import HTML  # noqa: F401
+from IPython.display import HTML, Image  # noqa: F401
 
 from itertools import chain
 from pathlib import Path
@@ -484,7 +484,7 @@ class RepoETL():
         color_scheme=None,
         as_png=False
     ):
-        # type: (str, bool, Optional[Dict[str, str]], bool) -> HTML
+        # type: (str, bool, Optional[Dict[str, str]], bool) -> Union[HTML, Image]
         '''
         For use in inline rendering of graph data in Jupyter Lab.
 
