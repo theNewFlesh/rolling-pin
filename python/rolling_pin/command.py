@@ -80,8 +80,8 @@ def graph(source, target, include, exclude, orient):
         SOURCE - repository path
         TARGET - target filepath
     '''
-    include_ = None if include == '' else include
-    exclude_ = None if exclude == '' else exclude
+    include_ = '' if include is None else include
+    exclude_ = '' if exclude is None else exclude
     RepoETL(source, include_, exclude_).write(target, orient=orient)
 
 
