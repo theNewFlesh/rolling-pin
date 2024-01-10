@@ -11,6 +11,7 @@ export BUILD_DIR="$HOME/build"
 export CONFIG_DIR="$REPO_DIR/docker/config"
 export PDM_DIR="$HOME/pdm"
 export SCRIPT_DIR="$REPO_DIR/docker/scripts"
+export DOCS_DIR="$REPO_DIR/docs"
 export MIN_PYTHON_VERSION="3.8"
 export MAX_PYTHON_VERSION="3.10"
 export TEST_VERBOSITY=0
@@ -556,8 +557,9 @@ x_test_coverage () {
         --verbosity $TEST_VERBOSITY \
         --cov=$REPO_DIR/python \
         --cov-config=$CONFIG_DIR/pyproject.toml \
-        --cov-report=html:$REPO_DIR/docs/htmlcov \
+        --cov-report=html:$DOCS_DIR/htmlcov \
         $REPO_SUBPACKAGE;
+    rm -f $DOCS_DIR/htmlcov/.gitignore;
 }
 
 x_test_dev () {
