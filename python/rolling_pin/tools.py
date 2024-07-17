@@ -340,9 +340,9 @@ def filter_text(
     '''
     lines = text.split('\n')
     if include_regex is not None:
-        lines = list(filter(lambda x: re.search(include_regex, x), lines))  # type: ignore
+        lines = list(filter(lambda x: re.search(include_regex, x), lines))
     if exclude_regex is not None:
-        lines = list(filter(lambda x: not re.search(exclude_regex, x), lines))  # type: ignore
+        lines = list(filter(lambda x: not re.search(exclude_regex, x), lines))
     if replace_regex is not None:
         rep_val = replace_value or ''
         lines = [re.sub(replace_regex, rep_val, x) for x in lines]
