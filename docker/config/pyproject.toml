@@ -39,7 +39,7 @@ dependencies = [
     "networkx",
     "numpy>=1.23.4,<=1.24.4",
     "pandas>=1.1.5",
-    "pydot",
+    "pydot<=1.4.2",
     "pyyaml",
     "radon<6.0.0",
     "schematics",
