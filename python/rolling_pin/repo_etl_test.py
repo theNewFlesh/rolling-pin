@@ -134,6 +134,7 @@ class RepoEtlTests(unittest.TestCase):
     def test_anneal_coordinate(self):
         data = self.get_repo_data('/tmp/foo')
         data = rpo.RepoETL._calculate_coordinates(data)
+        data['x'] = data['x'].apply(int)
         data.sort_values('node_name', inplace=True)
         expected = data.y.tolist()
         result = rpo.RepoETL._anneal_coordinate(

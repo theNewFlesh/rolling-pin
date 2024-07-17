@@ -275,6 +275,8 @@ class RepoETL():
         '''
         x = anneal_axis
         y = pin_axis
+        data[x] = data[x].astype(float)
+        data[y] = data[y].astype(float)
         for iteration in range(iterations):
             # create directed graph from data
             graph = RepoETL._to_networkx_graph(data)
