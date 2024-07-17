@@ -59,3 +59,13 @@ git config --global --add safe.directory $REPO_DIR
 
 # activate dev env
 x_env_activate_dev;
+
+# ROLLING-PIN-------------------------------------------------------------------
+# if rolling-pin cli exists install its zsh completions if they do not exist
+if [[ `which rolling-pin` != "* not found" ]]; then
+    if [ ! -f "$ZSH/custom/completions/_rolling-pin" ]; then
+        mkdir -p $ZSH/custom/completions;
+        rolling-pin zsh-completion > $ZSH/custom/completions/_rolling-pin && \
+        echo 'rolling-pin zsh-completions installed';
+    fi;
+fi;

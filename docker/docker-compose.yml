@@ -11,10 +11,11 @@ services:
       - "5180:8080"
     userns_mode: "host"
     user: ubuntu
+    env_file:
+      - config/dev-env
     volumes:
       - ../:/home/ubuntu/rolling-pin
       - ~/.ssh:/home/ubuntu/.ssh:ro
       - ./config/jupyter:/home/ubuntu/.jupyter
       - ./config/zshrc:/home/ubuntu/.zshrc
     working_dir: "/home/ubuntu"
-    command: "tail -f /dev/null"

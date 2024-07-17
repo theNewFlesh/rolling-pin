@@ -52,25 +52,185 @@ for a taste of what rolling-pin can do.
 
 ---
 
-# Installation
+# Installation for Developers
+
+### Docker
+1. Install [docker-desktop](https://docs.docker.com/desktop/)
+2. Ensure docker-desktop has at least 4 GB of memory allocated to it.
+3. `git clone git@github.com:theNewFlesh/rolling-pin.git`
+4. `cd rolling-pin`
+5. `chmod +x bin/rolling-pin`
+6. `bin/rolling-pin docker-start`
+   - If building on a M1 Mac run `export DOCKER_DEFAULT_PLATFORM=linux/amd64` first.
+
+The service should take a few minutes to start up.
+
+Run `bin/rolling-pin --help` for more help on the command line tool.
+
+### ZSH Setup
+1. `bin/rolling-pin` must be run from this repository's top level directory.
+2. Therefore, if using zsh, it is recommended that you paste the following line
+    in your ~/.zshrc file:
+    - `alias rolling-pin="cd [parent dir]/rolling-pin; bin/rolling-pin"`
+    - Replace `[parent dir]` with the parent directory of this repository
+3. Consider adding the following line to your ~/.zshrc if you are using a M1 Mac:
+    - `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
+4. Running the `zsh-complete` command will enable tab completions of the cli
+   commands, in the next shell session.
+
+   For example:
+   - `rolling-pin [tab]` will show you all the cli options, which you can press
+     tab to cycle through
+   - `rolling-pin docker-[tab]` will show you only the cli options that begin with
+     "docker-"
+
+# Installation for Production
+
 ### Python
 `pip install rolling-pin`
 
 ### Docker
 1. Install [docker-desktop](https://docs.docker.com/desktop/)
-2. `docker pull thenewflesh/rolling-pin:latest`
+2. `docker pull theNewFlesh/rolling-pin:[version]`
 
-### Docker For Developers
-1. Install [docker-desktop](https://docs.docker.com/desktop/)
-2. Ensure docker-desktop has at least 4 GB of memory allocated to it.
-3. `git clone git@github.com:theNewFlesh/rolling-pin.git`
-4. `cd rolling-pin`
-6. `chmod +x bin/rolling-pin`
-7. `bin/rolling-pin docker-start`
 
-The service should take a few minutes to start up.
+---
 
-Run `bin/rolling-pin --help` for more help on the command line tool.
+# Quickstart Guide
+This repository contains a suite commands for the whole development process.
+This includes everything from testing, to documentation generation and
+publishing pip packages.
+
+These commands can be accessed through:
+
+  - The VSCode task runner
+  - The VSCode task runner side bar
+  - A terminal running on the host OS
+  - A terminal within this repositories docker container
+
+Running the `zsh-complete` command will enable tab completions of the CLI.
+See the zsh setup section for more information.
+
+### Command Groups
+
+Development commands are grouped by one of 10 prefixes:
+
+| Command    | Description                                                                        |
+| ---------- | ---------------------------------------------------------------------------------- |
+| build      | Commands for building packages for testing and pip publishing                      |
+| docker     | Common docker commands such as build, start and stop                               |
+| docs       | Commands for generating documentation and code metrics                             |
+| library    | Commands for managing python package dependencies                                  |
+| session    | Commands for starting interactive sessions such as jupyter lab and python          |
+| state      | Command to display the current state of the repo and container                     |
+| test       | Commands for running tests, linter and type annotations                            |
+| version    | Commands for bumping project versions                                              |
+| quickstart | Display this quickstart guide                                                      |
+| zsh        | Commands for running a zsh session in the container and generating zsh completions |
+
+### Common Commands
+
+Here are some frequently used commands to get you started:
+
+| Command           | Description                                               |
+| ----------------- | --------------------------------------------------------- |
+| docker-restart    | Restart container                                         |
+| docker-start      | Start container                                           |
+| docker-stop       | Stop container                                            |
+| docs-full         | Generate documentation, coverage report, diagram and code |
+| library-add       | Add a given package to a given dependency group           |
+| library-graph-dev | Graph dependencies in dev environment                     |
+| library-remove    | Remove a given package from a given dependency group      |
+| library-search    | Search for pip packages                                   |
+| library-update    | Update dev dependencies                                   |
+| session-lab       | Run jupyter lab server                                    |
+| state             | State of                                                  |
+| test-dev          | Run all tests                                             |
+| test-lint         | Run linting and type checking                             |
+| zsh               | Run ZSH session inside container                          |
+| zsh-complete      | Generate ZSH completion script                            |
+
+---
+
+# Development CLI
+bin/rolling-pin is a command line interface (defined in cli.py) that
+works with any version of python 2.7 and above, as it has no dependencies.
+Commands generally do not expect any arguments or flags.
+
+Its usage pattern is: `bin/rolling-pin COMMAND [-a --args]=ARGS [-h --help] [--dryrun]`
+
+### Commands
+The following is a complete list of all available development commands:
+
+| Command                 | Description                                                         |
+| ----------------------- | ------------------------------------------------------------------- |
+| build-package           | Build production version of repo for publishing                     |
+| build-prod              | Publish pip package of repo to PyPi                                 |
+| build-publish           | Run production tests first then publish pip package of repo to PyPi |
+| build-test              | Build test version of repo for prod testing                         |
+| docker-build            | Build Docker image                                                  |
+| docker-build-from-cache | Build Docker image from cached image                                |
+| docker-build-prod       | Build production image                                              |
+| docker-container        | Display the Docker container id                                     |
+| docker-destroy          | Shutdown container and destroy its image                            |
+| docker-destroy-prod     | Shutdown production container and destroy its image                 |
+| docker-image            | Display the Docker image id                                         |
+| docker-prod             | Start production container                                          |
+| docker-pull-dev         | Pull development image from Docker registry                         |
+| docker-pull-prod        | Pull production image from Docker registry                          |
+| docker-push-dev         | Push development image to Docker registry                           |
+| docker-push-dev-latest  | Push development image to Docker registry with dev-latest tag       |
+| docker-push-prod        | Push production image to Docker registry                            |
+| docker-push-prod-latest | Push production image to Docker registry with prod-latest tag       |
+| docker-remove           | Remove Docker image                                                 |
+| docker-restart          | Restart Docker container                                            |
+| docker-start            | Start Docker container                                              |
+| docker-stop             | Stop Docker container                                               |
+| docs                    | Generate sphinx documentation                                       |
+| docs-architecture       | Generate architecture.svg diagram from all import statements        |
+| docs-full               | Generate documentation, coverage report, diagram and code           |
+| docs-metrics            | Generate code metrics report, plots and tables                      |
+| library-add             | Add a given package to a given dependency group                     |
+| library-graph-dev       | Graph dependencies in dev environment                               |
+| library-graph-prod      | Graph dependencies in prod environment                              |
+| library-install-dev     | Install all dependencies into dev environment                       |
+| library-install-prod    | Install all dependencies into prod environment                      |
+| library-list-dev        | List packages in dev environment                                    |
+| library-list-prod       | List packages in prod environment                                   |
+| library-lock-dev        | Resolve dev.lock file                                               |
+| library-lock-prod       | Resolve prod.lock file                                              |
+| library-remove          | Remove a given package from a given dependency group                |
+| library-search          | Search for pip packages                                             |
+| library-sync-dev        | Sync dev environment with packages listed in dev.lock               |
+| library-sync-prod       | Sync prod environment with packages listed in prod.lock             |
+| library-update          | Update dev dependencies                                             |
+| library-update-pdm      | Update PDM                                                          |
+| quickstart              | Display quickstart guide                                            |
+| session-lab             | Run jupyter lab server                                              |
+| session-python          | Run python session with dev dependencies                            |
+| session-server          | Runn application server inside Docker container                     |
+| state                   | State of repository and Docker container                            |
+| test-coverage           | Generate test coverage report                                       |
+| test-dev                | Run all tests                                                       |
+| test-fast               | Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator  |
+| test-lint               | Run linting and type checking                                       |
+| test-prod               | Run tests across all support python versions                        |
+| version                 | Full resolution of repo: dependencies, linting, tests, docs, etc    |
+| version-bump-major      | Bump pyproject major version                                        |
+| version-bump-minor      | Bump pyproject minor version                                        |
+| version-bump-patch      | Bump pyproject patch version                                        |
+| version-commit          | Tag with version and commit changes to master                       |
+| zsh                     | Run ZSH session inside Docker container                             |
+| zsh-complete            | Generate oh-my-zsh completions                                      |
+| zsh-root                | Run ZSH session as root inside Docker container                     |
+
+### Flags
+
+| Short | Long      | Description                                          |
+| ----- | --------- | ---------------------------------------------------- |
+| -a    | --args    | Additional arguments, this can generally be ignored  |
+| -h    | --help    | Prints command help message to stdout                |
+|       | --dryrun  | Prints command that would otherwise be run to stdout |
 
 ---
 
@@ -110,8 +270,8 @@ Usage: `rolling-pin conform [OPTIONS] SOURCE`
 | Flag      | Argument | Description                                    | Default |
 | --------- | -------- | ---------------------------------------------- | ------- |
 | --groups  | text     | comma separated list of groups to be conformed | all     |
-| --dryrun  | -        | Print out conform table instead of run conform | -       |
-| --help    | -        | print help message                             | -       |
+| --dryrun  | <p></p>  | Print out conform table instead of run conform | <p></p> |
+| --help    | <p></p>  | print help message                             | <p></p> |
 
 ---
 
@@ -130,7 +290,7 @@ Usage: `rolling-pin graph [OPTIONS] SOURCE TARGET`
 | --include | text     | include files that match this regex pattern | .*\.py$'  |
 | --exclude | text     | exclude files that match this regex pattern | test|mock |
 | --orient  | text     | graph orientation                           | lr        |
-| --help    | -        | print help message                          | -         |
+| --help    | <p></p>  | print help message                          | <p></p>   |
 
 ---
 
@@ -183,7 +343,7 @@ Usage: `rolling-pin toml [OPTIONS] SOURCE`
 | --delete  | text     | delete keys that match this regular expression                                            |
 | --search  | text     | search for keys that match this regular expression                                        |
 | --target  | text     | target filepath to write to                                                               |
-| --help    | -        | print help message                                                                        |
+| --help    | <p></p>  | print help message                                                                        |
 
 #### *Example Usage*
 **example file**
@@ -246,74 +406,3 @@ hello = true
 [root.foo.bar]
 x = "y"
 ```
-
----
-
-# Development CLI
-bin/rolling-pin is a command line interface (defined in cli.py) that works with
-any version of python 2.7 and above, as it has no dependencies.
-
-Its usage pattern is: `bin/rolling-pin COMMAND [-a --args]=ARGS [-h --help] [--dryrun]`
-
-### Commands
-
-| Command              | Description                                                         |
-| -------------------- | ------------------------------------------------------------------- |
-| build-package        | Build production version of repo for publishing                     |
-| build-prod           | Publish pip package of repo to PyPi                                 |
-| build-publish        | Run production tests first then publish pip package of repo to PyPi |
-| build-test           | Build test version of repo for prod testing                         |
-| docker-build         | Build image of rolling-pin                                          |
-| docker-build-prod    | Build production image of rolling-pin                               |
-| docker-container     | Display the Docker container id of rolling-pin                      |
-| docker-destroy       | Shutdown rolling-pin container and destroy its image                |
-| docker-destroy-prod  | Shutdown rolling-pin production container and destroy its image     |
-| docker-image         | Display the Docker image id of rolling-pin                          |
-| docker-prod          | Start rolling-pin production container                              |
-| docker-push          | Push rolling-pin production image to Dockerhub                      |
-| docker-remove        | Remove rolling-pin Docker image                                     |
-| docker-restart       | Restart rolling-pin container                                       |
-| docker-start         | Start rolling-pin container                                         |
-| docker-stop          | Stop rolling-pin container                                          |
-| docs                 | Generate sphinx documentation                                       |
-| docs-architecture    | Generate architecture.svg diagram from all import statements        |
-| docs-full            | Generate documentation, coverage report, diagram and code           |
-| docs-metrics         | Generate code metrics report, plots and tables                      |
-| library-add          | Add a given package to a given dependency group                     |
-| library-graph-dev    | Graph dependencies in dev environment                               |
-| library-graph-prod   | Graph dependencies in prod environment                              |
-| library-install-dev  | Install all dependencies into dev environment                       |
-| library-install-prod | Install all dependencies into prod environment                      |
-| library-list-dev     | List packages in dev environment                                    |
-| library-list-prod    | List packages in prod environment                                   |
-| library-lock-dev     | Resolve dev.lock file                                               |
-| library-lock-prod    | Resolve prod.lock file                                              |
-| library-remove       | Remove a given package from a given dependency group                |
-| library-search       | Search for pip packages                                             |
-| library-sync-dev     | Sync dev environment with packages listed in dev.lock               |
-| library-sync-prod    | Sync prod environment with packages listed in prod.lock             |
-| library-update       | Update dev dependencies                                             |
-| library-update-pdm   | Update PDM                                                          |
-| session-lab          | Run jupyter lab server                                              |
-| session-python       | Run python session with dev dependencies                            |
-| state                | State of rolling-pin                                                |
-| test-coverage        | Generate test coverage report                                       |
-| test-dev             | Run all tests                                                       |
-| test-fast            | Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator  |
-| test-lint            | Run linting and type checking                                       |
-| test-prod            | Run tests across all support python versions                        |
-| version              | Full resolution of repo: dependencies, linting, tests, docs, etc    |
-| version-bump-major   | Bump pyproject major version                                        |
-| version-bump-minor   | Bump pyproject minor version                                        |
-| version-bump-patch   | Bump pyproject patch version                                        |
-| zsh                  | Run ZSH session inside rolling-pin container                        |
-| zsh-complete         | Generate oh-my-zsh completions                                      |
-| zsh-root             | Run ZSH session as root inside rolling-pin container                |
-
-### Flags
-
-| Short | Long      | Description                                          |
-| ----- | --------- | ---------------------------------------------------- |
-| -a    | --args    | Additional arguments, this can generally be ignored  |
-| -h    | --help    | Prints command help message to stdout                |
-| -     | --dryrun  | Prints command that would otherwise be run to stdout |
