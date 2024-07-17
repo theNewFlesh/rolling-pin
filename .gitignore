@@ -21,6 +21,7 @@ flask_monitoringdashboard*
 
 # misc
 .DS_Store
+.Trash*
 
 # packaging
 .eggs
