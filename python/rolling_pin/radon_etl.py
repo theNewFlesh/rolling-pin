@@ -5,13 +5,13 @@ import os
 import re
 from pathlib import Path
 
-import cufflinks as cf
+from pandas import DataFrame
+from radon.cli import CCHarvester, HCHarvester, MIHarvester, RawHarvester
+from radon.cli import Config
 import numpy as np
 import pandas as pd
-from pandas import DataFrame
+import plotly.express as px
 import radon.complexity
-from radon.cli import Config
-from radon.cli import CCHarvester, HCHarvester, MIHarvester, RawHarvester
 
 from rolling_pin.blob_etl import BlobETL
 import rolling_pin.tools as rpt
@@ -413,8 +413,6 @@ class RadonETL():
         Returns:
             RadonETL: self.
         '''
-        cf.go_offline()
-
         def remove_test_modules(data):
             # type: (DataFrame) -> DataFrame
             mask = data.fullpath\
@@ -436,13 +434,6 @@ class RadonETL():
             bugs='bugs (B) - V / 3000 - an estimate of the errors in the implementation',
         )
 
-        params = dict(
-            theme='henanigans',
-            colors=rpt.COLOR_SCALE,
-            dimensions=(900, 900),
-            asFigure=True,
-        )
-
         html = '<body style="background: #242424">\n'
 
         raw = remove_test_modules(self.raw_metrics)
@@ -452,42 +443,66 @@ class RadonETL():
 
         raw['docstring_ratio'] = raw.multiline_comment / raw.code
         raw.sort_values('docstring_ratio', inplace=True)
-        html += raw.iplot(
-            x='fullpath',
-            kind='barh',
+
+        # line count
+        fig = px.bar(
+            raw,
             title='Line Count Metrics',
-            **params
-        ).to_html()
+            x=raw.drop(columns='fullpath').columns.tolist(),
+            y='fullpath',
+            orientation='h',
+            barmode='group',
+            width=900,
+            height=900,
+            color_discrete_sequence=rpt.COLOR_SCALE,
+        )
+        fig.layout.update(rpt.PLOTLY_LAYOUT_THEME)
+        html += fig.to_html()
 
-        html += mi.iplot(
-            x='fullpath',
-            kind='barh',
+        # maintainability
+        fig = px.bar(
+            mi,
             title='Maintainability Metrics',
-            **params
-        ).to_html()
+            x=mi.drop(columns='fullpath').columns.tolist(),
+            y='fullpath',
+            orientation='h',
+            barmode='group',
+            width=900,
+            height=900,
+            color_discrete_sequence=rpt.COLOR_SCALE,
+        )
+        fig.layout.update(rpt.PLOTLY_LAYOUT_THEME)
+        html += fig.to_html()
 
-        params['dimensions'] = (900, 500)
-
-        cols = ['cyclomatic_complexity', 'cyclomatic_rank']
-        html += cc[cols].iplot(
-            kind='hist',
-            bins=50,
+        # cyclomatic
+        fig = px.histogram(
+            cc[['cyclomatic_complexity', 'cyclomatic_rank']],
             title='Cyclomatic Metric Distributions',
-            **params
-        ).to_html()
+            nbins=50,
+            barmode='group',
+            width=900,
+            height=500,
+            color_discrete_sequence=rpt.COLOR_SCALE,
+        )
+        fig.layout.update(rpt.PLOTLY_LAYOUT_THEME)
+        html += fig.to_html()
 
+        # halstead
         cols = [
             'h1', 'h2', 'n1', 'n2', 'vocabulary', 'length', 'calculated_length',
             'volume', 'difficulty', 'effort', 'time', 'bugs'
         ]
-        html += hal[cols]\
-            .rename(mapper=lambda x: lut[x], axis=1)\
-            .iplot(
-                kind='hist',
-                bins=50,
-                title='Halstead Metric Distributions',
-                **params)\
-            .to_html()
+        fig = px.histogram(
+            hal[cols].rename(mapper=lambda x: lut[x], axis=1),
+            title='Halstead Metric Distributions',
+            nbins=50,
+            barmode='group',
+            width=900,
+            height=500,
+            color_discrete_sequence=rpt.COLOR_SCALE,
+        )
+        fig.layout.update(rpt.PLOTLY_LAYOUT_THEME)
+        html += fig.to_html()
 
         html += '\n</body>'
 

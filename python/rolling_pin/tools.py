@@ -38,18 +38,82 @@ COLOR_SCHEME = dict(
     edge_module='#B6ECF3',
 )  # type: Dict[str, str]
 
+
+PLOTLY_COLOR_SCHEME = dict(
+    bg='#242424',
+    blue1='#5F95DE',
+    blue2='#93B6E6',
+    cyan1='#7EC4CF',
+    cyan2='#B6ECF3',
+    dark1='#040404',
+    dark2='#141414',
+    dialog1='#444459',
+    dialog2='#5D5D7A',
+    green1='#8BD155',
+    green2='#A0D17B',
+    grey1='#343434',
+    grey2='#444444',
+    light1='#A4A4A4',
+    light2='#F4F4F4',
+    orange1='#EB9E58',
+    orange2='#EBB483',
+    purple1='#C98FDE',
+    purple2='#AC92DE',
+    red1='#F77E70',
+    red2='#DE958E',
+    yellow1='#E8EA7E',
+    yellow2='#E9EABE',
+)
+
+
 COLOR_SCALE = [
-    '#B6ECF3',
-    '#DE958E',
-    '#EBB483',
-    '#A0D17B',
-    '#93B6E6',
-    '#AC92DE',
-    '#E9EABE',
-    '#7EC4CF',
-    '#F77E70',
-    '#EB9E58',
+    'cyan2', 'red2', 'green2', 'blue2', 'orange2', 'purple2', 'yellow2',
+    'light2', 'cyan1', 'red1', 'green1', 'blue1'
 ]  # type: List[str]
+COLOR_SCALE = [PLOTLY_COLOR_SCHEME[x] for x in COLOR_SCALE]
+
+
+PLOTLY_LAYOUT_THEME = {
+    'legend': {
+        'bgcolor': PLOTLY_COLOR_SCHEME['bg'],
+        'font': {
+            'color': PLOTLY_COLOR_SCHEME['light2']
+        }
+    },
+    'paper_bgcolor': PLOTLY_COLOR_SCHEME['bg'],
+    'plot_bgcolor': PLOTLY_COLOR_SCHEME['bg'],
+    'title': {
+        'font': {
+            'color': PLOTLY_COLOR_SCHEME['light2']
+        }
+    },
+    'xaxis': {
+        'gridcolor': PLOTLY_COLOR_SCHEME['grey1'],
+        'showgrid': True,
+        'tickfont': {
+            'color': PLOTLY_COLOR_SCHEME['light1']
+        },
+        'title': {
+            'font': {
+                'color': PLOTLY_COLOR_SCHEME['light1']
+            }
+        },
+        'zerolinecolor': PLOTLY_COLOR_SCHEME['grey2']
+    },
+    'yaxis': {
+        'gridcolor': PLOTLY_COLOR_SCHEME['grey1'],
+        'showgrid': True,
+        'tickfont': {
+            'color': PLOTLY_COLOR_SCHEME['light1']
+        },
+        'title': {
+            'font': {
+                'color': PLOTLY_COLOR_SCHEME['light1']
+            }
+        },
+        'zerolinecolor': PLOTLY_COLOR_SCHEME['grey2']
+    }
+}
 
 
 # PREDICATE-FUNCTIONS-----------------------------------------------------------
