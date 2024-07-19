@@ -76,6 +76,7 @@ COLOR_SCALE = [PLOTLY_COLOR_SCHEME[x] for x in COLOR_SCALE]
 PLOTLY_LAYOUT_THEME = {
     'legend': {
         'bgcolor': PLOTLY_COLOR_SCHEME['bg'],
+        'title': {'text': ''},
         'font': {
             'color': PLOTLY_COLOR_SCHEME['light2']
         }
