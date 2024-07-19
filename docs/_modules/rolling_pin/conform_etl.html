@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.conform_etl &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,14 +28,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> rolling-pin
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            rolling-pin
           </a>
               <div class="version">
-                0.8.0
+                0.10.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -43,18 +48,23 @@
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">blob_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.conform_config">conform_config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.conform_config">conform_config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.conform_etl">conform_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.radon_etl">radon_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.toml_etl">toml_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.tools">tools</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
 </ul>
@@ -72,7 +82,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
       <li class="breadcrumb-item active">rolling_pin.conform_etl</li>
       <li class="wy-breadcrumbs-aside">
@@ -84,8 +94,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.conform_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>  <span class="c1"># noqa: F401</span>
 
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
@@ -117,19 +127,23 @@
 <span class="p">})</span>
 
 
-<div class="viewcode-block" id="ConformETL"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL">[docs]</a><span class="k">class</span> <span class="nc">ConformETL</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ConformETL">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL">[docs]</a>
+<span class="k">class</span> <span class="nc">ConformETL</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    ConformETL creates a DataFrame from a given directory of source files.</span>
 <span class="sd">    Then it generates target paths given a set of rules.</span>
 <span class="sd">    Finally, the conform method is called and the source files are copied to</span>
 <span class="sd">    their target filepaths.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="ConformETL._get_data"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL._get_data">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ConformETL._get_data">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL._get_data">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span>
         <span class="n">source_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">rename_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">group_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">line_rules</span><span class="o">=</span><span class="p">[]</span>
     <span class="p">):</span>
         <span class="c1"># type: (Rules, Rules, Rules, Rules) -&gt; DataFrame</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generates DataFrame from given source_rules and then generates target</span>
 <span class="sd">        paths for them given other rules.</span>
 
@@ -162,8 +176,11 @@
 
         <span class="c1"># rename</span>
         <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rename_rules</span><span class="p">:</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span> \
-                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">rule</span><span class="p">[</span><span class="s1">&#39;regex&#39;</span><span class="p">],</span> <span class="n">rule</span><span class="p">[</span><span class="s1">&#39;replace&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rpt</span><span class="o">.</span><span class="n">replace_and_format</span><span class="p">(</span>
+                    <span class="n">rule</span><span class="p">[</span><span class="s1">&#39;regex&#39;</span><span class="p">],</span> <span class="n">rule</span><span class="p">[</span><span class="s1">&#39;replace&#39;</span><span class="p">],</span> <span class="n">x</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># group</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[])</span>
@@ -184,10 +201,13 @@
 
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="ConformETL.from_yaml"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.from_yaml">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="ConformETL.from_yaml">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.from_yaml">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; ConformETL</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct ConformETL instance from given yaml file.</span>
 
 <span class="sd">        Args:</span>
@@ -209,11 +229,14 @@
             <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConformETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ConformETL.__init__">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">source_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">rename_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">group_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">line_rules</span><span class="o">=</span><span class="p">[]</span>
     <span class="p">):</span>
         <span class="c1"># type: (Rules, Rules, Rules, Rules) -&gt; None</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generates DataFrame from given source_rules and then generates target</span>
 <span class="sd">        paths for them given other rules.</span>
 
@@ -248,9 +271,12 @@
         <span class="p">)</span>  <span class="c1"># type: DataFrame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_line_rules</span> <span class="o">=</span> <span class="n">line_rules</span>  <span class="c1"># type: Rules</span></div>
 
-<div class="viewcode-block" id="ConformETL.__repr__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ConformETL.__repr__">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.__repr__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; str</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        String representation of conform DataFrame.</span>
 
 <span class="sd">        Returns:</span>
@@ -263,10 +289,11 @@
             <span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_colwidth</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">col_space</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; List[str]</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        list[str]: List of groups found with self._data.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -275,17 +302,22 @@
         <span class="n">output</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;base&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span>
 
-<div class="viewcode-block" id="ConformETL.to_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ConformETL.to_dataframe">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.to_dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            DataFrame: Copy of internal data.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ConformETL.to_blob"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_blob">[docs]</a>    <span class="k">def</span> <span class="nf">to_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ConformETL.to_blob">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.to_blob">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; BlobETL</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts self into a BlobETL object with target column as keys and</span>
 <span class="sd">        source columns as values.</span>
 
@@ -298,11 +330,14 @@
         <span class="n">output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">BlobETL</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConformETL.to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ConformETL.to_html">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.to_html">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="n">CONFORM_COLOR_SCHEME</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
         <span class="c1"># type: (str, Dict[str, str], bool) -&gt; Union[Image, HTML]</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        For use in inline rendering of graph data in Jupyter Lab.</span>
 <span class="sd">        Graph from target to source filepath. Target is in red, source is in</span>
 <span class="sd">        cyan.</span>
@@ -326,9 +361,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_blob</span><span class="p">()</span> \
             <span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="n">orient</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="n">as_png</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConformETL.conform"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.conform_etl.ConformETL.conform">[docs]</a>    <span class="k">def</span> <span class="nf">conform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ConformETL.conform">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.conform">[docs]</a>
+    <span class="k">def</span> <span class="nf">conform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, List[str]]) -&gt; None</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Copies source files to target filepaths.</span>
 
 <span class="sd">        Args:</span>
@@ -364,7 +402,9 @@
                     <span class="n">replace_value</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rpt</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">target</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div></div>
+        <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rpt</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">target</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>
@@ -374,7 +414,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+    <p>&#169; Copyright 2024, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

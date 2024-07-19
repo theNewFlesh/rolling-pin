@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.repo_etl &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,14 +28,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> rolling-pin
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            rolling-pin
           </a>
               <div class="version">
-                0.9.3
+                0.10.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -43,19 +48,23 @@
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html">blob_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.conform_config">conform_config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.toml_etl">toml_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.conform_config">conform_config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.conform_etl">conform_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.radon_etl">radon_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.toml_etl">toml_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#module-rolling_pin.tools">tools</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">cli</a></li>
 </ul>
@@ -73,7 +82,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
       <li class="breadcrumb-item active">rolling_pin.repo_etl</li>
       <li class="wy-breadcrumbs-aside">
@@ -86,7 +95,7 @@
              
   <h1>Source code for rolling_pin.repo_etl</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>  <span class="c1"># noqa: F401</span>
 
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -108,20 +117,24 @@
 <span class="sd">&#39;&#39;&#39;</span>
 
 
-<div class="viewcode-block" id="RepoETL"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL">[docs]</a><span class="k">class</span> <span class="nc">RepoETL</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="RepoETL">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL">[docs]</a>
+<span class="k">class</span> <span class="nc">RepoETL</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    RepoETL is a class for extracting 1st order dependencies of modules within a</span>
 <span class="sd">    given repository. This information is stored internally as a DataFrame and</span>
 <span class="sd">    can be rendered as networkx, pydot or SVG graphs.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="RepoETL.__init__"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="RepoETL.__init__">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">root</span><span class="p">,</span>
         <span class="n">include_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*\.py$&#39;</span><span class="p">,</span>
         <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;(__init__|test_|_test|mock_)\.py$&#39;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="c1"># type: (Union[str, Path], str, str) -&gt; None</span>
-        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct RepoETL instance.</span>
 
 <span class="sd">        Args:</span>
@@ -137,10 +150,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_root</span> <span class="o">=</span> <span class="n">root</span>  <span class="c1"># type: Union[str, Path]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">include_regex</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="p">)</span>  <span class="c1"># type: DataFrame</span></div>
 
-<div class="viewcode-block" id="RepoETL._get_imports"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_imports">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RepoETL._get_imports">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL._get_imports">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_imports</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; List[str]</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get&#39;s import statements from a given python module.</span>
 
 <span class="sd">        Args:</span>
@@ -160,14 +176,17 @@
         <span class="n">data</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">lbt</span><span class="o">.</span><span class="n">is_standard_module</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RepoETL._get_data"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._get_data">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RepoETL._get_data">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL._get_data">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span>
         <span class="n">root</span><span class="p">,</span>
         <span class="n">include_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.*\.py$&#39;</span><span class="p">,</span>
         <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;(__init__|_test)\.py$&#39;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="c1"># type: (Union[str, Path], str, str) -&gt; DataFrame</span>
-        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Recursively aggregates and filters all the files found with a given</span>
 <span class="sd">        directory into a DataFrame. Data is used to create directed graphs.</span>
 
@@ -298,10 +317,13 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="RepoETL._calculate_coordinates"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._calculate_coordinates">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RepoETL._calculate_coordinates">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL._calculate_coordinates">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_calculate_coordinates</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="c1"># type: (DataFrame) -&gt; DataFrame</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Calculate inital x, y coordinates for each node in given DataFrame.</span>
 <span class="sd">        Node are startified by type along the y axis.</span>
 
@@ -338,10 +360,13 @@
 
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="RepoETL._anneal_coordinate"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._anneal_coordinate">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RepoETL._anneal_coordinate">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL._anneal_coordinate">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_anneal_coordinate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">anneal_axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">pin_axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="c1"># type: (DataFrame, str, str, int) -&gt; DataFrame</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Iteratively align nodes in the anneal axis according to the mean</span>
 <span class="sd">        position of their connected nodes. Node anneal coordinates are rectified</span>
 <span class="sd">        at the end of each iteration according to a pin axis, so that they do</span>
@@ -362,6 +387,8 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">anneal_axis</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">pin_axis</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
             <span class="c1"># create directed graph from data</span>
             <span class="n">graph</span> <span class="o">=</span> <span class="n">RepoETL</span><span class="o">.</span><span class="n">_to_networkx_graph</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -391,10 +418,13 @@
 
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="RepoETL._center_coordinate"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._center_coordinate">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RepoETL._center_coordinate">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL._center_coordinate">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_center_coordinate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">center_axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">pin_axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">):</span>
         <span class="c1"># (DataFrame, str, str) -&gt; DataFrame</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Sorted center_axis coordinates at each level of the pin axis.</span>
 
 <span class="sd">        Args:</span>
@@ -419,10 +449,13 @@
             <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">delta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="RepoETL._to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL._to_networkx_graph">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RepoETL._to_networkx_graph">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL._to_networkx_graph">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_to_networkx_graph</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="c1"># (DataFrame) -&gt; networkx.DiGraph</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts given DataFrame into networkx directed graph.</span>
 
 <span class="sd">        Args:</span>
@@ -446,9 +479,12 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span></div>
 
-<div class="viewcode-block" id="RepoETL.to_networkx_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_networkx_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RepoETL.to_networkx_graph">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL.to_networkx_graph">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># () -&gt; networkx.DiGraph</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts internal data into networkx directed graph.</span>
 
 <span class="sd">        Returns:</span>
@@ -456,9 +492,12 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">RepoETL</span><span class="o">.</span><span class="n">_to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RepoETL.to_dot_graph"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_dot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RepoETL.to_dot_graph">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL.to_dot_graph">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_dot_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;tb&#39;</span><span class="p">,</span> <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># (str, bool, Optional[Dict[str, str]]) -&gt; pydot.Dot</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts internal data into pydot graph.</span>
 
 <span class="sd">        Args:</span>
@@ -556,23 +595,29 @@
 
         <span class="k">return</span> <span class="n">dot</span></div>
 
-<div class="viewcode-block" id="RepoETL.to_dataframe"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RepoETL.to_dataframe">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL.to_dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Retruns:</span>
 <span class="sd">            DataFrame: DataFrame of nodes representing repo modules.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="RepoETL.to_html"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.to_html">[docs]</a>    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RepoETL.to_html">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL.to_html">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
         <span class="n">orthogonal_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
-        <span class="c1"># type: (str, bool, Optional[Dict[str, str]], bool) -&gt; HTML</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="c1"># type: (str, bool, Optional[Dict[str, str]], bool) -&gt; Union[HTML, Image]</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        For use in inline rendering of graph data in Jupyter Lab.</span>
 
 <span class="sd">        Args:</span>
@@ -598,7 +643,10 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">rpt</span><span class="o">.</span><span class="n">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="n">as_png</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RepoETL.write"><a class="viewcode-back" href="../../rolling_pin.html#rolling_pin.repo_etl.RepoETL.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RepoETL.write">
+<a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL.write">[docs]</a>
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fullpath</span><span class="p">,</span>
         <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
@@ -607,7 +655,7 @@
         <span class="n">color_scheme</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="c1"># type: (Union[str, Path], str, str, bool, Optional[Dict[str, str]]) -&gt; RepoETL</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Writes internal data to a given filepath.</span>
 <span class="sd">        Formats supported: svg, dot, png, json.</span>
 
@@ -656,7 +704,9 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Invalid extension found: </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">. &#39;</span>
             <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;Valid extensions include: svg, dot, png, json.&#39;</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
+
 </pre></div>
 
            </div>
@@ -666,7 +716,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+    <p>&#169; Copyright 2024, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

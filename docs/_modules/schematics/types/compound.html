@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>schematics.types.compound &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,14 +28,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> rolling-pin
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            rolling-pin
           </a>
               <div class="version">
-                0.8.0
+                0.10.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -43,18 +48,23 @@
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html">blob_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.conform_config">conform_config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.conform_config">conform_config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.conform_etl">conform_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.radon_etl">radon_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.toml_etl">toml_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.tools">tools</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">cli</a></li>
 </ul>
@@ -72,7 +82,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">schematics.types.compound</li>
       <li class="wy-breadcrumbs-aside">
@@ -155,7 +165,7 @@
         <span class="k">return</span> <span class="n">to_primitive_converter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_init_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Instantiate the inner field that represents each element within this compound type.</span>
 <span class="sd">        In case the inner field is itself a compound type, its inner field can be provided</span>
 <span class="sd">        as the ``nested_field`` keyword argument.</span>
@@ -172,7 +182,7 @@
 
 
 <span class="k">class</span> <span class="nc">ModelType</span><span class="p">(</span><span class="n">CompoundType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A field that can hold an instance of the specified model.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that can hold an instance of the specified model.&quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">dict</span>
 
@@ -256,7 +266,7 @@
 
 
 <span class="k">class</span> <span class="nc">ListType</span><span class="p">(</span><span class="n">CompoundType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A field for storing a list of items, all of which must conform to the type</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field for storing a list of items, all of which must conform to the type</span>
 <span class="sd">    specified by the ``field`` parameter.</span>
 
 <span class="sd">    Use it like this::</span>
@@ -335,7 +345,7 @@
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_instance</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loops over each item in the model and applies either the field</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loops over each item in the model and applies either the field</span>
 <span class="sd">        transform or the multitype transform.  Essentially functions the same</span>
 <span class="sd">        as `transforms.export_loop`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -356,7 +366,7 @@
 
 
 <span class="k">class</span> <span class="nc">DictType</span><span class="p">(</span><span class="n">CompoundType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A field for storing a mapping of items, the values of which must conform to the type</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field for storing a mapping of items, the values of which must conform to the type</span>
 <span class="sd">    specified by the ``field`` parameter.</span>
 
 <span class="sd">    Use it like this::</span>
@@ -399,7 +409,7 @@
         <span class="k">return</span> <span class="n">data</span>
 
     <span class="k">def</span> <span class="nf">_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dict_instance</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loops over each item in the model and applies either the field</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loops over each item in the model and applies either the field</span>
 <span class="sd">        transform or the multitype transform.  Essentially functions the same</span>
 <span class="sd">        as `transforms.export_loop`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -420,7 +430,7 @@
 
 
 <span class="k">class</span> <span class="nc">PolyModelType</span><span class="p">(</span><span class="n">CompoundType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A field that accepts an instance of any of the specified models.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that accepts an instance of any of the specified models.&quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">dict</span>
     <span class="n">native_type</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># cannot be determined from a PolyModelType instance</span>
@@ -486,7 +496,7 @@
         <span class="k">return</span> <span class="n">model_class</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">find_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Finds the intended type by consulting potential classes or `claim_function`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Finds the intended type by consulting potential classes or `claim_function`.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">claim_function</span><span class="p">:</span>
             <span class="n">kls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">claim_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -549,7 +559,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+    <p>&#169; Copyright 2024, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

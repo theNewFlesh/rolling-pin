@@ -6,7 +6,7 @@
   <title>rolling_pin.tools &mdash; rolling-pin  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=01a16962" />
+      <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
 
   
   <!--[if lt IE 9]>
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.9.6
+                0.10.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -48,9 +48,11 @@
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -132,18 +134,83 @@
     <span class="n">edge_module</span><span class="o">=</span><span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
 <span class="p">)</span>  <span class="c1"># type: Dict[str, str]</span>
 
+
+<span class="n">PLOTLY_COLOR_SCHEME</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#242424&#39;</span><span class="p">,</span>
+    <span class="n">blue1</span><span class="o">=</span><span class="s1">&#39;#5F95DE&#39;</span><span class="p">,</span>
+    <span class="n">blue2</span><span class="o">=</span><span class="s1">&#39;#93B6E6&#39;</span><span class="p">,</span>
+    <span class="n">cyan1</span><span class="o">=</span><span class="s1">&#39;#7EC4CF&#39;</span><span class="p">,</span>
+    <span class="n">cyan2</span><span class="o">=</span><span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
+    <span class="n">dark1</span><span class="o">=</span><span class="s1">&#39;#040404&#39;</span><span class="p">,</span>
+    <span class="n">dark2</span><span class="o">=</span><span class="s1">&#39;#141414&#39;</span><span class="p">,</span>
+    <span class="n">dialog1</span><span class="o">=</span><span class="s1">&#39;#444459&#39;</span><span class="p">,</span>
+    <span class="n">dialog2</span><span class="o">=</span><span class="s1">&#39;#5D5D7A&#39;</span><span class="p">,</span>
+    <span class="n">green1</span><span class="o">=</span><span class="s1">&#39;#8BD155&#39;</span><span class="p">,</span>
+    <span class="n">green2</span><span class="o">=</span><span class="s1">&#39;#A0D17B&#39;</span><span class="p">,</span>
+    <span class="n">grey1</span><span class="o">=</span><span class="s1">&#39;#343434&#39;</span><span class="p">,</span>
+    <span class="n">grey2</span><span class="o">=</span><span class="s1">&#39;#444444&#39;</span><span class="p">,</span>
+    <span class="n">light1</span><span class="o">=</span><span class="s1">&#39;#A4A4A4&#39;</span><span class="p">,</span>
+    <span class="n">light2</span><span class="o">=</span><span class="s1">&#39;#F4F4F4&#39;</span><span class="p">,</span>
+    <span class="n">orange1</span><span class="o">=</span><span class="s1">&#39;#EB9E58&#39;</span><span class="p">,</span>
+    <span class="n">orange2</span><span class="o">=</span><span class="s1">&#39;#EBB483&#39;</span><span class="p">,</span>
+    <span class="n">purple1</span><span class="o">=</span><span class="s1">&#39;#C98FDE&#39;</span><span class="p">,</span>
+    <span class="n">purple2</span><span class="o">=</span><span class="s1">&#39;#AC92DE&#39;</span><span class="p">,</span>
+    <span class="n">red1</span><span class="o">=</span><span class="s1">&#39;#F77E70&#39;</span><span class="p">,</span>
+    <span class="n">red2</span><span class="o">=</span><span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
+    <span class="n">yellow1</span><span class="o">=</span><span class="s1">&#39;#E8EA7E&#39;</span><span class="p">,</span>
+    <span class="n">yellow2</span><span class="o">=</span><span class="s1">&#39;#E9EABE&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
 <span class="n">COLOR_SCALE</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;#B6ECF3&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#DE958E&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#EBB483&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#A0D17B&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#93B6E6&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#AC92DE&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#E9EABE&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#7EC4CF&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#F77E70&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;#EB9E58&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;cyan2&#39;</span><span class="p">,</span> <span class="s1">&#39;red2&#39;</span><span class="p">,</span> <span class="s1">&#39;green2&#39;</span><span class="p">,</span> <span class="s1">&#39;blue2&#39;</span><span class="p">,</span> <span class="s1">&#39;orange2&#39;</span><span class="p">,</span> <span class="s1">&#39;purple2&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;light2&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan1&#39;</span><span class="p">,</span> <span class="s1">&#39;red1&#39;</span><span class="p">,</span> <span class="s1">&#39;green1&#39;</span><span class="p">,</span> <span class="s1">&#39;blue1&#39;</span>
 <span class="p">]</span>  <span class="c1"># type: List[str]</span>
+<span class="n">COLOR_SCALE</span> <span class="o">=</span> <span class="p">[</span><span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">COLOR_SCALE</span><span class="p">]</span>
+
+
+<span class="n">PLOTLY_LAYOUT_THEME</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;bgcolor&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;bg&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
+        <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;light2&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;paper_bgcolor&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;bg&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;plot_bgcolor&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;bg&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;light2&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;gridcolor&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;grey1&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;showgrid&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;tickfont&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;light1&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;light1&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;zerolinecolor&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;grey2&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;gridcolor&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;grey1&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;showgrid&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;tickfont&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;light1&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;light1&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;zerolinecolor&#39;</span><span class="p">:</span> <span class="n">PLOTLY_COLOR_SCHEME</span><span class="p">[</span><span class="s1">&#39;grey2&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
 
 <span class="c1"># PREDICATE-FUNCTIONS-----------------------------------------------------------</span>
@@ -726,7 +793,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+    <p>&#169; Copyright 2024, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

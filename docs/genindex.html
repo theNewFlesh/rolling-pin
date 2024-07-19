@@ -6,7 +6,7 @@
   <title>Index &mdash; rolling-pin  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/style.css?v=01a16962" />
+      <link rel="stylesheet" type="text/css" href="_static/style.css" />
 
   
   <!--[if lt IE 9]>
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.9.6
+                0.10.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -48,9 +48,11 @@
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#quickstart-guide">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -477,6 +479,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.prod_command">prod_command() (in module cli)</a>
 </li>
+      <li><a href="cli.html#cli.pull_command">pull_command() (in module cli)</a>
+</li>
       <li><a href="cli.html#cli.push_command">push_command() (in module cli)</a>
 </li>
   </ul></td>
@@ -486,6 +490,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#rolling_pin.blob_etl.BlobETL.query">query() (rolling_pin.blob_etl.BlobETL method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.quickstart_command">quickstart_command() (in module cli)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -678,6 +686,10 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.version_commit_command">version_commit_command() (in module cli)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.version_variable">version_variable() (in module cli)</a>
 </li>
   </ul></td>
@@ -710,10 +722,6 @@
 <h2 id="X">X</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.x_tools">x_tools() (in module cli)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.x_tools_command">x_tools_command() (in module cli)</a>
 </li>
   </ul></td>
@@ -724,11 +732,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.zsh_command">zsh_command() (in module cli)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.zsh_complete_command">zsh_complete_command() (in module cli)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.zsh_root_command">zsh_root_command() (in module cli)</a>
+</li>
+      <li><a href="cli.html#cli.zshrc_tools">zshrc_tools() (in module cli)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -742,7 +752,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+    <p>&#169; Copyright 2024, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

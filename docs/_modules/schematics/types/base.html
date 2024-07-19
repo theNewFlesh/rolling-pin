@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>schematics.types.base &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,14 +28,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> rolling-pin
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            rolling-pin
           </a>
               <div class="version">
-                0.8.0
+                0.10.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -43,18 +48,23 @@
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html">blob_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.conform_config">conform_config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.conform_etl">conform_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.radon_etl">radon_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.repo_etl">repo_etl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../rolling_pin.html#module-rolling_pin.tools">tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">blob_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.conform_config">conform_config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.conform_etl">conform_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.radon_etl">radon_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.repo_etl">repo_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.toml_etl">toml_etl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html#module-rolling_pin.tools">tools</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Developer CLI</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">cli</a></li>
 </ul>
@@ -72,7 +82,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">schematics.types.base</li>
       <li class="wy-breadcrumbs-aside">
@@ -174,7 +184,7 @@
 
 <span class="k">class</span> <span class="nc">TypeMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Meta class for BaseType. Merges `MESSAGES` dict and accumulates</span>
 <span class="sd">    validator methods.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -208,7 +218,7 @@
 <span class="nd">@metaclass</span><span class="p">(</span><span class="n">TypeMeta</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BaseType</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A base class for Types in a Schematics model. Instances of this</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A base class for Types in a Schematics model. Instances of this</span>
 <span class="sd">    class may be added to subclasses of ``Model`` to define a model schema.</span>
 
 <span class="sd">    Validators that need to access variables on the instance</span>
@@ -319,7 +329,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">owner_model</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Perform late-stage setup tasks that are run after the containing model</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform late-stage setup tasks that are run after the containing model</span>
 <span class="sd">        has been created.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">field_name</span>
@@ -366,7 +376,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
-        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">default</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">default</span><span class="p">):</span>
             <span class="n">default</span> <span class="o">=</span> <span class="n">default</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">default</span>
 
@@ -380,18 +390,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">export_mapping</span><span class="p">[</span><span class="nb">format</span><span class="p">](</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_primitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Convert internal data to a value safe to serialize.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert internal data to a value safe to serialize.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">value</span>
 
     <span class="k">def</span> <span class="nf">to_native</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert untrusted data to a richer Python construct.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">value</span>
 
     <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate the field and return a converted value or raise a</span>
 <span class="sd">        ``ValidationError`` with a list of errors raised by the validation</span>
 <span class="sd">        chain. Stop the validation process from continuing through the</span>
@@ -438,7 +448,7 @@
 
 <span class="k">class</span> <span class="nc">UUIDType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A field that stores a valid UUID value.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that stores a valid UUID value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">str</span>
@@ -469,7 +479,7 @@
 
 <span class="k">class</span> <span class="nc">StringType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A Unicode string field.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Unicode string field.&quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">str</span>
     <span class="n">native_type</span> <span class="o">=</span> <span class="nb">str</span>
@@ -525,7 +535,7 @@
 
 <span class="k">class</span> <span class="nc">NumberType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A generic number field.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A generic number field.</span>
 <span class="sd">    Converts to and validates against `number_type` parameter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -587,7 +597,7 @@
 
 <span class="k">class</span> <span class="nc">IntType</span><span class="p">(</span><span class="n">NumberType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A field that validates input as an Integer</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that validates input as an Integer</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">int</span>
@@ -604,7 +614,7 @@
 
 <span class="k">class</span> <span class="nc">FloatType</span><span class="p">(</span><span class="n">NumberType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A field that validates input as a Float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that validates input as a Float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">float</span>
@@ -618,7 +628,7 @@
 
 <span class="k">class</span> <span class="nc">DecimalType</span><span class="p">(</span><span class="n">NumberType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A fixed-point decimal number field.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A fixed-point decimal number field.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">str</span>
@@ -667,7 +677,7 @@
 
 <span class="k">class</span> <span class="nc">MD5Type</span><span class="p">(</span><span class="n">HashType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A field that validates input as resembling an MD5 hash.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that validates input as resembling an MD5 hash.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">LENGTH</span> <span class="o">=</span> <span class="mi">32</span>
@@ -675,7 +685,7 @@
 
 <span class="k">class</span> <span class="nc">SHA1Type</span><span class="p">(</span><span class="n">HashType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A field that validates input as resembling an SHA1 hash.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that validates input as resembling an SHA1 hash.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">LENGTH</span> <span class="o">=</span> <span class="mi">40</span>
@@ -683,7 +693,7 @@
 
 <span class="k">class</span> <span class="nc">BooleanType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A boolean field type. In addition to ``True`` and ``False``, coerces these</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A boolean field type. In addition to ``True`` and ``False``, coerces these</span>
 <span class="sd">    values:</span>
 
 <span class="sd">    + For ``True``: &quot;True&quot;, &quot;true&quot;, &quot;1&quot;</span>
@@ -722,7 +732,7 @@
 
 <span class="k">class</span> <span class="nc">DateType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Defaults to converting to and from ISO8601 date values.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defaults to converting to and from ISO8601 date values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">str</span>
@@ -775,7 +785,7 @@
 
 <span class="k">class</span> <span class="nc">DateTimeType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A field that holds a combined date and time value.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A field that holds a combined date and time value.</span>
 
 <span class="sd">    The built-in parser accepts input values conforming to the ISO 8601 format</span>
 <span class="sd">    ``&lt;YYYY&gt;-&lt;MM&gt;-&lt;DD&gt;T&lt;hh&gt;:&lt;mm&gt;[:&lt;ss.ssssss&gt;][&lt;z&gt;]``. A space may be substituted</span>
@@ -1003,7 +1013,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">to_primitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialized_format</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialized_format</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialized_format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialized_format</span><span class="p">)</span>
 
@@ -1026,7 +1036,7 @@
 
 <span class="k">class</span> <span class="nc">UTCDateTimeType</span><span class="p">(</span><span class="n">DateTimeType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A variant of ``DateTimeType`` that normalizes everything to UTC and stores values</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A variant of ``DateTimeType`` that normalizes everything to UTC and stores values</span>
 <span class="sd">    as naive ``datetime`` instances. By default sets ``tzd=&#39;utc&#39;``, ``convert_tz=True``,</span>
 <span class="sd">    and ``drop_tzinfo=True``. The standard export format always includes the UTC time</span>
 <span class="sd">    zone designator ``&quot;Z&quot;``.</span>
@@ -1042,7 +1052,7 @@
 
 <span class="k">class</span> <span class="nc">TimestampType</span><span class="p">(</span><span class="n">DateTimeType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A variant of ``DateTimeType`` that exports itself as a Unix timestamp</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A variant of ``DateTimeType`` that exports itself as a Unix timestamp</span>
 <span class="sd">    instead of an ISO 8601 string. Always sets ``tzd=&#39;require&#39;`` and</span>
 <span class="sd">    ``convert_tz=True``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1065,7 +1075,7 @@
 
 <span class="k">class</span> <span class="nc">TimedeltaType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Converts Python Timedelta objects into the corresponding value in seconds.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts Python Timedelta objects into the corresponding value in seconds.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">float</span>
@@ -1111,7 +1121,7 @@
 
 <span class="k">class</span> <span class="nc">GeoPointType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;A list storing a latitude and longitude.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A list storing a latitude and longitude.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">primitive_type</span> <span class="o">=</span> <span class="nb">list</span>
@@ -1134,7 +1144,7 @@
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_native</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make sure that a geo-value is of type (x, y)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make sure that a geo-value is of type (x, y)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">ConversionError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;GeoPointType can only accept tuples, lists, or dicts&#39;</span><span class="p">))</span>
@@ -1167,7 +1177,7 @@
 
 <span class="k">class</span> <span class="nc">MultilingualStringType</span><span class="p">(</span><span class="n">BaseType</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A multilanguage string field, stored as a dict with {&#39;locale&#39;: &#39;localized_value&#39;}.</span>
 
 <span class="sd">    Minimum and maximum lengths apply to each of the localized values.</span>
@@ -1208,7 +1218,7 @@
         <span class="k">return</span> <span class="n">random_string</span><span class="p">(</span><span class="n">get_value_in</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">to_native</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make sure a MultilingualStringType value is a dict or None.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make sure a MultilingualStringType value is a dict or None.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">ConversionError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Value must be a dict or None&#39;</span><span class="p">))</span>
@@ -1216,7 +1226,7 @@
         <span class="k">return</span> <span class="n">value</span>
 
     <span class="k">def</span> <span class="nf">to_primitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Use a combination of ``default_locale`` and ``context.app_data[&#39;locale&#39;]`` to return</span>
 <span class="sd">        the best localized string.</span>
 
@@ -1296,7 +1306,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+    <p>&#169; Copyright 2024, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
