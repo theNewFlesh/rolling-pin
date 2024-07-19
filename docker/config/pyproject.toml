@@ -62,6 +62,7 @@ lab = [
     "jupyterlab",
 ]
 dev = [
+    "cufflinks>=0.17.3",
     "m2r2",
     "sphinx-autodoc-typehints>=1.22",
     "sphinx-rtd-theme",
