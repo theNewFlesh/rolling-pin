@@ -5,7 +5,7 @@
 groups = ["default", "lab", "test", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4.2"
-content_hash = "sha256:706d2ebcb5c8af27413148db890f6a5c8abe728d3bc8156605a65197e61b7c6c"
+content_hash = "sha256:cf47f61b7e330bb0f4e663fcda2b31ea6f2441bc232591e17c264848bff191a6"
 
 [[package]]
 name = "aiofiles"
@@ -421,24 +421,6 @@ files = [
     {file = "coverage-7.6.0-cp312-cp312-win_amd64.whl", hash = "sha256:ca5d79cfdae420a1d52bf177de4bc2289c321d6c961ae321503b2ca59c17ae67"},
     {file = "coverage-7.6.0-pp38.pp39.pp310-none-any.whl", hash = "sha256:6fe885135c8a479d3e37a7aae61cbd3a0fb2deccb4dda3c25f92a49189f766d6"},
     {file = "coverage-7.6.0.tar.gz", hash = "sha256:289cc803fa1dc901f84701ac10c9ee873619320f2f9aff38794db4a4a0268d51"},
-]
-
-[[package]]
-name = "cufflinks"
-version = "0.17.3"
-summary = "Productivity Tools for Plotly + Pandas"
-dependencies = [
-    "colorlover>=0.2.1",
-    "ipython>=5.3.0",
-    "ipywidgets>=7.0.0",
-    "numpy>=1.9.2",
-    "pandas>=0.19.2",
-    "plotly>=4.1.1",
-    "setuptools>=34.4.1",
-    "six>=1.9.0",
-]
-files = [
-    {file = "cufflinks-0.17.3.tar.gz", hash = "sha256:48c1b3406dc030004121966489eebc5518cea70fd4e3f16379b491328501a644"},
 ]
 
 [[package]]
