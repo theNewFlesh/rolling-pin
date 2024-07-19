@@ -463,7 +463,7 @@ class RadonETL():
         fig = px.bar(
             mi,
             title='Maintainability Metrics',
-            x=mi.drop(columns='fullpath').columns.tolist(),
+            x='maintainability_index',
             y='fullpath',
             orientation='h',
             barmode='group',
@@ -478,8 +478,7 @@ class RadonETL():
         fig = px.histogram(
             cc[['cyclomatic_complexity', 'cyclomatic_rank']],
             title='Cyclomatic Metric Distributions',
-            nbins=50,
-            barmode='group',
+            nbins=10,
             width=900,
             height=500,
             color_discrete_sequence=rpt.COLOR_SCALE,
@@ -495,9 +494,8 @@ class RadonETL():
         fig = px.histogram(
             hal[cols].rename(mapper=lambda x: lut[x], axis=1),
             title='Halstead Metric Distributions',
-            nbins=50,
-            barmode='group',
-            width=900,
+            nbins=10,
+            width=1400,
             height=500,
             color_discrete_sequence=rpt.COLOR_SCALE,
         )
