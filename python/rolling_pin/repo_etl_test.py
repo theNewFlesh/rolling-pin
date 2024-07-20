@@ -106,14 +106,15 @@ class RepoEtlTests(unittest.TestCase):
             expected = "Invalid include_regex: 'foo'. Does not end in '.py$'."
             self.assertEqual(str(e.value), expected)
 
-            result = rpo.RepoETL._get_data(root)
-            expected = self.get_repo_data(root)
-            cols = expected.columns.tolist()
-            for i, row in expected.iterrows():
-                self.assertEqual(
-                    result.loc[i, cols].tolist(),
-                    row.tolist()
-                )
+            exp = self.get_repo_data(root)
+            cols = exp.columns.tolist()
+            expected = exp \
+                .sort_values('node_name') \
+                .reset_index(drop=True)
+            result = rpo.RepoETL._get_data(root)[cols] \
+                .sort_values('node_name') \
+                .reset_index(drop=True)
+            self.assertTrue(result.equals(expected))
 
     def test_calculate_coordinates(self):
         data = self.get_repo_data('/tmp/foo')
