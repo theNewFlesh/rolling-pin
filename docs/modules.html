@@ -38,7 +38,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.0
+                0.10.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -1549,11 +1549,15 @@ directy search. Default: ‘(__init__|_test).py$’.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rolling_pin.repo_etl.RepoETL._to_networkx_graph">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_to_networkx_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._to_networkx_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._to_networkx_graph" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_to_networkx_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">escape_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rolling_pin/repo_etl.html#RepoETL._to_networkx_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rolling_pin.repo_etl.RepoETL._to_networkx_graph" title="Link to this definition">¶</a></dt>
 <dd><p>Converts given DataFrame into networkx directed graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>DataFrame</strong> – DataFrame of nodes.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>DataFrame</em>) – DataFrame of nodes.</p></li>
+<li><p><strong>escape_chars</strong> (<em>bool</em><em>, </em><em>optional</em>) – Escape special characters. Used to
+avoid dot file errors. Default: False.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Graph of nodes.</p>

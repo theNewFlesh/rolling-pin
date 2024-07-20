@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.0
+                0.10.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -453,17 +453,28 @@
 <div class="viewcode-block" id="RepoETL._to_networkx_graph">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.repo_etl.RepoETL._to_networkx_graph">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_to_networkx_graph</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-        <span class="c1"># (DataFrame) -&gt; networkx.DiGraph</span>
+    <span class="k">def</span> <span class="nf">_to_networkx_graph</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">escape_chars</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># (DataFrame, bool) -&gt; networkx.DiGraph</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts given DataFrame into networkx directed graph.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            DataFrame: DataFrame of nodes.</span>
+<span class="sd">            data (DataFrame): DataFrame of nodes.</span>
+<span class="sd">            escape_chars (bool, optional): Escape special characters. Used to</span>
+<span class="sd">                avoid dot file errors. Default: False.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            networkx.DiGraph: Graph of nodes.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># escape periods for dot file interpolation</span>
+        <span class="k">if</span> <span class="n">escape_chars</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">node_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">node_name</span> \
+                <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\.&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">.&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dependencies</span> \
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\.&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">.&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+
         <span class="n">graph</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
         <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
             <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span>
@@ -530,7 +541,7 @@
             <span class="n">color_scheme</span> <span class="o">=</span> <span class="n">rpt</span><span class="o">.</span><span class="n">COLOR_SCHEME</span>
 
         <span class="c1"># create dot graph</span>
-        <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_networkx_graph</span><span class="p">()</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_networkx_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">escape_chars</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">dot</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">to_pydot</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 
         <span class="c1"># set layout orientation</span>
