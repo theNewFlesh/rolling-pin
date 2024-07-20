@@ -335,17 +335,28 @@ class RepoETL():
         return data
 
     @staticmethod
-    def _to_networkx_graph(data):
-        # (DataFrame) -> networkx.DiGraph
+    def _to_networkx_graph(data, escape_chars=False):
+        # (DataFrame, bool) -> networkx.DiGraph
         '''
         Converts given DataFrame into networkx directed graph.
 
         Args:
-            DataFrame: DataFrame of nodes.
+            data (DataFrame): DataFrame of nodes.
+            escape_chars (bool, optional): Escape special characters. Used to
+                avoid dot file errors. Default: False.
 
         Returns:
             networkx.DiGraph: Graph of nodes.
         '''
+        # escape periods for dot file interpolation
+        if escape_chars:
+            data = data.copy()
+            data.node_name = data.node_name \
+                .fillna('') \
+                .apply(lambda x: re.sub(r'\.', '\\.', x))
+            data.dependencies = data.dependencies \
+                .apply(lambda x: [re.sub(r'\.', '\\.', y) for y in x])
+
         graph = networkx.DiGraph()
         data.apply(
             lambda x: graph.add_node(
@@ -406,7 +417,7 @@ class RepoETL():
             color_scheme = rpt.COLOR_SCHEME
 
         # create dot graph
-        graph = self.to_networkx_graph()
+        graph = self._to_networkx_graph(self._data, escape_chars=True)
         dot = networkx.drawing.nx_pydot.to_pydot(graph)
 
         # set layout orientation
