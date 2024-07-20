@@ -51,6 +51,13 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         wget && \
     rm -rf /var/lib/apt/lists/*
 
+# install yq
+RUN echo "\n${CYAN}INSTALL YQ${CLEAR}"; \
+    curl -fsSL \
+        https://github.com/mikefarah/yq/releases/download/v4.9.1/yq_linux_amd64 \
+        -o /usr/local/bin/yq && \
+    chmod +x /usr/local/bin/yq
+
 # install all python versions
 RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
@@ -152,7 +159,7 @@ RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     pip3.10 install --upgrade --user \
         pdm \
         'pdm-bump<0.7.0' \
-        'rolling-pin>=0.9.2' && \
+        'rolling-pin>=0.10.1' && \
     mkdir -p /home/ubuntu/.oh-my-zsh/custom/completions && \
     pdm self update --pip-args='--user' && \
     pdm completion zsh > /home/ubuntu/.oh-my-zsh/custom/completions/_pdm
@@ -192,6 +199,14 @@ RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
 RUN echo "\n${CYAN}INSTALL PROD CLI${CLEAR}"; \
     cp /home/ubuntu/scripts/prod-cli /home/ubuntu/.local/bin/rolling-pin && \
     chmod 755 /home/ubuntu/.local/bin/rolling-pin
+
+# build jupyter lab
+# RUN echo "\n${CYAN}BUILD JUPYTER LAB${CLEAR}"; \
+#     . /home/ubuntu/scripts/x_tools.sh && \
+#     export CONFIG_DIR=/home/ubuntu/config && \
+#     export SCRIPT_DIR=/home/ubuntu/scripts && \
+#     x_env_activate_dev && \
+#     jupyter lab build
 
 USER root
 

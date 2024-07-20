@@ -1,7 +1,7 @@
 # VARIABLES---------------------------------------------------------------------
 export USER="ubuntu"
 export HOME="/home/$USER"
-export REPO="f8s"
+export REPO="rolling-pin"
 export REPO_DIR="$HOME/$REPO"
 export S6_DIR="/etc/s6-overlay"
 export S6_RC_DIR="$S6_DIR/s6-rc.d"
