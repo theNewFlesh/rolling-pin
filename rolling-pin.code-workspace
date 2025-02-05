@@ -49,6 +49,10 @@
             "**/flask_monitoringdashboard.db": true,
             "**/jupyter/serverconfig": true,
             "*/*/**/node_modules": true
+        },
+		"workbench.colorCustomizations": {
+            "statusBar.background": "#F77E70",
+            "statusBar.foreground": "#000000"
         }
     },
     "tasks": {
