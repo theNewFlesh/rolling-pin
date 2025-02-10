@@ -27,20 +27,20 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
-# install python3.10 and pip
-RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
+# install python3.13 and pip
+RUN echo "\n${CYAN}SETUP PYTHON3.13${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y python3.10 && \
+    apt install --fix-missing -y python3.13 && \
     rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python3.10 get-pip.py && \
+    python3.13 get-pip.py && \
     rm -rf /home/ubuntu/get-pip.py
 
 # install rolling-pin
 USER ubuntu
 ARG VERSION
 RUN echo "\n${CYAN}INSTALL ROLLING-PIN${CLEAR}"; \
-    pip3.10 install --user rolling-pin==$VERSION
+    pip3.13 install --user rolling-pin==$VERSION
 
 ENV PATH="$PATH:/home/ubuntu/.local/bin"

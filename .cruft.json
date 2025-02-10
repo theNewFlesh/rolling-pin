@@ -44,9 +44,9 @@
       "volume": "",
       "keywords": "ETL, blob, dependency, graph, svg, networkx, transform, code metrics, dependency diagram, build system",
       "year": "2024",
-      "python_min_version": "8",
-      "python_max_version": "10",
-      "initial_repo_version": "0.9.6",
+      "python_min_version": "10",
+      "python_max_version": "13",
+      "initial_repo_version": "0.10.1",
       "_template": "https://github.com/theNewFlesh/cookiecutter-datalus"
     }
   },
