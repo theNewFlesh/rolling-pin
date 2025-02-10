@@ -90,6 +90,7 @@ filterwarnings = [
     "ignore:distutils Version classes are deprecated",
     "ignore:The --rsyncdir command line",
     "ignore:Jupyter is migrating its paths to use standard platformdirs",
+    "ignore:.*scattermapbox:DeprecationWarning",
 ]
 markers = [
     "flaky:Flaky test",
