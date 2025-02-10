@@ -50,7 +50,7 @@
             "**/jupyter/serverconfig": true,
             "*/*/**/node_modules": true
         },
-		"workbench.colorCustomizations": {
+        "workbench.colorCustomizations": {
             "statusBar.background": "#F77E70",
             "statusBar.foreground": "#000000"
         }
@@ -72,6 +72,24 @@
             "showReuseMessage": false
         },
         "tasks": [
+            {
+                "label": "[build] edit prod.dockerfile",
+                "detail": "Edit prod.dockefile for local build development",
+                "icon": {"id": "tools", "color": "terminal.ansiBlue"},
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_build_edit_prod_dockerfile"
+                ]
+            },
+            {
+                "label": "[build] local-package",
+                "detail": "Generate local pip package in docker/dist",
+                "icon": {"id": "tools", "color": "terminal.ansiBlue"},
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_build_local_package"
+                ]
+            },
             {
                 "label": "[build] package",
                 "detail": "Generate pip package of repo in $HOME/build/repo",
@@ -468,7 +486,7 @@
                     "source $X_TOOLS_PATH &&",
                     "x_vscode_reinstall_extensions"
                 ]
-            },
+            }
         ],
         "inputs": [
             {

@@ -1,8 +1,8 @@
-version: "3.8"
 services:
   rolling-pin:
     container_name: rolling-pin
     image: rolling-pin:dev
+    platform: linux/amd64
     build:
       context: .
       dockerfile: dev.dockerfile
