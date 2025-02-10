@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cli &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/style.css" />
 
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.1
+                0.11.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -47,12 +47,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html#installation-for-developers">Installation for Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html#installation-for-production">Installation for Production</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html#quickstart-guide">Quickstart Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html#development-cli">Development CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -98,13 +98,13 @@
 
 <span class="k">try</span><span class="p">:</span>
     <span class="c1"># python2.7 doesn&#39;t have typing module</span>
-    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>  <span class="c1"># noqa F401</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>  <span class="c1"># noqa F401</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">pass</span>
 
-<span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
 <span class="c1"># python2.7 doesn&#39;t have pathlib module</span>
 <span class="n">REPO_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
@@ -123,7 +123,7 @@
 
 <div class="viewcode-block" id="get_info">
 <a class="viewcode-back" href="../cli.html#cli.get_info">[docs]</a>
-<span class="k">def</span> <span class="nf">get_info</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_info</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; Tuple[str, list]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Parses command line call.</span>
@@ -147,64 +147,68 @@
         <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;Command to run in </span><span class="si">{repo}</span><span class="s1"> app.</span>
-<span class="s1">    build-package           - Build production version of repo for publishing</span>
-<span class="s1">    build-prod              - Publish pip package of repo to PyPi</span>
-<span class="s1">    build-publish           - Run production tests first then publish pip package of repo to PyPi</span>
-<span class="s1">    build-test              - Build test version of repo for prod testing</span>
-<span class="s1">    docker-build            - Build Docker image</span>
-<span class="s1">    docker-build-from-cache - Build Docker image from cached image</span>
-<span class="s1">    docker-build-prod       - Build production image</span>
-<span class="s1">    docker-container        - Display the Docker container id</span>
-<span class="s1">    docker-destroy          - Shutdown container and destroy its image</span>
-<span class="s1">    docker-destroy-prod     - Shutdown production container and destroy its image</span>
-<span class="s1">    docker-image            - Display the Docker image id</span>
-<span class="s1">    docker-prod             - Start production container</span>
-<span class="s1">    docker-pull-dev         - Pull development image from Docker registry</span>
-<span class="s1">    docker-pull-prod        - Pull production image from Docker registry</span>
-<span class="s1">    docker-push-dev         - Push development image to Docker registry</span>
-<span class="s1">    docker-push-dev-latest  - Push development image to Docker registry with dev-latest tag</span>
-<span class="s1">    docker-push-prod        - Push production image to Docker registry</span>
-<span class="s1">    docker-push-prod-latest - Push production image to Docker registry with prod-latest tag</span>
-<span class="s1">    docker-remove           - Remove Docker image</span>
-<span class="s1">    docker-restart          - Restart container</span>
-<span class="s1">    docker-start            - Start container</span>
-<span class="s1">    docker-stop             - Stop container</span>
-<span class="s1">    docs                    - Generate sphinx documentation</span>
-<span class="s1">    docs-architecture       - Generate architecture.svg diagram from all import statements</span>
-<span class="s1">    docs-full               - Generate documentation, coverage report, diagram and code</span>
-<span class="s1">    docs-metrics            - Generate code metrics report, plots and tables</span>
-<span class="s1">    library-add             - Add a given package to a given dependency group</span>
-<span class="s1">    library-graph-dev       - Graph dependencies in dev environment</span>
-<span class="s1">    library-graph-prod      - Graph dependencies in prod environment</span>
-<span class="s1">    library-install-dev     - Install all dependencies into dev environment</span>
-<span class="s1">    library-install-prod    - Install all dependencies into prod environment</span>
-<span class="s1">    library-list-dev        - List packages in dev environment</span>
-<span class="s1">    library-list-prod       - List packages in prod environment</span>
-<span class="s1">    library-lock-dev        - Resolve dev.lock file</span>
-<span class="s1">    library-lock-prod       - Resolve prod.lock file</span>
-<span class="s1">    library-remove          - Remove a given package from a given dependency group</span>
-<span class="s1">    library-search          - Search for pip packages</span>
-<span class="s1">    library-sync-dev        - Sync dev environment with packages listed in dev.lock</span>
-<span class="s1">    library-sync-prod       - Sync prod environment with packages listed in prod.lock</span>
-<span class="s1">    library-update          - Update dev dependencies</span>
-<span class="s1">    library-update-pdm      - Update PDM</span>
-<span class="s1">    quickstart              - Display quickstart guide</span>
-<span class="s1">    session-lab             - Run jupyter lab server</span>
-<span class="s1">    session-python          - Run python session with dev dependencies</span>
-<span class="s1">    state                   - State of repository and Docker container</span>
-<span class="s1">    test-coverage           - Generate test coverage report</span>
-<span class="s1">    test-dev                - Run all tests</span>
-<span class="s1">    test-fast               - Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator</span>
-<span class="s1">    test-lint               - Run linting and type checking</span>
-<span class="s1">    test-prod               - Run tests across all support python versions</span>
-<span class="s1">    version                 - Full resolution of repo: dependencies, linting, tests, docs, etc</span>
-<span class="s1">    version-bump-major      - Bump pyproject major version</span>
-<span class="s1">    version-bump-minor      - Bump pyproject minor version</span>
-<span class="s1">    version-bump-patch      - Bump pyproject patch version</span>
-<span class="s1">    version-commit          - Tag with version and commit changes to master</span>
-<span class="s1">    zsh                     - Run ZSH session inside Docker container</span>
-<span class="s1">    zsh-complete            - Generate oh-my-zsh completions</span>
-<span class="s1">    zsh-root                - Run ZSH session as root inside Docker container</span>
+<span class="s1">    build-edit-prod-dockerfile - Edit prod.dockefile to use local package</span>
+<span class="s1">    build-local-package        - Generate pip package of repo and copy it to docker/dist</span>
+<span class="s1">    build-package              - Build production version of repo for publishing</span>
+<span class="s1">    build-prod                 - Publish pip package of repo to PyPi</span>
+<span class="s1">    build-publish              - Run production tests first then publish pip package of repo to PyPi</span>
+<span class="s1">    build-test                 - Build test version of repo for prod testing</span>
+<span class="s1">    docker-build               - Build development image</span>
+<span class="s1">    docker-build-from-cache    - Build development image from registry cache</span>
+<span class="s1">    docker-build-no-cache      - Build development image without cache</span>
+<span class="s1">    docker-build-prod          - Build production image</span>
+<span class="s1">    docker-build-prod-no-cache - Build production image without cache</span>
+<span class="s1">    docker-container           - Display the Docker container id</span>
+<span class="s1">    docker-destroy             - Shutdown container and destroy its image</span>
+<span class="s1">    docker-destroy-prod        - Shutdown production container and destroy its image</span>
+<span class="s1">    docker-image               - Display the Docker image id</span>
+<span class="s1">    docker-prod                - Start production container</span>
+<span class="s1">    docker-pull-dev            - Pull development image from Docker registry</span>
+<span class="s1">    docker-pull-prod           - Pull production image from Docker registry</span>
+<span class="s1">    docker-push-dev            - Push development image to Docker registry</span>
+<span class="s1">    docker-push-dev-latest     - Push development image to Docker registry with dev-latest tag</span>
+<span class="s1">    docker-push-prod           - Push production image to Docker registry</span>
+<span class="s1">    docker-push-prod-latest    - Push production image to Docker registry with prod-latest tag</span>
+<span class="s1">    docker-remove              - Remove Docker image</span>
+<span class="s1">    docker-restart             - Restart container</span>
+<span class="s1">    docker-start               - Start container</span>
+<span class="s1">    docker-stop                - Stop container</span>
+<span class="s1">    docs                       - Generate sphinx documentation</span>
+<span class="s1">    docs-architecture          - Generate architecture.svg diagram from all import statements</span>
+<span class="s1">    docs-full                  - Generate documentation, coverage report, diagram and code</span>
+<span class="s1">    docs-metrics               - Generate code metrics report, plots and tables</span>
+<span class="s1">    library-add                - Add a given package to a given dependency group</span>
+<span class="s1">    library-graph-dev          - Graph dependencies in dev environment</span>
+<span class="s1">    library-graph-prod         - Graph dependencies in prod environment</span>
+<span class="s1">    library-install-dev        - Install all dependencies into dev environment</span>
+<span class="s1">    library-install-prod       - Install all dependencies into prod environment</span>
+<span class="s1">    library-list-dev           - List packages in dev environment</span>
+<span class="s1">    library-list-prod          - List packages in prod environment</span>
+<span class="s1">    library-lock-dev           - Resolve dev.lock file</span>
+<span class="s1">    library-lock-prod          - Resolve prod.lock file</span>
+<span class="s1">    library-remove             - Remove a given package from a given dependency group</span>
+<span class="s1">    library-search             - Search for pip packages</span>
+<span class="s1">    library-sync-dev           - Sync dev environment with packages listed in dev.lock</span>
+<span class="s1">    library-sync-prod          - Sync prod environment with packages listed in prod.lock</span>
+<span class="s1">    library-update             - Update dev dependencies</span>
+<span class="s1">    library-update-pdm         - Update PDM</span>
+<span class="s1">    quickstart                 - Display quickstart guide</span>
+<span class="s1">    session-lab                - Run jupyter lab server</span>
+<span class="s1">    session-python             - Run python session with dev dependencies</span>
+<span class="s1">    state                      - State of repository and Docker container</span>
+<span class="s1">    test-coverage              - Generate test coverage report</span>
+<span class="s1">    test-dev                   - Run all tests</span>
+<span class="s1">    test-fast                  - Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator</span>
+<span class="s1">    test-lint                  - Run linting and type checking</span>
+<span class="s1">    test-prod                  - Run tests across all support python versions</span>
+<span class="s1">    version                    - Full resolution of repo: dependencies, linting, tests, docs, etc</span>
+<span class="s1">    version-bump-major         - Bump pyproject major version</span>
+<span class="s1">    version-bump-minor         - Bump pyproject minor version</span>
+<span class="s1">    version-bump-patch         - Bump pyproject patch version</span>
+<span class="s1">    version-commit             - Tag with version and commit changes to master</span>
+<span class="s1">    zsh                        - Run ZSH session inside Docker container</span>
+<span class="s1">    zsh-complete               - Generate oh-my-zsh completions</span>
+<span class="s1">    zsh-root                   - Run ZSH session as root inside Docker container</span>
 <span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="n">REPO</span><span class="p">))</span>  <span class="c1"># noqa: E501</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -229,7 +233,7 @@
 
 <div class="viewcode-block" id="resolve">
 <a class="viewcode-back" href="../cli.html#cli.resolve">[docs]</a>
-<span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">commands</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="n">commands</span><span class="p">):</span>
     <span class="c1"># type: (List[str]) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Convenience function for creating single commmand from given commands and</span>
@@ -274,7 +278,7 @@
 
 <div class="viewcode-block" id="line">
 <a class="viewcode-back" href="../cli.html#cli.line">[docs]</a>
-<span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">line</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
     <span class="c1"># type: (str, str) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Convenience function for formatting a given block of text as series of</span>
@@ -298,7 +302,7 @@
 <span class="c1"># SUBCOMMANDS-------------------------------------------------------------------</span>
 <div class="viewcode-block" id="enter_repo">
 <a class="viewcode-back" href="../cli.html#cli.enter_repo">[docs]</a>
-<span class="k">def</span> <span class="nf">enter_repo</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">enter_repo</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -310,7 +314,7 @@
 
 <div class="viewcode-block" id="exit_repo">
 <a class="viewcode-back" href="../cli.html#cli.exit_repo">[docs]</a>
-<span class="k">def</span> <span class="nf">exit_repo</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">exit_repo</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -322,7 +326,7 @@
 
 <div class="viewcode-block" id="start">
 <a class="viewcode-back" href="../cli.html#cli.start">[docs]</a>
-<span class="k">def</span> <span class="nf">start</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -353,7 +357,7 @@
 
 <div class="viewcode-block" id="stop">
 <a class="viewcode-back" href="../cli.html#cli.stop">[docs]</a>
-<span class="k">def</span> <span class="nf">stop</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -373,7 +377,7 @@
 
 <div class="viewcode-block" id="remove_container">
 <a class="viewcode-back" href="../cli.html#cli.remove_container">[docs]</a>
-<span class="k">def</span> <span class="nf">remove_container</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_container</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -385,7 +389,7 @@
 
 <div class="viewcode-block" id="docker_exec">
 <a class="viewcode-back" href="../cli.html#cli.docker_exec">[docs]</a>
-<span class="k">def</span> <span class="nf">docker_exec</span><span class="p">(</span><span class="n">tty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">docker_exec</span><span class="p">(</span><span class="n">tty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="c1"># type: (bool) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Args:</span>
@@ -413,7 +417,7 @@
 
 <div class="viewcode-block" id="version_variable">
 <a class="viewcode-back" href="../cli.html#cli.version_variable">[docs]</a>
-<span class="k">def</span> <span class="nf">version_variable</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">version_variable</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -430,7 +434,7 @@
 
 <div class="viewcode-block" id="zshrc_tools">
 <a class="viewcode-back" href="../cli.html#cli.zshrc_tools">[docs]</a>
-<span class="k">def</span> <span class="nf">zshrc_tools</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">zshrc_tools</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[]):</span>
     <span class="c1"># type: (str, list[str]) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Creates a tools command string that sources zshrc first.</span>
@@ -454,12 +458,13 @@
 <span class="c1"># COMMANDS----------------------------------------------------------------------</span>
 <div class="viewcode-block" id="build_dev_command">
 <a class="viewcode-back" href="../cli.html#cli.build_dev_command">[docs]</a>
-<span class="k">def</span> <span class="nf">build_dev_command</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_dev_command</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="c1"># type: (bool) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Build image for development.</span>
+
 <span class="sd">    Args:</span>
-<span class="sd">        use_cache (bool, optional): Whether to use Docker image cache.</span>
-<span class="sd">            Default: False.</span>
+<span class="sd">        use_cache (bool, optional): Use layer cache. Default: False.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Command to build dev image.</span>
@@ -477,7 +482,9 @@
 <span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">use_cache</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; --cache-from </span><span class="si">{registry}</span><span class="s1">:dev-latest&#39;</span>
-    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; --tag </span><span class="si">{repo}</span><span class="s1">:dev .; cd ..&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; --no-cache&#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; --tag </span><span class="si">{repo}</span><span class="s1">:dev . &amp;&amp; cd ..&#39;</span>
 
     <span class="n">cmds</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">enter_repo</span><span class="p">(),</span>
@@ -490,10 +497,13 @@
 
 <div class="viewcode-block" id="build_prod_command">
 <a class="viewcode-back" href="../cli.html#cli.build_prod_command">[docs]</a>
-<span class="k">def</span> <span class="nf">build_prod_command</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; str</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_prod_command</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># type: (bool) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Build production image.</span>
+<span class="sd">    Build image for production.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        use_cache (bool, optional): Use layer cache. Default: False.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Command to build prod image.</span>
@@ -502,7 +512,6 @@
 <span class="s1">        cd docker;</span>
 <span class="s1">        docker build</span>
 <span class="s1">            --force-rm</span>
-<span class="s1">            --no-cache</span>
 <span class="s1">            --file prod.dockerfile</span>
 <span class="s1">            --build-arg VERSION=&quot;$VERSION&quot;</span>
 <span class="s1">            --label &quot;repository=</span><span class="si">{repo}</span><span class="s1">&quot;</span>
@@ -510,9 +519,10 @@
 <span class="s1">            --label &quot;git-user=</span><span class="si">{git_user}</span><span class="s1">&quot;</span>
 <span class="s1">            --label &quot;git-branch=$(git branch --show-current)&quot;</span>
 <span class="s1">            --label &quot;git-commit=$(git rev-parse HEAD)&quot;</span>
-<span class="s1">            --tag </span><span class="si">{repo}</span><span class="s1">:prod .;</span>
-<span class="s1">        cd ..</span>
 <span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cache</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; --no-cache&#39;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; --tag </span><span class="si">{repo}</span><span class="s1">:prod . &amp;&amp; cd ..&#39;</span>
     <span class="n">cmds</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">enter_repo</span><span class="p">(),</span>
         <span class="n">version_variable</span><span class="p">(),</span>
@@ -525,7 +535,7 @@
 
 <div class="viewcode-block" id="container_id_command">
 <a class="viewcode-back" href="../cli.html#cli.container_id_command">[docs]</a>
-<span class="k">def</span> <span class="nf">container_id_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">container_id_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -540,7 +550,7 @@
 
 <div class="viewcode-block" id="destroy_dev_command">
 <a class="viewcode-back" href="../cli.html#cli.destroy_dev_command">[docs]</a>
-<span class="k">def</span> <span class="nf">destroy_dev_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">destroy_dev_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -559,7 +569,7 @@
 
 <div class="viewcode-block" id="destroy_prod_command">
 <a class="viewcode-back" href="../cli.html#cli.destroy_prod_command">[docs]</a>
-<span class="k">def</span> <span class="nf">destroy_prod_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">destroy_prod_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -575,7 +585,7 @@
 
 <div class="viewcode-block" id="image_id_command">
 <a class="viewcode-back" href="../cli.html#cli.image_id_command">[docs]</a>
-<span class="k">def</span> <span class="nf">image_id_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">image_id_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -593,7 +603,7 @@
 
 <div class="viewcode-block" id="prod_command">
 <a class="viewcode-back" href="../cli.html#cli.prod_command">[docs]</a>
-<span class="k">def</span> <span class="nf">prod_command</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prod_command</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
     <span class="c1"># type: (list) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -626,7 +636,7 @@
 
 <div class="viewcode-block" id="pull_command">
 <a class="viewcode-back" href="../cli.html#cli.pull_command">[docs]</a>
-<span class="k">def</span> <span class="nf">pull_command</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;dev-latest&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pull_command</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;dev-latest&#39;</span><span class="p">):</span>
     <span class="c1"># type: (str) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Args:</span>
@@ -644,7 +654,7 @@
 
 <div class="viewcode-block" id="push_command">
 <a class="viewcode-back" href="../cli.html#cli.push_command">[docs]</a>
-<span class="k">def</span> <span class="nf">push_command</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;$VERSION&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">push_command</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;$VERSION&#39;</span><span class="p">):</span>
     <span class="c1"># type: (str, str) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Args:</span>
@@ -672,7 +682,7 @@
 
 <div class="viewcode-block" id="remove_command">
 <a class="viewcode-back" href="../cli.html#cli.remove_command">[docs]</a>
-<span class="k">def</span> <span class="nf">remove_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -689,7 +699,7 @@
 
 <div class="viewcode-block" id="restart_command">
 <a class="viewcode-back" href="../cli.html#cli.restart_command">[docs]</a>
-<span class="k">def</span> <span class="nf">restart_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">restart_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -713,7 +723,7 @@
 
 <div class="viewcode-block" id="start_command">
 <a class="viewcode-back" href="../cli.html#cli.start_command">[docs]</a>
-<span class="k">def</span> <span class="nf">start_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">start_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -729,7 +739,7 @@
 
 <div class="viewcode-block" id="state_command">
 <a class="viewcode-back" href="../cli.html#cli.state_command">[docs]</a>
-<span class="k">def</span> <span class="nf">state_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">state_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -781,7 +791,7 @@
 
 <div class="viewcode-block" id="stop_command">
 <a class="viewcode-back" href="../cli.html#cli.stop_command">[docs]</a>
-<span class="k">def</span> <span class="nf">stop_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stop_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -798,7 +808,7 @@
 
 <div class="viewcode-block" id="x_tools_command">
 <a class="viewcode-back" href="../cli.html#cli.x_tools_command">[docs]</a>
-<span class="k">def</span> <span class="nf">x_tools_command</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[],</span> <span class="n">tty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">x_tools_command</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[],</span> <span class="n">tty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="c1"># type: (str, list[str], bool) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Runs a x_tools command.</span>
@@ -824,7 +834,7 @@
 
 <div class="viewcode-block" id="quickstart_command">
 <a class="viewcode-back" href="../cli.html#cli.quickstart_command">[docs]</a>
-<span class="k">def</span> <span class="nf">quickstart_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">quickstart_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns a command which prints the quickstart guide.</span>
@@ -844,7 +854,7 @@
 
 <div class="viewcode-block" id="version_commit_command">
 <a class="viewcode-back" href="../cli.html#cli.version_commit_command">[docs]</a>
-<span class="k">def</span> <span class="nf">version_commit_command</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">[]):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">version_commit_command</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">[]):</span>
     <span class="c1"># type: (List[str]) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Args:</span>
@@ -873,7 +883,7 @@
 
 <div class="viewcode-block" id="zsh_command">
 <a class="viewcode-back" href="../cli.html#cli.zsh_command">[docs]</a>
-<span class="k">def</span> <span class="nf">zsh_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">zsh_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -891,7 +901,7 @@
 
 <div class="viewcode-block" id="zsh_complete_command">
 <a class="viewcode-back" href="../cli.html#cli.zsh_complete_command">[docs]</a>
-<span class="k">def</span> <span class="nf">zsh_complete_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">zsh_complete_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -934,7 +944,7 @@
 
 <div class="viewcode-block" id="zsh_root_command">
 <a class="viewcode-back" href="../cli.html#cli.zsh_root_command">[docs]</a>
-<span class="k">def</span> <span class="nf">zsh_root_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">zsh_root_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -946,7 +956,7 @@
 
 <div class="viewcode-block" id="get_illegal_mode_command">
 <a class="viewcode-back" href="../cli.html#cli.get_illegal_mode_command">[docs]</a>
-<span class="k">def</span> <span class="nf">get_illegal_mode_command</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_illegal_mode_command</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns:</span>
@@ -966,20 +976,24 @@
 <span class="c1"># MAIN--------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../cli.html#cli.main">[docs]</a>
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
     <span class="c1"># type: () -&gt; None</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Print different commands to stdout depending on mode provided to command.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">mode</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">get_info</span><span class="p">()</span>
     <span class="n">lut</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;build-edit-prod-dockerfile&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_build_edit_prod_dockerfile&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+        <span class="s1">&#39;build-local-package&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_build_local_package&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;build-package&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_build_package&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;build-prod&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_build_prod&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;build-publish&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_build_publish&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;build-test&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_build_test&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;docker-build&#39;</span><span class="p">:</span> <span class="n">build_dev_command</span><span class="p">(),</span>
         <span class="s1">&#39;docker-build-from-cache&#39;</span><span class="p">:</span> <span class="n">build_dev_command</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="s1">&#39;docker-build-prod&#39;</span><span class="p">:</span> <span class="n">build_prod_command</span><span class="p">(),</span>
+        <span class="s1">&#39;docker-build-no-cache&#39;</span><span class="p">:</span> <span class="n">build_dev_command</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+        <span class="s1">&#39;docker-build-prod&#39;</span><span class="p">:</span> <span class="n">build_prod_command</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;docker-build-prod-no-cache&#39;</span><span class="p">:</span> <span class="n">build_prod_command</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
         <span class="s1">&#39;docker-container&#39;</span><span class="p">:</span> <span class="n">container_id_command</span><span class="p">(),</span>
         <span class="s1">&#39;docker-destroy&#39;</span><span class="p">:</span> <span class="n">destroy_dev_command</span><span class="p">(),</span>
         <span class="s1">&#39;docker-destroy-prod&#39;</span><span class="p">:</span> <span class="n">destroy_prod_command</span><span class="p">(),</span>

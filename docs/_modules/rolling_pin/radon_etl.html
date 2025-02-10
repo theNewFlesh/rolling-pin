@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.radon_etl &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
 
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.1
+                0.11.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,12 +47,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -94,23 +94,23 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.radon_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
 
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
-<span class="kn">from</span> <span class="nn">radon.cli</span> <span class="kn">import</span> <span class="n">CCHarvester</span><span class="p">,</span> <span class="n">HCHarvester</span><span class="p">,</span> <span class="n">MIHarvester</span><span class="p">,</span> <span class="n">RawHarvester</span>
-<span class="kn">from</span> <span class="nn">radon.cli</span> <span class="kn">import</span> <span class="n">Config</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
-<span class="kn">import</span> <span class="nn">radon.complexity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">radon.cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">CCHarvester</span><span class="p">,</span> <span class="n">HCHarvester</span><span class="p">,</span> <span class="n">MIHarvester</span><span class="p">,</span> <span class="n">RawHarvester</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">radon.cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">radon.complexity</span>
 
-<span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
-<span class="kn">import</span> <span class="nn">rolling_pin.tools</span> <span class="k">as</span> <span class="nn">rpt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rolling_pin.blob_etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlobETL</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rolling_pin.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rpt</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
@@ -121,14 +121,14 @@
 
 <div class="viewcode-block" id="RadonETL">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL">[docs]</a>
-<span class="k">class</span> <span class="nc">RadonETL</span><span class="p">():</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RadonETL</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Conforms all four radon reports (raw metrics, Halstead, maintainability and</span>
 <span class="sd">    cyclomatic complexity) into a single DataFrame that can then be plotted.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 <div class="viewcode-block" id="RadonETL.__init__">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; None</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Constructs a RadonETL instance.</span>
@@ -141,7 +141,7 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; Dict</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        dict: Dictionary of all radon metrics.</span>
@@ -149,7 +149,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        DataFrame: DataFrame of all radon metrics.</span>
@@ -157,7 +157,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_radon_data</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">raw_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">raw_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        DataFrame: DataFrame of radon raw metrics.</span>
@@ -165,7 +165,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_raw_metrics_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">maintainability_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">maintainability_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        DataFrame: DataFrame of radon maintainability index metrics.</span>
@@ -173,7 +173,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_maintainability_index_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">cyclomatic_complexity_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cyclomatic_complexity_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        DataFrame: DataFrame of radon cyclomatic complexity metrics.</span>
@@ -181,7 +181,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cyclomatic_complexity_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_report</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">halstead_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">halstead_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        DataFrame: DataFrame of radon Halstead metrics.</span>
@@ -191,7 +191,7 @@
 
 <div class="viewcode-block" id="RadonETL._get_radon_data">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL._get_radon_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">_get_radon_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_radon_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Constructs a DataFrame representing all the radon reports generated for</span>
@@ -245,7 +245,7 @@
 <div class="viewcode-block" id="RadonETL._get_radon_report">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL._get_radon_report">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_radon_report</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_radon_report</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; Dict[str, Any]</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Gets all 4 report from radon and aggregates them into a single blob</span>
@@ -313,7 +313,7 @@
 <div class="viewcode-block" id="RadonETL._get_raw_metrics_dataframe">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL._get_raw_metrics_dataframe">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_raw_metrics_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_raw_metrics_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
         <span class="c1"># type: (Dict) -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts radon raw metrics report into a pandas DataFrame.</span>
@@ -366,7 +366,7 @@
 <div class="viewcode-block" id="RadonETL._get_maintainability_index_dataframe">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL._get_maintainability_index_dataframe">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_maintainability_index_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_maintainability_index_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
         <span class="c1"># type: (Dict) -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts radon maintainability index report into a pandas DataFrame.</span>
@@ -410,7 +410,7 @@
 <div class="viewcode-block" id="RadonETL._get_cyclomatic_complexity_dataframe">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL._get_cyclomatic_complexity_dataframe">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_cyclomatic_complexity_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_cyclomatic_complexity_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
         <span class="c1"># type: (Dict) -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts radon cyclomatic complexity report into a pandas DataFrame.</span>
@@ -476,7 +476,7 @@
 <div class="viewcode-block" id="RadonETL._get_halstead_dataframe">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL._get_halstead_dataframe">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_halstead_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_halstead_dataframe</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
         <span class="c1"># type: (Dict) -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts radon Halstead report into a pandas DataFrame.</span>
@@ -523,7 +523,7 @@
     <span class="c1"># EXPORT--------------------------------------------------------------------</span>
 <div class="viewcode-block" id="RadonETL.write_plots">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL.write_plots">[docs]</a>
-    <span class="k">def</span> <span class="nf">write_plots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_plots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; RadonETL</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Writes metrics plots to given file.</span>
@@ -534,7 +534,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            RadonETL: self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">def</span> <span class="nf">remove_test_modules</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">remove_test_modules</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
             <span class="c1"># type: (DataFrame) -&gt; DataFrame</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">fullpath</span>\
                 <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;_test\.py$&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
@@ -633,7 +633,7 @@
 
 <div class="viewcode-block" id="RadonETL.write_tables">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.radon_etl.RadonETL.write_tables">[docs]</a>
-    <span class="k">def</span> <span class="nf">write_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_dir</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_dir</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; RadonETL</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Writes metrics tables as HTML files to given directory.</span>
@@ -644,7 +644,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            RadonETL: self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">def</span> <span class="nf">write_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">write_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
             <span class="c1"># type: (DataFrame, Path) -&gt; None</span>
             <span class="n">html</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span>
 

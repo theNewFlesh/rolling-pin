@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.conform_etl &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
 
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.1
+                0.11.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,12 +47,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -94,21 +94,21 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.conform_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>  <span class="c1"># noqa: F401</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>  <span class="c1"># noqa: F401</span>
 
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-<span class="kn">from</span> <span class="nn">lunchbox.enforce</span> <span class="kn">import</span> <span class="n">Enforce</span>
-<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
-<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lunchbox.enforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enforce</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
-<span class="kn">from</span> <span class="nn">rolling_pin.conform_config</span> <span class="kn">import</span> <span class="n">ConformConfig</span>
-<span class="kn">import</span> <span class="nn">rolling_pin.tools</span> <span class="k">as</span> <span class="nn">rpt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rolling_pin.blob_etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlobETL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rolling_pin.conform_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConformConfig</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rolling_pin.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rpt</span>
 
 <span class="n">Rules</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -129,7 +129,7 @@
 
 <div class="viewcode-block" id="ConformETL">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL">[docs]</a>
-<span class="k">class</span> <span class="nc">ConformETL</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConformETL</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    ConformETL creates a DataFrame from a given directory of source files.</span>
 <span class="sd">    Then it generates target paths given a set of rules.</span>
@@ -139,7 +139,7 @@
 <div class="viewcode-block" id="ConformETL._get_data">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL._get_data">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_data</span><span class="p">(</span>
         <span class="n">source_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">rename_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">group_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">line_rules</span><span class="o">=</span><span class="p">[]</span>
     <span class="p">):</span>
         <span class="c1"># type: (Rules, Rules, Rules, Rules) -&gt; DataFrame</span>
@@ -205,7 +205,7 @@
 <div class="viewcode-block" id="ConformETL.from_yaml">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.from_yaml">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; ConformETL</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct ConformETL instance from given yaml file.</span>
@@ -232,7 +232,7 @@
 
 <div class="viewcode-block" id="ConformETL.__init__">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">source_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">rename_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">group_rules</span><span class="o">=</span><span class="p">[],</span> <span class="n">line_rules</span><span class="o">=</span><span class="p">[]</span>
     <span class="p">):</span>
         <span class="c1"># type: (Rules, Rules, Rules, Rules) -&gt; None</span>
@@ -274,7 +274,7 @@
 
 <div class="viewcode-block" id="ConformETL.__repr__">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.__repr__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; str</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        String representation of conform DataFrame.</span>
@@ -291,7 +291,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; List[str]</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        list[str]: List of groups found with self._data.</span>
@@ -304,7 +304,7 @@
 
 <div class="viewcode-block" id="ConformETL.to_dataframe">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.to_dataframe">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; DataFrame</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns:</span>
@@ -315,7 +315,7 @@
 
 <div class="viewcode-block" id="ConformETL.to_blob">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.to_blob">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_blob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; BlobETL</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts self into a BlobETL object with target column as keys and</span>
@@ -333,7 +333,7 @@
 
 <div class="viewcode-block" id="ConformETL.to_html">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.to_html">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_html</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="n">color_scheme</span><span class="o">=</span><span class="n">CONFORM_COLOR_SCHEME</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
         <span class="c1"># type: (str, Dict[str, str], bool) -&gt; Union[Image, HTML]</span>
@@ -364,7 +364,7 @@
 
 <div class="viewcode-block" id="ConformETL.conform">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_etl.ConformETL.conform">[docs]</a>
-    <span class="k">def</span> <span class="nf">conform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">conform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, List[str]]) -&gt; None</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Copies source files to target filepaths.</span>

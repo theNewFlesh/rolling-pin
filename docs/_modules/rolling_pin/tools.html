@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.tools &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
 
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.1
+                0.11.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,12 +47,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -94,18 +94,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.tools</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">import</span> <span class="nn">pydot</span>  <span class="c1"># noqa: F401</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pydot</span>  <span class="c1"># noqa: F401</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="n">Filepath</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
 <span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOG_LEVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;WARNING&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
@@ -216,7 +216,7 @@
 <span class="c1"># PREDICATE-FUNCTIONS-----------------------------------------------------------</span>
 <div class="viewcode-block" id="is_iterable">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.is_iterable">[docs]</a>
-<span class="k">def</span> <span class="nf">is_iterable</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_iterable</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
     <span class="c1"># type: (Any) -&gt; bool</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Determines if given item is iterable.</span>
@@ -235,7 +235,7 @@
 
 <div class="viewcode-block" id="is_dictlike">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.is_dictlike">[docs]</a>
-<span class="k">def</span> <span class="nf">is_dictlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_dictlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
     <span class="c1"># type: (Any) -&gt; bool</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Determines if given item is dict-like.</span>
@@ -257,7 +257,7 @@
 
 <div class="viewcode-block" id="is_listlike">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.is_listlike">[docs]</a>
-<span class="k">def</span> <span class="nf">is_listlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_listlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
     <span class="c1"># type: (Any) -&gt; bool</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Determines if given item is list-like.</span>
@@ -278,7 +278,7 @@
 <span class="c1"># CORE-FUNCTIONS----------------------------------------------------------------</span>
 <div class="viewcode-block" id="flatten">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.flatten">[docs]</a>
-<span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">flatten</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">embed_types</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="c1"># type: (Iterable, str, bool) -&gt; Dict[str, Any]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Flattens a iterable object into a flat dictionary.</span>
@@ -292,7 +292,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, Any]</span>
 
-    <span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">cursor</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">recurse</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">cursor</span><span class="p">):</span>
         <span class="c1"># type (Iterable, Any) -&gt; None</span>
         <span class="k">if</span> <span class="n">is_listlike</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">embed_types</span><span class="p">:</span>
@@ -317,7 +317,7 @@
 
 <div class="viewcode-block" id="nest">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.nest">[docs]</a>
-<span class="k">def</span> <span class="nf">nest</span><span class="p">(</span><span class="n">flat_dict</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">nest</span><span class="p">(</span><span class="n">flat_dict</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
     <span class="c1"># type: (Dict[str, Any], str) -&gt; Dict[str, Any]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Converts a flat dictionary into a nested dictionary by splitting keys by a</span>
@@ -354,7 +354,7 @@
 
 <div class="viewcode-block" id="unembed">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.unembed">[docs]</a>
-<span class="k">def</span> <span class="nf">unembed</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">unembed</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
     <span class="c1"># type: (Any) -&gt; Any</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Convert embeded types in dictionary keys into python types.</span>
@@ -396,7 +396,7 @@
 <span class="c1"># FILE-FUNCTIONS----------------------------------------------------------------</span>
 <div class="viewcode-block" id="list_all_files">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.list_all_files">[docs]</a>
-<span class="k">def</span> <span class="nf">list_all_files</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_all_files</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">,</span>           <span class="c1"># type: Filepath</span>
     <span class="n">include_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
     <span class="n">exclude_regex</span><span class="o">=</span><span class="kc">None</span>   <span class="c1"># type: Optional[str]</span>
@@ -444,7 +444,7 @@
 
 <div class="viewcode-block" id="directory_to_dataframe">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.directory_to_dataframe">[docs]</a>
-<span class="k">def</span> <span class="nf">directory_to_dataframe</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">include_regex</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\.DS_Store&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">directory_to_dataframe</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">include_regex</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">exclude_regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\.DS_Store&#39;</span><span class="p">):</span>
     <span class="c1"># type: (Filepath, str, str) -&gt; pd.DataFrame</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Recursively list files with in a given directory as rows in a pd.DataFrame.</span>
@@ -478,7 +478,7 @@
 
 <div class="viewcode-block" id="get_parent_fields">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.get_parent_fields">[docs]</a>
-<span class="k">def</span> <span class="nf">get_parent_fields</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_parent_fields</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
     <span class="c1"># type: (str, str) -&gt; List[str]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Get all the parent fields of a given key, split by given separator.</span>
@@ -501,7 +501,7 @@
 
 <div class="viewcode-block" id="filter_text">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.filter_text">[docs]</a>
-<span class="k">def</span> <span class="nf">filter_text</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_text</span><span class="p">(</span>
     <span class="n">text</span><span class="p">,</span>                <span class="c1"># type: str</span>
     <span class="n">include_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
     <span class="n">exclude_regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
@@ -543,7 +543,7 @@
 
 <div class="viewcode-block" id="read_text">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.read_text">[docs]</a>
-<span class="k">def</span> <span class="nf">read_text</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_text</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
     <span class="c1"># type: (Filepath) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Convenience function for reading text from given file.</span>
@@ -565,7 +565,7 @@
 
 <div class="viewcode-block" id="write_text">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.write_text">[docs]</a>
-<span class="k">def</span> <span class="nf">write_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
     <span class="c1"># type: (str, Filepath) -&gt; None</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Convenience function for writing text to given file.</span>
@@ -583,7 +583,7 @@
 
 <div class="viewcode-block" id="copy_file">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.copy_file">[docs]</a>
-<span class="k">def</span> <span class="nf">copy_file</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">copy_file</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="c1"># type: (Filepath, Filepath) -&gt; None</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Copy a source file to a target file. Creating directories as needed.</span>
@@ -603,7 +603,7 @@
 
 <div class="viewcode-block" id="move_file">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.move_file">[docs]</a>
-<span class="k">def</span> <span class="nf">move_file</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">move_file</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="c1"># type: (Filepath, Filepath) -&gt; None</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Moves a source file to a target file. Creating directories as needed.</span>
@@ -625,7 +625,7 @@
 <span class="c1"># EXPORT-FUNCTIONS--------------------------------------------------------------</span>
 <div class="viewcode-block" id="dot_to_html">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.dot_to_html">[docs]</a>
-<span class="k">def</span> <span class="nf">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dot_to_html</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="n">as_png</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="c1"># type: (pydot.Dot, str, bool) -&gt; Union[HTML, Image]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Converts a given pydot graph into a IPython.display.HTML object.</span>
@@ -664,7 +664,7 @@
 
 <div class="viewcode-block" id="write_dot_graph">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.write_dot_graph">[docs]</a>
-<span class="k">def</span> <span class="nf">write_dot_graph</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_dot_graph</span><span class="p">(</span>
     <span class="n">dot</span><span class="p">,</span>
     <span class="n">fullpath</span><span class="p">,</span>
     <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span>
@@ -704,7 +704,7 @@
 <span class="c1"># MISC-FUNCTIONS----------------------------------------------------------------</span>
 <div class="viewcode-block" id="replace_and_format">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.tools.replace_and_format">[docs]</a>
-<span class="k">def</span> <span class="nf">replace_and_format</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">replace_and_format</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="c1"># type: (str, str, str, Any) -&gt; str</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Perform a regex substitution on a given string and format any named group</span>

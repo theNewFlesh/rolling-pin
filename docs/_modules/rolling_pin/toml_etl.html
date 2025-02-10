@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.toml_etl &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
 
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.1
+                0.11.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,12 +47,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -94,17 +94,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.toml_etl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa: F401</span>
 
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">lunchbox.enforce</span> <span class="kn">import</span> <span class="n">Enforce</span>
-<span class="kn">import</span> <span class="nn">toml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lunchbox.enforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enforce</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
 
-<span class="kn">from</span> <span class="nn">rolling_pin.blob_etl</span> <span class="kn">import</span> <span class="n">BlobETL</span>
-<span class="kn">from</span> <span class="nn">toml.decoder</span> <span class="kn">import</span> <span class="n">TomlDecodeError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rolling_pin.blob_etl</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlobETL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toml.decoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">TomlDecodeError</span>
 
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;TomlETL&#39;</span><span class="p">)</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -112,11 +112,11 @@
 
 <div class="viewcode-block" id="TomlETL">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL">[docs]</a>
-<span class="k">class</span> <span class="nc">TomlETL</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TomlETL</span><span class="p">:</span>
 <div class="viewcode-block" id="TomlETL.from_string">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.from_string">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="c1"># type: (Type[T], str) -&gt; T</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Creates a TomlETL instance from a given TOML string.</span>
@@ -133,7 +133,7 @@
 <div class="viewcode-block" id="TomlETL.from_toml">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.from_toml">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_toml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_toml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="c1"># type: (Type[T], Union[str, Path]) -&gt; T</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Creates a TomlETL instance from a given TOML file.</span>
@@ -149,7 +149,7 @@
 
 <div class="viewcode-block" id="TomlETL.__init__">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="c1"># type: (dict[str, Any]) -&gt; None</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Creates a TomlETL instance from a given dictionary.</span>
@@ -162,7 +162,7 @@
 
 <div class="viewcode-block" id="TomlETL.to_dict">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.to_dict">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; dict</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts instance to dictionary copy.</span>
@@ -175,7 +175,7 @@
 
 <div class="viewcode-block" id="TomlETL.to_string">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.to_string">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; str</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Converts instance to a TOML formatted string.</span>
@@ -190,7 +190,7 @@
 
 <div class="viewcode-block" id="TomlETL.write">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.write">[docs]</a>
-    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="c1"># type: (Union[str, Path]) -&gt; None</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Writes instance to given TOML file.</span>
@@ -210,7 +210,7 @@
 
 <div class="viewcode-block" id="TomlETL.edit">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.edit">[docs]</a>
-    <span class="k">def</span> <span class="nf">edit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">edit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
         <span class="c1"># type: (str) -&gt; TomlETL</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Apply edit to internal data given TOML patch.</span>
@@ -246,7 +246,7 @@
 
 <div class="viewcode-block" id="TomlETL.delete">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.delete">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">):</span>
         <span class="c1"># type: (str) -&gt; TomlETL</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns portion of data whose keys fo not match a given regular expression.</span>
@@ -265,7 +265,7 @@
 
 <div class="viewcode-block" id="TomlETL.search">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.toml_etl.TomlETL.search">[docs]</a>
-    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">):</span>
         <span class="c1"># type: (str) -&gt; TomlETL</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns portion of data whose keys match a given regular expression.</span>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rolling_pin.conform_config &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
 
@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.1
+                0.11.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,12 +47,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-developers">Installation for Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#installation-for-production">Installation for Production</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#quickstart-guide">Quickstart Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#development-cli">Development CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -94,13 +94,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rolling_pin.conform_config</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>  <span class="c1"># noqa: F401</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>  <span class="c1"># noqa: F401</span>
 
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">schematics</span> <span class="kn">import</span> <span class="n">Model</span>
-<span class="kn">from</span> <span class="nn">schematics.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">schematics.types</span> <span class="kn">import</span> <span class="n">ListType</span><span class="p">,</span> <span class="n">ModelType</span><span class="p">,</span> <span class="n">StringType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">schematics</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">schematics.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">schematics.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListType</span><span class="p">,</span> <span class="n">ModelType</span><span class="p">,</span> <span class="n">StringType</span>
 
 <span class="n">Rules</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -108,7 +108,7 @@
 
 <div class="viewcode-block" id="is_dir">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_config.is_dir">[docs]</a>
-<span class="k">def</span> <span class="nf">is_dir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_dir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
     <span class="c1"># type: (str) -&gt; None</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates whether a given dirpath exists.</span>
@@ -127,7 +127,7 @@
 
 <div class="viewcode-block" id="ConformConfig">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_config.ConformConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">ConformConfig</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConformConfig</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    A class for validating configurations supplied to ConformETL.</span>
 
@@ -143,7 +143,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 <div class="viewcode-block" id="ConformConfig.SourceRule">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_config.ConformConfig.SourceRule">[docs]</a>
-    <span class="k">class</span> <span class="nc">SourceRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">SourceRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">is_dir</span><span class="p">])</span>  <span class="c1"># type: StringType</span>
         <span class="n">include</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serialize_when_none</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
         <span class="n">exclude</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serialize_when_none</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span></div>
@@ -151,21 +151,21 @@
 
 <div class="viewcode-block" id="ConformConfig.RenameRule">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_config.ConformConfig.RenameRule">[docs]</a>
-    <span class="k">class</span> <span class="nc">RenameRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">RenameRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
         <span class="n">regex</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
         <span class="n">replace</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: StringType</span></div>
 
 
 <div class="viewcode-block" id="ConformConfig.GroupRule">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_config.ConformConfig.GroupRule">[docs]</a>
-    <span class="k">class</span> <span class="nc">GroupRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">GroupRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
         <span class="n">regex</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: StringType</span></div>
 
 
 <div class="viewcode-block" id="ConformConfig.LineRule">
 <a class="viewcode-back" href="../../modules.html#rolling_pin.conform_config.ConformConfig.LineRule">[docs]</a>
-    <span class="k">class</span> <span class="nc">LineRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">LineRule</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
         <span class="n">group</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
         <span class="n">include</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serialize_when_none</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span>
         <span class="n">exclude</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serialize_when_none</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># type: StringType</span>

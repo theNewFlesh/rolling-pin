@@ -1,6 +1,6 @@
 [project]
 name = "rolling-pin"
-version = "0.10.1"
+version = "0.11.0"
 description = "A library of generic tools for ETL work and visualization of JSON blobs and python repositories"
 authors = [
     { name = "Alex Braun", email = "alexander.g.braun@gmail.com" },

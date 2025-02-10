@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cli &mdash; rolling-pin  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/style.css" />
 
@@ -37,7 +37,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.10.1
+                0.11.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -49,12 +49,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#installation-for-developers">Installation for Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#installation-for-production">Installation for Production</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#quickstart-guide">Quickstart Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#development-cli">Development CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -132,21 +132,21 @@
            <div itemprop="articleBody">
              
   <section id="module-cli">
-<span id="cli"></span><h1>cli<a class="headerlink" href="#module-cli" title="Link to this heading">¶</a></h1>
+<span id="cli"></span><h1>cli<a class="headerlink" href="#module-cli" title="Link to this heading"></a></h1>
 <dl class="py data">
 <dt class="sig sig-object py" id="cli.PORT">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">PORT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8080</span></em><a class="headerlink" href="#cli.PORT" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">PORT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8080</span></em><a class="headerlink" href="#cli.PORT" title="Link to this definition"></a></dt>
 <dd><p>A CLI for developing and deploying an app deeply integrated with this
 repository’s structure. Written to be python version agnostic.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.build_dev_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">build_dev_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#build_dev_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.build_dev_command" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">build_dev_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#build_dev_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.build_dev_command" title="Link to this definition"></a></dt>
+<dd><p>Build image for development.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>use_cache</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use Docker image cache.
-Default: False.</p>
+<dd class="field-odd"><p><strong>use_cache</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use layer cache. Default: False.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Command to build dev image.</p>
@@ -159,21 +159,24 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.build_prod_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">build_prod_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#build_prod_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.build_prod_command" title="Link to this definition">¶</a></dt>
-<dd><p>Build production image.</p>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">build_prod_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#build_prod_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.build_prod_command" title="Link to this definition"></a></dt>
+<dd><p>Build image for production.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Command to build prod image.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>use_cache</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use layer cache. Default: False.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Command to build prod image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.container_id_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">container_id_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#container_id_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.container_id_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">container_id_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#container_id_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.container_id_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to get docker container id.</p>
@@ -186,7 +189,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.destroy_dev_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">destroy_dev_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#destroy_dev_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.destroy_dev_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">destroy_dev_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#destroy_dev_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.destroy_dev_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to destroy dev container and image.</p>
@@ -199,7 +202,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.destroy_prod_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">destroy_prod_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#destroy_prod_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.destroy_prod_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">destroy_prod_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#destroy_prod_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.destroy_prod_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to destroy prod image.</p>
@@ -212,7 +215,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.docker_exec">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">docker_exec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#docker_exec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.docker_exec" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">docker_exec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#docker_exec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.docker_exec" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tty</strong> (<em>bool</em><em>, </em><em>optional</em>) – Include –tty flag. Default: False.</p>
@@ -228,7 +231,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.enter_repo">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">enter_repo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#enter_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.enter_repo" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">enter_repo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#enter_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.enter_repo" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to enter repo.</p>
@@ -241,7 +244,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.exit_repo">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">exit_repo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#exit_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.exit_repo" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">exit_repo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#exit_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.exit_repo" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to return to original directory.</p>
@@ -254,7 +257,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.get_illegal_mode_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">get_illegal_mode_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_illegal_mode_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.get_illegal_mode_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">get_illegal_mode_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_illegal_mode_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.get_illegal_mode_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to report that the mode given is illegal.</p>
@@ -267,7 +270,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.get_info">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.get_info" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#get_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.get_info" title="Link to this definition"></a></dt>
 <dd><p>Parses command line call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -281,7 +284,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.image_id_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">image_id_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#image_id_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.image_id_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">image_id_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#image_id_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.image_id_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to get docker image id.</p>
@@ -294,7 +297,7 @@ Default: False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.line">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.line" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.line" title="Link to this definition"></a></dt>
 <dd><p>Convenience function for formatting a given block of text as series of
 commands.</p>
 <dl class="field-list simple">
@@ -315,7 +318,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.main">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.main" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.main" title="Link to this definition"></a></dt>
 <dd><p>Print different commands to stdout depending on mode provided to command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -326,7 +329,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.prod_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">prod_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#prod_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.prod_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">prod_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#prod_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.prod_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to start prod container.</p>
@@ -339,7 +342,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.pull_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">pull_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev-latest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#pull_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.pull_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">pull_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev-latest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#pull_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.pull_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tag</strong> (<em>str</em><em>, </em><em>optional</em>) – Tag prefix. Default: ‘dev-latest’.</p>
@@ -355,7 +358,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.push_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">push_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$VERSION'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#push_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.push_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">push_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$VERSION'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#push_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.push_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -374,7 +377,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.quickstart_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">quickstart_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#quickstart_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.quickstart_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">quickstart_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#quickstart_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.quickstart_command" title="Link to this definition"></a></dt>
 <dd><p>Returns a command which prints the quickstart guide.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -388,7 +391,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.remove_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">remove_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#remove_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.remove_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">remove_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#remove_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.remove_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to remove container.</p>
@@ -401,7 +404,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.remove_container">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">remove_container</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#remove_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.remove_container" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">remove_container</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#remove_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.remove_container" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to remove container.</p>
@@ -414,7 +417,7 @@ commands.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.resolve">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.resolve" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.resolve" title="Link to this definition"></a></dt>
 <dd><p>Convenience function for creating single commmand from given commands and
 resolving ‘{…}’ substrings.</p>
 <dl class="field-list simple">
@@ -432,7 +435,7 @@ resolving ‘{…}’ substrings.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.restart_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">restart_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#restart_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.restart_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">restart_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#restart_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.restart_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to restart container.</p>
@@ -445,7 +448,7 @@ resolving ‘{…}’ substrings.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.start">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.start" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.start" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to start container if it is not yet running.</p>
@@ -458,7 +461,7 @@ resolving ‘{…}’ substrings.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.start_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">start_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#start_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.start_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">start_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#start_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.start_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to start container.</p>
@@ -471,7 +474,7 @@ resolving ‘{…}’ substrings.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.state_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">state_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#state_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.state_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">state_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#state_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.state_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to get state of app.</p>
@@ -484,7 +487,7 @@ resolving ‘{…}’ substrings.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.stop">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.stop" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.stop" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to shutdown container.</p>
@@ -497,7 +500,7 @@ resolving ‘{…}’ substrings.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.stop_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">stop_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#stop_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.stop_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">stop_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#stop_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.stop_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to stop container.</p>
@@ -510,7 +513,7 @@ resolving ‘{…}’ substrings.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.version_commit_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">version_commit_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#version_commit_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.version_commit_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">version_commit_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#version_commit_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.version_commit_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>args</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List containing a target branch.
@@ -527,7 +530,7 @@ Default: [‘master’].</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.version_variable">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">version_variable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#version_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.version_variable" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">version_variable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#version_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.version_variable" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to set version variable from pyproject.toml.</p>
@@ -540,7 +543,7 @@ Default: [‘master’].</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.x_tools_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">x_tools_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#x_tools_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.x_tools_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">x_tools_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#x_tools_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.x_tools_command" title="Link to this definition"></a></dt>
 <dd><p>Runs a x_tools command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -562,7 +565,7 @@ Default: []</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.zsh_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zsh_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zsh_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zsh_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zsh_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zsh_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zsh_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to run a zsh session inside container.</p>
@@ -575,7 +578,7 @@ Default: []</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.zsh_complete_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zsh_complete_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zsh_complete_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zsh_complete_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zsh_complete_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zsh_complete_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zsh_complete_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to generate and install zsh completions.</p>
@@ -588,7 +591,7 @@ Default: []</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.zsh_root_command">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zsh_root_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zsh_root_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zsh_root_command" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zsh_root_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zsh_root_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zsh_root_command" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Command to run a zsh session as root inside container.</p>
@@ -601,7 +604,7 @@ Default: []</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cli.zshrc_tools">
-<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zshrc_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zshrc_tools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zshrc_tools" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">zshrc_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#zshrc_tools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.zshrc_tools" title="Link to this definition"></a></dt>
 <dd><p>Creates a tools command string that sources zshrc first.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
