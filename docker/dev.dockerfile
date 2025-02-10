@@ -37,6 +37,7 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         bat \
         btop \
         ca-certificates \
+        cargo \
         curl \
         exa \
         git \
@@ -64,22 +65,23 @@ RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
     apt update && \
     apt install -y \
         python3-pydot \
+        python3.13-dev \
+        python3.13-venv \
+        python3.12-dev \
+        python3.12-venv \
+        python3.11-dev \
+        python3.11-venv \
         python3.10-dev \
         python3.10-venv \
+        python3.11-distutils \
         python3.10-distutils \
-        python3.9-dev \
-        python3.9-venv \
-        python3.9-distutils \
-        python3.8-dev \
-        python3.8-venv \
-        python3.8-distutils \
     && rm -rf /var/lib/apt/lists/*
 
 # install pip
 RUN echo "\n${CYAN}INSTALL PIP${CLEAR}"; \
     wget https://bootstrap.pypa.io/get-pip.py && \
-    python3.10 get-pip.py && \
-    pip3.10 install --upgrade pip && \
+    python3.13 get-pip.py && \
+    pip3.13 install --upgrade pip && \
     rm -rf get-pip.py
 
 # install nodejs (needed by jupyter lab)
@@ -87,7 +89,7 @@ RUN echo "\n${CYAN}INSTALL NODEJS${CLEAR}"; \
     mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
         | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    export NODE_VERSION=18 && \
+    export NODE_VERSION=20 && \
     echo "deb \
         [signed-by=/etc/apt/keyrings/nodesource.gpg] \
         https://deb.nodesource.com/node_$NODE_VERSION.x \
@@ -155,11 +157,12 @@ WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     curl -sSL \
         https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py \
-        | python3.10 - && \
-    pip3.10 install --upgrade --user \
-        pdm \
+        | python3.13 - && \
+    pip3.13 install --upgrade --user \
+        'pdm>=2.19.1' \
         'pdm-bump<0.7.0' \
-        'rolling-pin>=0.10.1' && \
+        'rolling-pin>=0.10.1' \
+        'uv' && \
     mkdir -p /home/ubuntu/.oh-my-zsh/custom/completions && \
     pdm self update --pip-args='--user' && \
     pdm completion zsh > /home/ubuntu/.oh-my-zsh/custom/completions/_pdm
@@ -181,19 +184,20 @@ RUN echo "\n${CYAN}INSTALL DEV ENVIRONMENT${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init dev 3.10 && \
+    x_env_init dev 3.13 && \
     cd /home/ubuntu && \
-    ln -s `_x_env_get_path dev 3.10` .dev-env && \
-    ln -s `_x_env_get_path dev 3.10`/lib/python3.10/site-packages .dev-packages
+    ln -s `_x_env_get_path dev 3.13` .dev-env && \
+    ln -s `_x_env_get_path dev 3.13`/lib/python3.13/site-packages .dev-packages
 
 # create prod envs
 RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init prod 3.10 && \
-    x_env_init prod 3.9 && \
-    x_env_init prod 3.8
+    x_env_init prod 3.13 && \
+    x_env_init prod 3.12 && \
+    x_env_init prod 3.11 && \
+    x_env_init prod 3.10
 
 # install prod cli
 RUN echo "\n${CYAN}INSTALL PROD CLI${CLEAR}"; \
@@ -201,12 +205,12 @@ RUN echo "\n${CYAN}INSTALL PROD CLI${CLEAR}"; \
     chmod 755 /home/ubuntu/.local/bin/rolling-pin
 
 # build jupyter lab
-# RUN echo "\n${CYAN}BUILD JUPYTER LAB${CLEAR}"; \
-#     . /home/ubuntu/scripts/x_tools.sh && \
-#     export CONFIG_DIR=/home/ubuntu/config && \
-#     export SCRIPT_DIR=/home/ubuntu/scripts && \
-#     x_env_activate_dev && \
-#     jupyter lab build
+RUN echo "\n${CYAN}BUILD JUPYTER LAB${CLEAR}"; \
+    . /home/ubuntu/scripts/x_tools.sh && \
+    export CONFIG_DIR=/home/ubuntu/config && \
+    export SCRIPT_DIR=/home/ubuntu/scripts && \
+    x_env_activate_dev && \
+    jupyter lab build
 
 USER root
 
