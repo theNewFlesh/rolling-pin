@@ -5,8 +5,6 @@
         "debug.allowBreakpointsEverywhere": true,
         "editor.rulers": [80, 100],
         "flake8.args": ["--config=docker/config/flake8.ini"],
-        "forbeslindesay-taskrunner.prefix": "[",
-        "forbeslindesay-taskrunner.separator": "] ",
         "mypy.configFile": "docker/config/pyproject.toml",
         "mypy.enabled": true,
         "mypy.targets": ["python"],
