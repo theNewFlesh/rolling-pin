@@ -7,3 +7,4 @@ source,target,groups,line_rule
 {root}/source/python/bar/__init__.py,{root}/target/bar/__init__.py,['init'],True
 {root}/source/python/bar/baz.py,{root}/target/bar/baz.py,['base'],False
 {root}/source/python/foo.py,{root}/target/foo.py,['base'],False
+{root}/source/taco.png,{root}/target/taco.png,['init'],True

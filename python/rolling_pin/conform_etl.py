@@ -8,6 +8,7 @@ import re
 
 from lunchbox.enforce import Enforce
 from pandas import DataFrame
+import lunchbox.tools as lbt
 import yaml
 
 from rolling_pin.blob_etl import BlobETL
@@ -268,7 +269,9 @@ class ConformETL:
         data.apply(lambda x: rpt.copy_file(x.source, x.target), axis=1)
 
         # copy lines
-        data['text'] = data.source.apply(rpt.read_text)
+        data['text'] = data.source.apply(lambda x: lbt.try_(rpt.read_text, x, 'error'))
+        readable_mask = data.text.apply(lambda x: isinstance(x, str))
+        data.loc[~readable_mask, 'text'] = ''
         rules = list(filter(lambda x: x['group'] in groups, self._line_rules))
         for rule in rules:
             mask = data.groups.apply(lambda x: rule['group'] in x)
@@ -281,4 +284,4 @@ class ConformETL:
                     replace_value=rule.get('replace', None),
                 )
             )
-        data.apply(lambda x: rpt.write_text(x.text, x.target), axis=1)
+        data[readable_mask].apply(lambda x: rpt.write_text(x.text, x.target), axis=1)

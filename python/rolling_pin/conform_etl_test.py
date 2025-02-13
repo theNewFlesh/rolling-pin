@@ -35,7 +35,7 @@ class ConformETLTests(unittest.TestCase):
     def get_config(self, source_dir):
         return dict(
             source_rules=[
-                dict(path=source_dir, include='README|LICENSE'),
+                dict(path=source_dir, include='README|LICENSE|taco.png'),
                 dict(path=source_dir, include='pdm|pyproject'),
                 dict(path=source_dir + '/python', include=r'\.py$', exclude=r'_test'),
             ],
@@ -47,7 +47,7 @@ class ConformETLTests(unittest.TestCase):
                 dict(regex='/pdm.lock', replace='/.pdm.lock'),
             ],
             group_rules=[
-                dict(name='init', regex="__init__.py$"),
+                dict(name='init', regex="__init__.py$|taco.png$"),
                 dict(name='test', regex="_test"),
                 dict(name='resource', regex="/resources"),
             ],
