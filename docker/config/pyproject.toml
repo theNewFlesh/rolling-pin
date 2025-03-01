@@ -78,6 +78,7 @@ test = [
     "pytest-forked",
     "pytest-xdist",
     "pytest",
+    "ruff",
     "types-pyyaml>=6.0.12.1",
     "types-toml>=0.10.8",
 ]
@@ -119,6 +120,13 @@ ignore_missing_imports = true
 warn_no_return = false
 pretty = true
 warn_unused_ignores = true
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "single"
 
 [build-system]
 requires = [
