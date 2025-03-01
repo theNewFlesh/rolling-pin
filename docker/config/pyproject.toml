@@ -72,7 +72,6 @@ dev = [
     "toml>=0.10.2",
 ]
 test = [
-    "flake8",
     "mypy",
     "pytest-cov",
     "pytest-forked",

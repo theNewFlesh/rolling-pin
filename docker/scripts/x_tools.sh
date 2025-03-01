@@ -666,11 +666,11 @@ x_test_lint () {
     local exit_code=$?;
     cd $REPO_DIR;
 
-    echo "${CYAN2}LINTING${CLEAR}\n";
+    echo "${CYAN2}LINTING${CLEAR}";
     ruff check --config $CONFIG_DIR/pyproject.toml python;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
-    echo "${CYAN2}TYPE CHECKING${CLEAR}\n";
+    echo "\n${CYAN2}TYPE CHECKING${CLEAR}\n";
     mypy python --config-file $CONFIG_DIR/pyproject.toml;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
@@ -685,7 +685,7 @@ x_test_run () {
 
     cd $BUILD_DIR/repo;
     echo "${CYAN2}LINTING $1-$2${CLEAR}\n";
-    flake8 --config flake8.ini $REPO_SUBPACKAGE;
+    ruff check --config $CONFIG_DIR/pyproject.toml $REPO_SUBPACKAGE;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     echo "${CYAN2}TYPE CHECKING $1-$2${CLEAR}\n";
