@@ -842,6 +842,7 @@ def main():
         'test-coverage': x_tools_command('x_test_coverage', args),
         'test-dev': x_tools_command('x_test_dev', args),
         'test-fast': x_tools_command('x_test_fast', args),
+        'test-format': x_tools_command('x_test_format', args),
         'test-lint': x_tools_command('x_test_lint', args),
         'test-prod': x_tools_command('x_test_prod', args),
         'version': x_tools_command('x_version', args),
