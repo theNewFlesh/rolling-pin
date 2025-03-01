@@ -132,6 +132,10 @@ indent-style = "space"
 docstring-code-format = true
 skip-magic-trailing-comma = true
 
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "single"
+inline-quotes = "single"
+
 [tool.ruff.lint]
 ignore = ["E731", "D300"]
 
