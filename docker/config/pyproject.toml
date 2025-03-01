@@ -136,7 +136,7 @@ skip-magic-trailing-comma = true
 docstring-quotes = "single"
 
 [tool.ruff.lint]
-ignore = ["E731"]
+ignore = ["E731", "D300"]
 
 [build-system]
 requires = [
