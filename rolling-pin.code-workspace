@@ -17,6 +17,7 @@
         "pythonTestExplorer.testFramework": "pytest",
         "ruff.configuration": "docker/config/pyproject.toml",
         "ruff.configurationPreference": "filesystemFirst",
+        "ruff.format.preview": true,
         "ruff.lint.preview": true,
         "terminal.integrated.defaultProfile.linux": "zsh",
         "terminal.integrated.defaultProfile.osx": "zsh",
