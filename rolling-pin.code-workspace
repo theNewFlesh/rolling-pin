@@ -1,7 +1,6 @@
 {
     "folders": [{"path": "./"}],
     "settings": {
-        "ansible.python.interpreterPath": "/home/ubuntu/.dev-env/bin/python3",
         "debug.allowBreakpointsEverywhere": true,
         "editor.rulers": [80, 100],
         "editor.defaultFormatter": "charliermarsh.ruff",
