@@ -19,7 +19,7 @@
         "ruff.configuration": "docker/config/pyproject.toml",
         "ruff.configurationPreference": "editorFirst",
         "ruff.format.preview": true,
-        "ruff.lineLength": 80,
+        "ruff.lineLength": 100,
         "ruff.lint.preview": true,
         "ruff.enable": true,
         "terminal.integrated.defaultProfile.linux": "zsh",
