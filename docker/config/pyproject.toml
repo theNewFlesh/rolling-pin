@@ -128,8 +128,14 @@ indent-width = 4
 
 [tool.ruff.format]
 quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
+skip-magic-trailing-comma = true
 
-[ruff.lint]
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "single"
+
+[tool.ruff.lint]
 ignore = ["E731"]
 
 [build-system]
