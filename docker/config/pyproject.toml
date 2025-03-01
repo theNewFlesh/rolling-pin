@@ -128,6 +128,9 @@ indent-width = 4
 [tool.ruff.format]
 quote-style = "single"
 
+[ruff.lint]
+ignore = ["E731"]
+
 [build-system]
 requires = [
     "pdm-pep517>=1.0.0",
