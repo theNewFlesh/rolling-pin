@@ -365,6 +365,15 @@
                 ]
             },
             {
+                "label": "[test] format",
+                "detail": "Format all python files",
+                "icon": {"id": "check", "color": "terminal.ansiGreen"},
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "x_test_format"
+                ]
+            },
+            {
                 "label": "[test] lint",
                 "detail": "Run linting and type checking",
                 "icon": {"id": "check", "color": "terminal.ansiGreen"},
