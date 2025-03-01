@@ -656,7 +656,7 @@ x_test_format () {
     # Run ruff formatting on all python code
     x_env_activate_dev;
     echo "${CYAN2}FORMATTING${CLEAR}\n";
-    ruff format --config $CONFIG_DIR/pyproject.toml $REPO_SUBPACKAGE;
+    ruff format --config $CONFIG_DIR/pyproject.toml python;
 }
 
 
@@ -667,7 +667,7 @@ x_test_lint () {
     cd $REPO_DIR;
 
     echo "${CYAN2}LINTING${CLEAR}\n";
-    flake8 python --config $CONFIG_DIR/flake8.ini;
+    ruff check --config $CONFIG_DIR/pyproject.toml python;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
 
     echo "${CYAN2}TYPE CHECKING${CLEAR}\n";
