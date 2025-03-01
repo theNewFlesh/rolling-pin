@@ -137,6 +137,7 @@ docstring-quotes = "single"
 inline-quotes = "single"
 
 [tool.ruff.lint]
+select = ["ALL"]
 ignore = ["E731", "D300"]
 
 [build-system]
