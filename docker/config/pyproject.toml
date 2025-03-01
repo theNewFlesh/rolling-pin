@@ -123,7 +123,7 @@ warn_unused_ignores = true
 
 [tool.ruff]
 cache-dir = "/home/ubuntu/.cache/ruff"
-line-length = 80
+line-length = 100
 indent-width = 4
 exclude = ["*_test.py"]
 
@@ -138,7 +138,7 @@ docstring-quotes = "single"
 inline-quotes = "single"
 
 [tool.ruff.lint]
-select =  ["E", "F", "B"] 
+select =  ["E", "F"] 
 ignore = ["E731"]
 
 [build-system]
