@@ -652,6 +652,14 @@ x_test_fast () {
         $REPO_SUBPACKAGE;
 }
 
+x_test_format () {
+    # Run ruff formatting on all python code
+    x_env_activate_dev;
+    echo "${CYAN2}FORMATTING${CLEAR}\n";
+    ruff format --config $CONFIG_DIR/pyproject.toml $REPO_SUBPACKAGE;
+}
+
+
 x_test_lint () {
     # Run linting and type checking
     x_env_activate_dev;
