@@ -122,6 +122,7 @@ pretty = true
 warn_unused_ignores = true
 
 [tool.ruff]
+cache-dir = "/home/ubuntu/.cache/ruff"
 line-length = 100
 indent-width = 4
 
