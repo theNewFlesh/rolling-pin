@@ -139,7 +139,7 @@ inline-quotes = "single"
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["E731", "D300", "PT009"]
+ignore = ["E731", "D300", "PT009", "D205", "D413", "D212", "ANN001"]
 
 [build-system]
 requires = [
