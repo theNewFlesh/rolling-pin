@@ -72,12 +72,12 @@ dev = [
     "toml>=0.10.2",
 ]
 test = [
-    "flake8",
     "mypy",
     "pytest-cov",
     "pytest-forked",
     "pytest-xdist",
     "pytest",
+    "ruff",
     "types-pyyaml>=6.0.12.1",
     "types-toml>=0.10.8",
 ]
@@ -119,6 +119,26 @@ ignore_missing_imports = true
 warn_no_return = false
 pretty = true
 warn_unused_ignores = true
+
+[tool.ruff]
+cache-dir = "/home/ubuntu/.cache/ruff"
+line-length = 100
+indent-width = 4
+exclude = ["*_test.py"]
+
+[tool.ruff.format]
+quote-style = "preserve"
+indent-style = "space"
+docstring-code-format = true
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "single"
+inline-quotes = "single"
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E731"]
 
 [build-system]
 requires = [

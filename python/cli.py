@@ -101,6 +101,7 @@ def get_info():
     test-coverage              - Generate test coverage report
     test-dev                   - Run all tests
     test-fast                  - Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator
+    test-format                - Format all python files
     test-lint                  - Run linting and type checking
     test-prod                  - Run tests across all support python versions
     version                    - Full resolution of repo: dependencies, linting, tests, docs, etc
@@ -841,6 +842,7 @@ def main():
         'test-coverage': x_tools_command('x_test_coverage', args),
         'test-dev': x_tools_command('x_test_dev', args),
         'test-fast': x_tools_command('x_test_fast', args),
+        'test-format': x_tools_command('x_test_format', args),
         'test-lint': x_tools_command('x_test_lint', args),
         'test-prod': x_tools_command('x_test_prod', args),
         'version': x_tools_command('x_version', args),
