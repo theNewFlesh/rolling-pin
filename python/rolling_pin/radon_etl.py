@@ -23,7 +23,7 @@ code wthin a given directory.
 '''
 
 
-class RadonETL():
+class RadonETL:
     '''
     Conforms all four radon reports (raw metrics, Halstead, maintainability and
     cyclomatic complexity) into a single DataFrame that can then be plotted.

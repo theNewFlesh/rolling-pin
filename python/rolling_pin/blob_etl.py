@@ -23,7 +23,7 @@ converted to directed graphs.
 '''
 
 
-class BlobETL():
+class BlobETL:
     '''
     Converts blob data internally into a flat dictionary that is universally
     searchable, editable and convertable back to the data's original structure,

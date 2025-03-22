@@ -21,7 +21,7 @@ dependencies into a directed graph.
 '''
 
 
-class RepoETL():
+class RepoETL:
     '''
     RepoETL is a class for extracting 1st order dependencies of modules within a
     given repository. This information is stored internally as a DataFrame and
