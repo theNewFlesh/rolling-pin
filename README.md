@@ -94,6 +94,9 @@ Run `bin/rolling-pin --help` for more help on the command line tool.
 ### Python
 `pip install rolling-pin`
 
+Please see the prod.dockerfile for an official example of how to build a docker
+image with rolling-pin.
+
 ### Docker
 1. Install [docker-desktop](https://docs.docker.com/desktop/)
 2. `docker pull theNewFlesh/rolling-pin:[mode]-[version]`

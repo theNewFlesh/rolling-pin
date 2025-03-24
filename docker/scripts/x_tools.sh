@@ -356,6 +356,7 @@ x_docs () {
     rm -rf $DOCS_DIR;
     mkdir -p $DOCS_DIR;
     cp $REPO_DIR/README.md $REPO_DIR/sphinx/readme.md;
+    sed --in-place -E 's/sphinx\/images/_images/g' $REPO_DIR/sphinx/readme.md;
     sphinx-build sphinx $DOCS_DIR;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
     rm -f $REPO_DIR/sphinx/readme.md;
@@ -363,6 +364,8 @@ x_docs () {
     touch $DOCS_DIR/.nojekyll;
     # mkdir -p $DOCS_DIR/resources;
     # cp resources/* $DOCS_DIR/resources/;
+    # mkdir -p $DOCS_DIR/_images/;
+    # cp sphinx/images/logo.png $DOCS_DIR/_images/;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
     return $exit_code;
 }
@@ -658,7 +661,6 @@ x_test_format () {
     echo "${CYAN2}FORMATTING${CLEAR}\n";
     ruff format --config $CONFIG_DIR/pyproject.toml python;
 }
-
 
 x_test_lint () {
     # Run linting and type checking

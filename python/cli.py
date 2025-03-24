@@ -461,24 +461,20 @@ def prod_command(args):
     Returns:
         str: Command to start prod container.
     '''
-    if args == ['']:
-        cmds = [
-            line('''
-                echo "Please provide a directory to map into the container
-                after the {cyan}-a{clear} flag."
-            ''')
-        ]
-        return resolve(cmds)
-
-    run = 'docker run --volume {}:/mnt/storage'.format(args[0])
+    cmd = 'docker run'
+    if args != ['']:
+        cmd += ' --volume {}:/mnt/storage'.format(args[0])
     cmds = [
         enter_repo(),
         version_variable(),
-        line(run + '''
+        line(cmd + '''
             --rm
+            --interactive
+            --tty
             --publish {port}:{port}
             --name {repo}-prod
             {repo}:prod
+            bash
         '''),
         exit_repo(),
     ]

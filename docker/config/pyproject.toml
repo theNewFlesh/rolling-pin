@@ -50,14 +50,13 @@ dependencies = [
 
 [project.urls]
 repository = "https://github.com/theNewFlesh/rolling-pin"
-documentation = "https://thenewflesh.github.io/rolling-pin"
+documentation = "https://theNewFlesh.github.io/rolling-pin"
 
 [project.scripts]
 rolling-pin = "rolling_pin.command:main"
 
 [tool.pdm.dev-dependencies]
 lab = [
-    "cufflinks",
     "jupyterlab-git>=0.39.3",
     "jupyterlab-henanigans>=0.2.2",
     "jupyterlab-sublime",
@@ -109,17 +108,6 @@ omit = [
     "*/conftest.py",
 ]
 
-[tool.uv]
-cache-dir = "/home/ubuntu/pdm/cache"
-
-[tool.mypy]
-cache_dir = "/home/ubuntu/.mypy_cache"
-python_version = "3.13"
-ignore_missing_imports = true
-warn_no_return = false
-pretty = true
-warn_unused_ignores = true
-
 [tool.ruff]
 cache-dir = "/home/ubuntu/.cache/ruff"
 line-length = 100
@@ -140,8 +128,17 @@ inline-quotes = "single"
 select = ["E", "F"]
 ignore = ["E731"]
 
+[tool.uv]
+cache-dir = "/home/ubuntu/pdm/cache"
+
+[tool.mypy]
+cache_dir = "/home/ubuntu/.mypy_cache"
+python_version = "3.13"
+ignore_missing_imports = true
+warn_no_return = false
+pretty = true
+warn_unused_ignores = true
+
 [build-system]
-requires = [
-    "pdm-pep517>=1.0.0",
-]
+requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"

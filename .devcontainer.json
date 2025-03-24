@@ -41,6 +41,7 @@
                 "ms-python.anaconda-extension-pack",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
+                "ms-vscode-remote.remote-containers",
                 "ms-vscode.sublime-keybindings",
                 "ms-vscode.test-adapter-converter",
                 "ohmnivore.twospacefourspace",

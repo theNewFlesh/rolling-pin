@@ -31,7 +31,7 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
 RUN echo "\n${CYAN}SETUP PYTHON3.13${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y python3.13 && \
+    apt install --fix-missing -y python3.13-dev && \
     rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3.13 get-pip.py && \

@@ -50,11 +50,13 @@
             "**/.pytest_cache": true,
             "**/.settings": true,
             "**/.svn": true,
+            "**/.virtual_documents": true,
             "**/.vscode": true,
             "**/CVS": true,
             "**/flask_monitoringdashboard.db": true,
             "**/jupyter/serverconfig": true,
-            "*/*/**/node_modules": true
+            "*/*/**/node_modules": true,
+            "**/.Trash*": true,
         },
         "workbench.colorCustomizations": {
             "statusBar.background": "#F77E70",
