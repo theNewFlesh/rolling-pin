@@ -44,6 +44,9 @@ See [documentation](https://thenewflesh.github.io/rolling-pin/) for details.
 See [blob notebook](https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/demo-blob.ipynb)
 for a demo of the BlobETL class.
 
+See [conform notebook](https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/demo-conform.ipynb)
+for a demo of the ConformETL class.
+
 On the documentation main page, under the *Architecture* section, is a
 dynamically generated dependency graph of rolling-pin's current architecture.
 It is generated using the RepoETL class.
