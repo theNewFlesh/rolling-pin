@@ -33,13 +33,22 @@
 [![](https://img.shields.io/pypi/v/rolling-pin?style=for-the-badge&label=PyPI&color=5F95DE&logo=pypi&logoColor=5F95DE)](https://pypi.org/project/rolling-pin/)
 [![](https://img.shields.io/pypi/dm/rolling-pin?style=for-the-badge&label=Downloads&color=5F95DE)](https://pepy.tech/project/rolling-pin)
 
-<!-- <img id="logo" src="sphinx/images/logo.png" style="max-width: 717px"> -->
+<!-- <img id="logo" src="_images/logo.png" style="max-width: 717px"> -->
 
 # Introduction
 Rolling-pin is a library of generic tools for ETL work and visualization of JSON
 blobs and python repositories
 
 See [documentation](https://thenewflesh.github.io/rolling-pin/) for details.
+
+See [blob notebook](https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/demo-blob.ipynb)
+for a demo of the BlobETL class.
+
+See [conform notebook](https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/demo-conform.ipynb)
+for a demo of the ConformETL class.
+
+See [cli notebook](https://github.com/theNewFlesh/rolling-pin/blob/master/notebooks/demo-cli.ipynb)
+for a demo of the rolling-pin CLI.
 
 On the documentation main page, under the *Architecture* section, is a
 dynamically generated dependency graph of rolling-pin's current architecture.
@@ -90,6 +99,9 @@ Run `bin/rolling-pin --help` for more help on the command line tool.
 
 ### Python
 `pip install rolling-pin`
+
+Please see the prod.dockerfile for an official example of how to build a docker
+image with rolling-pin.
 
 ### Docker
 1. Install [docker-desktop](https://docs.docker.com/desktop/)
@@ -218,6 +230,7 @@ The following is a complete list of all available development commands:
 | test-coverage              | Generate test coverage report                                       |
 | test-dev                   | Run all tests                                                       |
 | test-fast                  | Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator  |
+| test-format                | Format all python files                                             |
 | test-lint                  | Run linting and type checking                                       |
 | test-prod                  | Run tests across all support python versions                        |
 | version                    | Full resolution of repo: dependencies, linting, tests, docs, etc    |
