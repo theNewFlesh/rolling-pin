@@ -21,7 +21,6 @@
     "cookiecutter": {
       "repo": "rolling-pin",
       "repo_type": "library",
-      "include_black": "no",
       "include_gcc": "no",
       "include_helm": "no",
       "include_mkdocs": "no",
@@ -29,9 +28,7 @@
       "include_openexr": "no",
       "include_prod_cli": "yes",
       "include_prod_envs": "yes",
-      "include_rsync": "no",
       "include_secret_env": "no",
-      "include_tensorflow": "no",
       "include_vscode_server": "no",
       "port_prefix": "51",
       "git_user": "theNewFlesh",
