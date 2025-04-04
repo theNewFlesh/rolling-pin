@@ -9,10 +9,12 @@
     "docker/config/.*\\.lock$",
     "docker/config/build\\.yaml",
     "docs/.*",
+    "LICENSE",
     "mkdocs/md/(?!index\\.md|style\\.css)",
     "public/.*",
     "python/rolling_pin/.*(?!command\\.py$)",
     "resources/.*",
+    "secret-env",
     "sphinx/.*rst$"
   ],
   "context": {
