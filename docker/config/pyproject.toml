@@ -1,6 +1,6 @@
 [project]
 name = "rolling-pin"
-version = "0.11.1"
+version = "0.11.2"
 description = "A library of generic tools for ETL work and visualization of JSON blobs and python repositories"
 authors = [
     { name = "Alex Braun", email = "alexander.g.braun@gmail.com" },
@@ -112,7 +112,9 @@ omit = [
 cache-dir = "/home/ubuntu/.cache/ruff"
 line-length = 100
 indent-width = 4
-exclude = ["*_test.py"]
+exclude = [
+    "*_test.py",
+]
 
 [tool.ruff.format]
 quote-style = "preserve"
@@ -120,13 +122,18 @@ indent-style = "space"
 docstring-code-format = true
 skip-magic-trailing-comma = true
 
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+]
+ignore = [
+    "E731",
+]
+
 [tool.ruff.lint.flake8-quotes]
 docstring-quotes = "single"
 inline-quotes = "single"
-
-[tool.ruff.lint]
-select = ["E", "F"]
-ignore = ["E731"]
 
 [tool.uv]
 cache-dir = "/home/ubuntu/pdm/cache"
@@ -140,5 +147,7 @@ pretty = true
 warn_unused_ignores = true
 
 [build-system]
-requires = ["pdm-pep517>=1.0.0"]
+requires = [
+    "pdm-pep517>=1.0.0",
+]
 build-backend = "pdm.pep517.api"

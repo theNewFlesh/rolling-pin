@@ -35,7 +35,7 @@
             rolling-pin
           </a>
               <div class="version">
-                0.11.1
+                0.11.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -199,6 +199,7 @@
 <span class="s1">    test-coverage              - Generate test coverage report</span>
 <span class="s1">    test-dev                   - Run all tests</span>
 <span class="s1">    test-fast                  - Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator</span>
+<span class="s1">    test-format                - Format all python files</span>
 <span class="s1">    test-lint                  - Run linting and type checking</span>
 <span class="s1">    test-prod                  - Run tests across all support python versions</span>
 <span class="s1">    version                    - Full resolution of repo: dependencies, linting, tests, docs, etc</span>
@@ -609,24 +610,20 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Command to start prod container.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">args</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]:</span>
-        <span class="n">cmds</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">line</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">                echo &quot;Please provide a directory to map into the container</span>
-<span class="s1">                after the </span><span class="si">{cyan}</span><span class="s1">-a</span><span class="si">{clear}</span><span class="s1"> flag.&quot;</span>
-<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span>
-        <span class="p">]</span>
-        <span class="k">return</span> <span class="n">resolve</span><span class="p">(</span><span class="n">cmds</span><span class="p">)</span>
-
-    <span class="n">run</span> <span class="o">=</span> <span class="s1">&#39;docker run --volume </span><span class="si">{}</span><span class="s1">:/mnt/storage&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;docker run&#39;</span>
+    <span class="k">if</span> <span class="n">args</span> <span class="o">!=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]:</span>
+        <span class="n">cmd</span> <span class="o">+=</span> <span class="s1">&#39; --volume </span><span class="si">{}</span><span class="s1">:/mnt/storage&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">cmds</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">enter_repo</span><span class="p">(),</span>
         <span class="n">version_variable</span><span class="p">(),</span>
-        <span class="n">line</span><span class="p">(</span><span class="n">run</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;</span>
+        <span class="n">line</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">            --rm</span>
+<span class="s1">            --interactive</span>
+<span class="s1">            --tty</span>
 <span class="s1">            --publish </span><span class="si">{port}</span><span class="s1">:</span><span class="si">{port}</span>
 <span class="s1">            --name </span><span class="si">{repo}</span><span class="s1">-prod</span>
 <span class="s1">            </span><span class="si">{repo}</span><span class="s1">:prod</span>
+<span class="s1">            bash</span>
 <span class="s1">        &#39;&#39;&#39;</span><span class="p">),</span>
         <span class="n">exit_repo</span><span class="p">(),</span>
     <span class="p">]</span>
@@ -1035,6 +1032,7 @@
         <span class="s1">&#39;test-coverage&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_test_coverage&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;test-dev&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_test_dev&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;test-fast&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_test_fast&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+        <span class="s1">&#39;test-format&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_test_format&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;test-lint&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_test_lint&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;test-prod&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_test_prod&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_version&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
