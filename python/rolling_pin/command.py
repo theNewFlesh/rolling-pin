@@ -1,6 +1,7 @@
 import subprocess
 
 import click
+import lunchbox.theme as lbc
 
 from rolling_pin.conform_etl import ConformETL
 from rolling_pin.radon_etl import RadonETL
@@ -11,6 +12,8 @@ from rolling_pin.toml_etl import TomlETL
 '''
 Command line interface to rolling-pin library
 '''
+
+click.Context.formatter_class = lbc.ThemeFormatter
 
 
 @click.group()
@@ -35,11 +38,12 @@ def main():
 def conform(source, groups, dryrun):
     # type: (str, str, bool) -> None
     '''
-    Copies source files to target filepaths according to given conform file.
+    {white}Copies source files to target filepaths according to given conform
+    file.{clear}
 
     \b
-    Arguments:
-        SOURCE - conform YAML filepath
+    {cyan2}ARGUMENTS{clear}
+        {cyan2}source{clear}  conform YAML filepath
     '''
     etl = ConformETL.from_yaml(source)
     if dryrun:
@@ -72,13 +76,13 @@ def conform(source, groups, dryrun):
 def graph(source, target, include, exclude, orient):
     # type: (str, str, str, str, str) -> None
     '''
-    Generate a dependency graph of a source repository and write it to a given
-    filepath
+    {white}Generate a dependency graph of a source repository and write it to a
+    given filepath{clear}
 
     \b
-    Arguments:
-        SOURCE - repository path
-        TARGET - target filepath
+    {cyan2}ARGUMENTS{clear}
+        {cyan2}source{clear}  repository path
+        {cyan2}target{clear}  target filepath
     '''
     include_ = '' if include is None else include
     exclude_ = '' if exclude is None else exclude
@@ -91,12 +95,13 @@ def graph(source, target, include, exclude, orient):
 def plot(source, target):
     # type: (str, str) -> None
     '''
-    Write radon metrics plots of given repository to given filepath
+    {white}Write radon metrics plots of given repository to given filepath.
+    {clear}
 
     \b
-    Arguments:
-        SOURCE - repository path
-        TARGET - plot filepath
+    {cyan2}ARGUMENTS{clear}
+        {cyan2}source{clear}  repository path
+        {cyan2}target{clear}  plot filepath
     '''
     RadonETL(source).write_plots(target)
 
@@ -107,12 +112,13 @@ def plot(source, target):
 def table(source, target):
     # type: (str, str) -> None
     '''
-    Write radon metrics tables of given repository to given directory
+    {white}Write radon metrics tables of given repository to given directory
+    {clear}
 
     \b
-    Arguments:
-        SOURCE - repository path
-        TARGET - table directory
+    {cyan2}ARGUMENTS{clear}
+        {cyan2}source{clear}  repository path
+        {cyan2}target{clear}  table directory
     '''
     RadonETL(source).write_tables(target)
 
@@ -149,19 +155,15 @@ value pair in TOML format''',
 def toml(source, edit, delete, search, target):
     # type: (str, tuple[str], tuple[str], str, str) -> None
     '''
-    Generate a copy of a given TOML file with given edits indicated by flags.
-    Flags are evalauted in the following order: edit, delete, search.
-    Flags may be arbitrarily combined.
-    Edit and delete flags may appear multiple times.
+    {white}Generate a copy of a given TOML file with given edits indicated by
+    flags. Flags are evalauted in the following order: edit, delete, search.
+    Flags may be arbitrarily combined. Edit and delete flags may appear multiple
+    times.{clear}
 
     \b
-    Arguments:
-        SOURCE - TOML filepath
-
-    \b
-    EXAMPLES
-        EXAMPLE-FILE------------------------------------------------------------
-            >>>cat example.toml
+    {yellow2}EXAMPLES
+        EXAMPLE-FILE------------------------------------------------------------{clear}
+            {blue2}>>>{clear}cat example.toml{purple2}
             [root]
             a = 1
             b = 2
@@ -173,16 +175,16 @@ def toml(source, edit, delete, search, target):
             hello = true
 
     \b
-        EDIT-FLAG---------------------------------------------------------------
-            >>>rolling-pin toml foobar.toml --edit 'root.a=999'
+        {yellow2}EDIT-FLAG-------------------------------------------------------------------{clear}
+            {blue2}>>>{clear}rolling-pin toml foobar.toml --edit 'root.a=999'{purple2}
             [root]
             a = 999
             b = 2...
     \b
-            --------------------------------------------------------------------
-            >>>rolling-pin toml foobar.toml \\
+            {yellow2}--------------------------------------------------------------------{clear}
+            {blue2}>>>{clear}rolling-pin toml foobar.toml \\
                    --edit 'root.a=[1, 2]'   \\
-                   --edit 'root.b="xxx"'
+                   --edit 'root.b="xxx"'{purple2}
             [root]
             a = [
                 1,
@@ -190,8 +192,8 @@ def toml(source, edit, delete, search, target):
             ]
             b = "xxx"...
     \b
-            --------------------------------------------------------------------
-            >>>rolling-pin toml foobar.toml --edit 'root.foo.bar="baz"'
+            {yellow2}--------------------------------------------------------------------{clear}
+            {blue2}>>>{clear}rolling-pin toml foobar.toml --edit 'root.foo.bar="baz"'{purple2}
             ...
             hello = true
     \b
@@ -199,10 +201,10 @@ def toml(source, edit, delete, search, target):
             bar = "baz"...
 
     \b
-        DELETE-FLAG-------------------------------------------------------------
-            >>>rolling-pin toml foobar.toml \\
+        {yellow2}DELETE-FLAG-------------------------------------------------------------{clear}
+            {blue2}>>>{clear}rolling-pin toml foobar.toml \\
                    --delete 'root.foo.bar'  \\
-                   --delete 'root.a'
+                   --delete 'root.a'{purple2}
             [root]
             b = 2
     \b
@@ -210,13 +212,17 @@ def toml(source, edit, delete, search, target):
             hello = true
 
     \b
-        SEARCH-FLAG-------------------------------------------------------------
-            >>>rolling-pin toml foobar.toml --search 'root.foo|world'
+        {yellow2}SEARCH-FLAG-------------------------------------------------------------{clear}
+            {blue2}>>>{clear}rolling-pin toml foobar.toml --search 'root.foo|world'{purple2}
             [world]
             hello = true
     \b
             [root.foo.bar]
             x = "y"
+
+    \b
+    {cyan2}ARGUMENTS{clear}
+        {cyan2}source{clear}  TOML filepath
     '''
     etl = TomlETL.from_toml(source)
     for e in edit:
@@ -234,7 +240,8 @@ def toml(source, edit, delete, search, target):
 @main.command()
 def bash_completion():
     '''
-    BASH completion code to be written to a _rolling-pin completion file.
+    {white}BASH completion code to be written to a _rolling-pin completion file.
+    {clear}
     '''
     cmd = '_ROLLING_PIN_COMPLETE=bash_source rolling-pin'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
@@ -245,7 +252,8 @@ def bash_completion():
 @main.command()
 def zsh_completion():
     '''
-    ZSH completion code to be written to a _rolling-pin completion file.
+    {white}ZSH completion code to be written to a _rolling-pin completion file.
+    {clear}
     '''
     cmd = '_ROLLING_PIN_COMPLETE=zsh_source rolling-pin'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
