@@ -4,7 +4,6 @@
   "checkout": null,
   "skip": [
     "__init__\\.py$",
-    "\\.gitignore$",
     "\\.gitkeep$",
     "docker/config/.*\\.lock$",
     "docker/config/build\\.yaml",

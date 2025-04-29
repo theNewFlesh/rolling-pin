@@ -24,6 +24,20 @@ A CLI for developing and deploying an app deeply integrated with this
 repository's structure. Written to be python version agnostic.
 '''
 
+class BetterHelpFormatter(argparse.RawTextHelpFormatter):
+    '''
+    HelpFormatter with better indentation.
+    '''
+    def __init__(
+        self, prog, indent_increment=4, max_help_position=24, width=None
+    ):
+        super().__init__(prog, indent_increment, max_help_position, width)
+
+    def _format_action(self, action):
+        output = super()._format_action(action)
+        output = re.sub(' {28}', '    ', output)
+        return output
+
 
 def get_info():
     # type: () -> Tuple[str, list]
@@ -37,18 +51,18 @@ def get_info():
         repo=REPO
     )
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.RawTextHelpFormatter,
+        formatter_class=BetterHelpFormatter,
         description=desc,
-        usage='\n\tpython cli.py COMMAND [-a --args]=ARGS [-h --help]'
+        usage='  python cli.py COMMAND [-a --args]=ARGS [-h --help] [--dryrun]'
     )
 
     parser.add_argument(
         'command',
-        metavar='command',
+        metavar='COMMAND                      DESCRIPTION',
         type=str,
         nargs=1,
         action='store',
-        help='''Command to run in {repo} app.
+        help='''
     build-edit-prod-dockerfile - Edit prod.dockefile to use local package
     build-local-package        - Generate pip package of repo and copy it to docker/dist
     build-package              - Build production version of repo for publishing
@@ -112,7 +126,7 @@ def get_info():
     zsh                        - Run ZSH session inside Docker container
     zsh-complete               - Generate oh-my-zsh completions
     zsh-root                   - Run ZSH session as root inside Docker container
-'''.format(repo=REPO))  # noqa: E501
+'''[1:-1].format(repo=REPO))  # noqa: E501
 
     parser.add_argument(
         '-a',
