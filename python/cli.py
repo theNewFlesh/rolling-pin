@@ -24,6 +24,7 @@ A CLI for developing and deploying an app deeply integrated with this
 repository's structure. Written to be python version agnostic.
 '''
 
+
 class BetterHelpFormatter(argparse.RawTextHelpFormatter):
     '''
     HelpFormatter with better indentation.
