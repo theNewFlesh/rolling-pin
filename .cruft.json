@@ -35,7 +35,7 @@
       "git_host": "github",
       "git_organization": "thenewflesh",
       "package_registry": "pypi",
-      "docker_registry": "docker.io",
+      "docker_registry": "gitlab",
       "organization_url": "github.com",
       "description": "A library of generic tools for ETL work and visualization of JSON blobs and python repositories.",
       "author": "Alex Braun",
