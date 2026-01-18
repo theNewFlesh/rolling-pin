@@ -27,13 +27,15 @@
       "include_openexr": "no",
       "include_prod_cli": "yes",
       "include_prod_envs": "yes",
+      "include_pypi_badges": "yes",
       "include_secret_env": "no",
       "include_vscode_server": "no",
       "port_prefix": "51",
       "git_user": "theNewFlesh",
       "git_host": "github",
-      "git_organization": "theNewFlesh",
-      "docker_registry": "dockerhub",
+      "git_organization": "thenewflesh",
+      "package_registry": "pypi",
+      "docker_registry": "docker.io",
       "organization_url": "github.com",
       "description": "A library of generic tools for ETL work and visualization of JSON blobs and python repositories.",
       "author": "Alex Braun",
@@ -45,8 +47,8 @@
       "python_min_version": "10",
       "python_max_version": "13",
       "initial_repo_version": "0.10.1",
-      "_template": "https://github.com/theNewFlesh/cookiecutter-datalus",
-      "_commit": "50c00ad5bf94d64ffe7a6e8552eb375a4349cf7b"
+      "status_bar_color": "#9FD07A",
+      "_template": "https://github.com/theNewFlesh/cookiecutter-datalus"
     }
   },
   "directory": null
