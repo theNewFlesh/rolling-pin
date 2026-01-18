@@ -59,7 +59,6 @@ rolling-pin = "rolling_pin.command:main"
 lab = [
     "jupyterlab-git>=0.39.3",
     "jupyterlab-henanigans>=0.2.2",
-    "jupyterlab-sublime",
     "jupyterlab",
 ]
 dev = [

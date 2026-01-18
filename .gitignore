@@ -5,6 +5,9 @@ ansible/password.txt
 # c
 *.so
 
+# docker
+docker/config/secret-env
+
 # flask
 flask_monitoringdashboard*
 
@@ -33,7 +36,6 @@ docker/dist/*
 .Python
 *.egg
 *.egg-info
-build
 develop-eggs
 dist
 eggs
