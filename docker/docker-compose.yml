@@ -2,7 +2,7 @@ services:
   rolling-pin:
     container_name: rolling-pin
     image: rolling-pin:dev
-    platform: linux/amd64
+    platform: linux/arm64
     build:
       context: .
       dockerfile: dev.dockerfile
